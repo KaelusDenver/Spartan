@@ -1,0 +1,76 @@
+2	3449831940.549	ssumjbrunner	Spartan	1	Server stopped<br /><br />Create Rendezvous.vi<APPEND><br /><br /><b>Complete call chain:</b><br /><br />     Create Rendezvous.vi<br /><br />     Spartan Server.vi
+0	3449831938.113	ssumjbrunner	Spartan	0	Folder Monitor stopped
+2	3449831923.544	ssumjbrunner	DIAdem Daemon	7	Stopping DIAdem EXE<br /><br />Process not found.
+0	3449831923.062	ssumjbrunner	DIAdem Daemon	0	DIAdem daemon normal exit
+0	3449831922.955	ssumjbrunner	DIAdem Daemon	0	DIAdem daemon monitor loop normal exit
+0	3449831922.952	ssumjbrunner	Spartan	0	Stopping DataFinder EXE
+0	3449831922.951	ssumjbrunner	Spartan	0	DIAdem Daemon Datasheet Monitor Loop has exited normally
+0	3449831922.441	ssumjbrunner	Spartan	0	DIAdem Daemon Runtest Monitor Loop has exited normally
+0	3449800840.622	ssumjbrunner	DIAdem Daemon	0	Restarted DIAdem
+0	3449800827.890	ssumjbrunner	Spartan	0	Launching DIAdem
+0	3449800813.100	ssumjbrunner	DIAdem Daemon	0	Restarting DIAdem
+0	3449800811.847	ssumjbrunner	Spartan	0	Requesting periodic DIAdem restart...
+0	3449776003.260	ssumjbrunner	Spartan	0	Datasheet generate run time 13 seconds for RSP
+0	3449775990.740	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449775990.738	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449775990.618	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449775904.421	ssumjbrunner	Spartan	0	Datasheet generate run time 14 seconds for RSP
+0	3449775891.063	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449775891.060	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449775890.949	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449775828.240	ssumjbrunner	Spartan	0	Datasheet generate run time 13 seconds for RSP
+0	3449775818.591	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449775818.588	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449775818.481	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449775646.931	ssumjbrunner	Spartan	0	Datasheet generate run time 16 seconds for RSP
+2	3449775579.389	ssumjbrunner	editscenario 	1	Sorry, a scenario matching "" was not found.
+0	3449775502.886	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449775502.884	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449775502.786	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449775121.027	ssumjbrunner	Spartan	0	Datasheet generate run time 15 seconds for RSP
+0	3449775107.364	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449775107.361	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449775107.248	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449775096.672	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449775096.672	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449775096.601	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449775074.428	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449775074.426	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449775074.341	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449775058.018	ssumjbrunner	Spartan	0	Datasheet generate run time 14 seconds for RSP
+0	3449775051.537	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449775051.535	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449775051.431	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449774983.663	ssumjbrunner	Spartan	0	Datasheet generate run time 12 seconds for RSP
+0	3449774963.522	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449774963.520	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449774963.446	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449774895.164	ssumjbrunner	Spartan	0	Datasheet generate run time 12 seconds for RSP
+0	3449774875.212	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449774875.211	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449774875.140	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449774004.490	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449774004.487	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449774004.229	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449773927.575	ssumjbrunner	Spartan	0	Datasheet generate run time 14 seconds for RSP
+0	3449773747.825	ssumjbrunner	Spartan	0	Datasheet generate run time 15 seconds for RSP
+0	3449773337.235	ssumjbrunner	Spartan	0	Datasheet generate run time 16 seconds for RSP
+0	3449773250.628	ssumjbrunner	Spartan	0	Datasheet generate run time 7 seconds for RSP
+0	3449773190.640	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449773190.637	ssumjbrunner	Templates Monitor	0	Template changed on disk (RSP.ini)
+0	3449773190.519	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449773178.610	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449773178.608	ssumjbrunner	Templates Monitor	0	Added new template to database (RSP.ini)
+0	3449773178.452	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449772960.979	ssumjbrunner	Tests Monitor	0	Tests folder update completed
+0	3449772938.495	ssumjbrunner	Templates Monitor	0	Templates folder update completed
+0	3449772938.391	ssumjbrunner	Drivers Monitor	0	Drivers folder udpate completed
+0	3449772937.194	ssumjbrunner	Templates Monitor	0	Templates folder update triggered
+0	3449772931.182	ssumjbrunner	Tests Monitor	0	Tests folder update triggered
+0	3449772926.815	ssumjbrunner	Drivers Monitor	0	Drivers folder update triggered
+0	3449772926.167	ssumjbrunner	Spartan	0	Startup Events
+0	3449772916.079	ssumjbrunner	Spartan	0	Launching DIAdem
+0	3449772915.515	ssumjbrunner	Spartan	0	Folder Monitor started
+0	3449772915.213	ssumjbrunner	Spartan	0	Server configuration loaded
+0	3449772914.022	ssumjbrunner	Spartan	0	Initializing Log
+0	3449772914.076	ssumjbrunner	Spartan	0	Event log created

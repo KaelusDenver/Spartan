@@ -1,0 +1,1399 @@
+4/25/2013 4:20:47 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 4:20:47 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 4:20:47 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: &Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=10&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=5&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=MHz&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=1&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-160&Plot2_Y_Max=-60&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Preview=1&Report_Path=C:\Development\Spartan\www\temp\preview preview 7051597.png&Data_Path=<Not A Path>&Test_Status=Pass&Serial_Number=&Model_Number=&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::&DateTime=Start Timestamp::&Test_Sequence=Test Sequence::&Test_Station_Name=Test Station::&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::&Model_Number_TXT=Model Number::&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 4:20:47 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 4:20:47 PM :   formatting 2 plots...
+4/25/2013 4:20:47 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 4:20:48 PM : Adding 2 custom fields to header...
+4/25/2013 4:20:48 PM : Have to read Prompted Input - mn(), sn(), ch(Custom_Field_2)
+4/25/2013 4:20:48 PM : [LoadRunChannel] mn: , sn: , channel: Custom_Field_2
+4/25/2013 4:20:49 PM : No results to load
+4/25/2013 4:20:49 PM : ...added 2 custom fields to header
+4/25/2013 4:20:49 PM : shifting TWO plot....
+4/25/2013 4:20:49 PM : ...done shifting TWO plot
+4/25/2013 4:20:49 PM : Creating Preview: C:\Development\Spartan\www\temp\preview preview 7051597.png
+4/25/2013 4:20:49 PM : adding S Parameter plot
+4/25/2013 4:20:49 PM : X_Unit_String: MHz
+4/25/2013 4:20:49 PM : adding PIM plot
+4/25/2013 4:20:49 PM : PIM axis type: Time
+4/25/2013 4:20:49 PM : X_Unit_String: MHz
+4/25/2013 4:20:50 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 4:20:50 PM : <====== SpartanDD Generate Report ======
+4/25/2013 4:21:38 PM : ====== SpartanDD Query ======>
+4/25/2013 4:21:38 PM : ====== Entering LoadQueryString ======>
+4/25/2013 4:21:38 PM : Query_Type: eSearchChannelGroup
+4/25/2013 4:21:38 PM : Query condition(0): Model_Number = PE39332-2.5
+4/25/2013 4:21:38 PM : <====== Exiting LoadQueryString ======
+4/25/2013 4:21:39 PM : Searching for data...
+4/25/2013 4:21:39 PM : Query returned 3 results
+4/25/2013 4:21:39 PM : Processing query results...
+4/25/2013 4:21:40 PM : ResultColumn: Model_Number
+4/25/2013 4:21:40 PM : ResultColumn: Serial_Number
+4/25/2013 4:21:40 PM : ResultColumn: Test_Run
+4/25/2013 4:21:40 PM : Value: 1
+4/25/2013 4:21:40 PM : ResultColumn: Test_Type
+4/25/2013 4:21:40 PM : ResultColumn: Model_Number
+4/25/2013 4:21:40 PM : ResultColumn: Serial_Number
+4/25/2013 4:21:40 PM : ResultColumn: Test_Run
+4/25/2013 4:21:40 PM : Value: 1
+4/25/2013 4:21:40 PM : ResultColumn: Test_Type
+4/25/2013 4:21:40 PM : ResultColumn: Model_Number
+4/25/2013 4:21:40 PM : ResultColumn: Serial_Number
+4/25/2013 4:21:40 PM : ResultColumn: Test_Run
+4/25/2013 4:21:40 PM : Value: 1
+4/25/2013 4:21:40 PM : ResultColumn: Test_Type
+4/25/2013 4:21:40 PM : Sending Data: \\SSUMSSPARTAN\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 Prompted Inputs Custom_Field_2.tdms	Prompted Inputs Custom_Field_2	PE39332-2.5	$SSN$ 7	Run 1	3436374203.06639	PE39332-2.5	$SSN$ 7	1	Prompted Inputs Custom_Field_2\\SSUMSSPARTAN\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.tdms	PIM	PE39332-2.5	$SSN$ 7	Run 1	3436374212.15991	PE39332-2.5	$SSN$ 7	1	PIM\\SSUMSSPARTAN\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.tdms	S Parameter	PE39332-2.5	$SSN$ 7	Run 1	3436374240.46353	PE39332-2.5	$SSN$ 7	1	S Parameter
+4/25/2013 4:21:40 PM : <====== SpartanDD Query ======
+4/25/2013 4:22:05 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 4:22:05 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 4:22:05 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=10&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=5&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=MHz&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=1&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-160&Plot2_Y_Max=-60&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 7129210.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 4:22:05 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 4:22:05 PM :   formatting 2 plots...
+4/25/2013 4:22:05 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 4:22:06 PM : Adding 2 custom fields to header...
+4/25/2013 4:22:06 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 4:22:06 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 4:22:07 PM : ...added 2 custom fields to header
+4/25/2013 4:22:07 PM : shifting TWO plot....
+4/25/2013 4:22:08 PM : ...done shifting TWO plot
+4/25/2013 4:22:08 PM :   creating a S Parameter style plot...
+4/25/2013 4:22:08 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 4:22:08 PM : Entering ParsePlotTraces
+4/25/2013 4:22:08 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 4:22:08 PM : Entering ParsePlotMarkers
+4/25/2013 4:22:08 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 4:22:08 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 4:22:08 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 4:22:08 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 4:22:08 PM : 0 S11 UL=1 LL=0
+4/25/2013 4:22:08 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 4:22:08 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 4:22:08 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 4:22:08 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:22:08 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:22:08 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:22:08 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:22:08 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:22:08 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 4:22:08 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 4:22:08 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 4:22:08 PM : S_2DAxis1_C_1
+4/25/2013 4:22:08 PM : exit Add curve
+4/25/2013 4:22:09 PM : Enter Add_Limit 2
+4/25/2013 4:22:09 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 4:22:09 PM : Exiting TransForm_Data: 
+4/25/2013 4:22:09 PM : EXIT Add_Limit 2
+4/25/2013 4:22:09 PM : Enter Add_Limit 2
+4/25/2013 4:22:09 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 4:22:09 PM : Exiting TransForm_Data: 
+4/25/2013 4:22:09 PM : EXIT Add_Limit 2
+4/25/2013 4:22:09 PM : Enter check_filter_limits
+4/25/2013 4:22:09 PM : Exiting check_filter_limits
+4/25/2013 4:22:09 PM : curve0 cno
+4/25/2013 4:22:09 PM : 1 S21 UL=0 LL=0
+4/25/2013 4:22:09 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 4:22:09 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 4:22:09 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 4:22:09 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:22:09 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:22:09 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:22:09 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:22:09 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:22:09 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 4:22:09 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 4:22:09 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 4:22:09 PM : S_2DAxis1_C_3
+4/25/2013 4:22:09 PM : exit Add curve
+4/25/2013 4:22:09 PM : curve1 cno
+4/25/2013 4:22:09 PM : Exit insert
+4/25/2013 4:22:09 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 4:22:09 PM : exit Format x
+4/25/2013 4:22:09 PM : enter Format y --2DAxis1 1 0 -100 0
+4/25/2013 4:22:10 PM : exit Format y
+4/25/2013 4:22:10 PM : enter Format y --2DAxis1 2 0 -50 0
+4/25/2013 4:22:10 PM : exit Format y
+4/25/2013 4:22:10 PM : Exiting Add Curves TO Plot
+4/25/2013 4:22:10 PM : X_Unit_String: MHz
+4/25/2013 4:22:10 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 4:22:10 PM :   creating a PIM style plot...
+4/25/2013 4:22:10 PM : Entering Create_PIM_Plot
+4/25/2013 4:22:10 PM : Entering ParsePlotTraces
+4/25/2013 4:22:10 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 4:22:10 PM : axistypeTime
+4/25/2013 4:22:10 PM : enter add pim Curves TO Plot
+4/25/2013 4:22:10 PM : Run 1/*
+4/25/2013 4:22:11 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 4:22:11 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 4:22:11 PM : IM3 dBm Time
+4/25/2013 4:22:11 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: MHz
+4/25/2013 4:22:11 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:22:11 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:22:11 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time MHz
+4/25/2013 4:22:12 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/IM3 POWER 1
+4/25/2013 4:22:12 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/IM3 POWER 1
+4/25/2013 4:22:12 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 4:22:12 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time MHz   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 4:22:12 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time MHz 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 4:22:12 PM : S_2DAxis2_C_1
+4/25/2013 4:22:12 PM : exit Add curve
+4/25/2013 4:22:12 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:22:12 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:22:12 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time MHz
+4/25/2013 4:22:12 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/ref limit 1
+4/25/2013 4:22:12 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/ref limit 1
+4/25/2013 4:22:12 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 4:22:12 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time MHz   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 4:22:12 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time MHz 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 4:22:12 PM : S_2DAxis2_C_2
+4/25/2013 4:22:12 PM : exit Add curve
+4/25/2013 4:22:13 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 4:22:13 PM : exit Format x
+4/25/2013 4:22:13 PM : enter Format y --2DAxis2 1 1 -160 -60
+4/25/2013 4:22:13 PM : exit Format y
+4/25/2013 4:22:13 PM : exit add pim Curves TO Plot
+4/25/2013 4:22:13 PM : X_Unit_String: MHz
+4/25/2013 4:22:13 PM : Exiting Create_PIM_Plot
+4/25/2013 4:22:13 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 4:22:13 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 4:22:16 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 7129210.pdf
+4/25/2013 4:22:16 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 7129210.pdf
+4/25/2013 4:22:16 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 4:22:16 PM : <====== SpartanDD Generate Report ======
+4/25/2013 4:28:57 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 4:28:57 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 4:28:57 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=10&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=5&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=MHz&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=1&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-160&Plot2_Y_Max=-60&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 7541735.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 4:28:57 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 4:28:57 PM :   formatting 2 plots...
+4/25/2013 4:28:57 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 4:28:58 PM : Adding 2 custom fields to header...
+4/25/2013 4:28:58 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 4:28:58 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 4:28:59 PM : ...added 2 custom fields to header
+4/25/2013 4:28:59 PM : shifting TWO plot....
+4/25/2013 4:28:59 PM : ...done shifting TWO plot
+4/25/2013 4:28:59 PM :   creating a S Parameter style plot...
+4/25/2013 4:28:59 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 4:28:59 PM : Entering ParsePlotTraces
+4/25/2013 4:28:59 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 4:28:59 PM : Entering ParsePlotMarkers
+4/25/2013 4:28:59 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 4:28:59 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 4:28:59 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 4:29:00 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 4:29:00 PM : 0 S11 UL=1 LL=0
+4/25/2013 4:29:00 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 4:29:00 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 4:29:00 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 4:29:00 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:29:00 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:29:00 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:29:00 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:29:00 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:29:00 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 4:29:00 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 4:29:00 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 4:29:00 PM : S_2DAxis1_C_1
+4/25/2013 4:29:00 PM : exit Add curve
+4/25/2013 4:29:00 PM : Enter Add_Limit 2
+4/25/2013 4:29:00 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 4:29:00 PM : Exiting TransForm_Data: 
+4/25/2013 4:29:00 PM : EXIT Add_Limit 2
+4/25/2013 4:29:00 PM : Enter Add_Limit 2
+4/25/2013 4:29:00 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 4:29:00 PM : Exiting TransForm_Data: 
+4/25/2013 4:29:00 PM : EXIT Add_Limit 2
+4/25/2013 4:29:00 PM : Enter check_filter_limits
+4/25/2013 4:29:00 PM : Exiting check_filter_limits
+4/25/2013 4:29:00 PM : curve0 cno
+4/25/2013 4:29:00 PM : 1 S21 UL=0 LL=0
+4/25/2013 4:29:00 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 4:29:00 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 4:29:00 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 4:29:01 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:29:01 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:29:01 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:29:01 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:29:01 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:29:01 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 4:29:01 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 4:29:01 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 4:29:01 PM : S_2DAxis1_C_3
+4/25/2013 4:29:01 PM : exit Add curve
+4/25/2013 4:29:01 PM : curve1 cno
+4/25/2013 4:29:01 PM : Exit insert
+4/25/2013 4:29:01 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 4:29:01 PM : exit Format x
+4/25/2013 4:29:01 PM : enter Format y --2DAxis1 1 0 -100 0
+4/25/2013 4:29:01 PM : exit Format y
+4/25/2013 4:29:01 PM : enter Format y --2DAxis1 2 0 -50 0
+4/25/2013 4:29:01 PM : exit Format y
+4/25/2013 4:29:01 PM : Exiting Add Curves TO Plot
+4/25/2013 4:29:01 PM : X_Unit_String: MHz
+4/25/2013 4:29:01 PM : Enter fill limit
+4/25/2013 4:29:01 PM : exit fill limit
+4/25/2013 4:29:01 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 4:29:02 PM :   creating a PIM style plot...
+4/25/2013 4:29:02 PM : Entering Create_PIM_Plot
+4/25/2013 4:29:02 PM : Entering ParsePlotTraces
+4/25/2013 4:29:02 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 4:29:02 PM : axistypeTime
+4/25/2013 4:29:02 PM : enter add pim Curves TO Plot
+4/25/2013 4:29:02 PM : Run 1/*
+4/25/2013 4:29:02 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 4:29:02 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 4:29:02 PM : IM3 dBm Time
+4/25/2013 4:29:02 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: MHz
+4/25/2013 4:29:03 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:29:03 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:29:03 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time MHz
+4/25/2013 4:29:03 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/IM3 POWER 1
+4/25/2013 4:29:03 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/IM3 POWER 1
+4/25/2013 4:29:03 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 4:29:03 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time MHz   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 4:29:03 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time MHz 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 4:29:03 PM : S_2DAxis2_C_1
+4/25/2013 4:29:03 PM : exit Add curve
+4/25/2013 4:29:03 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:29:03 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:29:03 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time MHz
+4/25/2013 4:29:03 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/ref limit 1
+4/25/2013 4:29:03 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/ref limit 1
+4/25/2013 4:29:03 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 4:29:03 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time MHz   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 4:29:03 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time MHz 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 4:29:03 PM : S_2DAxis2_C_2
+4/25/2013 4:29:03 PM : exit Add curve
+4/25/2013 4:29:04 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 4:29:04 PM : exit Format x
+4/25/2013 4:29:04 PM : enter Format y --2DAxis2 1 1 -160 -60
+4/25/2013 4:29:04 PM : exit Format y
+4/25/2013 4:29:04 PM : exit add pim Curves TO Plot
+4/25/2013 4:29:04 PM : X_Unit_String: MHz
+4/25/2013 4:29:04 PM : Exiting Create_PIM_Plot
+4/25/2013 4:29:04 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 4:29:04 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 4:29:07 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 7541735.pdf
+4/25/2013 4:29:07 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 7541735.pdf
+4/25/2013 4:29:07 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 4:29:07 PM : <====== SpartanDD Generate Report ======
+4/25/2013 4:31:58 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 4:31:58 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 4:31:58 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=10&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=5&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=MHz&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=1&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-160&Plot2_Y_Max=-60&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 7722113.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 4:31:58 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 4:31:58 PM :   formatting 2 plots...
+4/25/2013 4:31:58 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 4:31:58 PM : Adding 2 custom fields to header...
+4/25/2013 4:31:58 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 4:31:58 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 4:31:59 PM : ...added 2 custom fields to header
+4/25/2013 4:31:59 PM : shifting TWO plot....
+4/25/2013 4:31:59 PM : ...done shifting TWO plot
+4/25/2013 4:31:59 PM :   creating a S Parameter style plot...
+4/25/2013 4:31:59 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 4:31:59 PM : Entering ParsePlotTraces
+4/25/2013 4:32:00 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 4:32:00 PM : Entering ParsePlotMarkers
+4/25/2013 4:32:00 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 4:32:00 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 4:32:00 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 4:32:00 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 4:32:00 PM : 0 S11 UL=1 LL=0
+4/25/2013 4:32:00 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 4:32:00 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 4:32:00 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 4:32:00 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:32:00 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:32:00 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:32:00 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:32:00 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:32:00 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 4:32:00 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 4:32:00 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 4:32:00 PM : S_2DAxis1_C_1
+4/25/2013 4:32:00 PM : exit Add curve
+4/25/2013 4:32:00 PM : Enter Add_Limit 2
+4/25/2013 4:32:00 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 4:32:00 PM : Exiting TransForm_Data: 
+4/25/2013 4:32:00 PM : EXIT Add_Limit 2
+4/25/2013 4:32:00 PM : Enter Add_Limit 2
+4/25/2013 4:32:00 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 4:32:00 PM : Exiting TransForm_Data: 
+4/25/2013 4:32:00 PM : EXIT Add_Limit 2
+4/25/2013 4:32:00 PM : Enter check_filter_limits
+4/25/2013 4:32:01 PM : Exiting check_filter_limits
+4/25/2013 4:32:01 PM : curve0 cno
+4/25/2013 4:32:01 PM : 1 S21 UL=0 LL=0
+4/25/2013 4:32:01 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 4:32:01 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 4:32:01 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 4:32:01 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:32:01 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:32:01 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:32:01 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:32:01 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:32:01 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 4:32:01 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 4:32:01 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 4:32:01 PM : S_2DAxis1_C_3
+4/25/2013 4:32:01 PM : exit Add curve
+4/25/2013 4:32:01 PM : curve1 cno
+4/25/2013 4:32:01 PM : Exit insert
+4/25/2013 4:32:01 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 4:32:01 PM : exit Format x
+4/25/2013 4:32:01 PM : enter Format y --2DAxis1 1 0 -100 0
+4/25/2013 4:32:01 PM : exit Format y
+4/25/2013 4:32:01 PM : enter Format y --2DAxis1 2 0 -50 0
+4/25/2013 4:32:01 PM : exit Format y
+4/25/2013 4:32:01 PM : Exiting Add Curves TO Plot
+4/25/2013 4:32:01 PM : X_Unit_String: MHz
+4/25/2013 4:32:01 PM : Enter fill limit
+4/25/2013 4:32:02 PM : exit fill limit
+4/25/2013 4:32:02 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 4:32:02 PM :   creating a PIM style plot...
+4/25/2013 4:32:02 PM : Entering Create_PIM_Plot
+4/25/2013 4:32:02 PM : Entering ParsePlotTraces
+4/25/2013 4:32:02 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 4:32:02 PM : axistypeTime
+4/25/2013 4:32:02 PM : enter add pim Curves TO Plot
+4/25/2013 4:32:02 PM : Run 1/*
+4/25/2013 4:32:02 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 4:32:02 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 4:32:02 PM : IM3 dBm Time
+4/25/2013 4:32:02 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: MHz
+4/25/2013 4:32:03 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:32:03 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:32:03 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time MHz
+4/25/2013 4:32:03 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/IM3 POWER 1
+4/25/2013 4:32:03 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/IM3 POWER 1
+4/25/2013 4:32:03 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 4:32:03 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time MHz   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 4:32:03 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time MHz 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 4:32:03 PM : S_2DAxis2_C_1
+4/25/2013 4:32:03 PM : exit Add curve
+4/25/2013 4:32:03 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:32:03 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/Elapsed Time MHz
+4/25/2013 4:32:03 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time MHz
+4/25/2013 4:32:03 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/ref limit 1
+4/25/2013 4:32:03 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time MHz --- [3]/ref limit 1
+4/25/2013 4:32:03 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 4:32:03 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time MHz   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 4:32:03 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time MHz 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 4:32:03 PM : S_2DAxis2_C_2
+4/25/2013 4:32:04 PM : exit Add curve
+4/25/2013 4:32:04 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 4:32:04 PM : exit Format x
+4/25/2013 4:32:04 PM : enter Format y --2DAxis2 1 1 -160 -60
+4/25/2013 4:32:04 PM : exit Format y
+4/25/2013 4:32:04 PM : exit add pim Curves TO Plot
+4/25/2013 4:32:04 PM : X_Unit_String: MHz
+4/25/2013 4:32:04 PM : Enter fill limit
+4/25/2013 4:32:04 PM : exit fill limit
+4/25/2013 4:32:04 PM : Exiting Create_PIM_Plot
+4/25/2013 4:32:04 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 4:32:04 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 4:32:07 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 7722113.pdf
+4/25/2013 4:32:07 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 7722113.pdf
+4/25/2013 4:32:07 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 4:32:07 PM : <====== SpartanDD Generate Report ======
+4/25/2013 4:48:06 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 4:48:06 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 4:48:06 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=10&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=5&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=seconds&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=1&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-160&Plot2_Y_Max=-60&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8690830.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 4:48:06 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 4:48:06 PM :   formatting 2 plots...
+4/25/2013 4:48:06 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 4:48:08 PM : Adding 2 custom fields to header...
+4/25/2013 4:48:08 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 4:48:08 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 4:48:09 PM : ...added 2 custom fields to header
+4/25/2013 4:48:09 PM : shifting TWO plot....
+4/25/2013 4:48:09 PM : ...done shifting TWO plot
+4/25/2013 4:48:09 PM :   creating a S Parameter style plot...
+4/25/2013 4:48:09 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 4:48:09 PM : Entering ParsePlotTraces
+4/25/2013 4:48:09 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 4:48:09 PM : Entering ParsePlotMarkers
+4/25/2013 4:48:09 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 4:48:09 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 4:48:09 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 4:48:09 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 4:48:09 PM : 0 S11 UL=1 LL=0
+4/25/2013 4:48:09 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 4:48:09 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 4:48:09 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 4:48:09 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:48:09 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:48:09 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:48:09 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:48:09 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:48:09 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 4:48:09 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 4:48:09 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 4:48:09 PM : S_2DAxis1_C_1
+4/25/2013 4:48:09 PM : exit Add curve
+4/25/2013 4:48:09 PM : Enter Add_Limit 2
+4/25/2013 4:48:09 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 4:48:09 PM : Exiting TransForm_Data: 
+4/25/2013 4:48:09 PM : EXIT Add_Limit 2
+4/25/2013 4:48:09 PM : Enter Add_Limit 2
+4/25/2013 4:48:09 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 4:48:09 PM : Exiting TransForm_Data: 
+4/25/2013 4:48:09 PM : EXIT Add_Limit 2
+4/25/2013 4:48:09 PM : Enter check_filter_limits
+4/25/2013 4:48:09 PM : Exiting check_filter_limits
+4/25/2013 4:48:09 PM : curve0 cno
+4/25/2013 4:48:10 PM : 1 S21 UL=0 LL=0
+4/25/2013 4:48:10 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 4:48:10 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 4:48:10 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 4:48:10 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:48:10 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:48:10 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:48:10 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:48:10 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:48:10 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 4:48:10 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 4:48:10 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 4:48:10 PM : S_2DAxis1_C_3
+4/25/2013 4:48:10 PM : exit Add curve
+4/25/2013 4:48:10 PM : curve1 cno
+4/25/2013 4:48:10 PM : Exit insert
+4/25/2013 4:48:10 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 4:48:10 PM : exit Format x
+4/25/2013 4:48:10 PM : enter Format y --2DAxis1 1 0 -100 0
+4/25/2013 4:48:10 PM : exit Format y
+4/25/2013 4:48:10 PM : enter Format y --2DAxis1 2 0 -50 0
+4/25/2013 4:48:10 PM : exit Format y
+4/25/2013 4:48:10 PM : Exiting Add Curves TO Plot
+4/25/2013 4:48:10 PM : X_Unit_String: MHz
+4/25/2013 4:48:10 PM : Enter fill limit
+4/25/2013 4:48:10 PM : exit fill limit
+4/25/2013 4:48:10 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 4:48:10 PM :   creating a PIM style plot...
+4/25/2013 4:48:10 PM : Entering Create_PIM_Plot
+4/25/2013 4:48:10 PM : Entering ParsePlotTraces
+4/25/2013 4:48:10 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 4:48:10 PM : axistypeTime
+4/25/2013 4:48:10 PM : enter add pim Curves TO Plot
+4/25/2013 4:48:10 PM : Run 1/*
+4/25/2013 4:48:10 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 4:48:11 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 4:48:11 PM : IM3 dBm Time
+4/25/2013 4:48:11 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: seconds
+4/25/2013 4:48:11 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:48:11 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:48:11 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 4:48:11 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 4:48:11 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 4:48:11 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 4:48:11 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 4:48:11 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 4:48:11 PM : S_2DAxis2_C_1
+4/25/2013 4:48:11 PM : exit Add curve
+4/25/2013 4:48:11 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:48:12 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:48:12 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 4:48:12 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 4:48:12 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 4:48:12 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 4:48:12 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 4:48:12 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 4:48:12 PM : S_2DAxis2_C_2
+4/25/2013 4:48:12 PM : exit Add curve
+4/25/2013 4:48:12 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 4:48:12 PM : exit Format x
+4/25/2013 4:48:12 PM : enter Format y --2DAxis2 1 1 -160 -60
+4/25/2013 4:48:12 PM : exit Format y
+4/25/2013 4:48:12 PM : exit add pim Curves TO Plot
+4/25/2013 4:48:12 PM : X_Unit_String: seconds
+4/25/2013 4:48:12 PM : Enter fill limit
+4/25/2013 4:48:12 PM : exit fill limit
+4/25/2013 4:48:12 PM : Exiting Create_PIM_Plot
+4/25/2013 4:48:12 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 4:48:12 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 4:48:14 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8690830.pdf
+4/25/2013 4:48:14 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8690830.pdf
+4/25/2013 4:48:14 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 4:48:14 PM : <====== SpartanDD Generate Report ======
+4/25/2013 4:49:34 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 4:49:34 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 4:49:34 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=10&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=1&Plot1_Curve2_Scale=5&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=seconds&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=1&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-160&Plot2_Y_Max=-60&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8776318.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 4:49:34 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 4:49:34 PM :   formatting 2 plots...
+4/25/2013 4:49:34 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 4:49:35 PM : Adding 2 custom fields to header...
+4/25/2013 4:49:35 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 4:49:35 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 4:49:36 PM : ...added 2 custom fields to header
+4/25/2013 4:49:36 PM : shifting TWO plot....
+4/25/2013 4:49:36 PM : ...done shifting TWO plot
+4/25/2013 4:49:36 PM :   creating a S Parameter style plot...
+4/25/2013 4:49:36 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 4:49:36 PM : Entering ParsePlotTraces
+4/25/2013 4:49:36 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 4:49:36 PM : Entering ParsePlotMarkers
+4/25/2013 4:49:36 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 4:49:36 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 4:49:36 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 4:49:36 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 4:49:37 PM : 0 S11 UL=1 LL=0
+4/25/2013 4:49:37 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 4:49:37 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 4:49:37 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 4:49:37 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:49:37 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:49:37 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:49:37 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:49:37 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:49:37 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 4:49:37 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 4:49:37 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 4:49:37 PM : S_2DAxis1_C_1
+4/25/2013 4:49:37 PM : exit Add curve
+4/25/2013 4:49:37 PM : Enter Add_Limit 2
+4/25/2013 4:49:37 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 4:49:37 PM : Exiting TransForm_Data: 
+4/25/2013 4:49:37 PM : EXIT Add_Limit 2
+4/25/2013 4:49:37 PM : Enter Add_Limit 2
+4/25/2013 4:49:37 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 4:49:37 PM : Exiting TransForm_Data: 
+4/25/2013 4:49:37 PM : EXIT Add_Limit 2
+4/25/2013 4:49:37 PM : Enter check_filter_limits
+4/25/2013 4:49:37 PM : Exiting check_filter_limits
+4/25/2013 4:49:37 PM : curve0 cno
+4/25/2013 4:49:37 PM : 1 S21 UL=0 LL=0
+4/25/2013 4:49:37 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 4:49:37 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 4:49:37 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 4:49:37 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:49:37 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:49:37 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:49:37 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:49:37 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:49:37 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 4:49:37 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 4:49:37 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 4:49:37 PM : S_2DAxis1_C_3
+4/25/2013 4:49:37 PM : exit Add curve
+4/25/2013 4:49:37 PM : curve1 cno
+4/25/2013 4:49:37 PM : Exit insert
+4/25/2013 4:49:38 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 4:49:38 PM : exit Format x
+4/25/2013 4:49:38 PM : enter Format y --2DAxis1 1 0 -100 0
+4/25/2013 4:49:38 PM : exit Format y
+4/25/2013 4:49:38 PM : enter Format y --2DAxis1 2 1 -50 0
+4/25/2013 4:49:38 PM : exit Format y
+4/25/2013 4:49:38 PM : Exiting Add Curves TO Plot
+4/25/2013 4:49:38 PM : X_Unit_String: MHz
+4/25/2013 4:49:38 PM : Enter fill limit
+4/25/2013 4:49:38 PM : exit fill limit
+4/25/2013 4:49:38 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 4:49:38 PM :   creating a PIM style plot...
+4/25/2013 4:49:38 PM : Entering Create_PIM_Plot
+4/25/2013 4:49:38 PM : Entering ParsePlotTraces
+4/25/2013 4:49:38 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 4:49:38 PM : axistypeTime
+4/25/2013 4:49:38 PM : enter add pim Curves TO Plot
+4/25/2013 4:49:38 PM : Run 1/*
+4/25/2013 4:49:38 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 4:49:38 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 4:49:38 PM : IM3 dBm Time
+4/25/2013 4:49:38 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: seconds
+4/25/2013 4:49:39 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:49:39 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:49:39 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 4:49:39 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 4:49:39 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 4:49:39 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 4:49:39 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 4:49:39 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 4:49:39 PM : S_2DAxis2_C_1
+4/25/2013 4:49:39 PM : exit Add curve
+4/25/2013 4:49:39 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:49:39 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:49:39 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 4:49:39 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 4:49:39 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 4:49:39 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 4:49:39 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 4:49:39 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 4:49:39 PM : S_2DAxis2_C_2
+4/25/2013 4:49:39 PM : exit Add curve
+4/25/2013 4:49:40 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 4:49:40 PM : exit Format x
+4/25/2013 4:49:40 PM : enter Format y --2DAxis2 1 1 -160 -60
+4/25/2013 4:49:40 PM : exit Format y
+4/25/2013 4:49:40 PM : exit add pim Curves TO Plot
+4/25/2013 4:49:40 PM : X_Unit_String: seconds
+4/25/2013 4:49:40 PM : Enter fill limit
+4/25/2013 4:49:40 PM : exit fill limit
+4/25/2013 4:49:40 PM : Exiting Create_PIM_Plot
+4/25/2013 4:49:40 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 4:49:40 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 4:49:43 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8776318.pdf
+4/25/2013 4:49:43 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8776318.pdf
+4/25/2013 4:49:43 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 4:49:43 PM : <====== SpartanDD Generate Report ======
+4/25/2013 4:50:49 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 4:50:49 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 4:50:49 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=10&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=2.5&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=seconds&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=1&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-160&Plot2_Y_Max=-60&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8855701.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 4:50:49 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 4:50:49 PM :   formatting 2 plots...
+4/25/2013 4:50:49 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 4:50:50 PM : Adding 2 custom fields to header...
+4/25/2013 4:50:50 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 4:50:50 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 4:50:51 PM : ...added 2 custom fields to header
+4/25/2013 4:50:51 PM : shifting TWO plot....
+4/25/2013 4:50:51 PM : ...done shifting TWO plot
+4/25/2013 4:50:51 PM :   creating a S Parameter style plot...
+4/25/2013 4:50:51 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 4:50:51 PM : Entering ParsePlotTraces
+4/25/2013 4:50:51 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 4:50:51 PM : Entering ParsePlotMarkers
+4/25/2013 4:50:51 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 4:50:51 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 4:50:51 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 4:50:51 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 4:50:51 PM : 0 S11 UL=1 LL=0
+4/25/2013 4:50:51 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 4:50:51 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 4:50:51 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 4:50:51 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:50:51 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:50:51 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:50:51 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:50:51 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:50:51 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 4:50:51 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 4:50:51 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 4:50:51 PM : S_2DAxis1_C_1
+4/25/2013 4:50:51 PM : exit Add curve
+4/25/2013 4:50:51 PM : Enter Add_Limit 2
+4/25/2013 4:50:52 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 4:50:52 PM : Exiting TransForm_Data: 
+4/25/2013 4:50:52 PM : EXIT Add_Limit 2
+4/25/2013 4:50:52 PM : Enter Add_Limit 2
+4/25/2013 4:50:52 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 4:50:52 PM : Exiting TransForm_Data: 
+4/25/2013 4:50:52 PM : EXIT Add_Limit 2
+4/25/2013 4:50:52 PM : Enter check_filter_limits
+4/25/2013 4:50:52 PM : Exiting check_filter_limits
+4/25/2013 4:50:52 PM : curve0 cno
+4/25/2013 4:50:52 PM : 1 S21 UL=0 LL=0
+4/25/2013 4:50:52 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 4:50:52 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 4:50:52 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 4:50:52 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:50:52 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:50:52 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:50:52 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:50:52 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:50:52 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 4:50:52 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 4:50:52 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 4:50:52 PM : S_2DAxis1_C_3
+4/25/2013 4:50:52 PM : exit Add curve
+4/25/2013 4:50:52 PM : curve1 cno
+4/25/2013 4:50:52 PM : Exit insert
+4/25/2013 4:50:52 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 4:50:52 PM : exit Format x
+4/25/2013 4:50:52 PM : enter Format y --2DAxis1 1 0 -100 0
+4/25/2013 4:50:52 PM : exit Format y
+4/25/2013 4:50:52 PM : enter Format y --2DAxis1 2 0 -25 0
+4/25/2013 4:50:52 PM : exit Format y
+4/25/2013 4:50:52 PM : Exiting Add Curves TO Plot
+4/25/2013 4:50:52 PM : X_Unit_String: MHz
+4/25/2013 4:50:52 PM : Enter fill limit
+4/25/2013 4:50:52 PM : exit fill limit
+4/25/2013 4:50:52 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 4:50:53 PM :   creating a PIM style plot...
+4/25/2013 4:50:53 PM : Entering Create_PIM_Plot
+4/25/2013 4:50:53 PM : Entering ParsePlotTraces
+4/25/2013 4:50:53 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 4:50:53 PM : axistypeTime
+4/25/2013 4:50:53 PM : enter add pim Curves TO Plot
+4/25/2013 4:50:53 PM : Run 1/*
+4/25/2013 4:50:53 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 4:50:53 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 4:50:53 PM : IM3 dBm Time
+4/25/2013 4:50:53 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: seconds
+4/25/2013 4:50:53 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:50:53 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:50:53 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 4:50:53 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 4:50:54 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 4:50:54 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 4:50:54 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 4:50:54 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 4:50:54 PM : S_2DAxis2_C_1
+4/25/2013 4:50:54 PM : exit Add curve
+4/25/2013 4:50:54 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:50:54 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:50:54 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 4:50:54 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 4:50:54 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 4:50:54 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 4:50:54 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 4:50:54 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 4:50:54 PM : S_2DAxis2_C_2
+4/25/2013 4:50:54 PM : exit Add curve
+4/25/2013 4:50:54 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 4:50:54 PM : exit Format x
+4/25/2013 4:50:54 PM : enter Format y --2DAxis2 1 1 -160 -60
+4/25/2013 4:50:54 PM : exit Format y
+4/25/2013 4:50:54 PM : exit add pim Curves TO Plot
+4/25/2013 4:50:54 PM : X_Unit_String: seconds
+4/25/2013 4:50:54 PM : Enter fill limit
+4/25/2013 4:50:54 PM : exit fill limit
+4/25/2013 4:50:54 PM : Exiting Create_PIM_Plot
+4/25/2013 4:50:54 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 4:50:54 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 4:50:57 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8855701.pdf
+4/25/2013 4:50:57 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8855701.pdf
+4/25/2013 4:50:57 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 4:50:57 PM : <====== SpartanDD Generate Report ======
+4/25/2013 4:51:51 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 4:51:51 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 4:51:51 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=5&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=0.25&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=seconds&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=1&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-160&Plot2_Y_Max=-60&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8917874.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 4:51:51 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 4:51:51 PM :   formatting 2 plots...
+4/25/2013 4:51:51 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 4:51:52 PM : Adding 2 custom fields to header...
+4/25/2013 4:51:52 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 4:51:52 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 4:51:53 PM : ...added 2 custom fields to header
+4/25/2013 4:51:53 PM : shifting TWO plot....
+4/25/2013 4:51:53 PM : ...done shifting TWO plot
+4/25/2013 4:51:53 PM :   creating a S Parameter style plot...
+4/25/2013 4:51:53 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 4:51:53 PM : Entering ParsePlotTraces
+4/25/2013 4:51:53 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 4:51:53 PM : Entering ParsePlotMarkers
+4/25/2013 4:51:53 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 4:51:53 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 4:51:53 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 4:51:54 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 4:51:54 PM : 0 S11 UL=1 LL=0
+4/25/2013 4:51:54 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 4:51:54 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 4:51:54 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 4:51:54 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:51:54 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:51:54 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:51:54 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:51:54 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 4:51:54 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 4:51:54 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 4:51:54 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 4:51:54 PM : S_2DAxis1_C_1
+4/25/2013 4:51:54 PM : exit Add curve
+4/25/2013 4:51:54 PM : Enter Add_Limit 2
+4/25/2013 4:51:54 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 4:51:54 PM : Exiting TransForm_Data: 
+4/25/2013 4:51:54 PM : EXIT Add_Limit 2
+4/25/2013 4:51:54 PM : Enter Add_Limit 2
+4/25/2013 4:51:54 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 4:51:54 PM : Exiting TransForm_Data: 
+4/25/2013 4:51:54 PM : EXIT Add_Limit 2
+4/25/2013 4:51:54 PM : Enter check_filter_limits
+4/25/2013 4:51:54 PM : Exiting check_filter_limits
+4/25/2013 4:51:54 PM : curve0 cno
+4/25/2013 4:51:54 PM : 1 S21 UL=0 LL=0
+4/25/2013 4:51:54 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 4:51:54 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 4:51:54 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 4:51:54 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:51:54 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 4:51:54 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 4:51:54 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:51:54 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 4:51:54 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 4:51:54 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 4:51:54 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 4:51:54 PM : S_2DAxis1_C_3
+4/25/2013 4:51:55 PM : exit Add curve
+4/25/2013 4:51:55 PM : curve1 cno
+4/25/2013 4:51:55 PM : Exit insert
+4/25/2013 4:51:55 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 4:51:55 PM : exit Format x
+4/25/2013 4:51:55 PM : enter Format y --2DAxis1 1 0 -50 0
+4/25/2013 4:51:55 PM : exit Format y
+4/25/2013 4:51:55 PM : enter Format y --2DAxis1 2 0 -2.5 0
+4/25/2013 4:51:55 PM : exit Format y
+4/25/2013 4:51:55 PM : Exiting Add Curves TO Plot
+4/25/2013 4:51:55 PM : X_Unit_String: MHz
+4/25/2013 4:51:55 PM : Enter fill limit
+4/25/2013 4:51:55 PM : exit fill limit
+4/25/2013 4:51:55 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 4:51:55 PM :   creating a PIM style plot...
+4/25/2013 4:51:55 PM : Entering Create_PIM_Plot
+4/25/2013 4:51:55 PM : Entering ParsePlotTraces
+4/25/2013 4:51:55 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 4:51:55 PM : axistypeTime
+4/25/2013 4:51:55 PM : enter add pim Curves TO Plot
+4/25/2013 4:51:55 PM : Run 1/*
+4/25/2013 4:51:55 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 4:51:55 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 4:51:55 PM : IM3 dBm Time
+4/25/2013 4:51:55 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: seconds
+4/25/2013 4:51:56 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:51:56 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:51:56 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 4:51:56 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 4:51:56 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 4:51:56 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 4:51:56 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 4:51:56 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 4:51:56 PM : S_2DAxis2_C_1
+4/25/2013 4:51:56 PM : exit Add curve
+4/25/2013 4:51:56 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:51:56 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 4:51:56 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 4:51:57 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 4:51:57 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 4:51:57 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 4:51:57 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 4:51:57 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 4:51:57 PM : S_2DAxis2_C_2
+4/25/2013 4:51:57 PM : exit Add curve
+4/25/2013 4:51:57 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 4:51:57 PM : exit Format x
+4/25/2013 4:51:57 PM : enter Format y --2DAxis2 1 1 -160 -60
+4/25/2013 4:51:57 PM : exit Format y
+4/25/2013 4:51:57 PM : exit add pim Curves TO Plot
+4/25/2013 4:51:57 PM : X_Unit_String: seconds
+4/25/2013 4:51:57 PM : Enter fill limit
+4/25/2013 4:51:57 PM : exit fill limit
+4/25/2013 4:51:57 PM : Exiting Create_PIM_Plot
+4/25/2013 4:51:57 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 4:51:57 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 4:52:00 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8917874.pdf
+4/25/2013 4:52:00 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 8917874.pdf
+4/25/2013 4:52:00 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 4:52:00 PM : <====== SpartanDD Generate Report ======
+4/25/2013 5:00:06 PM : ====== SpartanDD Query ======>
+4/25/2013 5:00:06 PM : ====== Entering LoadQueryString ======>
+4/25/2013 5:00:06 PM : Query_Type: eSearchChannelGroup
+4/25/2013 5:00:06 PM : Query condition(0): Model_Number = PE39332-2.5
+4/25/2013 5:00:06 PM : <====== Exiting LoadQueryString ======
+4/25/2013 5:00:07 PM : Searching for data...
+4/25/2013 5:00:07 PM : Query returned 3 results
+4/25/2013 5:00:07 PM : Processing query results...
+4/25/2013 5:00:07 PM : ResultColumn: Model_Number
+4/25/2013 5:00:07 PM : ResultColumn: Serial_Number
+4/25/2013 5:00:07 PM : ResultColumn: Test_Run
+4/25/2013 5:00:07 PM : Value: 1
+4/25/2013 5:00:07 PM : ResultColumn: Test_Type
+4/25/2013 5:00:07 PM : ResultColumn: Model_Number
+4/25/2013 5:00:07 PM : ResultColumn: Serial_Number
+4/25/2013 5:00:07 PM : ResultColumn: Test_Run
+4/25/2013 5:00:07 PM : Value: 1
+4/25/2013 5:00:07 PM : ResultColumn: Test_Type
+4/25/2013 5:00:08 PM : ResultColumn: Model_Number
+4/25/2013 5:00:08 PM : ResultColumn: Serial_Number
+4/25/2013 5:00:08 PM : ResultColumn: Test_Run
+4/25/2013 5:00:08 PM : Value: 1
+4/25/2013 5:00:08 PM : ResultColumn: Test_Type
+4/25/2013 5:00:08 PM : Sending Data: \\SSUMSSPARTAN\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 Prompted Inputs Custom_Field_2.tdms	Prompted Inputs Custom_Field_2	PE39332-2.5	$SSN$ 7	Run 1	3436374203.06639	PE39332-2.5	$SSN$ 7	1	Prompted Inputs Custom_Field_2\\SSUMSSPARTAN\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.tdms	PIM	PE39332-2.5	$SSN$ 7	Run 1	3436374212.15991	PE39332-2.5	$SSN$ 7	1	PIM\\SSUMSSPARTAN\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.tdms	S Parameter	PE39332-2.5	$SSN$ 7	Run 1	3436374240.46353	PE39332-2.5	$SSN$ 7	1	S Parameter
+4/25/2013 5:00:08 PM : <====== SpartanDD Query ======
+4/25/2013 5:00:09 PM : ====== SpartanDD Query ======>
+4/25/2013 5:00:09 PM : ====== Entering LoadQueryString ======>
+4/25/2013 5:00:09 PM : Query_Type: eSearchChannelGroup
+4/25/2013 5:00:09 PM : Query condition(0): Model_Number = PE39332-2.5
+4/25/2013 5:00:09 PM : <====== Exiting LoadQueryString ======
+4/25/2013 5:00:11 PM : Searching for data...
+4/25/2013 5:00:11 PM : Query returned 3 results
+4/25/2013 5:00:11 PM : Processing query results...
+4/25/2013 5:00:11 PM : ResultColumn: Model_Number
+4/25/2013 5:00:11 PM : ResultColumn: Serial_Number
+4/25/2013 5:00:11 PM : ResultColumn: Test_Run
+4/25/2013 5:00:11 PM : Value: 1
+4/25/2013 5:00:11 PM : ResultColumn: Test_Type
+4/25/2013 5:00:11 PM : ResultColumn: Model_Number
+4/25/2013 5:00:11 PM : ResultColumn: Serial_Number
+4/25/2013 5:00:11 PM : ResultColumn: Test_Run
+4/25/2013 5:00:11 PM : Value: 1
+4/25/2013 5:00:11 PM : ResultColumn: Test_Type
+4/25/2013 5:00:11 PM : ResultColumn: Model_Number
+4/25/2013 5:00:11 PM : ResultColumn: Serial_Number
+4/25/2013 5:00:11 PM : ResultColumn: Test_Run
+4/25/2013 5:00:11 PM : Value: 1
+4/25/2013 5:00:11 PM : ResultColumn: Test_Type
+4/25/2013 5:00:11 PM : Sending Data: \\SSUMSSPARTAN\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 Prompted Inputs Custom_Field_2.tdms	Prompted Inputs Custom_Field_2	PE39332-2.5	$SSN$ 7	Run 1	3436374203.06639	PE39332-2.5	$SSN$ 7	1	Prompted Inputs Custom_Field_2\\SSUMSSPARTAN\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.tdms	PIM	PE39332-2.5	$SSN$ 7	Run 1	3436374212.15991	PE39332-2.5	$SSN$ 7	1	PIM\\SSUMSSPARTAN\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.tdms	S Parameter	PE39332-2.5	$SSN$ 7	Run 1	3436374240.46353	PE39332-2.5	$SSN$ 7	1	S Parameter
+4/25/2013 5:00:11 PM : <====== SpartanDD Query ======
+4/25/2013 5:00:32 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 5:00:32 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 5:00:33 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=5&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=0.25&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=seconds&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=0&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-130&Plot2_Y_Max=-100&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9429158.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 5:00:33 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 5:00:33 PM :   formatting 2 plots...
+4/25/2013 5:00:33 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 5:00:35 PM : Adding 2 custom fields to header...
+4/25/2013 5:00:35 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 5:00:35 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 5:00:36 PM : ...added 2 custom fields to header
+4/25/2013 5:00:36 PM : shifting TWO plot....
+4/25/2013 5:00:36 PM : ...done shifting TWO plot
+4/25/2013 5:00:36 PM :   creating a S Parameter style plot...
+4/25/2013 5:00:36 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 5:00:36 PM : Entering ParsePlotTraces
+4/25/2013 5:00:36 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 5:00:36 PM : Entering ParsePlotMarkers
+4/25/2013 5:00:36 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 5:00:36 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 5:00:36 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 5:00:37 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 5:00:37 PM : 0 S11 UL=1 LL=0
+4/25/2013 5:00:37 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 5:00:37 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 5:00:37 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 5:00:37 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:00:37 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:00:37 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 5:00:37 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 5:00:37 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 5:00:37 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 5:00:37 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 5:00:37 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 5:00:37 PM : S_2DAxis1_C_1
+4/25/2013 5:00:37 PM : exit Add curve
+4/25/2013 5:00:37 PM : Enter Add_Limit 2
+4/25/2013 5:00:37 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 5:00:37 PM : Exiting TransForm_Data: 
+4/25/2013 5:00:37 PM : EXIT Add_Limit 2
+4/25/2013 5:00:37 PM : Enter Add_Limit 2
+4/25/2013 5:00:37 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 5:00:37 PM : Exiting TransForm_Data: 
+4/25/2013 5:00:37 PM : EXIT Add_Limit 2
+4/25/2013 5:00:37 PM : Enter check_filter_limits
+4/25/2013 5:00:37 PM : Exiting check_filter_limits
+4/25/2013 5:00:37 PM : curve0 cno
+4/25/2013 5:00:37 PM : 1 S21 UL=0 LL=0
+4/25/2013 5:00:37 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 5:00:37 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 5:00:37 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 5:00:37 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:00:38 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:00:38 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 5:00:38 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 5:00:38 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 5:00:38 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 5:00:38 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 5:00:38 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 5:00:38 PM : S_2DAxis1_C_3
+4/25/2013 5:00:38 PM : exit Add curve
+4/25/2013 5:00:38 PM : curve1 cno
+4/25/2013 5:00:38 PM : Exit insert
+4/25/2013 5:00:38 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 5:00:38 PM : exit Format x
+4/25/2013 5:00:38 PM : enter Format y --2DAxis1 1 0 -50 0
+4/25/2013 5:00:38 PM : exit Format y
+4/25/2013 5:00:38 PM : enter Format y --2DAxis1 2 0 -2.5 0
+4/25/2013 5:00:38 PM : exit Format y
+4/25/2013 5:00:38 PM : Exiting Add Curves TO Plot
+4/25/2013 5:00:38 PM : X_Unit_String: MHz
+4/25/2013 5:00:38 PM : Enter fill limit
+4/25/2013 5:00:38 PM : exit fill limit
+4/25/2013 5:00:38 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 5:00:38 PM :   creating a PIM style plot...
+4/25/2013 5:00:39 PM : Entering Create_PIM_Plot
+4/25/2013 5:00:39 PM : Entering ParsePlotTraces
+4/25/2013 5:00:39 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 5:00:39 PM : axistypeTime
+4/25/2013 5:00:39 PM : enter add pim Curves TO Plot
+4/25/2013 5:00:39 PM : Run 1/*
+4/25/2013 5:00:39 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 5:00:39 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 5:00:39 PM : IM3 dBm Time
+4/25/2013 5:00:39 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: seconds
+4/25/2013 5:00:40 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:00:40 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:00:40 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 5:00:41 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 5:00:41 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 5:00:41 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 5:00:41 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 5:00:41 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 5:00:41 PM : S_2DAxis2_C_1
+4/25/2013 5:00:41 PM : exit Add curve
+4/25/2013 5:00:41 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:00:41 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:00:41 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 5:00:41 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 5:00:41 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 5:00:41 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 5:00:41 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 5:00:41 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 5:00:41 PM : S_2DAxis2_C_2
+4/25/2013 5:00:41 PM : exit Add curve
+4/25/2013 5:00:42 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 5:00:42 PM : exit Format x
+4/25/2013 5:00:42 PM : enter Format y --2DAxis2 1 0 -130 -100
+4/25/2013 5:00:42 PM : exit Format y
+4/25/2013 5:00:42 PM : exit add pim Curves TO Plot
+4/25/2013 5:00:42 PM : X_Unit_String: seconds
+4/25/2013 5:00:42 PM : Enter fill limit
+4/25/2013 5:00:42 PM : exit fill limit
+4/25/2013 5:00:42 PM : Exiting Create_PIM_Plot
+4/25/2013 5:00:42 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 5:00:42 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 5:00:46 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9429158.pdf
+4/25/2013 5:00:46 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9429158.pdf
+4/25/2013 5:00:46 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 5:00:46 PM : <====== SpartanDD Generate Report ======
+4/25/2013 5:03:39 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 5:03:39 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 5:03:39 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=5&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=0.25&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=seconds&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=0&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-130&Plot2_Y_Max=-90&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9620072.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 5:03:39 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 5:03:39 PM :   formatting 2 plots...
+4/25/2013 5:03:39 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 5:03:40 PM : Adding 2 custom fields to header...
+4/25/2013 5:03:40 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 5:03:40 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 5:03:41 PM : ...added 2 custom fields to header
+4/25/2013 5:03:41 PM : shifting TWO plot....
+4/25/2013 5:03:41 PM : ...done shifting TWO plot
+4/25/2013 5:03:41 PM :   creating a S Parameter style plot...
+4/25/2013 5:03:41 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 5:03:41 PM : Entering ParsePlotTraces
+4/25/2013 5:03:41 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 5:03:41 PM : Entering ParsePlotMarkers
+4/25/2013 5:03:41 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 5:03:41 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 5:03:41 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 5:03:41 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 5:03:41 PM : 0 S11 UL=1 LL=0
+4/25/2013 5:03:41 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 5:03:41 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 5:03:41 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 5:03:41 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:03:41 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:03:41 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 5:03:41 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 5:03:41 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 5:03:41 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 5:03:41 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 5:03:41 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 5:03:41 PM : S_2DAxis1_C_1
+4/25/2013 5:03:41 PM : exit Add curve
+4/25/2013 5:03:41 PM : Enter Add_Limit 2
+4/25/2013 5:03:41 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 5:03:41 PM : Exiting TransForm_Data: 
+4/25/2013 5:03:41 PM : EXIT Add_Limit 2
+4/25/2013 5:03:41 PM : Enter Add_Limit 2
+4/25/2013 5:03:41 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 5:03:41 PM : Exiting TransForm_Data: 
+4/25/2013 5:03:41 PM : EXIT Add_Limit 2
+4/25/2013 5:03:42 PM : Enter check_filter_limits
+4/25/2013 5:03:42 PM : Exiting check_filter_limits
+4/25/2013 5:03:42 PM : curve0 cno
+4/25/2013 5:03:42 PM : 1 S21 UL=0 LL=0
+4/25/2013 5:03:42 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 5:03:42 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 5:03:42 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 5:03:42 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:03:42 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:03:42 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 5:03:42 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 5:03:42 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 5:03:42 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 5:03:42 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 5:03:42 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 5:03:42 PM : S_2DAxis1_C_3
+4/25/2013 5:03:42 PM : exit Add curve
+4/25/2013 5:03:42 PM : curve1 cno
+4/25/2013 5:03:42 PM : Exit insert
+4/25/2013 5:03:42 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 5:03:42 PM : exit Format x
+4/25/2013 5:03:42 PM : enter Format y --2DAxis1 1 0 -50 0
+4/25/2013 5:03:42 PM : exit Format y
+4/25/2013 5:03:42 PM : enter Format y --2DAxis1 2 0 -2.5 0
+4/25/2013 5:03:42 PM : exit Format y
+4/25/2013 5:03:42 PM : Exiting Add Curves TO Plot
+4/25/2013 5:03:42 PM : X_Unit_String: MHz
+4/25/2013 5:03:42 PM : Enter fill limit
+4/25/2013 5:03:42 PM : exit fill limit
+4/25/2013 5:03:42 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 5:03:42 PM :   creating a PIM style plot...
+4/25/2013 5:03:42 PM : Entering Create_PIM_Plot
+4/25/2013 5:03:42 PM : Entering ParsePlotTraces
+4/25/2013 5:03:42 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 5:03:42 PM : axistypeTime
+4/25/2013 5:03:42 PM : enter add pim Curves TO Plot
+4/25/2013 5:03:42 PM : Run 1/*
+4/25/2013 5:03:42 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 5:03:43 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 5:03:43 PM : IM3 dBm Time
+4/25/2013 5:03:43 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: seconds
+4/25/2013 5:03:43 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:03:43 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:03:43 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 5:03:43 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 5:03:43 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 5:03:43 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 5:03:43 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 5:03:43 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 5:03:43 PM : S_2DAxis2_C_1
+4/25/2013 5:03:44 PM : exit Add curve
+4/25/2013 5:03:44 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:03:44 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:03:44 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 5:03:44 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 5:03:44 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 5:03:44 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 5:03:44 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 5:03:44 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 5:03:44 PM : S_2DAxis2_C_2
+4/25/2013 5:03:44 PM : exit Add curve
+4/25/2013 5:03:44 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 5:03:44 PM : exit Format x
+4/25/2013 5:03:44 PM : enter Format y --2DAxis2 1 0 -130 -90
+4/25/2013 5:03:44 PM : exit Format y
+4/25/2013 5:03:44 PM : exit add pim Curves TO Plot
+4/25/2013 5:03:44 PM : X_Unit_String: seconds
+4/25/2013 5:03:44 PM : Enter fill limit
+4/25/2013 5:03:44 PM : exit fill limit
+4/25/2013 5:03:44 PM : Exiting Create_PIM_Plot
+4/25/2013 5:03:44 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 5:03:44 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 5:03:47 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9620072.pdf
+4/25/2013 5:03:47 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9620072.pdf
+4/25/2013 5:03:47 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 5:03:47 PM : <====== SpartanDD Generate Report ======
+4/25/2013 5:04:55 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 5:04:55 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 5:04:55 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=5&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=0.25&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=seconds&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=0&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-130&Plot2_Y_Max=-80&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9700739.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 5:04:55 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 5:04:55 PM :   formatting 2 plots...
+4/25/2013 5:04:55 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 5:04:55 PM : Adding 2 custom fields to header...
+4/25/2013 5:04:55 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 5:04:56 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 5:04:56 PM : ...added 2 custom fields to header
+4/25/2013 5:04:57 PM : shifting TWO plot....
+4/25/2013 5:04:57 PM : ...done shifting TWO plot
+4/25/2013 5:04:57 PM :   creating a S Parameter style plot...
+4/25/2013 5:04:57 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 5:04:57 PM : Entering ParsePlotTraces
+4/25/2013 5:04:57 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 5:04:57 PM : Entering ParsePlotMarkers
+4/25/2013 5:04:57 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 5:04:57 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 5:04:57 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 5:04:57 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 5:04:57 PM : 0 S11 UL=1 LL=0
+4/25/2013 5:04:57 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 5:04:57 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 5:04:57 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 5:04:57 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:04:57 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:04:57 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 5:04:57 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 5:04:57 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 5:04:57 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 5:04:57 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 5:04:57 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 5:04:57 PM : S_2DAxis1_C_1
+4/25/2013 5:04:57 PM : exit Add curve
+4/25/2013 5:04:57 PM : Enter Add_Limit 2
+4/25/2013 5:04:57 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 5:04:57 PM : Exiting TransForm_Data: 
+4/25/2013 5:04:57 PM : EXIT Add_Limit 2
+4/25/2013 5:04:57 PM : Enter Add_Limit 2
+4/25/2013 5:04:57 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 5:04:57 PM : Exiting TransForm_Data: 
+4/25/2013 5:04:57 PM : EXIT Add_Limit 2
+4/25/2013 5:04:57 PM : Enter check_filter_limits
+4/25/2013 5:04:57 PM : Exiting check_filter_limits
+4/25/2013 5:04:57 PM : curve0 cno
+4/25/2013 5:04:57 PM : 1 S21 UL=0 LL=0
+4/25/2013 5:04:57 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 5:04:58 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 5:04:58 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 5:04:58 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:04:58 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:04:58 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 5:04:58 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 5:04:58 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 5:04:58 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 5:04:58 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 5:04:58 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 5:04:58 PM : S_2DAxis1_C_3
+4/25/2013 5:04:58 PM : exit Add curve
+4/25/2013 5:04:58 PM : curve1 cno
+4/25/2013 5:04:58 PM : Exit insert
+4/25/2013 5:04:58 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 5:04:58 PM : exit Format x
+4/25/2013 5:04:58 PM : enter Format y --2DAxis1 1 0 -50 0
+4/25/2013 5:04:58 PM : exit Format y
+4/25/2013 5:04:58 PM : enter Format y --2DAxis1 2 0 -2.5 0
+4/25/2013 5:04:58 PM : exit Format y
+4/25/2013 5:04:58 PM : Exiting Add Curves TO Plot
+4/25/2013 5:04:58 PM : X_Unit_String: MHz
+4/25/2013 5:04:58 PM : Enter fill limit
+4/25/2013 5:04:58 PM : exit fill limit
+4/25/2013 5:04:58 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 5:04:58 PM :   creating a PIM style plot...
+4/25/2013 5:04:58 PM : Entering Create_PIM_Plot
+4/25/2013 5:04:58 PM : Entering ParsePlotTraces
+4/25/2013 5:04:58 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 5:04:58 PM : axistypeTime
+4/25/2013 5:04:58 PM : enter add pim Curves TO Plot
+4/25/2013 5:04:58 PM : Run 1/*
+4/25/2013 5:04:58 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 5:04:59 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 5:04:59 PM : IM3 dBm Time
+4/25/2013 5:04:59 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: seconds
+4/25/2013 5:04:59 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:04:59 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:04:59 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 5:04:59 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 5:04:59 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 5:04:59 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 5:04:59 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 5:04:59 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 5:04:59 PM : S_2DAxis2_C_1
+4/25/2013 5:04:59 PM : exit Add curve
+4/25/2013 5:04:59 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:05:00 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:05:00 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 5:05:00 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 5:05:00 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 5:05:00 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 5:05:00 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 5:05:00 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 5:05:00 PM : S_2DAxis2_C_2
+4/25/2013 5:05:00 PM : exit Add curve
+4/25/2013 5:05:00 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 5:05:00 PM : exit Format x
+4/25/2013 5:05:00 PM : enter Format y --2DAxis2 1 0 -130 -80
+4/25/2013 5:05:00 PM : exit Format y
+4/25/2013 5:05:00 PM : exit add pim Curves TO Plot
+4/25/2013 5:05:00 PM : X_Unit_String: seconds
+4/25/2013 5:05:00 PM : Enter fill limit
+4/25/2013 5:05:00 PM : exit fill limit
+4/25/2013 5:05:00 PM : Exiting Create_PIM_Plot
+4/25/2013 5:05:00 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 5:05:00 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 5:05:03 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9700739.pdf
+4/25/2013 5:05:03 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9700739.pdf
+4/25/2013 5:05:03 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 5:05:03 PM : <====== SpartanDD Generate Report ======
+4/25/2013 5:06:34 PM : ====== SpartanDD Generate Report ======>
+4/25/2013 5:06:34 PM :   Calling plotEngineScript: dd format report.vbs...
+4/25/2013 5:06:34 PM :   ...and passing these parameters: sxTemplateId=RSP&Custom_Count=2&Custom1=WO Number: SO469038&Custom2=LOAD:Custom_Field_2 &Plot_Size=Letter&Plot_Orientation=Portrait&Template_Processing=Most Recent&Plot_Count=2&Plot1_Style=S Parameter&Plot1_UseTestSetup=0&Plot1_Run_Mode=0&Plot1_Run_Field=IM3_Frequency_Maximum&Plot1_Run_Field_Value=&Plot1_LineType=1&Plot1_X_Unit=MHz&Plot1_X_Min=140&Plot1_X_Max=2700&Plot1_AxisType=Overlay&Plot1_Auto_X=0&Plot1_Auto_Y=0&Plot1_Y_Format=MHz&Plot1_Scale=5&Plot1_Reference=0&Plot1_Position=10&Plot1_Curve1_Parameter=S11&Plot1_Curve1_LimitOn=1&Plot1_Curve1_LimitFill=0&Plot1_Curve1_Label=S11 Log Mag dB&Plot1_Curve1_Autoscale=0&Plot1_Curve1_Scale=5&Plot1_Curve1_Reference=0&Plot1_Curve1_Position=10&Plot1_Curve1_Format=Log Mag&Plot1_Curve2_Parameter=S21&Plot1_Curve2_LimitOn=0&Plot1_Curve2_LimitFill=0&Plot1_Curve2_Label=S21 Log Mag dB&Plot1_Curve2_Autoscale=0&Plot1_Curve2_Scale=0.25&Plot1_Curve2_Reference=0&Plot1_Curve2_Position=10&Plot1_Curve2_Format=Log Mag&Plot2_Style=PIM&Plot2_UseTestSetup=0&Plot2_Run_Mode=1&Plot2_Run_Field=IM_ORDER&Plot2_Run_Field_Value=IM3&Plot2_LineType=1&Plot2_X_Unit=seconds&Plot2_X_Min=0&Plot2_X_Max=100&Plot2_AxisType=Time&Plot2_Auto_X=1&Plot2_Auto_Y=0&Plot2_Y_Format=dBm&Plot2_Scale=10&Plot2_Reference=0&Plot2_Position=5&Plot2_Curve1_Parameter=3rd&Plot2_Curve1_LimitOn=1&Plot2_Curve1_LimitFill=0&Plot2_Y_Min=-130&Plot2_Y_Max=-110&Plot1_run_label=&Plot2_run_label=IM Order: IM3&Template_dHeight=11.000000&Template_dWidth=8.500000&Plot1_run_id=Run 1&Plot1_TEST_STATUS=Pass&Plot2_run_id=Run 1&Plot2_TEST_STATUS=Pass&Preview=0&Report_Path=C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9796837.pdf&Data_Path=s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000&Test_Status=Pass&Serial_Number=$SSN$ 7&Model_Number=PE39332-2%2E5&Test_Run_TXT=Test Run&Root_Path=C:\DEVELOPMENT\SPARTAN\scripts&Operator=Operator::Production&DateTime=Start Timestamp::11/21/2012 1:23 PM - 11/21/2012 1:24 PM&Test_Sequence=Test Sequence::HIPOT,PIM and RF&Test_Station_Name=Test Station::Test Station&Company=C:\Development\Spartan\www\images\logo.jpg&Logo_Width=825&Logo_Height=247&Serial_Number_TXT=Serial Number::$SSN$ 7&Model_Number_TXT=Model Number::PE39332-2.5&Custom2sDisplayName=Hipot A&plotengine=PDF&plotenginescript=dd format report.vbs
+4/25/2013 5:06:35 PM : ====== Entering Main() in "DD Format Report.vbs" ======>
+4/25/2013 5:06:35 PM :   formatting 2 plots...
+4/25/2013 5:06:35 PM : Pre-processing page (stage PDF): Report Two Plot PORTRAIT.TDR (8.5 x 11)
+4/25/2013 5:06:35 PM : Adding 2 custom fields to header...
+4/25/2013 5:06:35 PM : Have to read Prompted Input - mn(PE39332-2.5), sn($SSN$ 7), ch(Custom_Field_2)
+4/25/2013 5:06:35 PM : [LoadRunChannel] mn: PE39332-2.5, sn: $SSN$ 7, channel: Custom_Field_2
+4/25/2013 5:06:36 PM : ...added 2 custom fields to header
+4/25/2013 5:06:36 PM : shifting TWO plot....
+4/25/2013 5:06:36 PM : ...done shifting TWO plot
+4/25/2013 5:06:36 PM :   creating a S Parameter style plot...
+4/25/2013 5:06:37 PM : ====== Entering CreateSParameterPlot ======>
+4/25/2013 5:06:37 PM : Entering ParsePlotTraces
+4/25/2013 5:06:37 PM : Exiting ParsePlotTraces: 3 traces parsed
+4/25/2013 5:06:37 PM : Entering ParsePlotMarkers
+4/25/2013 5:06:37 PM : Exiting ParsePlotMarkers: 1 markers parsed
+4/25/2013 5:06:37 PM : Add Curves To Plot(2DAxis1) chstart: 2
+4/25/2013 5:06:37 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 S Parameter.TDMS Run 1
+4/25/2013 5:06:37 PM : Calc_X_Units: channel [2]/Frequency with Unit: MHz
+4/25/2013 5:06:37 PM : 0 S11 UL=1 LL=0
+4/25/2013 5:06:37 PM : TransForm_Data: [2]/S11 MAG TO: Log Mag
+4/25/2013 5:06:37 PM : Calculating [2]/S11 MAG to: [2]/S11 MAG Log Mag
+4/25/2013 5:06:37 PM : Exiting TransForm_Data: [2]/S11 MAG Log Mag
+4/25/2013 5:06:37 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:06:37 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:06:37 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 5:06:37 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 5:06:37 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S11 MAG Log Mag
+4/25/2013 5:06:37 PM : exit AutoX_Adjust - no adjust  [2]/S11 MAG Log Mag
+4/25/2013 5:06:37 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S11 MAG Log Mag ---1 1 YES 
+4/25/2013 5:06:37 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S11 MAG Log Mag 9 --- 1 1
+4/25/2013 5:06:37 PM : S_2DAxis1_C_1
+4/25/2013 5:06:37 PM : exit Add curve
+4/25/2013 5:06:37 PM : Enter Add_Limit 2
+4/25/2013 5:06:37 PM : TransForm_Data: [2]/S11 MAG LLIMIT TO: Log Mag
+4/25/2013 5:06:37 PM : Exiting TransForm_Data: 
+4/25/2013 5:06:37 PM : EXIT Add_Limit 2
+4/25/2013 5:06:37 PM : Enter Add_Limit 2
+4/25/2013 5:06:37 PM : TransForm_Data: [2]/S11 MAG ULIMIT TO: Log Mag
+4/25/2013 5:06:37 PM : Exiting TransForm_Data: 
+4/25/2013 5:06:37 PM : EXIT Add_Limit 2
+4/25/2013 5:06:37 PM : Enter check_filter_limits
+4/25/2013 5:06:37 PM : Exiting check_filter_limits
+4/25/2013 5:06:37 PM : curve0 cno
+4/25/2013 5:06:37 PM : 1 S21 UL=0 LL=0
+4/25/2013 5:06:37 PM : TransForm_Data: [2]/S21 MAG TO: Log Mag
+4/25/2013 5:06:37 PM : Calculating [2]/S21 MAG to: [2]/S21 MAG Log Mag
+4/25/2013 5:06:37 PM : Exiting TransForm_Data: [2]/S21 MAG Log Mag
+4/25/2013 5:06:37 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:06:37 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/Frequency MHz
+4/25/2013 5:06:38 PM : exit AutoX_Adjust - no adjust  [2]/Frequency MHz
+4/25/2013 5:06:38 PM : AutoX_Adjust --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 5:06:38 PM : AutoX_Adjusting --- 2DAxis1 --- [2]/Frequency MHz --- [2]/S21 MAG Log Mag
+4/25/2013 5:06:38 PM : exit AutoX_Adjust - no adjust  [2]/S21 MAG Log Mag
+4/25/2013 5:06:38 PM : addcurve - 2DAxis1 ---[2]/Frequency MHz   ---[2]/S21 MAG Log Mag ---3 1 YES 
+4/25/2013 5:06:38 PM : Curves OK- 2DAxis1 ---[2]/Frequency MHz 8 ---[2]/S21 MAG Log Mag 10 --- 3 1
+4/25/2013 5:06:38 PM : S_2DAxis1_C_3
+4/25/2013 5:06:38 PM : exit Add curve
+4/25/2013 5:06:38 PM : curve1 cno
+4/25/2013 5:06:38 PM : Exit insert
+4/25/2013 5:06:38 PM : enter Format x --2DAxis1 0 140 2700
+4/25/2013 5:06:38 PM : exit Format x
+4/25/2013 5:06:38 PM : enter Format y --2DAxis1 1 0 -50 0
+4/25/2013 5:06:38 PM : exit Format y
+4/25/2013 5:06:38 PM : enter Format y --2DAxis1 2 0 -2.5 0
+4/25/2013 5:06:38 PM : exit Format y
+4/25/2013 5:06:38 PM : Exiting Add Curves TO Plot
+4/25/2013 5:06:38 PM : X_Unit_String: MHz
+4/25/2013 5:06:38 PM : Enter fill limit
+4/25/2013 5:06:38 PM : exit fill limit
+4/25/2013 5:06:38 PM : <====== Exiting CreateSParameterPlot ======
+4/25/2013 5:06:38 PM :   creating a PIM style plot...
+4/25/2013 5:06:38 PM : Entering Create_PIM_Plot
+4/25/2013 5:06:38 PM : Entering ParsePlotTraces
+4/25/2013 5:06:38 PM : Exiting ParsePlotTraces: 2 traces parsed
+4/25/2013 5:06:38 PM : axistypeTime
+4/25/2013 5:06:38 PM : enter add pim Curves TO Plot
+4/25/2013 5:06:38 PM : Run 1/*
+4/25/2013 5:06:38 PM : s:\Documents and Settings\All Users\Application Data\Kaelus\Spartan\data\TDM\_support\Pasternack\PE39332-2%2ES\00000\PE39332-2%2E5 $SSN$ 7 PIM.TDMS
+4/25/2013 5:06:38 PM :  Curves-3rd,1,0,,0,0,0,LOG MAG,0,0,0,0:::: Time
+4/25/2013 5:06:38 PM : IM3 dBm Time
+4/25/2013 5:06:39 PM : Calc_X_Units: channel [3]/Elapsed Time with Unit: seconds
+4/25/2013 5:06:39 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:06:39 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:06:39 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 5:06:39 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 5:06:39 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/IM3 POWER 1
+4/25/2013 5:06:39 PM : exit AutoX_Adjust - no adjust  [3]/IM3 POWER 1
+4/25/2013 5:06:39 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/IM3 POWER 1 ---1 2 yes IM3 IM Power
+4/25/2013 5:06:39 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/IM3 POWER 1 26 --- 1 2
+4/25/2013 5:06:39 PM : S_2DAxis2_C_1
+4/25/2013 5:06:39 PM : exit Add curve
+4/25/2013 5:06:39 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:06:39 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/Elapsed Time seconds
+4/25/2013 5:06:39 PM : exit AutoX_Adjust - no adjust  [3]/Elapsed Time seconds
+4/25/2013 5:06:40 PM : AutoX_Adjust --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 5:06:40 PM : AutoX_Adjusting --- 2DAxis2 --- [3]/Elapsed Time seconds --- [3]/ref limit 1
+4/25/2013 5:06:40 PM : exit AutoX_Adjust - no adjust  [3]/ref limit 1
+4/25/2013 5:06:40 PM : addcurve - 2DAxis2 ---[3]/Elapsed Time seconds   ---[3]/ref limit 1 ---2 2 YES SpecIfication Limit
+4/25/2013 5:06:40 PM : Curves OK- 2DAxis2 ---[3]/Elapsed Time seconds 28 ---[3]/ref limit 1 22 --- 2 2
+4/25/2013 5:06:40 PM : S_2DAxis2_C_2
+4/25/2013 5:06:40 PM : exit Add curve
+4/25/2013 5:06:40 PM : enter Format x --2DAxis2 1 0 100
+4/25/2013 5:06:40 PM : exit Format x
+4/25/2013 5:06:40 PM : enter Format y --2DAxis2 1 0 -130 -110
+4/25/2013 5:06:40 PM : exit Format y
+4/25/2013 5:06:40 PM : exit add pim Curves TO Plot
+4/25/2013 5:06:40 PM : X_Unit_String: seconds
+4/25/2013 5:06:40 PM : Enter fill limit
+4/25/2013 5:06:40 PM : exit fill limit
+4/25/2013 5:06:40 PM : Exiting Create_PIM_Plot
+4/25/2013 5:06:40 PM : Post-processing page (stage PDF): Report Two Plot PORTRAIT.TDR
+4/25/2013 5:06:40 PM :   margin[top, left] = [0.24, 0.24], pageWidth = 8.03, picRatio = 1.29
+4/25/2013 5:06:42 PM : ====== PDF saved: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9796837.pdf
+4/25/2013 5:06:42 PM : Report created: C:\Development\Spartan\www\temp\PE39332-2%2E5 $SSN$ 7 9796837.pdf
+4/25/2013 5:06:42 PM : <====== Exiting Main() of "DD Format Report.vbs" ======
+4/25/2013 5:06:42 PM : <====== SpartanDD Generate Report ======
