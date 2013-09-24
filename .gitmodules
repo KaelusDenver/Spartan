@@ -7,3 +7,6 @@
 [submodule "EasyXML EXT"]
 	path = EasyXML EXT
 	url = git@10.68.23.184:/Libraries/LabView/EasyXML.git
+[submodule "DIAdem Toolkit EXT"]
+	path = DIAdem Toolkit EXT
+	url = /Users/ssumjbrunner/workspace/SPARTAN/DIAdem Toolkit EXT
