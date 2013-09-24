@@ -4,3 +4,6 @@
 [submodule "ITK EXT"]
 	path = ITK EXT
 	url = git@10.68.23.184:/Libraries/LabView/ITK.git
+[submodule "EasyXML EXT"]
+	path = EasyXML EXT
+	url = git@10.68.23.184:/Libraries/LabView/EasyXML.git
