@@ -1,0 +1,32 @@
+[5.2.0240]
+Date="May 2010"
+note0="Spartan 5.2.0240 Release."
+
+[4.2.0068]
+Date="October 2008"
+note0="Replaced Active X status Bar with new controls to eliminate errors loading status bar (only occurred on some machines)."
+note1="Reorganized the data structure to support faster searching."
+note2="Redesigned configuration interface to match the rest of the Spartan application."
+note3="Reorganized the test to support one field at a time."
+
+[4.0.0100]
+Date="June 2008"
+note0="Removed remote panel configuration panel."
+note1="Changed test step to only control one measurement at a time."
+
+[3.2.0064]
+Date="August 2007"
+note0="Prepared installer for commercial release."
+
+[3.1.0059]
+Date="July 2007"
+note0="Converted to TDMS format."
+
+[2.2.0006]
+Date="July 2006"
+note0="Corrected reported bugs."
+note1="Added ability to generate reports at the end of the step."
+
+[2.1.0057]
+Date="June 2006"
+note0="Initial Release."

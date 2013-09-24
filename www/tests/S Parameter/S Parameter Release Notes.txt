@@ -1,0 +1,155 @@
+[5.2.0240]
+Date="May 2010"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0040]
+Date="January 2010"
+note0="Spartan 5.1.0117 Release."
+
+[5.0.0056]
+Date="November 2009"
+note0="Added filter testing capability."
+
+[4.3.0033]
+Date="November 2008"
+note0="Added ability to interact with SNAs."
+note1="Added warning if the instrument being used cannot support the measurement parameters requested."
+note2="Slightly increased measurement speed."
+note3="Fixed issue with adding and manipulating markers in units other than MHz."
+
+[4.2.0075]
+Date="October 2008"
+note0="Replaced Active X status Bar with new controls to eliminate errors loading status bar (only occurred on some machines)."
+note1="Added Expanded Phase as a display format."
+note2="Fixed minor issue with too much marker table updating."
+note3="Fixed minor issue with the tab control not initializing properly."
+note4="Added feature to allow the user to press the Enter key to confirm value entry."
+note5="Added the ability to copy markers from one plot to the next on the configuration page."
+note6="Added the ability to organize the order in which SPs will be measured to the parameters table."
+note7="Fixed error if limits were setup and Use Current Instrument State was used."
+note8="Fixed issue where the format control would disappear if a new SP was selected that did not support the currently selected format."
+note9="Fixed issue where the display format could not be saved as a loss format."
+note10="Added a check that all plot frequency ranges are within the stimulus range to avoid display errors when testing."
+note11="Fised issue where traces were not being saved if none were being shown."
+note12="Fixed issue where the controls were not being initialized properly when changing between plots."
+note13="Disabled Value field when defining a referential limit."
+note14="Fixed issue where a loss limit was not being display properly when viewed in logmag."
+note15="Added a warning if the referenced file(s) is(are) not found for processing the test step."
+note16="Added tooltips to several controls to better explain some of the features."
+note17="Added interpolating of marker values instead of snapping to a point."
+
+[4.1.0052]
+Date="August 2008"
+note0="Retained other SPs and memory traces when de-embedding."
+note1="Disabled Retain Operator Settings control if Lock Control from Operator is set."
+note2="Created a more appropriate icon for referential limits."
+note3="Added error explanation for limits that are illformed."
+note4="Fixxed issue upon saving a test step without defining any SPs to be measured."
+note5="Resolved an issue where the SPs were not being de-embedded properly if they were not defined in ascending order."
+note5="Fixed an issue where the De-Embed option was not being set properly on the display window."
+note6="Canceling an import of an S2P data file no longer causes an error."
+note7="The display controls were getting crossed for each channel."
+note8="Added the ability to hit Enter to confirm a table value."
+note9="Fixed disabling of certain controls when defining a referential limit."
+
+[4.0.0128]
+Date="June 2008"
+note0="Removed remote panel configuration panel."
+note1="Improved diferential limit processing."
+note2="Added ability to de-embed devices."
+note3="Fixed several minor bugs."
+note4="Saved additional data to the data file for later use."
+note5="Significantly improved measurement speed."
+
+[3.2.0002]
+Date="January 2008"
+note0="Made further changes to support multi-port operation with Agilent VNAs."
+
+[3.2.0001]
+Date="December 2007"
+note0="Added support for VNAs with more than two ports."
+note1="Added Print button to test panel."
+note2="Removed Continuous button from test panel."
+note3="Changed implementation of markers."
+note4="Fixed numerous reported bugs."
+note5="Increased speed of configuration panel."
+note6="Changed implementation of delta limits."
+note7="Changed implementation of calibration status."
+
+[3.1.0092]
+Date="August 2007"
+note0="Prepared installer for commercial release."
+
+[3.1.0078]
+Date="July 2007"
+note0="Converted to TDMS format."
+note1="Corrected formatted data retrieval bug."
+
+[3.0.0063]
+Date="April 2007"
+note0="Added support of Rohde & Schwarz VNAs."
+note1="Added markers to the test panel."
+note2="Added referential limits for comparison purposes."
+note3="Added multiple limits."
+note4="Minor bug fixes."
+
+[2.2.0003]
+Date="July 2006"
+note0="Corrected reported bugs."
+note1="Added ability to collect formatted data."
+note2="Added support of Anritsu VNAs."
+
+[2.1.0210]
+Date="July 2006"
+note0="Minor bug fixes."
+
+[2.1.0118]
+Date="June 2006"
+note0="Added ability for single, dual, and quad plots."
+note1="Added ability for overlay or split plots."
+note2="Added ability to zoom in on a specific frequency range."
+note3="Added ability to setup the display for the user at test design time."
+note4="Added graphical representation of limits at test design time."
+note5="Added ability to have a limit ± a tolerance value."
+note6="Improved the way a limit is copied from one to another."
+note7="Improved the way limits are displayed with test data."
+note8="Numerous minor bug fixes."
+note9="Changed test status."
+note10="Modified button setup."
+
+[2.0.0041]
+Date="March 2006"
+note0="Added ability to print to local printers."
+note1="Minor bug fixing for standalone operation."
+note2="Added report formats for tab delimited values."
+
+[2.0.0013]
+Date="February 2006"
+note0="Added ability to manually fail a DUT."
+note1="Added ability to do trace math with the memory trace."
+
+[2.0.0001]
+Date="January 2006"
+note0="Added "Abort All" button to abort an entire sequence."
+note1="Added step tag for easier interpretation."
+note2="Fixed sweep time mismatch which caused calibration error."
+note3="Cached calibration state to speed up execution."
+note4="Added QuickMode for faster execution."
+note5="Added multi-channel support to allow measurement of S-Parameters simultaneously."
+
+[1.2.0005]
+Date="November 2005"
+note0="Added TRL/LRM 2-Port Calibration Types."
+note1="Added One Path 2-Port Calibration Types."
+
+[1.1.0054]
+Date="October 2005"
+note0="Fixed misinterpretation of calibration bug."
+note1="Removed calibration popup bug."
+note2="Fixed changing parameters bug."
+note3="Fixed S-Parameter display issues."
+note4="Corrected autoscaling problems."
+
+[1.0.0083]
+Date="September 2005"
+note0="Initial Release."

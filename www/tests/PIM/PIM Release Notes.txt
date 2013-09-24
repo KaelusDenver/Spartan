@@ -1,0 +1,52 @@
+[5.5.0010]
+Date="March 2011"
+note0="Peak IM tracking bug resolved. Previous release 5.4 contained a bug that failed to clear the peak IM between measurements."
+
+[5.4.0035]
+Date="January 2011"
+note0="Spartan 5.4 Release."
+
+[5.2.0240]
+Date="May 2010"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0102]
+Date="January 2010"
+note1="Added support for non-limited measurements to occur."
+note2="Modified evaluation methods for timed strip chart measurements so that points measured outside the desired timeframe are discarded.  This change effects measurements given a specific time window only.  If settling occurs during a timed measurement near the completion of the test, the last point measured may be discarded if it falls beyond the desired time window."
+
+[5.0.0079]
+Date="November 2009"
+note1="Dual port PIM support added for Summitek option D analyzers.  DUT (Device Under Test) port information is now saved with test data. NOTE: Selection of port 2 when option D is not present will result in an incompatibility warning at test time."
+note2="Test Configuration Band Selection will limit which measurement band should be used to run a PIM test step.  This feature is most useful when performing tests with multi-band switched PIM configurations."
+note3="Test Configuration: Now supports custom sweep frequencies.  Choose a frequency for carrier 1 and carrier 2 while swept frequency mode selected to create a custom sweep."
+note4="PIM Hardware Engine connection KEEP ALIVE command added during test time to ensure connection is not lost while waiting for user input (i.e. Test completed and waiting for done or re-measure)."
+note5="Multi-Band switched PIM: Each test step will automatically connect to an analyzer which supports the configured frequency range (NOTE: if Band Edges is selected, the analyzer will use whichever instrument is currently in use)."
+note6="Instrument Serial Number check now identifies whether each serial number currently in use has been configured for this test station.  If an unmatched serial number is discovered, a warning will be displayed to the user indicating that serial numbers do not match."
+
+[4.2.0077]
+Date="October 2008"
+note1="Replaced Active X status Bar with new controls to eliminate errors loading status bar (only occurred on some machines)."
+note2="Now recording display data in dBc format for datasheet retrieval requirements."
+note3="Ensured that the power is always turned off even on errors."
+note4="Prevented the entry of negative entries for test parameters."
+note5="Saved the dBc values to the data file for later datasheet creation."
+note6="Fixed issue where the test message was returning Aborted even though it was not."
+
+[4.1.0045]
+Date="August 2008"
+note1="The PIM configuration panel has been updated to better respond to user interaction (i.e. making changes to a field can now be accomodated by pressing the RETURN key (rather than requiring a mouse-click) after updating data)/"
+note2="PIM Test default parameters have been corrected (carrier powers default to 43 dBm and Locked, Display Plot Y-scale range defaults from -60 to -160 dBm, etc.)."
+note3="Various UI component behaviors have been updated to function as desired.  In particular, the lock and update rate checkboxes now properly activate/deactivate controls when necessary, while various control positions have been updated to support smaller resolution browser windows."
+note4="UI layout is now backward compatible with Internet Explorer 6 web browsers, and has been tested and verified in Internet Explorer 7, Firefox 2.0, and Firefox 3.0 browsers platforms."
+
+[4.0.0106]
+Date="June 2008"
+note1="Removed remote panel configuration panel."
+note2="Bug Fix: PIM test panel initialization now correctly configures settings when executing various PIM tests serially."
+note3="Bug Fix: Y-axis plot label now properly reflects dBc measurements."
+note4="Bug Fix: PIM Hardware Alarms are detected by the PIM test panel. All critical alarms will cause the panel to exit and the test to abort."
+
+[3.2.0058]
+Date="January 2008"
+note1="Initial Release."

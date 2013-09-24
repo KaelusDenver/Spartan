@@ -1,0 +1,75 @@
+[General]
+File Format Version=1.0.2
+Project Root=""
+Source Root=../../..
+Build Root="../../../../SPARTAN BUILT"
+Namespace=""
+Overwrite Existing Files=TRUE
+Log Dir="/C/DEVELOPMENT/SPARTAN BUILT LOGS"
+Log File=""
+Log File Suffix=""
+Include Help Files=FALSE
+Help File Dir=""
+Include Shared Libs=TRUE
+Shared Lib Dir=""
+Include External Subrs=TRUE
+External Subr Dir=""
+Include Hidden VIs=TRUE
+EXE Icon File=""
+New Build Root=FALSE
+Unsaved Changes MsgBox=FALSE
+Ambiguous VIs Dest Dir=""
+Call Pre-Build VI=""
+Call Post-Build VI="../_cgi-lib/spartan cgi post-build.vi"
+Revision File="runtest Version.ini"
+Version VI Name=runtest.vit
+Version Ctrl Name=Version
+Apply New Password=""
+RemovePolyVIsAndTypedefs=TRUE
+Allow CBVI & Build Hierarchy Overlap=FALSE
+Namespace Convention=0
+EXE App Flags=4
+EXE LVRT Res Flags=0
+
+[Top Level VIs]
+VI 1=www/cgi-bin/runtest/runtest.vit
+
+[Dynamic VIs]
+DynVI 1="www/tests/Test Storage Panel Template TDMS.vi"
+DynVI 2="www/tests/Test Pre-Processing Panel Template.vi"
+DynVI 3="www/tests/Test Formatting Panel Template.vi"
+DynVI 4="www/tests/Test Panel Template.vi"
+DynVI 5="www/tests/Test Ref.ctl"
+
+[Exclude Lib Dirs from Build]
+
+[Destination 1]
+Source Dir=www/cgi-bin/runtest/runtest.vit
+Target Dir=www/cgi-bin
+Convert Target to LLB=FALSE
+Convert Target to EXE=FALSE
+Save Level=1
+Default Destination=FALSE
+Apply New Password=""
+Namespace=""
+Debug Level=0
+
+[Destination 2]
+Source Dir=""
+Target Dir=www/cgi-bin/runtest.llb
+Convert Target to LLB=TRUE
+Convert Target to EXE=FALSE
+Save Level=2
+Default Destination=TRUE
+Apply New Password=""
+Namespace=""
+Debug Level=0
+
+[SupportFiles 1]
+TargetDir=www/cgi-bin
+OverwriteExisting=TRUE
+FollowVIDirHierarchy=FALSE
+Recursive=FALSE
+Exclude=FALSE
+SourceFile 1="www/cgi-bin/runtest/runtest release notes.txt"
+

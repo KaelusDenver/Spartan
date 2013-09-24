@@ -1,0 +1,254 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Program Authorization</title>
+$$STYLES$$
+<style type="text/css">
+form { border: 0; margin: 2em; padding: 1em; }
+form .info { margin: 0; margin-bottom: 30px; }
+.clear { clear: both; }
+.redtext { font-weight: normal; color: #f00; }
+
+.codes { margin-left: 2em; width: 75%; }
+.codes td { padding: 5px; }
+.codes td.label { width: 25%; text-align: right; }
+.codes td #hardwareID,
+.codes td #spartanSerialNumber,
+.codes td #authFile,
+.codes td #SpartanSN,
+.codes td #from,
+.codes td #smtp { width: 100%; font-size: 150%; }
+
+#mainMsgTitle,
+#mainMsgInstruction { font-weight: bold; }
+#manMsgTitle,
+#mainMsgSeats { margin-bottom: 1em; }
+#address { background: #fff; border: solid 1px #ccc; margin: 0; margin-left: 40px; padding: 1em; float: right; }
+#copyCode { margin-left: 5px; }
+#btnCancel { margin-left: 10px; }
+</style>
+<!--[if IE]><style type="text/css">
+form { height: auto; }
+#hardwareID,
+#spartanSerialNumber,
+#authFile { display: inline; }
+</style><![endif]-->
+$$SCRIPTS$$
+<script type="text/javascript" src="/src/ZeroClipboard.js"></script>
+<script type="text/javascript"><!-- //
+// globals
+var gAuthorizationRequestSent           = $$AUTH_REQUEST_SENT$$;
+var gAuthorizationSeats                 = $$AUTH_SEATS$$;
+var gAuthorizationExpire                = $$AUTH_EXPIRE$$;
+var gAuthorizationFile                  = '$$AUTH_FILE$$';
+var gAuthorizationHardwareID            = '$$HARDWARE_ID$$';
+var gAuthorizationSpartanSerialNumber   = '$$SPARTAN_SERIAL_NUMBER$$';
+var gSpartanSMTPServer                  = '$$SMTP_SERVER$$';
+
+$(document).ready(function() {
+
+  $('#hardwareID').val(gAuthorizationHardwareID);
+  $('#spartanSerialNumber').val(gAuthorizationSpartanSerialNumber);
+  $('#smtp').val(gSpartanSMTPServer);
+
+  var mainMsgTitle       = '';
+  var mainMsgInstruction = '';
+
+  var emailText = $('#emailText').val();
+  $('#emailBody').html(emailText);
+
+  if (gAuthorizationSeats > 0) { // authorized
+    mainMsgTitle       = 'Spartan is authorized';
+    mainMsgInstruction = 'To deauthorize Spartan:';
+    $('#toDeauthorize').show();
+    $('#toAuthorize').hide();
+
+    $('#btnAction').val('Deauthorize').click(function() {
+      var msg = "Please press OK to confirm DEAUTHORIZING Spartan."
+      if (confirm(msg)) $('#f1').append('<input type="hidden" name="Deauthorize" value="" />').submit();
+    });
+
+
+    if (gAuthorizationExpire < 30) {  // about to expire (within 30 days)
+      mainMsgTitle += ' (<span class="redtext">license will expire in ' + gAuthorizationExpire + ' days</span>)';
+    }
+    mainMsgTitle += '.';
+
+
+
+  } else { // not authorized
+
+    mainMsgTitle       = 'Spartan is not authorized.';
+    mainMsgInstruction = 'To authorize Spartan:';
+    $('#toDeauthorize').hide();
+    $('#toAuthorize').show();
+    $('#authFile').removeAttr('disabled').focus();
+    $('#btnAction').val('Authorize').click(function() {
+      var file = $('#authFile').val();
+      if (isBlank(file)) { alert("Please supply a valid authorization file."); return false; }
+      if (file.substring(file.length - 3, file.length).toUpperCase() != 'XML') {
+        alert('Invalid file type (must be \".XML\").');
+        file.value = '';
+        return false;
+      }
+      $('#f1').attr({action:"/cgi-bin/authorize.vit?Authorize=" + encodeURI(file) + '&' + randomizer()});
+      $('#f1').attr({method:"POST"});
+      $('#f1').attr({encoding:"multipart/form-data"}); // IE
+      $('#f1').attr({enctype:"multipart/form-data"}); // not IE
+      $('#f1').submit();
+    });
+    $('#requestLink').show().click(function() {
+      $('#f1').hide();
+      $('#f2').show();
+    });
+  }
+
+  $('#mainMsgTitle').html(mainMsgTitle);
+  $('#mainMsgSeats').text("Number of Seats: " + gAuthorizationSeats);
+  $('#mainMsgInstruction').text(mainMsgInstruction);
+
+  $('#btnRequest').click(function() {
+    if (isBlank($('#from').val()) || isBlank($('#smtp').val())) {
+      alert("A valid Spartan serial number, return address, and SMTP server are required.");
+      return false;
+    }
+    $('#f2').submit();
+  });
+
+
+  $('#btnCancel').click(function() {
+    $('#f1').show();
+    $('#f2').hide();
+  });
+
+  if (gAuthorizationRequestSent) alert('An email requesting Spartan authorization has been sent to the Spartan Support Team at Kaelus.');
+
+  // setup the copy to clipboard link
+  ZeroClipboard.setMoviePath('/src/ZeroClipboard.swf');
+  CLIP = new ZeroClipboard.Client();
+  CLIP.glue("copyCode");
+  CLIP.setText(gAuthorizationHardwareID);
+  CLIP.addEventListener('onComplete', function () {
+    if (!isBlank(gAuthorizationHardwareID)) alert("Code copied to clipboard");
+    return false;
+  });
+  $(window).resize(function(){ CLIP.reposition(); });
+
+}); // document.ready()
+// --></script>
+</head>
+
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/authorizebig.gif" width="48" height="48" />
+  <label id="headlabel">Program Authorization</label></h2>
+
+  <form id="f1" action="$$THISCGI$$" method="GET">
+    <div class="info">
+      <div id="address">
+        Kaelus<br>
+        12503 E Euclid Dr<br>
+        Suite 7<br>
+        Centennial, CO 80111<br><br>
+
+        Tel: 303-768-8080<br>
+        Fax: 303-768-8181<br><br>
+
+        <div class="centered"><a id="requestLink" class="hidden" href="#nogo">Request authorization from Kaelus by email</a></div>
+      </div>
+
+      <div id="mainMsgTitle"></div>
+      <div id="mainMsgSeats"></div>
+      <div id="mainMsgInstruction"></div>
+
+      <div id="toDeauthorize" class="hidden">Press the Deauthorize button
+      below to remove the current authorization.</div>
+
+      <div id="toAuthorize" class="hidden">
+        <ol>
+          <li>Please contact Kaelus and provide the
+              <span class="strong">hardware ID</span>, listed below, and
+              <span class="strong">Spartan serial number</span>, included in the documentation.</li>
+          <li>Receive an <span class="strong">authorization file</span> from Kaelus.</li>
+          <li>Enter the <span class="strong">authorization file path</span> and press the Authorize button below.
+        </ol>
+      </div>
+
+      <div class="clear">&nbsp;</div>
+    </div>
+
+    <table class="codes" cellspacing="0">
+      <tr><td class="label"><label for="hardwareID">Hardware ID</label></td>
+          <td><input id="hardwareID" disabled="disabled" value="" /></td>
+          <td><a id="copyCode" href="#nogo" title="copy site code to clipboard">
+              <img src="/images/copysmall.gif" width="16" height="16" /></a></td>
+      </tr>
+      <tr><td class="label"><label for="spartanSerialNumber">Spartan Serial Number</label></td>
+          <td><input id="spartanSerialNumber" disabled="disabled" value="" /></td>
+          <td></td>
+      </tr>
+      <tr><td class="$$AUTH_FILE_LABEL$$"><label for="authFile">Authorization File Path</label></td>
+          <td><input id="authFile" name="authFile" type="$$AUTH_FILE_TYPE$$" value="" accept="text/xml" /></td>
+          <td></td>
+      </tr>
+      <tr><td class="label">&nbsp;</td>
+          <td><input id="btnAction" type="button" class="bigbutton" value="" /></td>
+          <td></td>
+      </tr>
+    </table>
+  </form>
+
+  <form id="f2" class="hidden" action="$$THISCGI$$?request=" method="POST">
+    <span class="strong">The following request will be emailed to Kaelus Support:</span>
+    <input type="hidden" name="emailTo" value="Support@SummitekInstruments.com" />
+    <input type="hidden" name="emailRe" value="Spartan Authorization Request" />
+    <textarea id="emailText" name="emailText" class="hidden">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="Author" Content="Kaelus" />
+<title>Spartan Authorization Request</title>
+</head>
+<body>
+<h2>Spartan Authorization Request</h2>
+<div style="margin:1em;padding:1em;border:solid 1px #ccc;background:#fff;">
+  To: Spartan@SummitekInstruments.com<br />
+  Re: Spartan Authorization Request<br /><br />
+  
+  <p>Please return a Spartan authorization file to the
+  reply-to email address accompanying this email.</p>
+  
+  Hardware ID:   $$HARDWARE_ID$$<br />
+  Spartan Serial Number:  Please enter below<br />
+
+  <p>Thank you!</p>
+</div>
+</body>
+</html>
+    </textarea>
+
+    <div id="emailBody" class="info"></div>
+
+    <table class="codes" cellspacing="0">
+      <tr><td class="label"><label for="SpartanSN">Spartan Serial Number</label></td>
+          <td><input id="SpartanSN" name="SpartanSN" value="" title="Enter the Spartan Serial Number" />
+      </tr>
+      <tr><td class="label"><label for="from">Your Return Address</label></td>
+          <td><input id="from" name="from" value="" title="Enter your email address" />
+      </tr>
+      <tr><td class="label"><label for="smtp">SMTP (Email) Server</label></td>
+          <td><input type="text" id="smtp" name="smtp" value="" /></td>
+      </tr>
+      <tr><td class="label">&nbsp;</td>
+          <td><input id="btnRequest" type="button" class="bigbutton" value="Send Request" />
+              <input id="btnCancel" type="button" class="bigbutton" value="Cancel" /></td>
+      </tr>
+    </table>
+  </form><!-- email request form -->
+</div>
+</body>
+</html>

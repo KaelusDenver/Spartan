@@ -1,0 +1,16 @@
+[5.2.0240]
+Date="May 2010"
+model0="Simulated Scalar Network Analyzer (SNA)"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0114]
+Date="January 2010"
+note0="Spartan 5.1.0118 Release."
+
+[5.0.0124]
+Date="December 2009"
+note0="Spartan 5.0.0124 Release."
+
+[4.3.0124]
+Date="November 2008"
+note0="Initial Release"

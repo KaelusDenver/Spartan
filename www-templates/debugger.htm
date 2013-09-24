@@ -1,0 +1,146 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Debugging Information</title>
+$$STYLES$$
+<style type="text/css">
+form { border: none; }
+#testButtons { float: right; margin-right: 25%; padding: 1em 2em; background: #eee; border: solid 1px #ccc; }
+#q a { font-size: 90%; margin: 0 1.5em; }
+.legend { clear: both; margin: 1.5em 0; font-weight: bold; }
+.infoBox { margin-left: 2em; }
+.infoBox table td { border: solid 1px #ccc; padding: 0.2em 0.5em; }
+
+#viList, #IndexedInfo { overflow: hidden; }
+#viList div, #IndexedInfo div { border: 1px solid #ccc; float: left; width: 30%; margin-bottom: 0.5em; margin-right: 1em; padding: 0.2em; }
+
+#IndexFilesWrapper { background: #ffeab1; border: 1px solid #ccc; float: right; margin: 5px 15%; padding: 5px; text-align: left; }
+
+</style>
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+var VILIST=[$$VI_LIST$$];
+var INDEXED_FILES=[$$INDEXED_FILES$$];
+
+$(document).ready(function() {
+
+  for (var i=0; i<VILIST.length; i++) {
+    $('#viList').createAppend('div', { }, [ VILIST[i] ]);
+  }
+  
+  for (var i=0; i<INDEXED_FILES.length; i++) {
+    $('#IndexedInfo').createAppend('div', { }, [ INDEXED_FILES[i] ]);
+  }
+
+  $('a#showAll').click(function (){
+    $(this).blur();
+    $('a.toggler').each(function () {
+      if (!$(this).hasClass('toggleOpen')) $(this).click();
+    });
+    return false;
+  });
+
+  $('a#hideAll').click(function (){
+    $(this).blur();
+    $('a.toggler').each(function () {
+      if ($(this).hasClass('toggleOpen')) $(this).click();
+    });
+    return false;
+  });
+
+  $('#fileSpeed').click(function () {
+    $.get("$$THISCGI$$?action=fileSpeed", function(data) {
+      var d=eval("(" + data + ")" );
+
+      if (d.status) {
+        alert("There was an error (" + d.code + "):\n\n" + d.source);
+      } else {
+        var msg = "Write speeds in milliseconds (averaged over " + d.payload.iterations + " iterations):\n\n";
+        msg    += "  Open:\t\t"    + d.payload.open.toFixed(2)   + "\n";
+        msg    += "  Group 1:\t\t" + d.payload.group1.toFixed(2) + "\n";
+        msg    += "  Group 2:\t\t" + d.payload.group2.toFixed(2) + "\n";
+        msg    += "  Ch Data:\t\t" + d.payload.chdata.toFixed(2) + "\n";
+        msg    += "  Close:\t\t"   + d.payload.close.toFixed(2)  + "\n";
+        msg    += "  ----------------------\n";
+        msg    += "  Total:\t\t"   + d.payload.total.toFixed(2)  + "\n";
+
+        alert(msg);
+      }
+    });
+  });
+
+  $('#commSpeed').click(function () {
+    var start = (new Date()).getTime();
+    $.get("$$THISCGI$$?action=commSpeed", function(data) {
+      var duration = (new Date()).getTime() - start;
+      var speed = 10 / (duration / 1000);
+
+      alert("Response returned in " + duration.toFixed(0) + " ms.  Approximate link speed is " + speed.toFixed(2) + " kB/s.");
+    });
+  });
+
+  $('#indexFiles').click(function () {
+    $('#action').val("indexFiles");
+    $('#f').submit();
+  });
+
+}); // document.ready()
+
+--></script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/bugbig.gif" width="48" height="48" alt="bug icon" />
+  <label id="headlabel">Debugging Information</label></h2>
+  
+<form id="f" method="GET" action="/cgi-bin/debugger.vit">
+
+  <input type="hidden" id="action" name="action" value="" />
+
+  <div id="testButtons">
+    <input type="button" id="commSpeed" value="Comm Speed" />
+    <input type="button" id="fileSpeed" value="File Speed" />
+  </div>
+  
+  <div id="IndexFilesWrapper">
+    <label for="modelNumber">$$MNDISPLAY$$</label>
+    <input type="text" class="textbox" id="modelNumber" name="modelNumber" value="" title="Enter the $$MNDISPLAY$$ that you would like to index." />
+    <label for="modelNumber">$$SNDISPLAY$$</label>
+    <input type="text" class="textbox" id="serialNumber" name="serialNumber" value="" title="Enter the $$SNDISPLAY$$ that you would like to index." />
+    <input type="button" id="indexFiles" value="Index Files" />
+  </div>
+
+  <span id="q">
+    <a href="#nogo" id="showAll">Show All</a>
+    <a href="#nogo" id="hideAll">Hide All</a>
+  </span>
+
+  <div class="legend"><a href="#nogo" class="toggler" id="_AppInfo">Current Configuration</a></div>
+  <div id="AppInfo" class="infoBox hidden">
+    $$CURRENT_CONFIG$$
+  </div>
+
+  <div class="legend"><a href="#nogo" class="toggler" id="_WebInfo">Configuration Global</a></div>
+  <div id="WebInfo" class="infoBox hidden">
+    $$CONFIG_GLOBAL$$
+  </div>
+
+  <div class="legend"><a href="#nogo" class="toggler" id="_HTTPInfo">HTTP Environment</a></div>
+  <div id="HTTPInfo" class="infoBox hidden">
+    $$HTTP_ENV$$
+  </div>
+
+  <div class="legend"><a href="#nogo" class="toggler" id="_viList">VI Listing</a></div>
+  <div id="viList" class="hidden">
+  </div>
+
+  <div class="legend"><a href="#nogo" class="toggler" id="_IndexedInfo">Indexed Files</a></div>
+  <div id="IndexedInfo" class="$$INDEXED_CLASS$$">
+  </div>
+
+</form>
+</div>
+</body>
+</html>

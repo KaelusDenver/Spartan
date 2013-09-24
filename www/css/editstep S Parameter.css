@@ -1,0 +1,5 @@
+.sparameterpanel { }
+.sparameterpanel .info { margin: 0; }
+.sparameterpanel .add_wrapper div { background: #fff; }
+.sparameterpanel div.parameterboxes { float: none; margin-left: 11.2em; border: solid #ccc 1px; padding: 3px; float: left; }
+.sparameterpanel div.parameterboxes label { float: none; display: inline; margin-left: 0em; text-align: left; width: auto; }

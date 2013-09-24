@@ -1,0 +1,66 @@
+[5.2.0240]
+Date="May 2010"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0114]
+Date="January 2010"
+note0="Spartan 5.1.0117 Release."
+
+[4.3.0024]
+Date="November 2008"
+note0="Added the ability to calibrate all three switch positions."
+
+[4.2.0069]
+Date="October 2008"
+note0="Replaced Active X status Bar with new controls to eliminate errors loading status bar (only occurred on some machines)."
+note1="Cleared the limits table at the end of a test step."
+note2="Fixed issue where limits table colors are not reset to white after test."
+note3="Added a warning if the referenced file(s) is(are) not found for processing the test step."
+
+[4.0.0097]
+Date="June 2008"
+note0="Removed remote panel configuration panel."
+note1="Improved diferential limit processing."
+
+
+[3.2.0072]
+Date="August 2007"
+note0="Prepared installer for commercial release."
+
+[3.1.0067]
+Date="July 2007"
+note0="Converted to TDMS format."
+
+[3.0.0032]
+Date="April 2007"
+note0="Minor bug fixes."
+
+[2.2.0010]
+Date="December 2006"
+note0="Corrected equations for computing DC Attenuation per customer request."
+
+[2.2.0007]
+Date="October 2006"
+note0="Added confirmation step to normalization process."
+note1="Added display of normalization value."
+
+
+[2.1.0056]
+Date="June 2006"
+note0="Added normalization."
+note1="Minor bug fixes on the test panel."
+note2="Changed test status."
+note3="Modified button setup."
+
+[2.0.0124]
+Date="March 2006"
+note0="Added ability to print to local printers."
+note1="Minor bug fixing for standalone operation."
+
+[2.0.0030]
+Date="February 2006"
+note0="Added ability to manually fail a DUT."
+
+[2.0.0024]
+Date="January 2006"
+note0="Initial Release."

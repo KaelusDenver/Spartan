@@ -1,0 +1,13 @@
+.attenuatorpanel {  }
+.attenuatorpanel .info { margin: 0; margin-bottom: 1em; }
+.attenuatorpanel fieldset { border: 1px solid #ccc; margin: 0em auto 5px; padding: 0.3em 1em;}
+.attenuatorpanel legend { font-size: 86%; font-weight: bold; padding: 0.2em 0.5em; color: #666; }
+.attenuatorpanel input,
+.attenuatorpanel select { font-size: 86%; margin-left: 2px; }
+.attenuatorpanel input.numeric { width: 4em; }
+.attenuatorpanel div.checkbox label { float: none; margin-left: 13em; text-align: left; width: 20em; }
+.attenuatorpanel div.radio label { display: inline; float: none; margin-left: 0em; text-align: left; width: auto; }
+.attenuatorpanel div.buttons { border: none; padding: 5px; margin-left: 11.2em; }
+.attenuatorpanel label,
+.attenuatorpanel fieldset div.radio p { clear: left; font-size: 86%; display: block; float: left; margin: 0pt; text-align: right; width: 13em; }
+.attenuatorpanel fieldset div p { font-size: 86%; display: inline; margin: 0; }

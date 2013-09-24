@@ -1,0 +1,552 @@
+<form class="sparameterpanel">
+  <div class="panellegend">S Parameter Step Configuration</div>
+
+  <!-- this text area is eval'ed at runtime to define the STIMULUS_SP object -->
+  <textarea id="stimulusSetup$$UID$$" class="hidden">
+  $$STIMULUS_SP$$
+  </textarea>
+
+  <!-- this text area is eval'ed at runtime to define the MEASUREMENT_SP object -->
+  <textarea id="measurementSetup$$UID$$" class="hidden">
+  $$MEASUREMENT_SP$$
+  </textarea>
+  
+  <!-- this text area is eval'ed at runtime to define the DISPLAY_SP object -->
+  <textarea id="displaySetup$$UID$$" class="hidden">
+  $$DISPLAY_SP$$
+  </textarea>
+  
+  <!-- this text area is eval'ed at runtime to define the BOUND_SP object -->
+  <textarea id="boundSetup$$UID$$" class="hidden">
+  $$BOUND_SP$$
+  </textarea>
+  
+  <!-- this text area is eval'ed at runtime to define the DEEMBED_SP object -->
+  <textarea id="deEmbedSetup$$UID$$" class="hidden">
+  $$DEEMBED_SP$$
+  </textarea>
+  
+  <!-- this text area is eval'ed at runtime to define the FILTER_SP object -->
+  <textarea id="filterSetup$$UID$$" class="hidden">
+  $$FILTER_SP$$
+  </textarea>
+  
+  <!-- this is so the JS functions can get the MN/SN display names if needed. -->
+  <input type="hidden" id="MNDisplay$$UID$$" name="MNDisplay$$UID$$" value="$$MNDISPLAY$$" />
+  <input type="hidden" id="SNDisplay$$UID$$" name="SNDisplay$$UID$$" value="$$SNDISPLAY$$" />
+
+  <div class="panelbody">
+
+    <!-- TAB MENU -->
+    <div class="paneltabmenu">
+      <ul>
+        <li><a href="#nogo" id="t$$UID$$0" onClick="this.blur(); showMenuItem(menu$$UID$$, 0);" title="General setup and instructions">Setup</a></li>
+        <li><a href="#nogo" id="t$$UID$$1" onClick="this.blur(); showMenuItem(menu$$UID$$, 1);" title="Set the VNA stimulus parameters">Stimulus</a></li>
+        <li><a href="#nogo" id="t$$UID$$2" onClick="this.blur(); showMenuItem(menu$$UID$$, 2);" title="Select which S Parameters to measure and the calibration states">Measure</a></li>
+        <li><a href="#nogo" id="t$$UID$$3" onClick="this.blur(); showMenuItem(menu$$UID$$, 3);" title="Manage the way the data will be presented to the user">Display</a></li>
+        <li><a href="#nogo" id="t$$UID$$4" onClick="this.blur(); showMenuItem(menu$$UID$$, 4);" title="Define pass/fail criteria for the measurements">Limits</a></li>
+        <li><a href="#nogo" id="t$$UID$$6" onClick="this.blur(); showMenuItem(menu$$UID$$, 6);" title="Specify the characteristics of a filter">Filter Limits</a></li>
+        <li><a href="#nogo" id="t$$UID$$5" onClick="this.blur(); showMenuItem(menu$$UID$$, 5);" title="Control the De-embedding processes">De-Embed</a></li>
+      </ul>
+    </div>
+  
+    <!-- SETUP TAB -->
+    <div class="hidden" id="tab$$UID$$0" name="setup$$UID$$">
+      <div id="instructions" class="info">
+        This test sequence step uses a Vector Network Analyzer (VNA) to measure scattering parameters
+        (S parameters).  Several configuration options are available including:
+        <ul>
+          <li>Stimulus - Set the VNA stimulus parameters</li>
+          <li>Measure - Select which S parameters to measure and the calibration states</li>
+          <li>Display - Manage the way the data will be presented to the user</li>
+          <li>Limits - Define pass/fail criteria for the measurements</li>
+          <li>Filter Limits - Specify the characteristics of the filter limits created on the limits tab</li>
+          <li>De-Embed - Add any adapters or parts to de-embed from the S parameter data</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- STIMULUS_SP TAB -->
+    <div class="hidden" id="tab$$UID$$1" name="stimulus$$UID$$">
+      <fieldset>
+        <legend>Instrument Settings</legend>
+    
+        <div class="checkbox">
+          <label for="instrumentState$$UID$$">
+          <input type="checkbox" id="instrumentState$$UID$$" name="instrumentState$$UID$$" title="Use the current settings on the instrument for testing, i.e. change nothing." onClick="saveSPInstrumentState('$$UID$$');" />Use Current Instrument State</label>
+        </div>
+        
+        <div class="checkbox">
+          <label for="calibrate$$UID$$">
+          <input type="checkbox" id="calibrate$$UID$$" name="calibrate$$UID$$" title="Check that there is a valid calibration active on the instrument." onClick="saveSPCalibrate('$$UID$$')" />Calibrate</label>
+        </div>
+    
+        <div class="checkbox">
+          <label for="blank$$UID$$">
+          <input type="checkbox" id="blank$$UID$$" name="blank$$UID$$" title="Turn the frequency display off of both the test panel and the instrument.  The instrument frequencies can only be turned back on by presetting the instrument." onClick="saveSPBlankFrequencies('$$UID$$');" />Blank Frequencies</label>
+        </div>
+    
+        <div>
+          <label for="sweepType$$UID$$">Sweep Type:</label>
+          <select id="sweepType$$UID$$" name="sweepType$$UID$$" onChange="saveSPSweepType('$$UID$$');">
+            <option value="Linear">Linear</option>
+            <option value="Logarithmic">Logarithmic</option>
+          </select>
+        </div>
+    
+        <div>
+          <label for="startFreq$$UID$$">Start Frequency:</label>
+          <input type="text" class="numeric" id="startFreq$$UID$$" name="startFreq$$UID$$" onChange="this.value = validateNumeric(this.value); saveSPStartFrequency('$$UID$$');" />
+    
+          <p>Stop Frequency:</p>
+          <input type="text" class="numeric" id="stopFreq$$UID$$" name="stopFreq$$UID$$" onChange="this.value = validateNumeric(this.value); saveSPStopFrequency('$$UID$$');" />
+    
+          <p>Units:</p>
+          <select id="units$$UID$$" name="units$$UID$$" onChange="saveSPFrequencyUnits('$$UID$$');">
+            <option value="Hz">Hz</option>
+            <option value="kHz">kHz</option>
+            <option value="MHz">MHz</option>
+            <option value="GHz">GHz</option>
+          </select>
+        </div>
+    
+        <div>
+          <label for="points$$UID$$">Points:</label>
+          <input type="text" class="numeric" id="points$$UID$$" name="points$$UID$$" onChange="this.value = validateNumeric(this.value); saveSPNumberOfPoints('$$UID$$');" />
+        </div>
+    
+        <div>
+          <label for="power$$UID$$">Power (dBm):</label>
+          <input type="text" class="numeric" id="power$$UID$$" name="power$$UID$$" onChange="this.value = validateNumeric(this.value); saveSPPower('$$UID$$');" />
+          <input type="checkbox" id="autoPower$$UID$$" name="autoPower$$UID$$" onClick="saveSPPower('$$UID$$');" /><p>Automatic</p>
+        </div>
+    
+        <div>
+          <label for="ifbw$$UID$$">IF Bandwidth (Hz):</label>
+          <input type="text" class="numeric" id="ifbw$$UID$$" name="ifbw$$UID$$" onChange="this.value = validateNumeric(this.value); saveSPIFBW('$$UID$$');" />
+          <input type="checkbox" id="autoIFBW$$UID$$" name="autoIFBW$$UID$$" onClick="saveSPIFBW('$$UID$$');" /><p>Automatic</p>
+        </div>
+    
+        <div>
+          <label for="sweepTime$$UID$$">Sweep Time (s):</label>
+          <input type="text" class="numeric" id="sweepTime$$UID$$" name="sweepTime$$UID$$" onChange="this.value = validateNumeric(this.value); saveSPSweepTime('$$UID$$');" />
+          <input type="checkbox" id="autoSweepTime$$UID$$" name="autoSweepTime$$UID$$" onClick="saveSPSweepTime('$$UID$$');" /><p>Automatic</p>
+        </div>
+      </fieldset>
+    </div>
+    
+    <!-- MEASURE TAB -->
+    <div class="hidden" id="tab$$UID$$2" name="measure$$UID$$">
+      <fieldset>
+        <legend>Measurement Parameters</legend>
+
+        <div class="radio">
+          <p>Data Source:</p>
+          <label for="dataSourceVNA$$UID$$">
+          <input type="radio" id="dataSourceVNA$$UID$$" name="dataSource$$UID$$" value="VNA" onClick="saveSPDataSource('$$UID$$')" onChange="saveSPDataSource('$$UID$$')" />VNA</label>
+          <label for="dataSourceData File$$UID$$">
+          <input type="radio" id="dataSourceData File$$UID$$" name="dataSource$$UID$$" value="Data File" onClick="saveSPDataSource('$$UID$$')" onChange="saveSPDataSource('$$UID$$')" />Data File</label>
+        </div>
+    
+        <div class="radio">
+          <p>Number of Ports:</p>
+          <label for="ports2$$UID$$">
+          <input type="radio" id="ports2$$UID$$" name="ports$$UID$$" value="2" onClick="saveSPPorts('$$UID$$');" onChange="saveSPPorts('$$UID$$');" />2</label>
+          <label for="ports4$$UID$$">
+          <input type="radio" id="ports4$$UID$$" name="ports$$UID$$" value="4" onClick="saveSPPorts('$$UID$$');" onChange="saveSPPorts('$$UID$$');" />4</label>
+          <label for="ports8$$UID$$">
+          <input type="radio" id="ports8$$UID$$" name="ports$$UID$$" value="8" onClick="saveSPPorts('$$UID$$');" onChange="saveSPPorts('$$UID$$');" />8</label>
+        </div>
+
+        <div id="parameterBoxes$$UID$$" class="parameterboxes">
+          <div class="checkbox">
+            <label for="select$$UID$$">
+            <input type="checkbox" id="select$$UID$$" name="select$$UID$$" onClick="measurementSPSelectAll('$$UID$$', this.checked);" />Select\Deselect All</label>
+          </div>
+        </div>
+    
+        <div class="checkbox">
+          <label for="autoSelect$$UID$$">
+          <input type="checkbox" id="autoSelect$$UID$$" name="autoSelect$$UID$$" title="Auto-Select the channel assignments for the most efficient testing configuration." onClick="this.blur(); setSPChannelAutoSelect('$$UID$$');" />Auto Select Channel Assignments</label>
+        </div>
+      </fieldset>
+    
+      <!-- PARAMETERS_SP TABLE -->
+      <table class="standard" id="parameters$$UID$$" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="Parameter: this is the parameter to be measured">S<sub>##</sub></th>
+          <th class="icon" title="Delete this parameter"><!-- delete --><img src="/images/trashsmall.gif" /></th>
+          <th class="icon" title="Reorder: parameters are measured in this order"><img src="/images/moverssmall.gif"></th>
+          <th class="ni" title="Response Port: this is the response port of the parameter">Response Port</th>
+          <th class="ni" title="Stimulus Port: this is the stimulus port of the parameter">Stimulus Port</th>
+          <th class="ni" title="Channel: this is the VNA channel that the parameter will be made on">Channel</th>
+          <th class="">&nbsp;</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="add_wrapper">
+        <a class="adder" id="_addSPParameter$$UID$$" href="#nogo" title="Add another parameter to be measured" onClick="addSPParameter('$$UID$$')">Add Parameter...</a>
+        <div class="hidden" id="addSPParameter$$UID$$">
+          <select id="add_parameter_list$$UID$$"></select>
+          <a href="#nogo" class="btn_ok" title="Add this parameter" onClick="saveSPAddedParameter('$$UID$$')"></a>
+          <a href="#nogo" class="btn_cancel" title="Make no changes"></a>
+        </div>
+      </div>
+
+    </div>
+    
+    <!-- DISPLAY_SP TAB -->
+    <div class="hidden" id="tab$$UID$$3" name="display$$UID$$">
+      <fieldset>
+        <legend>Display Parameters</legend>
+
+        <div class="radio">
+          <p>Plot Orientation:</p>
+          <label for="plotOrientationSingle$$UID$$">
+          <input type="radio" id="plotOrientationSingle$$UID$$" name="plotOrientation$$UID$$" value="Single" title="One plot display." onClick="saveSPPlotOrientation('$$UID$$')" onChange="saveSPPlotOrientation('$$UID$$')" />Single</label>
+          <label for="plotOrientationDual$$UID$$">
+          <input type="radio" id="plotOrientationDual$$UID$$" name="plotOrientation$$UID$$" value="Dual" title="Two plot display." onClick="saveSPPlotOrientation('$$UID$$')" onChange="saveSPPlotOrientation('$$UID$$')" />Dual</label>
+          <label for="plotOrientationQuad$$UID$$">
+          <input type="radio" id="plotOrientationQuad$$UID$$" name="plotOrientation$$UID$$" value="Quad" title="Four plot display." onClick="saveSPPlotOrientation('$$UID$$')" onChange="saveSPPlotOrientation('$$UID$$')" />Quad</label>
+        </div>
+    
+        <div class="buttons" id="plotOrientationPictures$$UID$$" name="plotOrientationPictures$$UID$$">
+          <div class="hidden" id="plotOrientationPicturesSingle$$UID$$" name="single">
+            <a title="Plot 1" onClick="this.blur(); selectSPPlot('$$UID$$', 0);"><img id="singlePlot0$$UID$$" name="singlePlot$$UID$$" class="borderOff" src="/images/SP Single Display.gif" /></a>
+          </div>
+          <div class="hidden" id="plotOrientationPicturesDual$$UID$$" name="dual">
+            <a title="Plot 1" onClick="this.blur(); selectSPPlot('$$UID$$', 0);"><img id="dualPlot0$$UID$$" name="dualPlot$$UID$$" class="borderOff" src="/images/SP Dual Display.gif" /></a>
+            <br>
+            <a title="Plot 2" onClick="this.blur(); selectSPPlot('$$UID$$', 1);"><img id="dualPlot1$$UID$$" name="dualPlot$$UID$$" class="borderOff" src="/images/SP Dual Display.gif" /></a>
+          </div>
+          <div class="hidden" id="plotOrientationPicturesQuad$$UID$$" name="quad">
+            <a title="Plot 1" onClick="this.blur(); selectSPPlot('$$UID$$', 0);"><img id="quadPlot0$$UID$$" name="quadPlot$$UID$$" class="borderOff" src="/images/SP Quad Display.gif" /></a>
+            <a title="Plot 2" onClick="this.blur(); selectSPPlot('$$UID$$', 1);"><img id="quadPlot1$$UID$$" name="quadPlot$$UID$$" class="borderOff" src="/images/SP Quad Display.gif" /></a>
+            <br>
+            <a title="Plot 3" onClick="this.blur(); selectSPPlot('$$UID$$', 2);"><img id="quadPlot2$$UID$$" name="quadPlot$$UID$$" class="borderOff" src="/images/SP Quad Display.gif" /></a>
+            <a title="Plot 4" onClick="this.blur(); selectSPPlot('$$UID$$', 3);"><img id="quadPlot3$$UID$$" name="quadPlot$$UID$$" class="borderOff" src="/images/SP Quad Display.gif" /></a>
+          </div>
+        </div>
+    
+        <div class="checkbox">
+          <label for="lockControl$$UID$$">
+          <input type="checkbox" id="lockControl$$UID$$" name="lockControl$$UID$$" title="Locks the operator from changing any of the display settings." onClick="saveSPLockControl('$$UID$$')" />Lock Display</label>
+        </div>
+    
+        <div class="checkbox">
+          <label for="retainSettings$$UID$$">
+          <input type="checkbox" id="retainSettings$$UID$$" name="retainSettings$$UID$$" title="Display settings that the operator has changed will be retained between items tested.  This is reset to the defined display settings when a new testing session begins." onClick="saveSPRetainSettings('$$UID$$')" />Retain Settings</label>
+        </div>
+  
+        <div class="checkbox">
+          <label for="formattedData$$UID$$">
+          <input type="checkbox" id="formattedData$$UID$$" name="formattedData$$UID$$" title="All trace math, smoothing, gating, delay, etc. will all be displayed on the test panel and saved in the data file." onClick="saveSPFormattedData('$$UID$$')" />Capture Formatted Data</label>
+        </div>
+    
+        <div class="checkbox">
+          <label for="changeFrequency$$UID$$">
+          <input type="checkbox" id="changeFrequency$$UID$$" name="changeFrequency$$UID$$" title="Change the display frequency range from the default stimulus range." onClick="saveSPChangeFrequency('$$UID$$')" />Change Display Frequency</label>
+        </div>
+    
+        <div>
+          <label for="displayStartFreq$$UID$$">Start Frequency:</label>
+          <input type="text" class="numeric" id="displayStartFreq$$UID$$" name="displayStartFreq$$UID$$" onblur="this.value = validateNumeric(this.value); saveSPDisplayStartFreq('$$UID$$')" />
+    
+          <p>Stop Frequency:</p>
+          <input type="text" class="numeric" id="displayStopFreq$$UID$$" name="displayStopFreq$$UID$$" onblur="this.value = validateNumeric(this.value); saveSPDisplayStopFreq('$$UID$$')" />
+    
+          <p>Units:</p>
+          <select id="displayUnits$$UID$$" name="displayUnits$$UID$$" onChange="saveSPDisplayUnits('$$UID$$')">
+            <option value="Hz">Hz</option>
+            <option value="kHz">kHz</option>
+            <option value="MHz">MHz</option>
+            <option value="GHz">GHz</option>
+            <option value="Points">Points</option>
+          </select>
+        </div>
+    
+        <div class="radio">
+          <p>Trace Orientation:</p>
+          <label for="traceOrientationOverlay$$UID$$">
+          <input type="radio" id="traceOrientationOverlay$$UID$$" name="traceOrientation$$UID$$" value="Overlay" title="Both traces on one plot." onClick="saveSPTraceOrientation('$$UID$$')" onChange="saveSPTraceOrientation('$$UID$$')" />Overlay</label>
+          <label for="traceOrientationSplit$$UID$$">
+          <input type="radio" id="traceOrientationSplit$$UID$$" name="traceOrientation$$UID$$" value="Split" title="One trace on two separate plots." onClick="saveSPTraceOrientation('$$UID$$')" onChange="saveSPTraceOrientation('$$UID$$')" />Split</label>
+        </div>
+      </fieldset>
+    
+      <!-- TRACES_SP TABLE -->
+      <table class="standard" id="traces$$UID$$" cellspacing="0">
+        <thead><tr>
+    <!--      <th title="Traces for plot number..." colSpan="11">Plot #</th>
+        </tr>
+        <tr>-->
+          <th class="icon" title="Trace #: this is the trace number">#</th>
+          <!--<th class="icon" title="Delete this trace">--><!-- delete --><!--&#160;</th>-->
+          <th class="icon" title="Show Trace: show the trace on the plot"><img src="/images/showtrace.gif"></th>
+          <th class="icon" title="Auto-Scale: auto-scale the trace on the plot"><img src="/images/autoscale.gif"></th>
+          <th class="icon" title="Show Markers: show the trace markers on the plot"><img src="/images/showmarkers.gif"></th>
+          <th class="icon" title="Show Limits: show the trace limits on the plot"><img src="/images/showlimits.gif"></th>
+          <th class="icon" title="Fill Limits: fill the trace limits on the plot"><img src="/images/filllimits.gif"></th>
+          <th class="ni" title="Parameter: this is the s-parameter that will be displayed on the plot">Parameter</th>
+          <th class="ni" title="Format: this is the format in which the s-parameter will be displayed on the plot">Format</th>
+          <th class="ni" title="Scale: this is the scale in which the s-parameter will be displayed on the plot">Scale</th>
+          <th class="ni" title="Position: this is the position in which the s-parameter will be displayed on the plot">Position</th>
+          <th class="ni" title="Reference: this is the reference in which the s-parameter will be displayed on the plot">Reference</th>
+          <th class="">&nbsp;</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    
+      <!--<div class="add_wrapper">
+        <a class="adder" id="_addSPTrace$$UID$$" href="#nogo" title="Add another trace" onClick="this.blur(); addTrace('$$UID$$');">Add Trace</a>
+      </div>-->
+    
+      <br>
+    
+      <!-- MARKERS_SP TABLE -->
+      <table class="standard" id="markers$$UID$$" cellspacing="0">
+        <thead><tr>
+    <!--      <th title="Markers for plot number..." colSpan="4">Plot #</th>
+        </tr>
+        <tr>-->
+          <th class="icon" title="Marker #: this is the marker number">#</th>
+          <th class="icon" title="Delete this marker"><!-- delete --><img src="/images/trashsmall.gif" /></th>
+          <th class="icon" title="Reorder: markers are displayed in this order"><img src="/images/moverssmall.gif"></th>
+          <th class="ni" title="Type: this is the type of marker">Type</th>
+          <th class="ni" title="Frequency: this is the frequency at which the marker will be placed">&#160;</th>
+          <th class="">&nbsp;</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+
+
+      <div class="add_wrapper">
+        <a class="adder" id="_addSPMarker$$UID$$"   href="#nogo" title="Add another marker" onClick="addSPMarker('$$UID$$');">Add Marker</a>
+        <a class="adder" id="_copySPMarkers$$UID$$" href="#nogo" title="Copy markers from another plot" onClick="copySPMarkers('$$UID$$');">Copy Markers...</a>
+        <div class="hidden" id="copySPMarkers$$UID$$">
+          <select id="copy_markers_plot_list$$UID$$"></select>&#160;Plot to Copy From&#160;
+          <a href="#nogo" class="btn_ok"     title="Copy marker" onClick="saveSPCopiedMarkers('$$UID$$');"></a>
+          <a href="#nogo" class="btn_cancel" title="Make no changes"></a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- LIMITS_SP TAB -->
+    <div class="hidden" id="tab$$UID$$4" name="limits$$UID$$">
+      <!-- LIMITS_SP TABLE -->
+      <table class="standard" id="limits$$UID$$" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="Limit Number">#</th>
+          <th class="icon" title="Delete this limit"><!-- delete --><img src="/images/trashsmall.gif" /></th>
+          <th class="icon" title="Referential Limit: this limit will use previous data as a reference"><img src="/images/referential.gif"></th>
+          <th class="ni" title="Parameter: select the parameter that the limit applies to">S##</th>
+          <th class="ni" title="Format: select the format in which the limit points will be defined">Format</th>
+          <th class="ni" title="Limit Type: upper, lower, delta">Type</th>
+          <th class="">&nbsp;</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    
+      <div class="add_wrapper">
+        <a class="adder" id="_addSPLimit$$UID$$"     href="#nogo" title="Add another limit" onClick="addSPLimit('$$UID$$');">Add Limit</a>
+        <a class="adder" id="_addSPLimitCopy$$UID$$" href="#nogo" title="Add a copy of the selected limit">Add Copy</a>
+      </div>
+
+      <br />
+
+      <!-- LIMIT_SP POINTS_SP TABLE -->
+      <table class="standard" id="limitPoints$$UID$$" cellspacing="0">
+        <thead><tr>
+          <th colSpan="9">&#160;</th>
+        </tr>
+        <tr>
+          <th class="icon" title="Point Number">#</th>
+          <th class="icon" title="Delete this point"><!-- delete --><img src="/images/trashsmall.gif" /></th>
+          <th class="icon" title="Reorder: limit points are connected in this order"><img src="/images/moverssmall.gif"></th>
+          <th class="icon" title="Connect: select whether to connect this limit point to the previous one"><img src="/images/connect.gif"></th>
+          <th class="ni" title="Frequency: enter the frequency of the limit point">&#160;</th>
+          <th class="ni" title="Value: enter the value of the limit point">Value</th>
+          <th class="ni" title="Delta Upper: enter the offset to be added to the value to set the Delta Upper limit">Delta Upper</th>
+          <th class="ni" title="Delta Lower: enter the offset to be added to the value to set the Delta Lower limit">Delta Lower</th>
+          <th class="">&nbsp;</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    
+      <div class="add_wrapper">
+        <a class="adder" id="_addSPPoint$$UID$$"     href="#nogo" title="Add another point" onClick="addSPPoint('$$UID$$');">Add Point</a>
+        <a class="adder" id="_addSPPointCopy$$UID$$" href="#nogo" title="Add a copy of the selected points">Add Copy</a>
+      </div>
+    </div>
+
+    <!-- DE-EMBED TAB -->
+    <div class="hidden" id="tab$$UID$$5" name="deembed$$UID$$">
+      <fieldset>
+        <legend>De-Embedding</legend>
+    
+        <div class="checkbox">
+          <label for="deEmbed$$UID$$">
+          <input type="checkbox" id="deEmbed$$UID$$" name="deEmbed$$UID$$" title="All assigned adapters will be de-embedded, displayed on the test panel and saved in the data file." onChange="saveSPDeEmbed('$$UID$$')" />De-Embed Data</label>
+        </div>
+    
+        <div>
+          <label for="adapterPort$$UID$$">Port:</label>
+          <select id="adapterPort$$UID$$" name="adapterPort$$UID$$" onChange="changeSPAdapterPort('$$UID$$')">
+          </select>
+        </div>
+      </fieldset>
+    
+      <!-- ADAPTERS_SP TABLE -->
+      <table class="standard" id="adapters$$UID$$" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="Adapter #: this is the adapter number">#</th>
+          <th class="icon" title="Delete this adapter"><!-- delete --><img src="/images/trashsmall.gif" /></th>
+          <th class="icon" title="Reorder: adapters are de-embedded in this order"><img src="/images/moverssmall.gif"></th>
+          <th class="ni" title="$$MNDISPLAY$$: this is the $$MNDISPLAY$$ of the adapter to be referenced">$$MNDISPLAY$$</th>
+          <th class="ni" title="$$SNDISPLAY$$: this is the $$SNDISPLAY$$ of the adapter to be referenced">$$SNDISPLAY$$</th>
+          <th class="ni" title="Run Type: most recent, specify a number, or match a field">Run Type</th>
+          <th class="ni" title="Run number: the run number of the data to be referenced">Run Number</th>
+          <th class="w24" title="Field: select the field to be matched">Field</th>
+          <th class="" title="Field Value: enter the value of the field to be matched">Field Value</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    
+      <div class="add_wrapper">
+        <a class="adder" id="_addSPAdapter$$UID$$" href="#nogo" title="Add another adapter to be de-embedded" onClick="this.blur(); addSPAdapter('$$UID$$');">Add Adapter...</a>
+        <div class="hidden" id="addSPAdapter$$UID$$">
+          <input id="add_adapter_model$$UID$$"  onKeyUp="validateInput(this, 2);" />&#160;$$MNDISPLAY$$&#160;
+          <input id="add_adapter_serial$$UID$$" onKeyUp="validateInput(this, 2);" />&#160;$$SNDISPLAY$$&#160;
+          <a href="#nogo" class="btn_ok"     title="OK"     onClick="saveSPAddedAdapter('$$UID$$');"></a>
+          <a href="#nogo" class="btn_cancel" title="Cancel"></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER_SP TAB -->
+    <div class="hidden" id="tab$$UID$$6" name="stimulus$$UID$$">
+      <fieldset>
+        <legend>Filter Parameters</legend>
+        
+        <img id="imgAttenuationLimit$$UID$$" name="imgAttenuationLimit$$UID$$" style="float: right;" />
+    
+        <div>
+          <label for="filterLimit$$UID$$">Limit:</label>
+          <select id="filterLimit$$UID$$" name="filterLimit$$UID$$" title="Select which limit to define." onChange="setSPActiveFilterLimit('$$UID$$', this.selectedIndex);">
+          </select>
+        </div>
+    
+        <div>
+          <label for="filterType$$UID$$">Filter Type:</label>
+          <select id="filterType$$UID$$" name="filterType$$UID$$" title="Select the type of filter." onChange="saveSPFilterType('$$UID$$');">
+            <option value="Lowpass">Lowpass</option>
+            <option value="Highpass">Highpass</option>
+            <option value="Bandpass" selected>Bandpass</option>
+            <option value="Bandstop">Bandstop</option>
+          </select>
+        </div>
+        
+        <div class="checkbox">
+          <label for="filterPassbandLimit$$UID$$" id="filterPassbandLimitLabel$$UID$$">
+          <input type="checkbox" id="filterPassbandLimit$$UID$$" name="filterPassbandLimit$$UID$$" title="Turn the bandwidth limit on and off." onClick="saveSPFilterPassbandLimit('$$UID$$')" />Bandwidth Limit</label>
+        </div>
+    
+        <div>
+          <label for="filterSCFreq$$UID$$">Passband:</label>
+          <select id="filterFreqFormat$$UID$$" name="filterFreqFormat$$UID$$" title="Change the format of the passband frequency definition." onChange="saveSPFilterFreqFormat('$$UID$$');">
+            <option value="Start/Stop">Start/Stop</option>
+            <option value="Center/Span">Center/Span</option>
+          </select>
+    
+          <input type="text" class="numeric" id="filterSCFreq$$UID$$" name="filterSCFreq$$UID$$" title="Enter the start frequency of the passband." onChange="this.value = validateNumeric(this.value); saveSPFilterSCFreq('$$UID$$');" />
+    
+          <input type="text" class="numeric" id="filterSSFreq$$UID$$" name="filterSSFreq$$UID$$" title="Enter the stop frequency of the passband." onChange="this.value = validateNumeric(this.value); saveSPFilterSSFreq('$$UID$$');" />
+    
+          <select id="filterUnits$$UID$$" name="filterUnits$$UID$$" title="Change the units of the frequency definition." onChange="saveSPFilterUnits('$$UID$$');">
+            <option value="Hz">Hz</option>
+            <option value="kHz">kHz</option>
+            <option value="MHz">MHz</option>
+            <option value="GHz">GHz</option>
+          </select>
+    
+          <input type="text" class="numeric" id="filterAttenuation$$UID$$" name=="filterAttenuation$$UID$$" title="Enter the attenuation value used to determine the bandwidth." onChange="this.value = validateNumeric(this.value); saveSPFilterBandwidthAttenuation('$$UID$$');" /> X dB
+        </div>
+        
+        <div class="checkbox">
+          <label for="filterRippleLimit$$UID$$" id="filterRippleLimitLabel$$UID$$">
+          <input type="checkbox" id="filterRippleLimit$$UID$$" name="filterRippleLimit$$UID$$" title="Turn the passband ripple limit on and off." onClick="saveSPFilterRippleLimit('$$UID$$')" />Passband Ripple</label>
+        </div>
+    
+        <div class="checkbox">
+          <label for="filterRippleWindow$$UID$$">
+          <input type="checkbox" id="filterRippleWindow$$UID$$" name="filterRippleWindow$$UID$$" title="Turn the passband ripple window limit on and off." onClick="saveSPFilterRippleWindow('$$UID$$')" />Window</label>
+        </div>
+    
+        <div>
+          <label for="filterRippleValue$$UID$$" id="filterRippleValueLabel$$UID$$">Ripple (dB):</label>
+          <input type="text" class="numeric" id="filterRippleValue$$UID$$" name="filterRippleValue$$UID$$" title="Enter the ripple limit value." onChange="this.value = validateNumeric(this.value); saveSPFilterRippleValue('$$UID$$');" />
+    
+          <input type="text" class="numeric" id="filterRippleWindowValue$$UID$$" name="filterRippleWindowValue$$UID$$" title="Enter the ripple window value." onChange="this.value = validateNumeric(this.value); saveSPFilterRippleWindowValue('$$UID$$');" />
+    
+          <select id="filterRippleUnits$$UID$$" name="filterRippleUnits$$UID$$" title="Change the units of the ripple window value." onChange="saveSPFilterRippleUnits('$$UID$$');">
+            <option value="Hz">Hz</option>
+            <option value="kHz">kHz</option>
+            <option value="MHz" >MHz</option>
+            <option value="GHz">GHz</option>
+            <option value="%">%</option>
+          </select>
+        </div>
+      </fieldset>
+    
+      <!-- ATTENUATIONS_SP TABLE -->
+      <legend>Attenuation Points</legend>
+      <table class="standard" id="attenuations$$UID$$" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="Attenuation Number">#</th>
+          <th class="icon" title="Delete this attenuation point"><!-- delete --><img src="/images/trashsmall.gif" /></th>
+          <th class="icon" title="Reorder: attenuation points are presented in this order"><img src="/images/moverssmall.gif"></th>
+          <th class="ni" title="Attenuation: this is the attenuation point that will be determined">Attenuation (dB)</th>
+          <th class="ni" title="Type: this is the type of limit to be performed">Type</th>
+          <th class="w24" title="Lower Limit: enter the offset to be added to the frequency to set the Lower Limit">Lower Limit</th>
+          <th class="w24" title="Upper Limit: enter the offset to be added to the frequency to set the Upper Limit">Upper Limit</th>
+          <th class="ni" title="Units: enter the frequency units of the limits">Units</th>
+          <th class="">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="add_wrapper">
+        <a class="adder" id="_addSPAttenuation$$UID$$" href="#nogo" title="Add another attenuation point" onClick="addSPAttenuationPoint('$$UID$$');">Add Attenuation Point</a>
+        <a class="adder" id="_addSPAttenuationCopy$$UID$$" href="#nogo" title="Add a copy of the selected attenuation point">Add Copy</a>
+      </div>
+
+      <!-- SKIRT_SP TABLE -->
+      <legend>Skirt Rejection Points</legend>
+      <table class="standard" id="skirts$$UID$$" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="Skirt Rejection Number">#</th>
+          <th class="icon" title="Delete this skirt rejection point"><!-- delete --><img src="/images/trashsmall.gif" /></th>
+          <th class="icon" title="Reorder: skirt rejection point are presented in this order"><img src="/images/moverssmall.gif"></th>
+          <th class="icon" title="Relative: this skirt rejection point will be relative to the passband loss"><img src="/images/referential.gif"></th>
+          <th class="icon" title="Connect: select whether to connect this skirt rejection point to the previous one"><img src="/images/connect.gif"></th>
+          <th class="ni" title="Frequency: this is the frequency at which the skirt rejection will be applied">Frequency</th>
+          <th class="ni" title="Units: enter the frequency units of the limits">Units</th>
+          <th class="ni" title="Attenuation: this is the attenuation value that will be used as the limit of the skirt rejection point">Attenuation (dB)</th>
+          <th class="ni" title="Relative Loss: this is what Relative Loss to use">Relative Loss</th>
+          <th class="ni" title="Relative Frequency: this is what Relative Frequency to use">Rel. Frequency</th>
+          <th class="">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="add_wrapper">
+        <a class="adder" id="_addSPSkirt$$UID$$" href="#nogo" title="Add another skirt rejection point" onClick="this.blur(); addSPSkirtPoint('$$UID$$');">Add Skirt Rejection Point</a>
+        <a class="adder" id="_addSPSkirtCopy$$UID$$" href="#nogo" title="Add a copy of the selected skirt rejection point">Add Copy</a>
+      </div>
+    </div>
+
+  </div><!-- end panelbody -->
+</form>

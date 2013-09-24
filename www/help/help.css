@@ -1,0 +1,38 @@
+body { background-color: white; color: black; font: 12px/18px verdana, arial, sans-serif; padding: 1ex; max-width: 550px; width: 550px; }
+h1 { font: 24pt georgia, 'times new roman', sans-serif; margin: 0; padding-bottom: 5px; }
+h2, h3, h5 { color: #cc6600; margin: 15px 0 10px 0; }
+
+li { line-height: 1.6em }
+blockquote { margin-right: 0; padding: 0 5px; }
+blockquote.caution { border-left: solid 3px #f00; }
+
+div.supertitle { border: solid #eee 1px; font: bold 14px Arial, helvetica, sans-serif; background: #eee url("/help/images/menubarbg.png") repeat-x 0 0; color: black; padding: 0; margin: 0 -10px 5px -10px; }
+div.supertitle a { text-decoration: none; color: black; }
+div.supertitle a:hover { text-decoration: none; }
+div.supertitle img { border: 0; vertical-align: middle; margin: 5px; }
+
+div.search { display: none; }
+
+table { border: 1px solid rgb(52,93,126); border-collapse: collapse; }
+th { text-align: left; background-color: rgb(212,225,227); }
+th,td { padding: 2px 5px; }
+h2 + table, h5 + table { margin: 15px 0 0 0; }
+h2 + p, h5 + p, h2 + ul, h5 + ul { margin-top: 1px; }
+
+div.search { float: right; margin-top: 1em; margin-right: 0.5em; }
+
+p.code { font-family:"Courier New",Courier,mono; color: #063; }
+p.code span.comment { color: #000000; }
+
+ol.lroman { list-style-type: lower-roman; }
+
+.strong { font-weight: bold; }
+.italic { font-style: italic; }
+.hidden { display: none; }
+.sb { border: solid 2px #ccc; margin-bottom: 15px; }
+
+
+@media print {
+  body { max-width: 7in; width: 7in; padding: 0.25in 0.5in; }
+  div.search { display:none; }
+}

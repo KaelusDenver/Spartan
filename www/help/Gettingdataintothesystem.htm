@@ -1,0 +1,217 @@
+$$HEADER$$
+<title>Getting data into the system</title>
+</head>
+$$BODY$$
+
+  <h1>Getting data into the system</h1>
+
+  <p>At its core, Spartan is all about automated testing.  Since the advent of
+  computers, manufacturing and test personnel have used them to communicate with
+  and control test instrumentation.  The ability to perform centrally controlled
+  and repeatable automated testing across the enterprise is one of central pillars
+  of the Spartan design.</p>
+
+  <h2>Test Sequences</h2>
+
+  <p>Testing with Spartan is managed through the concept of
+  <span class="strong">test sequences</span>.  A test sequence is a set of
+  instructions, peformed one after the other, to carry out specific
+  measurements on a test article or to instruct personnel to do something.</p>
+
+  <p>Perhaps not too surprisingly Spartan calls the individual instructions in
+  a test sequence <span class="strong">test steps</span>.  The steps themselves
+  are individual <a href="/help/Teststepmodules.htm">code modules</a> that get
+  downloaded to and executed on Spartan <a href="/help/Teststationsandinstruments.htm">test
+  stations</a>.</p>
+
+  <p>For the sake of illustration, let's consider testing a new RF widget your company
+  has just developed.  In this case, we must confirm the electrical characteristics
+  of the new widget pass muster before it can be shipped.  The required electrical test is
+  merely a measurement of the scattering parameters (S-parameters) for the device, and
+  ensuring that they behave as advertised.</p>
+
+  <p>The test sequence describing this process can be broken down into several steps:
+    <ol>
+      <li>Calibrate the instrument (in this test a vector network
+          analyzer or VNA is the instrument used to perform the electrical test)</li>
+      <li>Prompt the person performing the testing to attach a widget to the VNA</li>
+      <li>Carry out a prescribed measurement using the VNA and alert the operator
+          as to whether the parameters meet the requirements.</li>
+    </ol>
+  </p>
+
+  <h2>Test Data</h2>
+
+  <p>So, using a test sequence we have set forth the necessary steps to automatically
+  collect data from a test instrument.  At this point, however, it is useful to point
+  out that this has cost the company a considerable investment.  Not only have they
+  invested in an ultra-expensive VNA and associated test paraphenalia, but presumeably
+  they are paying well for the talented manufacturing staff!</p>
+
+  <p>The point here is that we want to squeeze every bit of value out of the testing
+  process as possible.  The primary way to do that is to save the data from the process
+  and use it later, for example, to:
+    <ul>
+      <li>control and refine the widget manufacturing process</li>
+      <li>segregate widgets for various markets based on measured performance</li>
+      <li>optimize the manufacturing process around efficiency metrics</li>
+    </ul>
+  </p>
+
+  <p>It seems clear that the goals above require saving more than just the data from
+  the automated testing.  Spartan addresses this with a concept called
+  <span class="strong">fields</span>, which are named placeholders for a variety
+  of data that might want to find its way into the Spartan repository.  Spartan
+  <a href="/help/Testdatafields.htm">test data fields</a> are maintained from the
+  <span class="strong">Configure</span> menu, and provide a very flexible means to
+  annotate the data repository.</p>
+
+  <p>To summarize, Spartan test sequences collect data from:
+    <ul>
+      <li>data fields associated with the sequence, and</li>
+      <li>test step modules which collect data electronically from test instrumentation.</li>
+    </ul>
+  </p>
+
+  <h2>Putting it into practice...</h2>
+
+  <p>Before you can run, or execute, a test sequence, it must first be created.  Enter a
+  new name into the search box on the Spartan <span class="strong">testing</span> page,
+  and click the &quot;new&quot; icon.</p>
+
+  <p><img class="sb" height="170" width="520" src="/help/images/datain1.png" /></p>
+
+  <p>This loads a new unsaved test sequence into the Spartan sequence editor...</p>
+
+  <p><img class="sb" height="470" width="777" src="/help/images/datain2.png" /></p>
+
+  <p>The test sequence editor is arranged into several logical groupings.  At the
+  top, you can enter a description for the sequence.  Next to the description you
+  can set a couple of major sequence options, <span class="strong">Approved for Use</span>
+  and <span class="strong">Spartan Sets Serial Number</span>.
+
+    <blockquote class="note"><p><span class="strong">Note:&nbsp;&nbsp;</span>The Spartan
+    interface has places throughout that refer
+    to specific system fields.  Because <span class="italic">all fields display names
+    can be changed by the Spartan administrators</span>, the names used in these help
+    pages may not exactly match those in the Spartan you use.  For example, if the
+    system field, &quot;Serial Number&quot; (Field Id of &quot;Serial_Number&quot;), has
+    been changed to use a display name of, &quot;Item Number&quot;, the second sequence
+    option above would be labelled, &quot;Spartan Sets Item Number&quot;.  In general,
+    the field id's can usually be used to translate in cases where confusion arises.
+    </p></blockquote>
+  </p>
+
+  <p>For this example, we'll make minimal changes to the default new sequence.  The
+  <span class="strong">Fields</span> tab has a table of all the field data that will
+  be collected when the sequence is run.  You'll see that Spartan includes a host of
+  system fields already.  If you click the checkbox in the upper-left corner of the
+  table, you can see all of the fields collected by the system.</p>
+
+  <p><img class="sb" height="240" width="520" src="/help/images/datain3.png" /></p>
+
+  <h3>Sequence Fields</h3>
+  <blockquote>
+    <p>Along with the system fields which are automatically collected by the system,
+    you can add, remove, and reorder any available custom
+    <a href="/help/Testdatafields.htm">fields</a> to the sequence.  Fields come in various
+    types, from free-form to numerical to lists, and you can set their default values 
+    that will be used when the sequence is run.</p>
+
+    <p>When editing a sequence, the field data that you want captured can be set
+    to have various behaviors.  These are all settable in the field table itself. </p>
+    
+    <p class="strong">Required</p>
+
+    <blockquote><p>Checking this setting means that the field cannot be left
+    empty at test time.  You'll see that all of the Spartan system fields are
+    marked required and cannot be unchecked.  This is because Spartan always
+    collects the system field data automatically.</p></blockquote>
+
+    <p class="strong">Set at Test</p>
+
+    <blockquote><p>Checking this setting means that the field should be
+    filled at test time (by the user or by the system).  Leaving this setting
+    unchecked will force the data field to be filled with whatever you enter
+    while editing the sequence (i.e., the operator will <span class="italic">not</span>
+    be able to enter field data for that field).  Note that you <span class="strong">must</span>
+    enter values for those fields set with <span class="italic">
+    both </span><span class="strong">required</span><span class="italic"> and </span>
+    <span class="strong">set at
+    test</span>, or you will not be allowed to save the sequence.</p></blockquote>
+
+    <p class="strong">Next Item</p>
+
+    <blockquote><p>This setting can be used to modify the behvior when testing batches
+    of items with the same sequence repeatedly.  Depending on the setting, the value
+    entered for the field will be set accordingly:
+      <ul>
+        <li>Reset - the value is reset to the initial value entered in the current run
+        of the sequence</li>
+        <li>Retain - the value is retained from the value entered in the prior run of the
+        sequence</li>
+        <li>Auto-increment - the numerical part of the value is incremented by one from
+        the value in the prior run of the sequence</li>
+      </ul>
+   </p></blockquote>
+  </blockquote>
+
+  <h2>Adding Steps to the Sequence</h2>
+  <p>Next, click over to the <span class="strong">steps</span> tab to add test steps
+  to the sequence.</p>
+
+  <p><img class="sb" height="200" width="520" src="/help/images/datain4.png" /></p>
+
+  <p>Add each step for the example above to the sequence by selecting the step module from the drop-down
+  and clicking the ok button.</p>
+
+  <p><img class="sb" height="134" width="740" src="/help/images/datain5.png" /></p>
+
+  <h3>Configure the Sequence Test Steps</h3>
+  <blockquote>
+    <p>As you add steps to the sequence, you'll find several settings that control the
+    steps' behavior as they are exectuted.  These settings can be changed right from
+    the table.</p>
+
+    <p class="strong">Repeat Step</p>
+
+    <blockquote><p>Enter a number here to control if the step gets run on subsequent
+    iterations of the sequence.  By default the value for this setting is 1, which
+    instructs the step to execute for every iteration.  Set the number to 0 to
+    run the step on the first iteration of the sequence only (our example uses this
+    setting for the first two steps of the sequences).  If you set the number to a
+    number greater than 1 (e.g., 2, 3, 4, ...), then the step will be run only on
+    iterations which are multiples of the number you enter.  For example, enter a
+    3, and the step will only execute every third iteration (first time, fourth time,
+    seventh time, etc.).</p></blockquote>
+
+    <p class="strong">Quickmode</p>
+
+    <blockquote><p>The Quickmode setting controls how the test step executes with regard
+    to the user interface.  When set (box is checked) the step will be executed as fast
+    as possible.  In most cases this means that the step will run without showing a user
+    interface (pop-up).  While this does mean that the step will execute extremely quickly,
+    it also means that the test operator will <span class="strong">not</span> have a chance
+    to interact at all with the test step as it runs.</p></blockquote>
+
+    <p class="strong">Step Tag</p>
+
+    <blockquote><p>The step tag can be used to annotate what the step for purpose or
+    summary.  Additionally, the value entered for the step tag is an indexed item in
+    the data repository, and may be searched upon.</p></blockquote>
+
+    <p class="strong">Datasheets</p>
+
+    <blockquote><p>An unlimited number of <a href="/help/dataminingtemplates.htm">templates</a>
+    can be attached to test steps in the sequence.  The templates are used to generate reports
+    after the test step finishes running.  These reports are then downloaded to the test station
+    (i.e., computer that is running the test sequence), and can be found in the local user's
+    documents folder (typically &quot;My Documents&quot;) organized by date.</p></blockquote>
+
+
+  </blockquote>
+
+Next: <a href="/help/Teststepmodules.htm">Test step modules</a>
+
+</body>
+</html>

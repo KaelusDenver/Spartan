@@ -1,0 +1,88 @@
+<form class="switchpanel">
+  <div class="panellegend">Switch Step Configuration</div>
+
+  <!-- this text area is eval'ed at runtime to define the STIMULUS_SWITCH object -->
+  <textarea id="stimulusSetup$$UID$$" class="hidden">
+  $$STIMULUS_SWITCH$$
+  </textarea>
+
+  <!-- this is so that JS functions can get the MN/SN display names if needed. -->
+  <input type="hidden" id="MNDisplay$$UID$$" name="MNDisplay$$UID$$" value="$$MNDISPLAY$$" />
+  <input type="hidden" id="SNDisplay$$UID$$" name="SNDisplay$$UID$$" value="$$SNDISPLAY$$" />
+
+  <div class="panelbody">
+
+    <!-- TAB MENU -->
+    <div class="paneltabmenu">
+      <ul>
+        <li><a id="t$$UID$$0" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 0);" title="General setup and instructions">Setup</a></li>
+        <li><a id="t$$UID$$1" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 1);" title="Set the Switch stimulus parameters">Stimulus</a></li>
+      </ul>
+    </div>
+
+    <!-- SETUP TAB -->
+    <div class="hidden" id="tab$$UID$$0" name="setup$$UID$$">
+      <div class="info">
+          This test will place a Switch (SWI) or PIM Front End (PFE) into the desired position.
+          <ul>
+            <li>Stimulus - Set the Switch stimulus parameters</li>
+          </ul>
+      </div>
+    </div>
+    
+    <!-- STIMULUS_SWITCH TAB -->
+    <div class="hidden" id="tab$$UID$$1" name="stimulus$$UID$$">
+      <fieldset class="switchpanel">
+        <legend>Instrument Settings</legend>
+
+        <div class="checkbox">
+          <label for="blank$$UID$$">
+          <input type="checkbox" id="blank$$UID$$" name="blank$$UID$$" onClick="saveSwitchBlank('$$UID$$');">Blank Screen</label>
+        </div>
+        
+        <div class="radio">
+          <p>Instrument Type:</p>
+          <label for="typeKaelus SWI$$UID$$">
+          <input type="radio" id="typeKaelus SWI$$UID$$" name="type$$UID$$" value="Kaelus SWI" onClick="saveSwitchType('$$UID$$');" onChange="saveSwitchType('$$UID$$');" />Kaelus SWI</label>
+          <label for="typeKaelus PFE$$UID$$">
+          <input type="radio" id="typeKaelus PFE$$UID$$" name="type$$UID$$" value="Kaelus PFE" onClick="saveSwitchType('$$UID$$');" onChange="saveSwitchType('$$UID$$');" />Kaelus PFE</label>
+        </div>
+
+        <div id="KaelusSWIBox$$UID$$" class="typebox">
+          <div>
+            <label for="TXPosition$$UID$$">Tx Position:</label>
+            <select id="TXPosition$$UID$$" name="TXPosition$$UID$$" onChange="saveSwitchTXPosition('$$UID$$');">
+              <option value="TXA">A</option>
+              <option value="TXB">B</option>
+              <option value="TXC">C</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="RXPosition$$UID$$">Rx Position:</label>
+            <select id="RXPosition$$UID$$" name="RXPosition$$UID$$" onChange="saveSwitchRXPosition('$$UID$$');">
+              <option value="RXA">A</option>
+              <option value="RXB">B</option>
+              <option value="RXC">C</option>
+              <option value="RXD">D</option>
+              <option value="RXE">E</option>
+              <option value="RXF">F</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="KaelusPFEBox$$UID$$" class="typebox">
+          <div>
+            <label for="FEParameter$$UID$$">FE Position:</label>
+            <select id="FEParameter$$UID$$" name="FEParameter$$UID$$" onChange="saveSwitchFEParameter('$$UID$$');">
+              <option value="P11 (P1 Reflected)">P11 (P1 Reflected)</option>
+              <option value="P12 (P2 Through)">P12 (P2 Through)</option>
+              <option value="P21 (P1 Through)">P21 (P1 Through)</option>
+              <option value="P22 (P2 Reflected)">P22 (P2 Reflected)</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</form>

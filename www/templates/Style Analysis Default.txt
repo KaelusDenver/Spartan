@@ -1,0 +1,27 @@
+[Template]
+sxTemplateId=Statistics
+sDescription=
+sType="Multiple Item Datasheet"
+sStyle="Tabular - Analysis"
+sStyleProcess=Analysis
+sFormat=TXT
+sCreator=Kaelus
+sModifier=Kaelus
+dWidth=8.5
+dHeight=11.0
+[sScript]
+Name=table_pdf.VBS
+Content==""
+[sLayout]
+[sEditor]
+Name="edittemplate analysis.htm"
+Content==""
+[Parameters]
+Analysis_Type=Statistics
+Test_Type="S Parameter"
+Summary_Field=Model_Number
+Details=0
+Parameter=S11
+Format="Log Mag"
+Start=""
+Stop=""

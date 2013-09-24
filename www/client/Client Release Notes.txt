@@ -1,0 +1,85 @@
+[Client]
+Version=5.2.0105
+Date="February 2010"
+note0="Spartan 5.1 Release"
+note1="Now customizeable to support servers running on non-default web-server ports (default is port 80)."
+[HISTORY14]
+Version=5.0.0284
+Date="June 2009"
+note0="Spartan 5.0 Release"
+[HISTORY13]
+Version=4.3.0025
+Date="November 2008"
+note0="Spartan 4.3 Release."
+[HISTORY12]
+Version=4.2.0084
+Date="October 2008"
+note0="Spartan 4.2 Release."
+[HISTORY11]
+Version=4.1.0054
+Date="August 2008"
+note0="Spartan 4.1 Release."
+note1="Updated Spartan Homepage link tool tip to display the correct address."
+note2="Fixed error that would occur if the Client was shutdown too quickly after startup."
+[HISTORY10]
+Version=4.0.0130
+Date="June 2008"
+note0="Spartan 4.0 Release."
+note1="Changed the way that datasheet printing is handled."
+[HISTORY09]
+Version=3.2.0067
+Date="January 2008"
+note0="Spartan 3.2 Release."
+note1="Updated client installer and uninstaller to be more intuitive."
+note2="Client installation and uninstallation now directed from server pages."
+note3="Links shown on client panel now point back to server pages."
+note4="Removed version check bug which closed client on no server connect."
+[HISTORY08]
+Version=3.1.0073
+Date="July 2007"
+note0="Spartan 3.1 Release."
+note1="Updated links to NI plug-ins."
+note2="Modified download procedure."
+note3="Added check to make sure the same version of Spartan Client is being run as what is on the Spartn Server."
+[HISTORY07]
+Version=3.0.0041
+Date="April 2007"
+note0="Spartan 3.0 Release."
+note1="Added links to NI VISA and LabVIEW Runtime Engine."
+[HISTORY06]
+Version=2.2.0004
+Date="July 2006"
+note0="Spartan 2.2 Release."
+note1="Corrected reported bugs."
+[HISTORY05]
+Version=2.1.0048
+Date="June 2006"
+note0="Spartan 2.1 Release."
+note1="Fixed downloading from correct paths bug."
+[HISTORY04]
+Version=2.0.0058
+Date="March 2006"
+note0="Added ability to print to local printers."
+[HISTORY03]
+Version=2.0.0039
+Date="February 2006"
+note0="Minor bug fixing for Spartan 2.0.0065 release."
+[HISTORY02]
+Version=2.0.0035
+Date="January 2006"
+note0="Spartan 2.0 Release."
+note1="Added version checking of test and drivers to ensure most recent version."
+note2="Changed install process to eliminate bugs."
+note3="Fixed minor bugs."
+[HISTORY01]
+Version=1.1.0030
+Date="October 2005"
+note0="Spartan 1.1 Release."
+note1="Added download capability of tests and drivers."
+note2="Added more informatino about server and client."
+note3="Fixed minor bugs."
+[HISTORY00]
+Version=1.0.0065
+Date="September 2005"
+note0="Spartan 1.0 Release."
+note1="Initial Release."

@@ -1,0 +1,57 @@
+.pimpanel { }
+
+.pimpanel .info { margin: 0; }
+
+.pim {
+  text-align: center;
+}
+
+div.pim {
+  width: inherit;
+  margin: inherit;
+  margin-bottom: .5em;
+  clear: both;
+  float: left;
+  vertical-align: middle;
+}
+
+div.pim .control {
+  width: 7em;
+  margin-left: .5em;
+  margin-right: .5em;
+  clear: none;
+  float: left;
+}
+
+div.pim .wide {
+  width: 12em;
+}
+
+div.pim .rightlabel {
+  width: inherit;
+  margin-left: .5em;
+  text-align: left;
+  clear: none;
+  float: left;
+}
+
+input.pim, select.pim, label.pim {
+  width: inherit;
+  text-align: center;
+}
+
+label.pim .checkbox {
+  text-align: left;
+}
+
+label.pim {
+  text-align: right;
+  margin-left: .5em;
+  margin-right: 0em;
+  clear: none;
+}
+
+label.pim .center {
+  text-align: center;
+  margin-right: .5em;
+}

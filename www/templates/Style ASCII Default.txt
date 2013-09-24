@@ -1,0 +1,19 @@
+[template]
+sxTemplateId=ASCII
+sDescription="ASCII File Generator"
+sType="Single Item Datasheet"
+sStyle="Tabular - Raw Data"
+sStyleProcess=ASCII
+sFormat=TXT
+sCreator=Kaelus
+sModifier=Kaelus
+dWidth=8.5
+dHeight=11.0
+[sScript]
+Name=TABDELIMIT.VBS
+Content=""
+[sLayout]
+[sEditor]
+Name="edittemplate table.htm"
+Content=""
+[Parameters]

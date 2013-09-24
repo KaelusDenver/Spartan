@@ -1,0 +1,11 @@
+[5.2.0240]
+Date=""
+model0=SI-800
+model1=SI-900
+model2=SI-1800
+model3=SI-1900
+model4=SI-2000
+model5=SI-2600
+model6=SI-3500
+note0="Initial Release"
+note1="Users can now simulate PIM instruments to preview PIM measurements."

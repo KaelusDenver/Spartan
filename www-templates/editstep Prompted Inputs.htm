@@ -1,0 +1,77 @@
+<form class="promptedinputspanel">
+  <div class="panellegend">Prompted Inputs Step Configuration</div>
+
+  <!-- this text area is eval'ed at runtime to define the MEASUREMENTS_PI object -->
+  <textarea id="measurementsSetup$$UID$$" class="hidden">
+  $$MEASUREMENTS_PI$$
+  </textarea>
+
+  <!-- this text area is eval'ed at runtime to define the BOUND_PI object -->
+  <textarea id="boundSetup$$UID$$" class="hidden">
+  $$BOUND_PI$$
+  </textarea>
+
+  <div class="panelbody">
+
+    <!-- TAB MENU -->
+    <div class="paneltabmenu">
+      <ul>
+        <li><a id="t$$UID$$0" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 0);" title="General setup and instructions">Setup</a></li>
+        <li><a id="t$$UID$$1" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 1);" title="Select the measurement and set the pass/fail criteria">Measurement & Limits</a></li>
+      </ul>
+    </div>
+
+    <!-- SETUP TAB -->
+    <div class="hidden" id="tab$$UID$$0" name="setup$$UID$$">
+      <div class="info">
+        <p>This step prompts the user for a predefined measurement.</p>
+
+        <p>Predefined measurements are set up in the Spartan
+        <a href="/cgi-bin/fields.vit">fields</a> editor.  Use the
+        <span class="strong">Measure and Limits</span> tab above to select
+        the measurement and to define pass/fail criteria
+        for it.</p>
+
+        <p>The data collected with this test can be used in Spartan
+        <a href="/cgi-bin/templates.vit">templates</a> using the custom header fields.</p>
+      </div>
+    </div>
+  
+    <!-- MEASUREMENT AND LIMITS TAB -->
+    <div class="hidden" id="tab$$UID$$1" name="measureLimits$$UID$$">
+      <fieldset class="promptedinputspanel">
+        <legend>Measurement &amp; Limits</legend>
+    
+        <div>
+          <label for="measurement$$UID$$">Measurement</label>
+          <select name="measurement$$UID$$" id="measurement$$UID$$" onChange="savePIMeasurement('$$UID$$');">
+          </select>
+        </div>
+    
+        <div class="checkbox">
+          <label for="limitsOn$$UID$$">
+          <input type="checkbox" id="limitsOn$$UID$$" name="limitsOn$$UID$$" title="Show the limits to the user during the test." onChange="savePILimitsOn('$$UID$$')" />Show Limits</label>
+        </div>
+      </fieldset>
+
+      <table class="standard" id="limits$$UID$$" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="Limit Number">#</th>
+          <th class="icon" title="Delete this limit"><!-- delete --><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+          <th class="ni" title="Comparison: select the comparison (>, &#8805, <, &#8804, &#8800, =) to be made for the limit">Comparison</th>
+          <th class="ni" title="Value: enter the value of the limit">Value</th>
+          <th class="ni" title="Units: displays the units of the parameter">Units</th>
+          <th class="">&nbsp;</th>
+        </tr></thead><tfoot><tr></tr></tfoot>
+        <tbody></tbody>
+      </table>
+
+
+      <div class="add_wrapper">
+        <a href="#nogo" id="addLimit$$UID$$" title="Add another limit" onClick="this.blur(); addPILimit('$$UID$$');"><img src="/images/addsmall.gif">Add Limit</a>
+      </div>
+
+    </div>
+
+  </div>
+</form>

@@ -1,0 +1,163 @@
+      <!-- HEADER TAB -->
+      <div class="hidden" id="tempTab0">
+        <div>
+          <label for="plotLabel">Plot Label:</label>
+          <input id="plotLabel" name="plotLabel" value="" OnChange="updatePlotLabel(this.value);" title="Enter plot label"/>
+        </div>
+      </div>
+
+      <!-- BODY TAB -->
+      <div class="hidden" id="tempTab1">
+        <fieldset>
+          <legend>Plot Parameters</legend>
+
+          <div class="radio">
+            <p>Traces:</p>
+
+            <label for="pageall">
+            <input type="radio" id="pageall" name="page" value="all"  OnClick="updatePage(this.value);"  title="Put all items on one page"/>Single Page</label>
+
+            <label for="pageitem">
+            <input type="radio" id="pageitem" name="page" value="item" OnClick="updatePage(this.value);" title="One page per item"/>Page per item</label>
+          </div>
+
+          <div class="radio">
+            <p>Traces:</p>
+
+            <label for="lineTypeColors">
+            <input type="radio" id="lineTypeColors" name="lineType" value="Colors"  OnClick="updateLineType(this.value);"  title="Use a different color for each trace"/>Colors</label>
+
+            <label for="lineTypeSymbols">
+            <input type="radio" id="lineTypeSymbols" name="lineType" value="Symbols" OnClick="updateLineType(this.value);" title="Use a different symbol for each trace"/>Symbols</label>
+          </div>
+
+
+         <div>
+            <label for="dataSource">Test Type:</label>
+            <select id="dataSource" name="dataSource" OnChange="changeDataSource(this.value); makeChanges();" title="Select plot test type">
+            </select>
+          </div>
+
+
+
+
+            <!-- S Parameter Settings -->
+            <div id="SParameter">
+              <div>
+                <label for="SPAxisType">Axis Type:</label>
+                <select id="SPAxisType" name="SPAxisType" OnChange="updateSPAxisType(this.value);" title="Select Y axis layout">
+                  <option value="Default">Single Axis (8 Traces)</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="SPStartFreq">X-Axis: Start:</label>
+                <input type="text" class="numeric" id="SPStartFreq" name="SPStartFreq" onChange="this.value = validateNumeric(this.value); updateSPStartFrequency(this.value);" />
+
+                <p>Stop:</p>
+                <input type="text" class="numeric" id="SPStopFreq" name="SPStopFreq" onChange="this.value = validateNumeric(this.value); updateSPStopFrequency(this.value);" />
+
+                <p>Units:</p>
+                <select id="SPXUnits" name="SPXUnits" onChange="updateSPXUnits(this.value);">
+                  <option value="Hz">Hz</option>
+                  <option value="kHz">kHz</option>
+                  <option value="MHz">MHz</option>
+                  <option value="GHz">GHz</option>
+                </select>
+
+                <input type="checkbox" id="SPXAutoscale" name="SPXAutoscale" OnClick="updateSPXAutoscale(this.checked)" title="Check box to autoscale the X-axis"/><p>Autoscale</p>
+              </div>
+
+              <div>
+                <table id="traces" class="standard" cellpadding="0" cellspacing="0"><tbody>
+                  <tr>
+                    <th class="cb" title="Trace #: this is the trace number">#</th>
+                    <th class="icon" title="Delete this trace"><img src="/images/trashsmall.gif" /></th>
+                    <th class="icon" title="Reorder: traces are displayed in this order"><img src="/images/moverssmall.gif"></th>
+                    <th class="icon" title="Auto-Scale: auto-scale the trace on the plot"><img src="/images/autoscale.gif"></th>
+                    <th class="icon" title="Show Limits: show the trace limits on the plot"><img src="/images/showlimits.gif"></th>
+                    <th class="icon" title="Fill Limits: fill the trace limits on the plot"><img src="/images/filllimits.gif"></th>
+                    <th class="ni" title="Parameter: this is the parameter to be plotted">S<sub>##</sub></th>
+                    <th class="ni" title="Format: this is the format in which the s-parameter will be displayed on the plot">Format</th>
+                    <th class="ni" title="Scale: this is the scale in which the s-parameter will be displayed on the plot">Scale</th>
+                    <th class="ni" title="Position: this is the position in which the s-parameter will be displayed on the plot">Position</th>
+                    <th class="ni" title="Reference: this is the reference in which the s-parameter will be displayed on the plot">Reference</th>
+                    <th class="">Label</th>
+                  </tr></tbody>
+                </table>
+
+                <a id="aAddSPTrace" title="Add Trace" href="#nogo" title="Add another trace"><img src="/images/addsmall.gif">Add Trace</a>
+              </div>
+            </div>
+
+
+      <!-- PIM Settings -->
+            <div id="PIM">
+              <div>
+                <label for="PIMAxisType">Axis Type:</label>
+                <select id="PIMAxisType" name="PIMAxisType" OnChange="updatePIMAxisType(this.value);" title="Select Y axis layout">
+                  <option value="Frequency">Frequency</option>
+                  <option value="Time">Time</option>
+                </select>
+
+                <p>Order:</p>
+                <select id="PIMOrder" name="PIMOrder" onChange="updatePIMOrder(this.value);">
+                  <option value="3rd">IM3</option>
+                  <option value="5th">IM5</option>
+                  <option value="7th">IM7</option>
+                  <option value="9th">IM9</option>
+                  <option value="11th">IM11</option>
+                  <option value="13th">IM13</option>
+                  <option value="15th">IM15</option>
+                  <option value="17th">IM17</option>
+                  <option value="19th">IM19</option>
+                  <option value="21st">IM21</option>
+                  <option value="23rd">IM23</option>
+                  <option value="25th">IM25</option>
+                  <option value="27th">IM27</option>
+                  <option value="29th">IM29</option>
+                  <option value="31st">IM31</option>
+                  <option value="33rd">IM33</option>
+                </select>
+
+                <input type="checkbox" id="PIMShowLimit" name="PIMShowLimit" OnClick="updatePIMShowLimit(this.checked)" title="Check box to show the limit"/><p>Show Limit</p>
+
+                <input type="checkbox" id="PIMLimitFill" name="PIMLimitFill" OnClick="updatePIMLimitFill(this.checked)" title="Check box to fill the limit"/><p>Fill Limit</p>
+              </div>
+
+              <div>
+                <label for="PIMXStart">X-Axis: Start:</label>
+                <input type="text" class="numeric" id="PIMXStart" name="PIMXStart" onChange="this.value = validateNumeric(this.value); updatePIMXStart(this.value);" />
+
+                <p>Stop:</p>
+                <input type="text" class="numeric" id="PIMXStop" name="PIMXStop" onChange="this.value = validateNumeric(this.value); updatePIMXStop(this.value);" />
+
+                <p>Units:</p>
+                <select id="PIMXUnits" name="PIMXUnits" onChange="updatePIMXUnits(this.value);">
+                  <!-- Options added by JS -->
+                </select>
+
+                <input type="checkbox" id="PIMXAutoscale" name="PIMXAutoscale" OnClick="updatePIMXAutoscale(this.checked)" title="Check box to autoscale the X-axis"/><p>Autoscale</p>
+              </div>
+
+              <div>
+                <label for="PIMYStart">Y-Axis: Start:</label>
+                <input type="text" class="numeric" id="PIMYStart" name="PIMYStart" onChange="this.value = validateNumeric(this.value); updatePIMYStart(this.value);" />
+
+                <p>Stop:</p>
+                <input type="text" class="numeric" id="PIMYStop" name="PIMYStop" onChange="this.value = validateNumeric(this.value); updatePIMYStop(this.value);" />
+
+                <p>Units:</p>
+                <select id="PIMYUnits" name="PIMYUnits" onChange="updatePIMYUnits(this.value);">
+                  <option value="dBm">dBm</option>
+                  <option value="dBc">dBc</option>
+                </select>
+
+                <input type="checkbox" id="PIMYAutoscale" name="PIMYAutoscale" OnClick="updatePIMYAutoscale(this.checked)" title="Check box to autoscale the Y-axis"/><p>Autoscale</p>
+              </div>
+            </div>
+
+
+
+        </fieldset>
+      </div>

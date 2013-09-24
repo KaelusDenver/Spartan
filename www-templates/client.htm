@@ -1,0 +1,192 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Test Station Client</title>
+$$STYLES$$
+<style type="text/css">
+#thebody { padding: 0 15% 0 5%; }
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
+h3 { margin: 3em 0 0.5em 0; }
+
+#status { width: 40em; border: solid 1px #ccc; padding: 1em; margin: 2em; }
+#status label { position: relative; display: block; margin-bottom: 0.75em; text-align: right; }
+#status input { width: 24em; }
+#status a { position: absolute; top: 3px; right: 3px; }
+#status a img { vertical-align: bottom; }
+
+#download { margin: 2em; width: 80%; }
+#download a { float: left; border: solid #ccc 1px; background: #f1f5fa; padding: 40px; margin-right: 2em; }
+#download a:hover { background: #c8ffff; }
+#download a img { vertical-align: middle; }
+#download p.warning, #download p.warningPositive { border: none; margin-top: 0; }
+
+</style>
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+// Globals
+var gLocalVersion='$$LOCALVERSION$$';
+$(document).ready(function() {
+  var j   = gLocalVersion.indexOf(':');
+  var err = (j<0)? '' : Trim(gLocalVersion.slice(j+1));
+  var lv  = (j<0)? gLocalVersion : gLocalVersion.slice(0, j);
+  $('#localversion').val(lv);
+
+  if (!isBlank(err)) $('#errLink').toggleClass('hidden');
+  $('#errLink').click(function () { 
+    $(this).blur();
+    alert('Connection reported: \n\n' + err);
+    return false;
+  });
+
+}); // document.ready()
+--></script>
+
+</head>
+
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/clientbig.gif" width="48" height="48" />
+  <label id="headlabel">Test Station Client</label></h2>
+  
+  <div id="thebody">
+  
+    <h4>Contents</h4>
+    <ol id="contents">
+      <li><a href="#1">What is the Test Station Client?</a></li>
+      <li><a href="#2">Current Test Station Client Status</a></li>
+      <li><a href="#3">Installing or Updating the Test Station Client</a></li>
+      <li><a href="#4">Uninstalling the Test Station Client</a></li>
+      <li><a href="#5">Additional Programs and Information</a></li>
+    </ol>
+    
+    <h3><a name="1"></a>What is the Test Station Client?</h3>
+    <p>Test stations are a <span class="emphasis">unique</span> type of Spartan
+    <span class="definition" title="Computers used to connect to the Spartan web server">client computer</span>.
+    Test station clients are used to execute Spartan test sequences.  Contrast this with
+    <span class="emphasis">normal</span> Spartan client computers which can be used to edit test
+    sequences, mine the system for data, generate datasheets and analysis reports, etc.  The unique
+    property that sets Test Stations apart is the <span class="strong">Test Station Client</span>
+    program.  The Test Station Client program gets installed to and runs on Spartan
+    test stations and facilitates communications with one or more instruments used during testing.</p>
+    
+    <h3><a name="2"></a>Current Test Station Client Status</h3>
+    <p>When this page loaded, Spartan checked to see if there was a
+    Test Station Client running on the local PC.  The status of any
+    client found is shown in the box below.  Also,
+    you will see a client icon (&nbsp;<img src="/images/clienticonsmall.gif" width="16" height="16" />&nbsp;)
+    visible in the Windows system tray if it is running. </p>
+    
+    <fieldset id="status">
+      <legend>Client Status</legend>
+
+      <label for="running">Running:
+      <input type="text" disabled id="running" value="A client was $$RUNNING$$detected" /></label>
+    
+      <label for="ip">Client IP Address:
+      <input type="text" disabled id="ip" value="$$IP$$" /></label>
+    
+      <label for="localversion">Local Client Version:
+      <input type="text" disabled id="localversion" value="" />
+      <a id="errLink" class="hidden" title="detection information" href="#nogo"><img src="/images/logwarning.gif" width="16" height="16" /></a></label>
+
+      <label for="serverversion">Client Version on Server:
+      <input type="text" disabled id="serverversion" value="$$SERVERVERSION$$" /></label>
+    
+    </fieldset>
+
+    
+    <h3><a name="3"></a>Installing or Updating the Test Station Client</h3>
+  
+    <p>From this page you can install the Test Station Client.  Keep in mind that
+    the test station client <span class="strong">must</span> be running on the test station
+    in order to execute test sequences.</p>
+
+    <div id="download">
+      <a href="/client/$$CLIENTEXE$$" title="Install or update the Spartan client" >
+      <img src="/images/installbig.gif" width="48" height="48" /></a>
+
+      <p>Click the icon to download and install (or update) the Spartan client program.</p>
+
+      <p class="$$VERSIONNOTECLASS$$">
+      The detected client version is $$CLIENTAGE$$ the  version available on the server,
+      therefore it is <span class="strong">$$NOT$$</span> recommended that you install
+      the client at this time.</p>
+
+      <div style="clear:both">&nbsp;</div>
+    </div>
+
+  
+    <h3><a name="4"></a>Uninstalling the Test Station Client</h3>
+  
+    <p>The Spartan client program may be uninstalled from computers which no
+    longer are used to perform Spartan testing.  The Spartan Client can be uninstalled
+    from either the <span class="strong">Control Panel &gt; Add or Remove Programs</span>, or from the Windows
+    Start menu,
+    <span class="strong">Start &gt; All Programs &gt; Kaelus &gt; Spartan Client Uninstall</span>.</p>
+
+
+    <h3><a name="5"></a>Additional Programs and Information</h3>
+    <p>In addition to the Spartan server and client programs, there are several
+    other requirements that test stations must meet in order to be used within
+    the Spartan system.</p>
+
+    <p>One basic requirement is that the test station computer
+    must be able to connect to and control any instruments to be used for testing.
+    This requirement is generally met if the computer has already been used for
+    test automation prior to Spartan.  The
+    <span class="definition" title="A hardware connection over which the computer and instrument communicate">
+    interface bus</span> can be one of several different types:  LAN, GPIB, USB, etc.  Usually
+    either the instrument manufacturer or the interface bus hardware vendor will supply the necessary
+    software drivers to support computer instrument control.</p>
+  
+    <p>There are several resources available on the internet which describe
+    test automation, instrument control buses, and types of hardware and software
+    which can be used to control instruments using computers.</p>
+  
+    <ul>
+      <li>Kaelus Instruments</li>
+        <ul>
+          <li>PIM Distribution Software (version 7.4 or newer)
+            <ul><li><a href="http://www.kaelus.com/Resource-Center/Software-Downloads/" target="_blank">Download from Kaelus.com</a></li></ul>
+          </li>
+        </ul>
+      <li>National Instruments</li>
+        <ul>
+          <li>NI-VISA 5.1.2
+            <ul>
+              <li><a href="ftp://ftp.ni.com/support/softlib/visa/NI-VISA/5.1.2/win/visa512full.exe">Download from National Instruments</a></li>
+            </ul>
+  	    </li>
+          <li>NI-GPIB (IEEE-488.2) 3.0.2
+            <ul>
+              <li><a href="ftp://ftp.ni.com/support/softlib/gpib/Windows/3.0.2/ni4882_302.exe">Download from National Instruments</a></li>
+            </ul>
+  	    </li>
+  	    <li>NI-DAQmx 9.5.1
+  	      <ul>
+  	        <li><a href="ftp://ftp.ni.com/support/softlib/multifunction_daq/nidaqmx/9.5.1/NIDAQ951f1.exe">Download from National Instruments</a></li>
+            </ul>
+          </li>
+  	    <li>NI-DAQ (Traditional) 7.4
+  	      <ul>
+  	        <li><a href="ftp://ftp.ni.com/support/daq/pc/ni-daq/7.4/NIDAQ740CD1.zip">Download from National Instruments (Disc 1)</a></li>
+      	        <li><a href="ftp://ftp.ni.com/support/daq/pc/ni-daq/7.4/NIDAQ740CD2.zip">Download from National Instruments (Disc 2)</a></li>
+  	      </ul>
+  	    </li>
+        </ul>
+      <li>Agilent</li>
+        <ul>
+          <li>IO Libraries Suite 16.2</li>
+            <ul>
+              <li><a href="http://aaa.product.agilent.com/IOLibraries/Download_IO_Libraries.aspx" target="_blank">Download from Agilent</a></li>
+            </ul>
+        </ul>
+    </ul>
+  
+  </div><!-- thebody -->
+</div>
+</body>
+</html>

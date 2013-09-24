@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>Spartan Installation CD - Summitek Instruments</title>
+<style>
+body { font-family: Tahoma, Arial, Sans Serif; font-size: 11pt; letter-spacing: 1.1pt; line-height: 1.5em; color: #444; margin: 0; }
+a { text-decoration: none; color: green; }
+a:hover { text-decoration: underline; }
+h1 { margin-top: 2em; font-size: 120%; }
+li { font-size: 10pt; margin-top: 0.5em; }
+li#first { margin-top: 0; }
+li ol { list-style-type: lower-alpha; }
+li ol li { font-size: 10pt; }
+
+.strong { font-weight: bold; }
+.em { font-style: italic; }
+.footnote { width: 90%; margin-left: 5%; margin-top: 3em; font-size: 9pt; border-top: solid #800000 1px; }
+
+div.header { background: url("/help/images/menubarbg.png") #eee repeat-x; padding: 5px 5px 0; margin: 10px; border: 1px solid #666; }
+#title { font-size: 10pt; font-weight: bold; }
+div.content { width: 90%; margin-left: 5%; }
+div.note { border: solid 2px #888; margin: 2em; padding: 2em; }
+.note ol li { font-size: 10pt; line-height: 1.5em; }
+.note img { vertical-align: middle; }
+div.footer { font-size: 9pt; margin-top: 3em; border-top: solid #800000 1px; width: 100%; bottom: 0; }
+#copy  { float: left; padding: 0 0 2 8;}
+</style>
+</head>
+<body>
+<div class="header">
+  <img id="logoleft" src="/help/images/Spartan.png" />
+  <span id="title">Quality Management System</span>
+</div>
+
+<div class="content">
+  <h1>Spartan Server Installation</h1>
+
+  <div class="note">
+  <img width="48" height="48" title="info" src="images/info.png" /><span class="strong">&nbsp;&nbsp;PLEASE READ THIS FIRST</span><br />
+  Your installation package should include:
+    <ul>
+      <li>Spartan Installation Media (CD/DVD ROM)</li>
+      <li>National Instruments DIAdem software package</li>
+    </ul>
+
+  <hr>
+
+  <p>A copy of this document is stored on the Spartan installation media.
+  It may also be easier to print a hard-copy of this document to follow during the
+  various installation steps.  There are two primary steps involved to install the
+  Spartan software, and they should be performed in the following order:
+    <ol>
+      <li>Install National Instruments DIAdem using the appropriate installation media included
+          with the installation package.</li>
+      <li>Install the Spartan software using the appropriate installation media included with
+          the installation package.  This document should automatically open when you insert
+          the Spartan installation media.  If necessary, you may open the file
+          <span class="em">SpartanCD.htm</span> manually.</li>
+    </ol>
+  </p>
+  </div>
+
+
+  <p>This file contains installation directions for installing the <span class="strong">
+  Spartan Quality Management System</span> software.  Microsoft
+  Windows Server 2003&reg; and Microsoft Windows XP SP4&reg; are the only supported operating systems.</p>
+
+  <p>Spartan can be installed as a Hosted or Standalone setup.  During installation of Spartan, you will be prompted to select which installation type (Windows Server 2003 will always install as hosted).  
+  There are also specific instructions in this procedure for each installation type. Please follow the instructions for your installation type.</p>
+
+  <p>The <span class="strong">Hosted Setup</span> is
+  the typical installation.  The Spartan server program will run as a service on the computer.  This enables an &quot;always
+  on&quot; configuration.  This installation type is required to install on a Microsoft Windows Server 2003&reg; computer.</p>
+
+  <p>The <span class="strong">Standalone Setup</span> is used for classified environments or when Spartan will run
+  on only one computer.  In this setup, a user must run the Spartan executable each time Spartan is used.
+  This installation is typical for the Microsoft Windows XP SP2&reg; computer.</p>
+
+  <p>Please visit the <a href="http://www.SpartanQMS.com">SpartanQMS</a> website for more information or technical support.</p>
+
+  <hr>
+
+  <h1>Installation Procedure</h1>
+
+  <p>These steps should be followed in this order by someone logged into the
+  target computer with <span class="strong">administrator</span> privileges:</p>
+
+  <ol>
+    <li id="first"><span class="strong">Install DIAdem</span>
+      <p>Install the National Instruments DIAdem software using the
+      installation media that came with your copy of Spartan. Proceed with the installation
+      by following the instructions and selecting the default settings when prompted. Please
+      be sure to <span class="strong">restart the computer</span> after the DIAdem installation.</p>
+    </li>
+
+
+    <li><span class="strong">Activate DIAdem</span>
+      <ol>
+        <li id="first"><span class="strong">Run DIAdem</span>.  Use the Windows <span class="em">
+        Start</span> menu to locate the newly installed DIAdem program.  Generally it can
+        be found under <span class="em">Start &gt; All Programs &gt; National Instruments &gt;
+        DIAdem {version} &gt; DIAdem</span>.</li>
+  
+        <li><span class="strong">Activate DIAdem</span>.  When DIAdem runs for the first time, it will present
+        a dialog to choose to activate the program.  Select the &quot;Activate&quot; button
+        and follow the directions for the activation process.
+        <p>DIAdem can be activated over the internet Select "Automatically activate through secure internet connection"
+        then press NEXT. </p>
+        <p>When prompted to enter a serial number, please use the number found on the DIAdem license certificate shipped with
+        the installation package.</p>
+        You can decide whether to register and receive an email for your records.  Hit FINISH when done.
+        Note that <span class="strong">DIAdem will restart after
+        activation is complete.</span></li>
+  
+        <li><span class="strong">Turn off the DIAdem startup wizard</span>.  Check the
+        box &quot;Don't show this screen again&quot;, to prevent the DIAdem startup wizard
+        from launching.  Click the &quot;Start using DIAdem&quot; to hide the wizard.</li>
+  
+        <li><span class="strong">Exit DIAdem</span>.  Use either the windows close X
+        or the <span class="em">File &gt; Exit</span> menu to exit DIAdem.</li>
+      </ol>
+    </li>
+
+    <li><span class="strong">Install Spartan</span>
+      <ol>
+        <li><span class="strong">Launch the Spartan installation program</span>.
+        Use a file browser to open and run the file <a href="setup.exe">&quot;SpartanCD/setup.exe.&quot;</a>
+        (If a security warning appears, Allow and Run rather than saving to disk).
+
+        <p>During the installation, you will be asked to select either a <span class="strong">Hosted</span>
+        or <span class="strong">Standalone</span> setup.
+        Refer to the description above for more information about which install procedure to use.</p>
+
+        <p><span class="em">Follow the instructions for the installer.  After installation is completed, you must restart your computer before 
+        launching Spartan.  When the computer has successfully rebooted, login to the computer (again, using an  account with <span class="strong">administrator</span>
+        privileges).</span></li>
+      </ol>
+    </li>
+
+    <li><span class="strong">Authorize Spartan</span>
+      <ol>
+        <li id="first"><span class="strong">Access the Spartan Authorization Page</span>.
+        Depending on the setup type it may be necessary to launch the Spartan server first.
+          <ul>
+            <li><span class="strong">If Standalone Setup</span> - Run the Spartan application using the
+                &quot;Spartan Server&quot; shortcut
+                (&nbsp;<img src="/help/images/spartan_shortcut.png" width="32px" height="32px" style="vertical-align:middle" />&nbsp;)
+                placed on the Desktop. Wait until the application icon
+                (&nbsp;<img src="/help/images/spartan_icon.png" width="16px" height="16px" style="vertical-align:middle" />&nbsp;)
+                appears in the system tray on the lower right of the desktop.</li>
+
+            <li><span class="strong">If Hosted Setup</span> - The Spartan service should already be running.
+                No action is required.</li>
+          </ul>
+        </li>
+
+        <li><span class="strong">Open the Spartan home page</span>.
+            Use the &quot;Spartan Homepage&quot; shortcut placed on the Desktop, or the URL,
+            <a href="http://localhost">&quot;http://localhost&quot;</a>, can be used as an
+            alternative.  If you receive a warning from your browser, the Spartan server may not have started up completely.
+            Please try again in minute.</li>
+
+        <li><span class="strong">Login to Spartan</span>. Enter &quot;Administrator&quot; as the username
+            and &quot;Welcome1&quot; for the password then click &quot;Login&quot;.
+
+            <div class="note">
+            <img width="48" height="48" title="info" src="images/info.png" />&nbsp;&nbsp;<span class="strong">IMPORTANT</span><br />
+            Please note that the Administrator password should be changed to something
+            secure and easy to remember as soon as convenient.  The Administrator password
+            can be changed by clicking the "Profile" link at the top of the Spartan web
+            page, when logged into Spartan as the Administrator.</div>
+        </li>
+
+        <li><span class="strong">Contact Summitek for Authorization</span>.
+            Follow the instructions on the authorization page for contacting
+            Summitek Instruments to obtain a Spartan authorization code.  Summitek
+            Instruments will require the <span class="strong">Site Code</span>
+            found on the authorization page in order to generate a license for your installation.</li>
+
+        <li><span class="strong">Enter the Authorization Code</span>.
+            Once the Authorization code is obtained, simply type or copy it into
+            the Authorization Code field and press the &quot;Authorize&quot; button.
+            The authorization page will update to show the new authorization state.</li>
+        </li>
+      </ol>
+    </li>
+  </ol>
+
+  <p><span class="strong"> Congratulations Spartan is Now Installed</span><br />
+  Refer to <a href="Spartan Quickstart.pdf">Spartan Quickstart Guide</a>
+  for details on how to get your Spartan Installation up and running (A PDF reader is required to view this document).</p>
+  <p>Download the <a href="http://www.adobe.com/go/gntray_dl_get_reader" target="_blank">
+  <img src="/help/images/Adobe-acrobat.png" style="vertical-align:middle; margin-right: 1px;" border=0 width="32" height="32" />Adobe Acrobat</a>
+  PDF Reader for free.</p>
+
+</div>
+
+<div class="footer">
+  <span id="copy">&copy; 2008
+  <a href="http://www.SummitekInstruments.com">Summitek Instruments</a>.
+  All rights reserved.</span>
+</div>
+</body>
+</html>

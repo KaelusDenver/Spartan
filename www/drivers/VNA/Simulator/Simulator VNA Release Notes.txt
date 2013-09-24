@@ -1,0 +1,82 @@
+[5.2.0240]
+Date="May 2010"
+model0="Simulated Vector Network Analyzer (VNA)"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0114]
+Date="January 2010"
+note0="Spartan 5.1.0118 Release."
+
+[5.0.0124]
+Date="December 2009"
+note0="Spartan 5.0.0124 Release."
+
+[4.3.0512]
+Date="November 2008"
+note0="Spartan 4.3.0026"
+
+[4.2.0069]
+Date="October 2008"
+note0="Changed name to Simulator VNA."
+
+[4.1.0045]
+Date="August 2008"
+note0="Changed interface panel to driver."
+note1="Data points are at specified frequency range end points."
+
+[4.0.0120]
+Date="June 2008"
+
+[3.2.0023]
+Date="January 2008"
+note0="Added support for multi-port VNAs, i.e. VNAs with more than two ports."
+
+[3.2.0078]
+Date="August 2007"
+note0="Prepared installer for commercial release."
+
+[3.1.0073]
+Date="July 2007"
+note0="Updated Configuration Panel."
+note1="Updated data produced to match DSXL-MA part provided by PolyPhaser."
+
+[3.0.0035]
+Date="April 2007"
+note0="Added better explanation of calibration status."
+
+[2.2.0005]
+Date="July 2006"
+note0="Corrected reported bugs."
+note1="Added ability to collect formatted data."
+
+[2.1.0034]
+Date="June 2006"
+note0="Calibrations are channel specific."
+
+[2.1.0004]
+Date="March 2006"
+note0="Rebuilt to maintain compatibility."
+
+[2.0.0005]
+Date="February 2006"
+note0="Added ability to download the memory trace."
+
+[2.0.0025]
+Date="January 2006"
+note0="Spartan 2.0 Beta Release."
+note1="Added multi-channel support to allow measurement of S-Parameters simultaneously."
+
+[1.2.0003]
+Date="November 2005"
+note0="Added TRL/LRM 2-Port Calibration Type."
+note1="Added One Path 2-Port Calibration Type."
+
+[1.1.0014]
+Date="October 2005"
+note0="Fixed misinterpretation of calibration bug."
+note1="Removed calibration popup bug."
+note2="Fixed changing parameters bug."
+
+[1.0.0257]
+Date="September 2005"
+note0="Initial Release."

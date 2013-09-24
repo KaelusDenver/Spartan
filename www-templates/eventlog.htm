@@ -1,0 +1,163 @@
+$$DOCTYPE$$
+<head>
+<title>Spartan Event Log</title>
+$$META$$
+$$STYLES$$
+<style type="text/css">
+table.standard td,
+table.standard .icon { vertical-align: top; }
+table.standard .w24 { text-align: left; }
+table.standard .w24 a { font-weight: normal; }
+
+#previous_logs ul img { vertical-align: bottom; }
+</style>
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+function confirmClear() {
+  var msg = "Please click OK to confirm clearing the ";
+      msg+= "current event log.  An archive of the current ";
+      msg+= "log will be created before it is cleared.";
+
+  return confirm(msg);
+}
+
+//------ GLOBALS
+var PREVIOUS = [$$PREVIOUSLOGS$$];
+var CURRENT  = [$$CURRENTLOG$$];
+
+function buildLogTable() {
+  $('#log > tbody tr').remove();
+
+  var typeIcon, typeTitle;
+
+  for (var i=0; i<CURRENT.length; i++) {
+
+    switch(CURRENT[i].type) {
+      case 0:
+        typeIcon  = '/images/loginformation.gif';
+        typeTitle = 'information';
+        break;
+      case 1:
+        typeIcon  = '/images/logwarning.gif';
+        typeTitle = 'warning';
+        break;
+      default:
+        typeIcon  = '/images/logerror.gif';
+        typeTitle = 'error';
+    }
+
+    var d = new Date (jsTimeFromLV(CURRENT[i].timestamp));
+
+    $('#log tbody').tplAppend(CURRENT[i], function () {
+       return ['tr', {}, [ 'td', { className: "icon" }, ['img', {src: typeIcon, title: typeTitle, width: "16", height: "16"}, [] ],
+                           'td', {}, [d.format('mmm d, yyyy')],
+                           'td', {}, [d.format('h:MM:ss TT')],
+                           'td', {}, [this.user],
+                           'td', {}, [this.module],
+                           'td', {}, [this.code],
+                           'td', { className: "w24" }, [nbsp()]
+                         ]
+              ]
+     });
+
+     var desc = CURRENT[i].description;
+
+     // HACKER ALERT:  fill in the html for the description column
+     if (desc.length > 40) desc = '<a class="desc" href="#nogo">' + truncStr(desc, 40) + '</a><span class="hidden">' + desc + '</span>';
+
+     $('#log tbody tr:eq(' + i + ') td:last').html(desc);
+  }
+  $("#log tbody > tr:nth-child(odd)").addClass("o");      // zebra stripes
+
+  $('#log a.desc').click(function () {
+    $(this).slideToggle().next().slideToggle();
+    return false;
+  });
+}
+
+function truncStr(s, l) {
+  if (s.length < l) return s;
+  return s.substr(0, l) + ' ...';
+}
+
+$(document).ready(function () {
+
+  if ($$SHOWPREVIOUSLOGS$$) {
+    var s;
+    switch (PREVIOUS.length) {
+      case 0:
+        s = 'There were no previous logs ';
+        break;
+      case 1:
+        s = 'There was 1 previous log ';
+        break;
+      default:
+        s = 'There were ' + PREVIOUS.length + ' previous logs ';
+    }
+    $('#previous_logs_summary').prepend(s);
+    for (var i=0; i<PREVIOUS.length; i++) {
+      $('#previous_logs_list').tplAppend(PREVIOUS[i], function () {
+      return ['li', {},
+                ['a', { href: '$$THISCGI$$' + '?load=' + encodeURI(this), title: "load this log" },
+                  ['img', { src: "/images/eventlogsmall.gif" }, [],
+                   this.toString() ]
+                ]
+             ]
+      });
+    }
+    $('#previous_logs').show();
+
+  } else { // show current log
+
+    buildLogTable();
+    $('#currentLog').show();
+
+    if ($$SHOWINGARCHIVE$$) {
+      $('#refreshTime').html('This is an archived event log <a href="$$THISCGI$$" title="Show current log">(show current log)</a>:').show();
+    } else {
+      var d = new Date();
+      $('#refreshTime').append('This page last updated ' + d.format("mmm d, yyyy h:MM:ss TT")).show();
+      $('#currentLog ul').show();
+    }
+  }
+});
+--></script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/eventlog.gif" width="48" height="48" />
+  <label id="headlabel">Spartan Event Log</label></h2>
+
+  <div class="hidden" id="currentLog">
+
+    <h4 class="hidden" id="refreshTime"></h4>
+
+    <ul class="hidden">
+      <li><a href="$$THISCGI$$?clear" onClick="return confirmClear();">Archive this log</a></li>
+      <li><a href="$$THISCGI$$?list">List previous logs</a></li>
+    </ul>
+
+    <table class="standard" id="log" cellpadding="0" cellspacing="0">
+      <thead><tr>
+        <th class="icon">Type</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>User</th>
+        <th>Module</th>
+        <th>Code</th>
+        <th class="w24">Information</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="hidden" id="previous_logs">
+    <h4 id="previous_logs_summary"><a href="$$THISCGI$$" title="Show current log">(show current log)</a>:</h4>
+    <ul id="previous_logs_list"></ul>
+  </div>
+
+</div>
+</body>
+</html>

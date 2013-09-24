@@ -1,0 +1,1400 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Template Editor</title>
+$$STYLES$$
+<style type="text/css">
+#dividerBar { text-align: center; background: #ccc; }
+
+#summary label { width: 68%; float: left; display: block; }
+#summary #templateLabel { float: none; }
+#summary #templateId { float: left; width: 68%; font-weight: bold; font-size: 110%; margin-right: 20px; margin-bottom: 0.5em; }
+#summary { margin: 0.4em 20px 1em 20px; padding: 0; }
+#summary textarea { float: left; width: 68%; margin-right: 20px; margin-bottom: 0.5em; height: 225px; }
+#summary .one-liner { clear: both; margin: 0.4em 0; }
+#summary .radio label { display: inline; float: none; margin-left: 0em; text-align: left; width: auto; }
+#summary #layout, #summary #style { text-align: left; }
+#summary #layout div, #summary #style div { border: none; clear: left; margin: 0.1em 0pt; position: relative; }
+#summary #layout legend, #summary #style legend { font-size: 86%; font-weight: bold; padding: 0.2em 0.5em; color: #666; }
+#summary #layout label, #summary #layout .radio p, #summary #style label, #summary #style .radio p { font-size: 86%; display: block; float: left; margin: 0pt; text-align: right; width: 8.5em; }
+#summary #layout .radio label, #summary #style .radio label { display: inline; float: none; margin-left: 0em; text-align: left; width: auto; }
+#summary #layout input, #summary #layout select, #summary #style input, #summary #style select { font-size: 86%; margin-left: 2px; float: left; }
+#summary #layout input.numeric, #summary #style input.numeric { width: 4em; }
+#summary #layout div p, #summary #style div p { font-size: 86%; display: inline; margin: 0; }
+#summary #layout #orientationIMG, #summary #style #templateStyleIMG { float: right; margin: 0 10px; }
+#summary #style #styleDescription { float: left; margin: 0; height: 94px; }
+
+#settings { text-align: left; }
+#settings div { border: none; clear: left; margin: 0.1em 0pt; }
+#settings legend { font-size: 86%; font-weight: bold; padding: 0.2em 0.5em; color: #666; }
+#settings label, #settings .radio p { font-size: 86%; display: block; float: left; margin: 0pt; text-align: right; width: 11em; }
+#settings .radio label { display: inline; float: none; margin-left: 0em; text-align: left; width: auto; }
+#settings input, #settings select { font-size: 86%; margin-left: 2px; }
+#settings input.numeric { width: 4em; }
+#settings div p { font-size: 86%; display: inline; margin: 0; }
+#settings div.buttons { border: none; padding: 5px; margin-left: 9.2em; }
+#settings #tempTab2 { text-align: center; }
+#settings #tempTab2 img { vertical-align: middle; }
+#settings #tempTab2 #preview { border: solid 1px #CCC; }
+
+#tabmenu { position: relative; clear: both; background: #ffefc5; border-bottom: 1px solid #ccc; border-top: 1px solid #ccc; }
+#tabmenu ul { padding: 15px 0 3px 15px; margin: 0; }
+#tabmenu li { list-style: none; margin: 0; padding: 0; display: inline; }
+#tabmenu li a { padding: 4px 0.5em; margin-left: 3px; border: 1px solid #ccc; border-bottom: none; font-weight: bold; text-decoration: none; }
+#tabmenu li a:hover {background: #fff; }
+#tabmenu li a.active { color: #666; background: #fff; border-bottom: 1px solid #fff; }
+
+#buttons { position: absolute; margin: 0; padding: 0; right: 20px; top: 2px; }
+
+#preview { align: middle; }
+
+fieldset { text-align: left; margin-bottom: 0.5em; }
+* html fieldset { display: block; padding: 2em 0.5em 1em 0.5em; }
+
+div #buttonbar { float: left; margin-top: 1em; padding-top: 1em; }
+div #buttonbar input { width: 8em; }
+
+.afields { float: left; width: 30%; }
+.afields select { width: 100%; }
+
+.fieldbuttons { float: left; margin: 2em; }
+.fieldbuttons input { width: 2.5em; float: left; }
+
+.sfields { float: left; width: 30%; }
+.sfields select { width: 100%; }
+
+fieldset #radiobox { border: solid 1px; margin: 0px; padding: 1em; width: 16em; float: left; }
+fieldset #radiobox label { text-align: right; display: block; margin: 0.5em 0px; }
+
+.plotBox { width: 100%; }
+.plotBoxTabs { padding: 0.5em 0px; border-bottom: solid 1px #666; }
+.plotBoxTabs a { font-weight: bold; padding: 0.5em; margin: 0.6em 0px; border: solid 1px #666; }
+.plotBoxTabs a.active { border-bottom: solid 2px #eee; background-color: #eee; color: #666; }
+.plotBoxTabs a.disabled { color: #eee; }
+.plotBoxTabs a:hover { text-decoration: none; background-color: #eee; color: #800; }
+.plotBoxTabs a.active:hover { background-color: #eee; color: #666; cursor: default; }
+.plotBoxTabs a.disabled:hover { background-color: #fff; color: #eee; cursor: default; }
+.plot { border: solid 1px #666; border-top: 0px; background-color: #eee; padding: 1em; padding-bottom: 0.5em; z-index: 0; }
+.plot .num { width: 8em; }
+
+.sl { background-color: #ffeab1; border: solid 1px #666; float: left; clear: left; margin-left: 1em; margin-top: 1em; padding: 1em; }
+.sr { background-color: #ffeab1; border: solid 1px #666; float: right; clear: right; margin-right: 1em; margin-top: 1em; padding: 1em; }
+.sl label, .sr label { font-weight: bold; }
+.spacer { clear: both; }
+
+div .tabbody { clear: both; background: #fff; border-bottom: solid 1px #ccc; padding: 20px; }
+
+table { width: 100%; color: #334; font-family: Tahoma, arial, sans-serif; font-size: 90%; border-top: solid 1px #ccc; border-left: solid 1px #ccc; border-right: solid 1px #ccc; }
+table th { background: #edeee5; border-right: solid 1px #808759; border-bottom: solid 1px #808759; padding: 3px; text-align: center; }
+table th.cb { text-align: center; vertical-align: middle; width: 25px; padding: 0; }
+table th.icon { text-align: center; vertical-align: middle; width: 25px;}
+table th.dv { width: 180px; }
+table th.wd { width: 300px; }
+table th.ni { width: 110px; }
+table th.sn { width: 50px; text-align: center; }
+table th.rh { text-align: right; padding: 1px 3px 1px 1px; }
+table td { padding: 3px 0; text-align: center; border-bottom: solid 1px #ccc; }
+table td.left { text-align: left; }
+table input { width: 100%; margin: 0; font-family: Tahoma, Arial, sans-serif; font-size: 90%; }
+table select { width: 100%; margin: 0; font-family: Tahoma, Arial, sans-serif; font-size: 90%; }
+
+table .o { background: #f1f5fa; }
+table .active { background: #fdfdd4; }
+table .movers { float: left; clear: left; margin-left: 5px; }
+
+table.standard th, table.standard td { text-align: center; vertical-align: middle; }
+
+.borderOff{border: 2px solid #FFFFFF;}
+.borderOn{border: 2px solid red;}
+</style>
+$$SCRIPTS$$
+$$JAVASCRIPT$$
+<script type="text/javascript">
+<!--
+
+/***********************************************
+* Image w/ description tooltip- By Dynamic Web Coding (www.dyn-web.com)
+* Copyright 2002-2007 by Sharon Paine
+* Visit Dynamic Drive at http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+/* IMPORTANT: Put script after tooltip div or 
+	 put tooltip div just before </BODY>. */
+
+var dom = (document.getElementById) ? true : false;
+var ns5 = (!document.all && dom || window.opera) ? true: false;
+var ie5 = ((navigator.userAgent.indexOf("MSIE")>-1) && dom) ? true : false;
+var ie4 = (document.all && !dom) ? true : false;
+var nodyn = (!ns5 && !ie4 && !ie5 && !dom) ? true : false;
+
+var origWidth, origHeight;
+
+// avoid error of passing event object in older browsers
+if (nodyn) { event = "nope" }
+
+///////////////////////  CUSTOMIZE HERE   ////////////////////
+// settings for tooltip 
+// Do you want tip to move when mouse moves over link?
+var tipFollowMouse= true;
+// Be sure to set tipWidth wide enough for widest image
+var tipWidth= 160;
+var offX= -200;	// how far from mouse to show tip
+var offY= 0;
+var tipFontFamily= "Verdana, arial, helvetica, sans-serif";
+var tipFontSize= "8pt";
+// set default text color and background color for tooltip here
+// individual tooltips can have their own (set in messages arrays)
+// but don't have to
+var tipFontColor= "#000000";
+var tipBgColor= "#DDECFF"; 
+var tipBorderColor= "#000080";
+var tipBorderWidth= 3;
+var tipBorderStyle= "ridge";
+var tipPadding= 4;
+
+// tooltip content goes here (image, description, optional bgColor, optional textcolor)
+var messages = new Array();
+// multi-dimensional arrays containing: 
+// image and text for tooltip
+// optional: bgColor and color to be sent to tooltip
+messages[0] = new Array('/images/4-plot.gif','This template can show up to four 2D graphical plots using data from either S-parameter or PIM tests.',"#FFFFFF");
+messages[1] = new Array('/images/snp.gif','This template tabulates S-parameter test data measured for a uniquely identified test run.  The format follows a common variation of the de facto industry standard for n-port network parameter documentation.',"#FFFFFF");
+messages[2] = new Array('/images/txt.gif','This template tabulates data from any Spartan test.  Comment rows (beginning with an exclamation point "!") summarize the field data collected, and the first uncommented row is a header that describes the measured data (parameter name and units) in the subsequent rows.',"#FFFFFF");
+messages[3] = new Array('/images/summary.gif','This template tabulates a summary of the data captured (fields and measurements) for a uniquely identified test run within Spartan.',"#FFFFFF");
+messages[4] = new Array('/images/overlay.gif','This template overlays one measured parameter from multiple S-parameter or PIM tests on a single 2D graphical plot.',"#FFFFFF");
+messages[5] = new Array('/images/multiple item.gif',' This template tabulates data from multiple test items into rows where the columns are user-defined data (fields, measurements, etc.) collected for the particular item (row).',"#FFFFFF");
+messages[6] = new Array('/images/ANALYSISREPORT.gif','This template tabulates various analyses (first pass yield, histogram, or statistics) using a specific Spartan test and/or measurement on a population of tested items.',"#FFFFFF");
+
+////////////////////  END OF CUSTOMIZATION AREA  ///////////////////
+
+// preload images that are to appear in tooltip
+// from arrays above
+if (document.images) {
+  var theImgs = new Array();
+  for (var i=0; i<messages.length; i++) {
+    theImgs[i] = new Image();
+    theImgs[i].src = messages[i][0];
+  }
+}
+
+// to layout image and text, 2-row table, image centered in top cell
+// these go in var tip in doTooltip function
+// startStr goes before image, midStr goes between image and text
+var startStr = '<table width="' + tipWidth + '"><tr><td align="center" width="100%"><img src="';
+var midStr = '" border="0"></td></tr><tr><td valign="top">';
+var endStr = '</td></tr></table>';
+
+////////////////////////////////////////////////////////////
+//  initTip	- initialization for tooltip.
+//		Global variables for tooltip. 
+//		Set styles
+//		Set up mousemove capture if tipFollowMouse set true.
+////////////////////////////////////////////////////////////
+var tooltipDIV, tooltipIFRAME, tipcss, tipcssIFRAME;
+function initTip() {
+  if (nodyn) return;
+  tooltipDIV = (ie4)? document.all['tipDiv']: (ie5||ns5)? document.getElementById('tipDiv'): null;
+  tipcss = tooltipDIV.style;
+  if (ie4||ie5||ns5) {	// ns4 would lose all this on rewrites
+    tipcss.width = tipWidth+"px";
+    tipcss.fontFamily = tipFontFamily;
+    tipcss.fontSize = tipFontSize;
+    tipcss.color = tipFontColor;
+    tipcss.backgroundColor = tipBgColor;
+    tipcss.borderColor = tipBorderColor;
+    tipcss.borderWidth = tipBorderWidth+"px";
+    tipcss.padding = tipPadding+"px";
+    tipcss.borderStyle = tipBorderStyle;
+  }
+  if (tooltipDIV&&tipFollowMouse) {
+    document.onmousemove = trackMouse;
+  }
+}
+
+window.onload = initTip;
+
+/////////////////////////////////////////////////
+//  doTooltip function
+//			Assembles content for tooltip and writes 
+//			it to tipDiv
+/////////////////////////////////////////////////
+var t1, t2, t3, t4;	// for setTimeouts
+var tipOn = false;	// check if over tooltip link
+function doTooltip(evt,num) {
+  if (!tooltipDIV) return;
+  if (t1) clearTimeout(t1);
+  if (t2) clearTimeout(t2);
+  tipOn = true;
+  // set colors if included in messages array
+  if (messages[num][2])	var curBgColor = messages[num][2];
+  else curBgColor = tipBgColor;
+  if (messages[num][3])	var curFontColor = messages[num][3];
+  else curFontColor = tipFontColor;
+  if (ie4||ie5||ns5) {
+    var tip = startStr + messages[num][0] + midStr + '<span style="font-family:' + tipFontFamily + '; font-size:' + tipFontSize + '; color:' + curFontColor + ';">' + messages[num][1] + '</span>' + endStr;
+    tipcss.backgroundColor = curBgColor;
+    tooltipDIV.innerHTML = tip;
+  }
+  if (!tipFollowMouse) positionTip(evt);
+  else {
+    t1=setTimeout("tipcss.visibility='visible'",100);
+  }  
+}
+
+var mouseX, mouseY;
+function trackMouse(evt) {
+  standardbody=(document.compatMode=="CSS1Compat")? document.documentElement : document.body //create reference to common "body" across doctypes
+  mouseX = (ns5)? evt.pageX: window.event.clientX + standardbody.scrollLeft;
+  mouseY = (ns5)? evt.pageY: window.event.clientY + standardbody.scrollTop;
+  if (tipOn) positionTip(evt);
+}
+
+/////////////////////////////////////////////////////////////
+//  positionTip function
+//		If tipFollowMouse set false, so trackMouse function
+//		not being used, get position of mouseover event.
+//		Calculations use mouseover event position, 
+//		offset amounts and tooltip width to position
+//		tooltip within window.
+/////////////////////////////////////////////////////////////
+function positionTip(evt) {
+  if (!tipFollowMouse) {
+    standardbody=(document.compatMode=="CSS1Compat")? document.documentElement : document.body
+    mouseX = (ns5)? evt.pageX: window.event.clientX + standardbody.scrollLeft;
+    mouseY = (ns5)? evt.pageY: window.event.clientY + standardbody.scrollTop;
+  }
+  // tooltip width and height
+  var tpWd, tpHt;
+  if (ie4||ie5) {
+    tpWd = tooltipDIV.clientWidth;
+  } else {
+    tpWd = tooltipDIV.offsetWidth;
+  }
+  if (ie4||ie5) {
+    tpHt = tooltipDIV.clientHeight;
+  } else {
+    tpHt = tooltipDIV.offsetHeight;
+  }
+  // document area in view (subtract scrollbar width for ns)
+  var winWd = (ns5)? window.innerWidth-20+window.pageXOffset: standardbody.clientWidth+standardbody.scrollLeft;
+  var winHt = (ns5)? window.innerHeight-20+window.pageYOffset: standardbody.clientHeight+standardbody.scrollTop;
+  // check mouse position against tip and window dimensions
+  // and position the tooltip
+  if ((mouseX+offX+tpWd)>winWd) {
+    tipcss.left = mouseX-(tpWd+offX)+"px";
+  } else {
+    tipcss.left = mouseX+offX+"px";
+  }
+  if ((mouseY+offY+tpHt)>winHt) {
+    tipcss.top = winHt-(tpHt+offY)+"px";
+  } else {
+    tipcss.top = mouseY+offY+"px";
+  }
+  if (!tipFollowMouse) {
+    t1=setTimeout("tipcss.visibility='visible'",100);
+  }
+}
+
+function hideTip() {
+  if (!tooltipDIV) return;
+  t2=setTimeout("tipcss.visibility='hidden'",100);
+  tipOn = false;
+}
+-->
+</script>
+<script type="text/javascript" >
+<!--
+//---------------------------------------------------------------TEMPLATE OBJECT-----------------------------------------------------------------------
+
+//----------------------------------------------------------
+// Performs template save
+//----------------------------------------------------------
+function saveTemplate() {
+  if (CHANGES) {
+    var msg = '';
+
+    $('.busyNote').show().bgiframe();  // disable form
+
+    // check for empty templateId
+    if (isBlank($('#templateId').val())) msg =  "  * Template name cannot be empty\n"
+
+    if (!isBlank(msg)) {
+      alert("Please fix these problems before submitting the changes:\n\n" + msg)
+      $('.busyNote').hide();  // enable form
+    } else {
+      var originalTemplateId = $('#originalTemplateId').val();
+      var newTemplateId = $('#templateId').val();
+
+      // no horrible errors, check for name duplication
+      if (originalTemplateId != newTemplateId) { // did they change names?
+        var overwrite = false;
+        $.ajax({ type: "GET",
+                 url: '$$THISCGI$$?checkExists=' + encodeURIComponent(newTemplateId),
+                 async: false,
+                 cache: false,
+                 success: function(response) {
+                   try {
+                     eval('var data=' + response);
+                   } catch(e) {
+                     msg = 'An error occurred checking the record name.\n\n' + e;
+                   }
+
+                   if (isBlank(msg)) {
+                     if (data.status) msg='An error occurred checking the record name.\n\n' + data.source;
+                     else {
+                       overwrite = (data.payload === true);
+                       if (overwrite) msg='A record with that template name already exists.\n\nContinue and overwrite?';
+                     }
+                   }
+                 }
+               });
+
+        // alert/confirm if msg not blank
+        if (!isBlank(msg)) {
+          if (overwrite && !confirm(msg)) {
+            $('.busyNote').hide();
+            return false;
+          }
+
+          if (!overwrite) {
+            alert(msg);
+            $('.busyNote').hide();
+            return false;
+          }
+        }
+      }
+
+      CHANGES=false;       //reset before submitting form
+
+      $('#templateKeys').val(buildTemplateKeys());
+      $('#f').attr('action', "$$THISCGI$$?save=" + encodeURIComponent($('#originalTemplateId').val()));
+      $('#f').submit();    // submit the form...
+    }
+  }
+}
+
+//----------------------------------------------------------
+//  List of previously edited templates
+//----------------------------------------------------------
+function buildTemplateList() {
+  $('#templates').empty();
+
+  for (var i=0; i<TEMPLIST.length; i++) {
+    var $o = $('#templates').createAppend('option', { value: TEMPLIST[i], text: TEMPLIST[i] });
+  }
+  if (TEMPLIST.length == 0) {
+    var $o = $('#templates').createAppend('option', { value: '', text: '[no templates]' });
+    $('#templates').attr("disabled", "disabled");
+  }
+  if ($.browser.msie) $('#templates').hide().show();
+}
+
+//----------------------------------------------------------
+//  Update the template ID
+//----------------------------------------------------------
+function updateId(Id) {
+  TEMPLATE.sxTemplateId = Id;
+
+  makeChanges();
+}
+
+//----------------------------------------------------------
+//  Update the template description
+//----------------------------------------------------------
+function updateDescription(description) {
+  TEMPLATE.sDescription = description;
+
+  makeChanges();
+}
+
+//----------------------------------------------------------
+//  init the template style
+//----------------------------------------------------------
+function initTemplateStyle(style) {
+  TEMPLATE.sStyleProcess = style;
+  $('#templateStyle').val(style);
+  
+  if (style == "Custom") {
+    $('#templateStyle').attr('disabled', true);
+    $('#orientationPortrait').attr('disabled', true);
+    $('#orientationLandscape').attr('disabled', true);
+    $('#outputFormat').attr('disabled', true);
+  } else {
+
+    var oldEditor = TEMPLATE.sEditor;
+    var index;
+
+    switch (style) {
+      case "4-Plot":
+        TEMPLATE.sType = "Single Item Datasheet";
+        TEMPLATE.sEditor = "edittemplate standard.htm";
+        index = 0;
+        break;
+
+      case "Overlay":
+        TEMPLATE.sType = "Multiple Item Datasheet";
+        TEMPLATE.sEditor = "edittemplate overlay.htm";
+        index = 4;
+        break;
+
+      case "SNP":
+        TEMPLATE.sType = "Single Item Datasheet";
+        TEMPLATE.sEditor = "edittemplate table.htm";
+        index = 1;
+        $('#outputFormat').children("[value='TXT']").val('S2P')
+                                                    .text('Plain Text (S2P)');
+        break;
+
+      case "ASCII":
+        TEMPLATE.sType = "Single Item Datasheet";
+        TEMPLATE.sEditor = "edittemplate table.htm";
+        index = 2;
+        break;
+
+      case "Summary":
+        TEMPLATE.sType = "Single Item Datasheet";
+        TEMPLATE.sEditor = "edittemplate table.htm";
+        index = 3;
+        break;
+
+      case "Table":
+        TEMPLATE.sType = "Multiple Item Datasheet";
+        TEMPLATE.sEditor = "edittemplate table.htm";
+        index = 5;
+        break;
+
+      case "Analysis":
+        TEMPLATE.sType = "Multiple Item Datasheet";
+        TEMPLATE.sEditor = "edittemplate analysis.htm";
+        index = 6;
+        break;
+    }
+
+    $('#templateStyleIMG').attr('src', messages[index][0]);
+    $('#styleDescription').val(messages[index][1]);
+
+  }
+}
+
+//----------------------------------------------------------
+//  Update the template style
+//----------------------------------------------------------
+function updateTemplateStyle(styleprocess,style) {
+    var templateKeys = "";
+    $('.busyNote').show().bgiframe();  // disable form
+
+    if ( confirm('Are you sure you want to change the style of this template?\n\nThe current settings will be lost.')) {
+      // TEMPLATE
+      templateKeys = templateKeys + "sxTemplateId=" + TEMPLATE.sxTemplateId + "&";
+      templateKeys = templateKeys + "sDescription=" + TEMPLATE.sDescription + "&";
+      templateKeys = templateKeys + "sStyle=" + style + "&";
+      templateKeys = templateKeys + "sStyleProcess=" + styleprocess + "&";
+      templateKeys = templateKeys + "sEditor=" + TEMPLATE.sEditor + "&";
+      templateKeys = templateKeys + "sFilename=" + TEMPLATE.sFilename + "&";
+      templateKeys = templateKeys + "sScript=" + TEMPLATE.sScript + "&";
+      templateKeys = templateKeys + "sFormat=" + TEMPLATE.sFormat + "&";
+      templateKeys = templateKeys + "sType=" + TEMPLATE.sType + "&";
+      templateKeys = templateKeys + "sLayout=" + TEMPLATE.sLayout;
+      $('#templateKeys').val(templateKeys);
+      CHANGES = false;
+
+      $('#f').attr('action', "templates.vit?switch=" + encodeURIComponent('$$SXTEMPLATEID$$')+ '&newstyle=' +encodeURIComponent(styleprocess));
+      $('#f').submit();
+   } else {
+     $('#templateStyle').val(TEMPLATE.sStyleProcess);
+     $('.busyNote').hide();  // disable form
+   }
+}
+
+//---------------------------------------------------------------LAYOUT OBJECT-------------------------------------------------------------------------
+
+//---------------------------------------------------------
+//  Sets layout settings appropriately
+//---------------------------------------------------------
+function updatePageSize(pageSize){
+  LAYOUT.sPageSize = pageSize
+  var pageWidth = document.getElementById("pageWidth");
+  var pageHeight = document.getElementById("pageHeight");
+  var disable = pageSize != "Custom";
+  pageWidth.disabled = disable;
+  pageHeight.disabled = disable;
+
+  switch (pageSize) {
+    case "Letter":
+      pageWidth.value     = "8.5";
+      pageHeight.value    = "11.0";
+      break;
+    case "Ledger" :
+      pageWidth.value = "11.0";
+      pageHeight.value = "17.0";
+      break;
+    case "Legal":
+      pageWidth.value     = "7.5";
+      pageHeight.value    = "12.5";
+      break;
+    case "A3":
+      pageWidth.value     = "10.63";
+      pageHeight.value    = "14.96";
+      break;
+    case "A4":
+      pageWidth.value     = "7.09";
+      pageHeight.value    = "10.24";
+      break;
+    case "A5":
+      pageWidth.value     = "5.12";
+      pageHeight.value    = "7.09";
+      break;
+  }
+  
+  updatePageWidth(pageWidth.value);
+  updatePageHeight(pageHeight.value);
+  
+  makeChanges();
+}
+
+//---------------------------------------------------------
+// Update the page width
+//---------------------------------------------------------
+function updatePageWidth(width) {
+  LAYOUT.dWidth = width;
+
+  makeChanges();
+}
+
+//---------------------------------------------------------
+// Update the page height
+//---------------------------------------------------------
+function updatePageHeight(height) {
+  LAYOUT.dHeight = height;
+
+  makeChanges();
+}
+
+//---------------------------------------------------------
+// Update the output format
+//---------------------------------------------------------
+function updateOutputFormat(format) {
+  TEMPLATE.sFormat = format;
+
+  makeChanges();
+}
+
+//---------------------------------------------------------
+// Update the page orienation
+//---------------------------------------------------------
+function updatePageOrientation(orientation) {
+  LAYOUT.sOrientation = orientation;
+  $('#orientationIMG').attr('src', '/images/' + orientation + '.gif');
+
+  makeChanges();
+}
+
+//---------------------------------------------------------------FIELD OBJECT--------------------------------------------------------------------------
+
+//---------------------------------------------------------
+// This is the main function to build
+// the fields table from the FIELDS array
+//---------------------------------------------------------
+function buildFieldsTable() {
+  var tbl=document.getElementById('fields');
+  var firstVisible = DEFAULTFIELDS.length;
+  var lastVisible = FIELDS.length + DEFAULTFIELDS.length - 1;
+  var alreadySetFirstVisible = false;
+  var i;
+  var showHidden = $('#showhidefields').is(':checked');
+  var defaultFieldIds = [];
+  var TABLEFIELDS = [];
+  for (var j=0; j<DEFAULTFIELDS.length; j++) {
+    defaultFieldIds[j] = DEFAULTFIELDS[j].sxFieldId;
+    TABLEFIELDS[j] = DEFAULTFIELDS[j];
+  }
+  for (var j=0; j<FIELDS.length; j++) {
+    TABLEFIELDS[j + DEFAULTFIELDS.length] = FIELDS[j];
+  }
+
+  if (FIELDS.length >= 20) {
+    $('#_add_field').attr({ className: "grayedout", title: "Cannot add more than 20 fields to the datasheet" });
+  } else {
+    $('#_add_field').attr({ className: "adder", title: "Add a field"});
+  }
+
+  // first, clear existing table.  The try/catch is for Firefox...
+  $("#fields tr:gt(0)").remove();
+
+  // This is the main loop that builds the rows
+  // of the table by adding cells one at a time
+
+  for (i=0; i<TABLEFIELDS.length; i++) {
+    var row = tbl.insertRow(tbl.rows.length); // there's a header row
+    var defaultField = defaultFieldIds.indexOf(TABLEFIELDS[i].sxFieldId) >= 0;
+
+    if ((showHidden && defaultField) || !defaultField) {
+
+      //---------------------------------------------------------
+      //  Cell 0:  Field Type
+      //    Holds an icon depending on type
+      //    type can be 'system' or 'custom'
+      var cell0 = row.insertCell(0);
+      cell0.className = "icon";
+      var el0   = document.createElement('img');
+      el0.width="16";
+      el0.height="16";
+      if (defaultField) {
+        el0.src   = "/images/fieldsystemsmall.gif";
+        el0.title = "this is a default field";
+      } else {
+        el0.src   = "/images/fieldsmall.gif";
+        el0.title = "this is a custom field";
+      }
+      cell0.appendChild(el0);
+
+
+      //---------------------------------------------------------
+      //  Cell 1:  Delete Field (row)
+      //    Holds an icon/link to delete the row
+      //    but disabled for system fields
+      var cell1 = row.insertCell(1);
+      cell1.className = "icon";
+      var el1   = document.createElement('img');
+      el1.width = "16";
+      el1.height = "16";
+      if (defaultField) {
+        el1.src   = "/images/deletesmalldisabled.gif";
+        el1.title = "default fields cannot be deleted";
+      } else {
+        el1.src   = "/images/deletesmall.gif";
+        el1.title = "delete this field";
+        el1.onclick = new Function ("removeField(" + (i - DEFAULTFIELDS.length) + ");");
+      }
+      cell1.appendChild(el1);
+
+
+      //---------------------------------------------------------
+      //  Cell 2:  Field Reordering
+      //    Holds a couple of images/links to handle
+      //    reordering rows of the fields table
+      var cell2 = row.insertCell(2);
+      cell2.className = "icon";
+
+      //  Move up (toward top of list; index gets smaller)
+      var el2aUp    = document.createElement('a');
+      el2aUp.href   = "#nogo";
+      var el2aUpImg = document.createElement('img');
+      el2aUpImg.width="12";
+      el2aUpImg.height="10";
+      el2aUpImg.className = "movers";
+      if (i==firstVisible || defaultField) {    // disable UP on first element
+        el2aUpImg.src     = "/images/upsmalldisabled.gif";
+      } else {
+        el2aUp.title   = "move up"
+        el2aUp.onclick = new Function("this.blur(); moveField(-(" + (i - DEFAULTFIELDS.length) + "));");
+        el2aUpImg.src  = "/images/upsmall.gif";
+      }
+      el2aUp.appendChild(el2aUpImg);
+
+      //  Move down (toward bottom of list; index gets bigger)
+      var el2aDwn    = document.createElement('a');
+      el2aDwn.href   = "#nogo";
+      var el2aDwnImg = document.createElement('img');
+      el2aDwnImg.width="12";
+      el2aDwnImg.height="10";
+      el2aDwnImg.className = "movers";
+      if (i==lastVisible || defaultField) {  // disable DOWN on last element
+        el2aDwnImg.src     = "/images/downsmalldisabled.gif";
+      } else {
+        el2aDwn.title      = "move down"
+        el2aDwn.onclick    = new Function ("this.blur(); moveField(" + (i - DEFAULTFIELDS.length) + ");");
+        el2aDwnImg.src     = "/images/downsmall.gif";
+      }
+      el2aDwn.appendChild(el2aDwnImg);
+
+      cell2.appendChild(el2aUp);
+      cell2.appendChild(el2aDwn);
+
+
+      //---------------------------------------------------------
+      //  Cell 3:  Field Display Name
+      //    Holds a grayed out name for system fields,
+      //    but enabled selection drop-down for custom
+      //    fields changing
+      var cell3           = row.insertCell(3);
+      cell3.className = "grayedout";
+      cell3.title     = "cannot be changed";
+
+      var e13        = document.createElement('span');
+      var el3t       = document.createTextNode(TABLEFIELDS[i].sDisplayName);
+
+      e13.appendChild(el3t);
+      cell3.appendChild(e13);
+
+      //---------------------------------------------------------
+      //  Cell 4:  Field Data Type
+      //    Holds a grayed out name for the type of
+      //    data the field can hold.  There's some
+      //    special parsing and use of the 'definition'
+      //    class to put some titles on some of these
+      var cell4       = row.insertCell(4);
+      cell4.className = "grayedout";
+      var el4  = document.createElement('span');
+      var el4t = document.createTextNode(TABLEFIELDS[i].nDataType);
+      switch (TABLEFIELDS[i].nDataType.toLowerCase()) {
+        case 'list':
+          el4.className = "definition";
+          el4.title     = "A list of specific items from which one may be selected";
+          break;
+        default:
+      }
+      el4.appendChild(el4t);
+      cell4.appendChild(el4);
+
+
+      //---------------------------------------------------------
+      //  Cell 5:  Field Units
+      //    Holds a grayed-out text for the units of
+      //    the field.
+      var cell5 = row.insertCell(5);
+      var el5   = document.createTextNode(isBlank(TABLEFIELDS[i].sUnits)? nbsp() : TABLEFIELDS[i].sUnits);
+      cell5.className = "grayedout";
+      cell5.appendChild(el5);
+      
+      //---------------------------------------------------------
+      //  Cell 6:  Filler Cell
+      //    Holds a blank cell as a filler cell
+      row.insertCell(6);
+
+    }// end if adding this row...
+  } // end for each field
+
+  // everything's added - paint the table styles
+  $("#fields tbody > tr:nth-child(odd)").addClass("o");      // zebra stripes
+
+}
+
+//---------------------------------------------------------
+// Main function is above;  below you'll find the functions
+// that handle making changes to the cells of the fields table
+//---------------------------------------------------------
+
+//---------------------------------------------------------
+//  Field Table Cell 1:  Remove Field (row)
+//---------------------------------------------------------
+function removeField(i) {
+  FIELDS.splice(i, 1);
+
+  makeChanges();
+  buildFieldsTable();
+}
+
+//---------------------------------------------------------
+//  Field Table Cell 2:  Reorder Fields
+//---------------------------------------------------------
+function moveField(i) {
+  var dir=1;  // move toward end of list
+  if (i<0) {
+    dir = -1; // move toward beginning of list
+    i   = -i;
+  }
+
+  var tmp = new copyField(FIELDS[i + dir]);    // save field above (or below)
+  FIELDS[i + dir] = null;
+  FIELDS[i + dir] = new copyField(FIELDS[i]);  // replace index with next (or prev)
+  FIELDS[i] = null;
+  FIELDS[i] = new copyField(tmp);              // move temp back
+  tmp = null;
+
+  makeChanges();
+  buildFieldsTable();
+}
+
+//---------------------------------------------------------
+//  Field Table Cell 3:  Field Name
+//    allows user to select a different (custom)
+//    field in a drop-down select box
+//---------------------------------------------------------
+function changeField(i) {
+  var fname = FIELDS[i].sxFieldId;
+  var dtext = document.getElementById(fname + "_fieldid_display");
+
+  // hide currenlty displayed value
+  dtext.className = "hidden";
+
+  // create array of all available fields
+  var A = [];
+  getAvailableFields(A);
+
+  // add current field to top (index 0)
+  A.splice(0,0,new copyField(FIELDS[i]));
+
+  // create a select box to show choices
+  var s = document.createElement('select');
+  s.id  = fname + "_select";
+  addFieldOptions(s, A);
+  s.selectedIndex = 0;
+  s.onblur = new Function ("saveChangedField(" + i + ");");   // handle storing after edit
+  dtext.parentNode.appendChild(s);
+  s.focus();
+}
+
+function saveChangedField(i) {
+  var fname = FIELDS[i].sxFieldId;
+  var s     = document.getElementById(fname + "_select");
+  var j     = s.selectedIndex - 1; // because we added the current field
+
+  // don't make changes if they didn't select a new field
+  if (j >= 0) {
+    A = [];
+    getAvailableFields(A);
+
+    FIELDS[i] = null;
+    FIELDS[i] = new copyField(A[j]);
+    makeChanges();
+  }
+
+  s.parentNode.removeChild(s);
+  buildFieldsTable();
+}
+
+//---------------------------------------------------------
+// returns a copy of a FIELD object
+//---------------------------------------------------------
+function copyField(f) {
+  for (var i in f) this[i] = f[i];
+}
+
+//---------------------------------------------------------
+// check for visible field requirement
+//---------------------------------------------------------
+function fieldVisible(i) {
+  if (!FIELDS[i].fSystem || !FIELDS[i].fSystemValue) return true;
+  else return false;
+}
+
+//---------------------------------------------------------------UTILITY FUNCTIONS---------------------------------------------------------------------
+
+//---------------------------------------------------------
+// This function catches CTRL-S events
+//---------------------------------------------------------
+function checkSave(e) {
+  var ctrlKey  = false;
+  var shiftKey = false;
+  var altKey   = false;
+
+  if(!e) {
+    if(window.event) e = window.event // IE
+    else return;  // failure!
+  }
+  // map modifier key states first...
+  if (e.ctrlKey)  ctrlKey  = e.ctrlKey;
+  if (e.shiftKey) shiftKey = e.shiftKey;
+  if (e.altKey)   altKey   = e.altKey;
+
+  if (typeof(e.keyCode) == 'number'){
+    e = e.keyCode;   // DOM
+  } else if (typeof(e.which) == 'number') {
+    e = e.which;     // NS4
+  } else if (typeof(e.charCode) == 'number') {
+    e = e.charCode;  // NS6+, Mozilla 0.9+
+  } else {
+    return; // failure!
+  }
+  // we now have a valid key event to process...
+  if (e == 83 && ctrlKey) saveTemplate();
+}
+
+//---------------------------------------------------------
+// Save visible tab for reloads
+//---------------------------------------------------------
+function setMenu(i) {
+  document.getElementById('menuTab').value = i;
+}
+
+//---------------------------------------------------------
+// Attach keyboard event to process special keys
+//---------------------------------------------------------
+document.onkeyup = checkSave;
+
+//---------------------------------------------------------
+// Warn of pending changes for browse-off's
+// (does not work in FF if added to BODY tag)
+//---------------------------------------------------------
+window.onbeforeunload=confirmLeave;
+
+//---------------------------------------------------------
+// Add the initialization of the page
+//---------------------------------------------------------
+$(document).ready(function () {
+  $$CHANGES$$
+
+  // This is template specific page setup
+  initializePage();
+
+  // show/hide the panel_id panel
+  if ($.cookie('summary')) $('#summary').hide();
+
+  // show/hide fields checkbox handler
+  $('#showhidefields').bind(($.browser.msie)? "click" : "change", function () {
+    $(this).blur();
+    buildFieldsTable();
+    return ($.browser.msie);
+  });
+
+  
+  // "Add..." Handlers...
+  $(".add_wrapper a").live("click", function () {
+    // 'this' is clicked anchor element
+    $(this).blur();
+
+    if ($(this).is(".adder")) {
+      if (EDITDISABLED) return false;
+      var divId = this.id.slice(1);
+      $('#' + divId).fadeIn("fast");
+
+
+      // now decide who handles showing...
+      switch (this.id) {
+        case "_add_field":
+          var $s = $('#' + divId).children("select");
+          availableFields($s);
+          $s.focus();
+          break;
+
+        default:
+      }
+
+    } else if ($(this).is(".btn_cancel")) { // cancel adding
+      $(this).parent().hide();
+      return false;
+
+    } else if ($(this).is(".btn_ok")) { // add new field...
+      $(this).parent().hide();
+
+      switch ($(this).parent()[0].id) {
+        case "add_field":
+          if (ALLFIELDS.length == 0) return false; // any fields to add?
+
+          var newField = $.extend(true, {}, getField($(this).prev("select:first").val()));
+          FIELDS.push(newField);
+          buildFieldsTable();
+          break;
+
+        default:
+      }
+    }
+  }); // END "Add..." Handlers
+  
+  // Load template on list change
+  $('#templates').change(function () {
+    var newOne = $(this).val();
+
+    if (saveChangesAlert()) {
+      $('.busyNote').show().bgiframe();
+      if ($.browser.msie) $('#templates').hide();
+      CHANGES=false;
+      document.location='$$THISCGI$$?edit=' + encodeURIComponent(newOne) + '&' + randomizer();
+    } else {
+      $(this).val(TEMPLATE.sxTemplateId);
+    }
+  });
+
+  // Set up import dialog
+  $("a#_importDialog").click(function () {
+    $(this).blur();
+    if (saveChangesAlert()) {
+
+      var button    = $(this).offset(); // left, top
+      button.height = $(this).height();
+      button.width  = $(this).width();
+
+      var $dialog = $("#" + this.id.slice(1));
+  
+      var xPos = button.left - $dialog.width();
+      var yPos = button.top;
+
+      $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+      $dialog.show().bgiframe( {top: "-10px", left: "-10px" });
+
+    }
+
+    return false;
+  });
+
+
+  $("#importDialog #filename").change(function () {
+    if (!isBlank($('#filename').val())) {
+      $('.busyNote').show().bgiframe();
+      if ($.browser.msie) $('#sequences').hide();
+      $(this).parent().hide().submit();
+    } else {
+      $('#filename').focus();
+    }
+    return false;
+  });
+  
+  // Set up save dialog
+//  $("a#_saveDialog").click(function () {
+//    $(this).blur();
+//    var button    = $(this).offset(); // left, top
+//    button.height = $(this).height();
+//    button.width  = $(this).width();
+
+//    var $dialog = $("#" + this.id.slice(1));
+
+//    var xPos = button.left - $dialog.width();
+//    var yPos = button.top;
+
+//    $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+//    $dialog.show().bgiframe();
+//    $('#save').val(TEMPLATE.sxTemplateId).select();
+
+//    return false;
+//  });
+
+
+//  $("#saveDialog .btn_ok").click(function () {
+//    if (!isBlank($('#save').val())) {
+//      $(this).parent().hide();
+//      TEMPLATE.sxTemplateId = $('#save').val();
+//      saveTemplate(); // if seq is okay, this submits form - refreshes page
+//    } else {
+//      $('#save').focus();
+//    }
+//    return false;
+//  });
+  
+  // Dialog Cancel event handlers
+  $(".dialog .btn_cancel").click(function () {
+    $(this).parent().hide();
+    return false;
+  });
+  
+  // key bindings
+  var isCtrl = false; // global Ctrl-key watcher
+
+  $(document).keyup(function (e) {
+    if (e.which == 17) isCtrl=false;
+
+  }).keydown(function (e) {
+    if (e.which == 17) isCtrl=true;
+
+    switch(e.which) {
+
+      case 13:   // "return"/"enter" key
+        $(".add_wrapper > div:visible a.btn_ok").click();
+        $(".dialog:visible").children(".btn_ok").click();
+        break;
+
+      case 27:   // "esc" key
+        $(".add_wrapper > div").hide();
+        $(".dialog .btn_cancel").click();
+        break;
+
+      case 78:   // "N" - new
+        if (isCtrl) {
+          $('#newTemplate').click();
+          e.preventDefault();  // some browsers > new window
+        }
+        break;
+
+      case 83:   // "S" - save
+        if (isCtrl) {
+          $('#saveTemplate').click();
+          e.preventDefault(); // some browsers save As...
+        }
+        break;
+    }
+
+  }); // key bindings
+  
+  buildTemplateList();
+});
+
+//---------------------------------------------------------
+// Return a field from array (regular or custom) by Id
+//---------------------------------------------------------
+function getField(fid) {
+  for (var i=0; i<FIELDS.length; i++) {
+    if (fid.toLowerCase() == FIELDS[i].sxFieldId.toLowerCase()) return FIELDS[i];
+  }
+  for (i=0; i<HFIELDS.length; i++) {
+    if (fid.toLowerCase() == HFIELDS[i].sxFieldId.toLowerCase()) return HFIELDS[i];
+  }
+  return {};
+}
+
+//---------------------------------------------------------
+// Make sure they want to perform this non-undoable action
+//---------------------------------------------------------
+function confirmDelete(w){
+  var msg = "Are you sure you want to delete this template?\nThis will remove the template from any scenarios and test steps that utilize it.\n\nThis action cannot be undone.";
+  if (saveChangesAlert()){
+
+    if (confirm(msg)){
+      CHANGES=false;  // go ahead and reset CHANGES before following link
+      w.href="$$THISCGI$$?delete="+encodeURIComponent('$$SXTEMPLATEID$$');
+
+      return true;
+    }
+    return false;
+  }
+  return false;
+}
+
+//---------------------------------------------------------
+// Export a Template
+//---------------------------------------------------------
+function exportTemplate(w){
+  if (CHANGES) {
+    alert('There are unsaved changes to the template.\nChanges must be saved before exporting.');
+    return;
+  } else {
+    w.href="$$THISCGI$$?export=" + encodeURIComponent('$$SXTEMPLATEID$$');
+  }
+}
+
+//---------------------------------------------------------
+// Creates a copy of the current template
+//---------------------------------------------------------
+function copyTemplate(w){
+  if (saveChangesAlert()){
+    CHANGES=false;  // go ahead and reset CHANGES before following link
+    w.href += encodeURIComponent('$$SXTEMPLATEID$$');
+    return true;
+  }
+  return false;
+}
+
+//---------------------------------------------------------
+// Creates a new datasheet template
+//---------------------------------------------------------
+function newTemplate(w){
+  if (saveChangesAlert()){
+    CHANGES=false;  // go ahead and reset CHANGES before following link
+    w.href += TEMPLATE.sStyle;
+    return true;
+  }
+  return false;
+}
+
+//----------------------------------------------------------
+//  AJAX Retrieve preview of datasheet
+//----------------------------------------------------------
+function previewTemplate() {
+  if (!actionCancelledAlert()) {
+    $('#tempTab2 > span').show();
+    $('#preview').hide();
+    $('#preview').attr("src", '$$THISCGI$$?preview=' + encodeURIComponent(TEMPLATE.sxTemplateId) + '&' + randomizer()).load(function(){
+      $('#tempTab2 > span').hide();
+      $(this).show();
+    });
+    return false;
+  }
+}
+
+//---------------------------------------------------------
+//  Globals
+//---------------------------------------------------------
+var TEMPLIST = $$TEMPLIST$$; // array provided by VIT
+
+var TESTS = []; // Array of all TESTS
+$$TESTS$$
+
+var THEMENU;
+
+$$FIELDDEFINITION$$
+$$FIELDS$$
+$$HEADERFIELDS$$
+$$INDEXEDFIELDS$$
+$$PIFIELDS$$
+$$ALLFIELDS$$
+$$DEFAULTFIELDS$$
+
+$$KEYS&VALUESDEFINITION$$
+$$KEYS$$
+$$VALUES$$
+
+$$CFIDDEFINITION$$
+$$CFIDS$$
+
+$$PLOTDEFINITION$$
+$$PLOTS$$
+
+$$BODYDEFINITION$$
+$$BODY$$
+
+$$TEMPLATEHEADERDEFINITION$$
+$$TEMPLATEHEADER$$
+
+$$LAYOUTDEFINITION$$
+$$LAYOUT$$
+
+$$TEMPLATEDEFINITION$$
+$$TEMPLATE$$
+
+var EDITDISABLED = $$EDITDISABLED$$;
+
+-->
+
+</script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="saveDialog" class="dialog">
+  Save current template as:<br />
+  <input type="text" id="save" value="" /><br />
+  <input class="btn_ok" type="button" value="OK" />
+  <input class="btn_cancel" type="button" value="Cancel" />
+</div>
+
+<form id="importDialog" class="dialog" action="$$THISCGI$$?import" method="POST" encoding="multipart/form-data" enctype="multipart/form-data">
+  <input type="file" id="filename" name="filename" title="choose a file on your computer" />
+</form>
+
+<form id="tipDiv" style="position:absolute; visibility:hidden; z-index:100">
+  <iframe style="position:absolute;width:400px;height:120px;top:0px;left:0px;border:none;display:block;z-index:0"></iframe>
+</form>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/editscenariobig.gif" width="48" height="48" />
+  <label id="headlabel">Template Editor</label></h2>
+
+  <form id="f" name="f" action="$$THISCGI$$" method="POST" enctype="application/x-www-form-urlencoded">
+    <div class="busyNote hidden">
+      <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+    </div>
+
+    <input type="hidden" id="MNDisplay" name="MNDisplay" value="$$MNDISPLAY$$" />
+    <input type="hidden" id="SNDisplay" name="SNDisplay" value="$$SNDISPLAY$$" />
+    <input type="hidden" id="originalTemplateId" name="originalTemplateId" value="$$SXTEMPLATEID$$" />
+    <input type="hidden" id="templateKeys" name="templateKeys" value="" />
+    <input type="hidden" id="menuTab" name="menuTab" value="$$MENUTAB$$" />
+
+    <div class="topbar" id="topbar">
+      <a id="listlink" class="left" title="Return to template list" href="$$THISCGI$$?$$RANDOMIZER$$"><img src="/images/listsmall.gif" width="16" height="16" /></a>
+      <span class="pendingChanges hidden">* There are unsaved changes</span>
+      <div class="hidden"><select id="templates" title="load a saved template"><option>&nbsp;</option></select></div>
+      <a id="saveTemplate" title="Save this template" onClick="this.blur(); return saveTemplate();"><img src="/images/floppysmall.gif" width="16" height="16" alt="small save icon"/></a>
+      <a id="newTemplate" href="$$THISCGI$$?new="   title="Create a new template" onClick="this.blur(); return newTemplate(this);"><img src="/images/newsmall.gif" width="16" height="16" /></a>
+      <a id="copyTemplate" href="$$THISCGI$$?copy=" title="Make a copy of this template" onClick="this.blur(); return copyTemplate(this);"><img src="/images/copysmall.gif" width="16" height="16" /></a>
+      <a id="deleteTemplate" href="#nogo" title="Delete this template" onClick="this.blur(); return confirmDelete(this);"><img id="imgDeleteSequence" src="/images/deletesmall.gif" width="16" height="16" /></a>
+      <a id="exportTemplate" href="#nogo" title="Export this template" onClick="this.blur; exportTemplate(this);"><img id="imgExportTemplate" src="/images/exportsmall.gif" width="16" height="16" /></a>
+      <a id="_importDialog" href="#nogo" title="Import a template"><img id="imgImportTemplate" src="/images/importsmall.gif" width="16" height="16" /></a>
+    </div>
+
+    <div id="summary">
+      <label for="templateId" id="templateLabel" name="templateLabel">Template Name</label>
+      <input type="text" id="templateId" name="templateId" title="templates are identified by name" autocomplete="off" onChange="updateId(this.value);"/>
+      <div class="hidden" id="idWarning">warning</div>
+
+      <label for="sDescription">Description</label>
+      <textarea id="sDescription" name="sDescription" title="a short reason for or explanation about this template" onChange="updateDescription(this.value);"></textarea>
+      
+      <fieldset>
+        <div id="style">
+          <div>
+            <img id="templateStyleIMG">
+            <label for="templateStyle">Template Style:</label>
+            <select id="templateStyle" name="templateStyle" OnChange="updateTemplateStyle(this.value,this.options[this.selectedIndex].text);" title="Select the template style">
+              <option disabled="disabled" value="Custom">Custom</option>
+              <option disabled="disabled" value="---Single Item---">---Single Item---</option>
+              <option value="4-Plot" onmouseover="doTooltip(event,0)" onmouseout="hideTip()">Graphical - Datasheet</option>
+              <option value="SNP" onmouseover="doTooltip(event,1)" onmouseout="hideTip()">Tabular - Touchstone SnP</option>
+              <option value="ASCII" onmouseover="doTooltip(event,2)" onmouseout="hideTip()">Tabular - Raw Data</option>
+              <option value="Summary" onmouseover="doTooltip(event,3)" onmouseout="hideTip()">Tabular - Test Run Summary</option>
+              <option disabled="disabled" value="---Multiple Item---">---Multiple Item---</option>
+              <option value="Overlay" onmouseover="doTooltip(event,4)" onmouseout="hideTip()">Graphical - Overlay</option>
+              <option value="Table" onmouseover="doTooltip(event,5)" onmouseout="hideTip()">Tabular - User Defined</option>
+              <option value="Analysis" onmouseover="doTooltip(event,6)" onmouseout="hideTip()">Tabular - Analysis</option>
+            </select>
+          </div>
+          
+          <div>
+            <textarea id="styleDescription" name="styleDescription" onChange="makeChanges();" title="a short explanation about this template style" disabled="true"></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <div id="layout">
+<!--
+          <div>
+            <label for="pageSize">Page Size:</label>
+            <select id="pageSize" name="pageSize" OnChange="updatePageSize(this.value);" title="Select page size">
+              <option value="Letter">Letter</option>
+              <option value="Ledger">Ledger</option>
+              <option value="Legal">Legal</option>
+              <option value="A3">A3</option>
+              <option value="A4">A4</option>
+              <option value="A5">A5</option>
+              <option value="Custom">Custom</option>
+            </select>
+          <div>
+
+          <div>
+            <label for="pageWidth">Width:</label>
+            <input type="text" class="numeric" id="pageWidth" name="pageWidth" OnChange="updatePageWidth(this.value);" title="Page width"/>
+
+            <p>Height:</p>
+            <input type="text" class="numeric" id="pageHeight" name="pageHeight" OnChange="updatePageHeight(this.value);" title="Page height"/>
+          <div>
+-->
+          <div>
+            <div class="radio">
+              <img id="orientationIMG">
+              <p>Orientation:</p>
+              <label for="orientationPortrait">
+              <input type="radio" id="orientationPortrait" name="orientation" value="Portrait"  OnClick="updatePageOrientation(this.value);" />Portrait</label>
+            </div>
+
+            <div class="radio">
+              <p>&nbsp;</p>
+              <label for="orientationLandscape">
+              <input type="radio" id="orientationLandscape" name="orientation" value="Landscape" OnClick="updatePageOrientation(this.value);" />Landscape</label>
+            </div>
+          </div>
+
+          <div>
+            <label for="outputFormat">Output Format:</label>
+            <select id="outputFormat" name="outputFormat" OnChange="updateOutputFormat(this.value);" title="Select the output format">
+              <option disabled="disabled" value="PDF">Adobe (PDF)</option>
+              <option disabled="disabled" value="TXT">Plain Text (TXT)</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="one-liner"><span class="strong">Created by</span>
+        <a href="mailto:$$CREATOREMAIL$$">$$CREATOR$$</a>
+        <span id="createDate" class="grayedout"></span>
+      </div>
+
+      <div class="one-liner"><span class="strong">Last modified by</span>
+        <a href="mailto:$$MODIFIEREMAIL$$">$$MODIFIER$$</a>
+        <span id="modifyDate" class="grayedout"></span>
+      </div>
+    </div><!-- SUMMARY -->
+    
+    <div id="dividerBar"><a href="#nogo" class="slider" id="_summary" title="show/hide summary"><img src="/images/slide.gif" width="6" height="6" /></a></div>
+
+    <!-- HEADER/BODY/PREVIEW TAB CONTROLS -->
+    <div id="tabmenu">
+      <ul>
+        <li><a href="#nogo" id="tempTabLink0"  onClick="this.blur(); setMenu(0); showMenuItem(THEMENU, 0);" title="view the table of items that are displayed on the datasheet">Header</a></li>
+        <li><a href="#nogo" id="tempTabLink1"  onClick="this.blur(); setMenu(1); showMenuItem(THEMENU, 1);" title="view the list of the plots displayed on the datasheet">Body</a></li>
+        <li><a href="#nogo" id="tempTabLink2"  onClick="this.blur(); setMenu(2); showMenuItem(THEMENU, 2); previewTemplate();" title="more options to control how the datasheet is created">Preview</a></li>
+      </ul>
+    </div>
+
+    <div id="settings">
+$$HTML$$
+
+      <!-- PREVIEW TAB -->
+      <div class="centered hidden" id="tempTab2">
+        <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+        <img id="preview" class="hidden" />
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+</html>

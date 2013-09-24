@@ -1,0 +1,4 @@
+/* IE 6 specific style overrides */
+
+form { height: 100%; }
+.dialog { overflow: hidden; }

@@ -1,0 +1,121 @@
+[5.2.0240]
+Date="May 2010"
+model0="HP 8510C"
+model1="HP 8753C/D/E/ET/ES"
+model2="HP 8719D/ET/ES"
+model3="HP 8720A/B/C/D/ET/ES"
+model4="HP 8722D/ET/ES"
+model5="HP E5061A"
+model6="HP E5062A"
+model7="HP E5070B"
+model8="HP E5071B/C"
+model9="HP E8361A"
+model10="HP E8362B"
+model11="HP E8363B"
+model12="HP E8364B"
+model13="HP N5230A"
+model14="HP N5242A"
+model14="HP N9912A"
+model14="HP N9923A"
+note0="Spartan 5.4.0001 Release."
+note1="Added Field Fox support"
+
+[5.2.0240]
+Date="May 2010"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0114]
+Date="January 2010"
+note0="Spartan 5.1.0118 Release."
+
+[4.3.0512]
+Date="November 2008"
+note0="Spartan 4.3.0026"
+
+[4.2.0068]
+Date="October 2008"
+note0="Increased ENA and PNA efficiency."
+note1="Adjusted sort mechanism to allow the use of higher channels without first using channel 1."
+note2="Fixed issue where 8753s would get a syntax error when trying to determine the calibration."
+
+[4.1.0045]
+Date="August 2008"
+note0="Changed interface panel to driver."
+note1="Fixed issue with PNA models throwing an error."
+
+[4.0.0099]
+Date="June 2008"
+note0="Significantly improved measurement speed."
+
+[3.2.1002]
+Date="January 2008"
+note0="Added HP E5071C multi-port support."
+
+[3.2.0022]
+Date="January 2008"
+note0="Added support for multi-port VNAs, i.e. VNAs with more than two ports."
+
+[3.1.0102]
+Date="August 2007"
+note0="Fixed issue with crosslinked data."
+note1="Added HP 8510C support."
+
+[3.2.0046]
+Date="August 2007"
+note0="Prepared installer for commercial release."
+
+[3.1.0040]
+Date="July 2007"
+note0="Updated Configuration Panel."
+note1="Added better support of LAN devices."
+note2="Added HP E5071C, HP E8361A, HP E8362B, HP8363B, HP 8364B, HP N5230A, HP E5061A, and HP E5062A support."
+
+[3.0.0032]
+Date="April 2007"
+note0="Added better explanation of calibration status."
+
+[2.2.0006]
+Date="July 2006"
+note0="Corrected reported bugs."
+note1="Added ability to collect formatted data."
+
+[2.1.0054]
+Date="June 2006"
+note0="Added USB and LAN/Ethernet support for appropriate models."
+note1="Enhanced speed of measurements."
+note2="Calibrations are channel specific."
+note3="Fixed problems with 8720A/B."
+note4="Added HP E5070B and HP 5071B support."
+
+[2.0.0026]
+Date="March 2006"
+note0="Fixed learn string bug for 8720D/ES."
+note1="Fixed changes in VNA display and external trigger."
+note2="Added HP 8753C/D/E, HP 8720A/B/C/D/ES, and HP 8722D support."
+
+[2.0.00020]
+Date="February 2006"
+note0="Minor bug fixing for final Spartan 2.0 release."
+note1="Added ability to download the memory trace."
+
+[2.0.0007]
+Date="January 2006"
+note0="Added multi-channel support to allow measurement of S-Parameters simultaneously."
+note1="Fixed bug that caused a time out when measuring 1601 points."
+note2="Placed VNA back in original trigger state."
+note3="Leave display settings of VNA as they were before test execution."
+
+[1.2.0004]
+Date="November 2005"
+note0="Added TRL/LRM 2-Port Calibration Type for 8720ES."
+note1="Added One Path 2-Port Calibration Type for 8753C/D."
+
+[1.1.0022]
+Date="October 2005"
+note0="Fixed misinterpretation of calibration bug."
+note1="Removed calibration popup bug."
+note2="Fixed changing parameters bug."
+
+[1.0.0328]
+Date="September 2005"
+note0="Initial Release."

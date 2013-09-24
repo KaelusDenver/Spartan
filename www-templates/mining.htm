@@ -1,0 +1,324 @@
+$$DOCTYPE$$
+<head>
+<title>Spartan Data Mining</title>
+$$META$$
+$$STYLES$$
+<style type="text/css">
+form { border: none; }
+
+#inputBox { display: inline; position: absolute; padding-top: 2px; }
+#inputBox a { margin-left: 3px; }
+
+#buttons { margin-top: 0; text-align: center;  }
+
+.legend { font-weight: bold; margin: 1em 0; }
+
+#fileDialogWrapper { background: #ffeab1; border: 1px solid #ccc; float: right; margin: 5px 15%; padding: 5px; text-align: left; }
+#importDialog { background: #ffeab1; height: auto; }
+
+table.standard .w24 { text-align: left; }
+</style>
+<!--[if IE]><style type="text/css">
+#fileDialogWrapper { margin: 0; text-align: right; position: relative; left: -15%; }
+</style><![endif]-->
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+function buildScenariosTable() {
+
+  // clear previous rows
+  $('#scenarios > tbody tr').remove();
+
+  // append table rows for each condition
+  for (var i=0; i<SCENARIOS.length; i++) {
+
+    // user can only edit (or delete) with fEditScen privilege
+    if (THECURRENTUSER.fEditScen || THECURRENTUSER.fAdmin) {
+      var deleteIcon  = "/images/deletesmall.gif";
+      var deleteTitle = "delete this scenario";
+      var deleteLink  = "/cgi-bin/editscenario.vit?delete=" + encodeURIComponent(SCENARIOS[i].sxScenarioId) + '&action=search&scenarioId=' + encodeURIComponent($('#scenarioId').val()) + '&' + randomizer();
+      var editIcon    = "/images/editsmall.gif";
+      var editTitle   = "edit this scenario";
+      var editLink    = "/cgi-bin/editscenario.vit?edit=" + encodeURIComponent(SCENARIOS[i].sxScenarioId) + '&' + randomizer();
+      var copyIcon    = "/images/copysmall.gif";
+      var copyTitle   = "copy this scenario";
+      var copyLink    = "/cgi-bin/editscenario.vit?copy=" + encodeURIComponent(SCENARIOS[i].sxScenarioId) + '&' + randomizer();
+
+    } else {
+      var deleteIcon  = "/images/deletesmalldisabled.gif";
+      var deleteTitle = "cannot delete this scenario";
+      var deleteLink  = "#nogo";
+      var editIcon    = "/images/editsmalldisabled.gif";
+      var editTitle   = "cannot edit this scenario";
+      var editLink    = "#nogo";
+      var copyIcon    = "/images/copysmalldisabled.gif";
+      var copyTitle   = "cannot copy this scenario";
+      var copyLink    = "#nogo";
+    }
+
+    if (THECURRENTUSER.fRunScen) {
+      var runIcon     = "/images/runsmall.gif";
+      var runTitle    = "run this scenario";
+      var runLink     = "/cgi-bin/runscenario.vit?run=" + encodeURIComponent(SCENARIOS[i].sxScenarioId) + '&' + randomizer();
+
+      var exportIcon  = "/images/exportsmall.gif";
+      var exportTitle = "export this scenario";
+      var exportLink  = "/cgi-bin/editscenario.vit?export=" + encodeURIComponent(SCENARIOS[i].sxScenarioId) + '&' + randomizer();
+
+    } else {
+      var runIcon     = "/images/runsmalldisabled.gif";
+      var runTitle    = "cannot run this scenario";
+      var runLink     = "#nogo";
+      var exportIcon  = "/images/exportsmalldisabled.gif";
+      var exportTitle = "cannot export this scenario";
+      var exportLink  = "#nogo";
+    }
+
+    var cDate = new Date (jsTimeFromLV(SCENARIOS[i].tCreated));
+    var mDate = new Date (jsTimeFromLV(SCENARIOS[i].tModified));
+
+    $('#scenarios tbody').tplAppend(SCENARIOS[i], function () {
+      var msg  = "return confirm('Click OK to confirm deleting the scenario. This action cannot be undone.');";
+
+      return ['tr', {},
+                ['td', { className: "icon delete" }, tplIconTableCellDelete("", deleteLink, deleteIcon, deleteTitle,msg),
+                 'td', { className: "icon" }, tplIconTableCell("", runLink,    runIcon,    runTitle),
+                 'td', { className: "icon" }, tplIconTableCell("", editLink,   editIcon,   editTitle),
+                 'td', { className: "icon" }, tplIconTableCell("", copyLink,   copyIcon,   copyTitle),
+                 'td', { className: "icon" }, tplIconTableCell("", exportLink, exportIcon,  exportTitle),
+                 'td', { className: "w24" }, [
+                   'a', { title: editTitle, href: editLink }, [ this.sxScenarioId ],
+                   this.sDescription],
+                 'td', {}, [this.sxUsername],
+                 'td', {}, [cDate.format(SPARTANDATE)],
+                 'td', {}, [nbsp(this.sModifiedBy)],
+                 'td', {}, [mDate.format(SPARTANDATE)]
+                ]
+             ]
+    });
+
+  } // for each SCENARIO;
+
+  // table is now built, style it
+  $("#scenarios tbody > tr:nth-child(odd)").addClass("o"); // zebra stripes
+
+}// buildScenariosTable
+
+
+function validate(action){
+
+  action = (action) ? action : 'search'; // set search as default
+
+  if (isBlank($('#scenarioId').val())) {
+  	$('#scenarioId').focus();
+    return false;
+  } else {
+    // remove illegal characters
+  	$('#scenarioId').val($('#scenarioId').val().replace(/"/g,"'"));
+    $('#Action').val(action);
+    return true;
+  }
+}
+
+
+function confirmDelete(i){
+  var msg  = "Click OK to confirm deleting this scenario.\n\n";
+      msg += "This action cannot be undone.";
+
+  return confirm(msg);
+}
+
+
+function importScenario(file){
+  $(file).parent().hide();
+  if (!isBlank(file.value)) {
+    $('#f').action = "/cgi-bin/editscenario.vit?import=" + encodeURI(file.value) + '&' + randomizer();
+    $('#f').method = "POST";
+    $('#f').encoding = "multipart/form-data"; // IE
+    $('#f').enctype  = "multipart/form-data"; // not IE
+    $('#f').submit();
+  }
+}
+
+
+// --- GLOBALS
+
+var QUERYSTRING = '$$QUERYSTRING$$';    // copy of the incoming query string
+var LINKACTION  = '';                   // holds default link for results list
+var MODE        = '$$MODE$$';           // intended page action (search, edit, run)
+
+$$SCENARIOS$$
+
+$(document).ready(function() {
+
+  // set query string to append
+  if (!isBlank(QUERYSTRING)) QUERYSTRING = '&' + QUERYSTRING;
+
+  // check if there are results to display
+  if (SCENARIOS.length > 0) {
+    var s = (SCENARIOS.length == 1)? '' : 's';
+
+    $('#resultsheading').html(SCENARIOS.length + ' matching scenario' + s + ' found:');
+    $('#smallSearch').click(function () {
+      $(this).blur();
+      if (validate('search')) $('#f').submit();
+      return false;
+    }).show();
+
+    $('#buttons').hide();
+    $('#resultsheading').show();
+    $('#scenarios').show();
+
+    buildScenariosTable();
+
+  } else {
+
+    if (isBlank(MODE)) {  // no previous action
+      $('#scenarioId').focus().select();
+
+    } else { // no results
+
+      $('#resultsheading').html('No matching scenarios found.  Note that wildcard characters * and ? can be used to refine a search.');
+      $('#resultsheading').show();
+      $('#smallSearch').click(function () {
+        $(this).blur();
+        if (validate('search')) $('#f').submit();
+        return false;
+      }).show();
+      $('#smallSearch').show();
+      $('#buttons').hide();
+    }
+  }
+
+  if (THECURRENTUSER.fRunScen || THECURRENTUSER.fEditScen)  $('#search').removeAttr("disabled");
+  if (THECURRENTUSER.fRunScen)  $('#run').removeAttr("disabled");
+  if (THECURRENTUSER.fEditScen) {
+    $('#edit').removeAttr("disabled");
+    $('#newLink').click(function () {
+      $(this).blur().attr("href", '/cgi-bin/editscenario.vit?new=' + encodeURIComponent($('#scenarioId').val()) + '&' + randomizer());
+      return true;
+    }).attr({ href : '#nogo', title: 'create a new scenario' })
+      .children('img').attr('src', '/images/newsmall.gif');
+
+    // Set up import
+    $('#_importDialog').click(function () {
+      $(this).blur();
+      var button    = $(this).offset(); // left, top
+      button.height = $(this).height();
+      button.width  = $(this).width();
+
+      var $dialog = $("#" + this.id.slice(1));
+
+      var xPos = button.left - $dialog.width();
+      var yPos = button.top + button.height;
+
+      $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+      $dialog.slideToggle("normal");
+
+      return false;
+    }).attr({ href: "#nogo", title: "import a scenario"})
+      .children('img').attr('src', '/images/importsmall.gif');
+  }
+
+  $("#importDialog #filename").change(function () {
+    if (!isBlank($('#filename').val())) {
+      $(this).parent().hide().submit();
+    } else {
+      $('#filename').focus();
+    }
+    return false;
+  });
+
+  $("td a").click(function (){
+    $(this).blur();
+    if ($(this).is('.delete')) {
+      var msg  = "Click OK to confirm deleting the scenario.\n\n";
+          msg += "This action cannot be undone.";
+
+      return confirm(msg);
+    }
+  });
+
+  $("#listAll").click(function (){
+    $(this).blur();
+    $('#scenarioId').val('*');
+    if (validate('search')) $('#f').submit();
+  });
+
+  $("#buttons input").click(function (){
+    if (validate(this.id)) $('#f').submit();
+  });
+
+  // document key bindings
+  var ISCTRL = false; // global Ctrl-key watcher
+
+  $(document).keyup(function (e) {
+    if (e.which == 17) ISCTRL=false;
+
+  }).keydown(function (e) {
+    if (e.which == 17) ISCTRL=true;
+
+    switch(e.which) {
+
+      case 13:   // "return"/"enter" key
+        if (validate('search')) $('#f').submit();
+        break;
+    }
+  }); // key bindings
+
+}); // document.ready()
+--></script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+
+<form id="importDialog" class="dialog" action="/cgi-bin/editscenario.vit?import" method="POST" encoding="multipart/form-data" enctype="multipart/form-data">
+  <input type="file" id="filename" name="filename" accept="text/xml" title="choose a file on your computer" />
+</form>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/miningbig.gif" width="48" height="48" alt="data mining icon" />
+  <label id="headlabel">Data Mining Scenarios</label></h2>
+
+  <form id="f" method="GET" action="$$THISCGI$$" onSubmit="return validate();">
+    <input type="hidden" id="Action" name="Action" value="" />
+
+    <fieldset class="searchbox">
+      <legend><a id="listAll" href="#nogo">List All Scenarios</a></legend>
+      <input type="text" class="textbox" id="scenarioId" name="scenarioId" value="$$SCENARIOID$$"" title="Search for data mining scenarios by name, owner, or description keywords and wildcards" />
+      <div id="inputBox">
+        <a id="newLink"><img src="/images/newsmalldisabled.gif" width="16" height="16" /></a>
+        <a id="_importDialog"><img src="/images/importsmalldisabled.gif" width="16" height="16" /></a>
+        <a id="smallSearch" href="#nogo" class="hidden" title="search scenarios"><img src="/images/searchsmall.gif" width="16" height="16" /></a>
+      </div>
+    </fieldset>
+
+    <div id="buttons">
+      <input id="run"    type="button" class="bigbutton" value="Run Scenario"  disabled="disabled" />
+      <input id="edit"   type="button" class="bigbutton" value="Edit Scenario" disabled="disabled" />
+      <input id="search" type="button" class="bigbutton" value="Search"        disabled="disabled" />
+    </div>
+
+    <div class="legend hidden" id="resultsheading">INNERHTML</div>
+
+    <table class="standard hidden" id="scenarios" cellpadding="0" cellspacing="0">
+      <thead><tr>
+        <th class="icon" title="Delete: remove sequence from the system"><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Run: run a scenario"><img src="/images/runsmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Edit: edit a scenario"><img src="/images/editsmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Copy:  edit a copy of this scenario"><img src="/images/copysmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Export: export this scenario"><img src="/images/exportsmall.gif" width="16" height="16" /></th>
+        <th class="w24">Scenario (Description)</th>
+        <th class="" title="Original scenario creator">Created By</th>
+        <th class="" title="Creation date">Created On</th>
+        <th class="" title="Scenario last modifier">Modified By</th>
+        <th class="" title="Modification date">Modified On</th>
+      </tr></thead>
+      <tbody>
+      </tbody>
+    </table>
+
+  </form>
+</div>
+
+</body>
+</html>

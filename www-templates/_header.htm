@@ -1,0 +1,64 @@
+<div id="pendingLogout">
+  <div id="countdown">
+    <span class="strong">Hey!</span> You will be logged off in&nbsp;<span class="strong" id="tick"></span>&nbsp;seconds due to inactivity. <a id="idleRefresh" href="#nogo">Click here to continue using Spartan.</a>
+  </div>
+  <div id="refresh" class="hidden">Refreshing session, please stand by...</div>
+</div>
+
+<ul id="profile">
+  <li id="first">Welcome, <span id="headerWelcome">Guest</span>
+    <a class="strong hidden" href="#nogo" title="edit your profile"></a>
+  </li>
+
+  <li><span id="headerStation" class="grayedout">$$REMOTE_ADDR$$</span>
+    <a class="menuLink" href="#nogo" title="client settings" id="_clientMenu" style="display:none;">$$REMOTE_ADDR$$</a>
+    <ul class="right hidden" id="clientMenu">
+      <li><a id="QC_station" href="/cgi-bin/stations.vit?edit=$$REMOTE_ADDR$$&$$RANDOMIZER$$" title="add or edit this station">Edit/Add&nbsp;this&nbsp;station</a></li>
+      <li><a id="QC_client" href="/cgi-bin/client.vit?$$RANDOMIZER$$" title="view the client page">Spartan&nbsp;client&nbsp;page</a></li>
+    </ul>
+  </li>
+
+  <li id="headerSettings" style="display:none;">
+    <a class="menuLink" href="#nogo" title="system settings" id="_settingsMenu">Settings</a>
+    <ul class="right hidden" id="settingsMenu">
+      <li><a id="QC_configure" href="/cgi-bin/configure.vit?$$RANDOMIZER$$">Server&nbsp;configuration</a></li>
+      <li><a id="QC_authorize" href="/cgi-bin/authorize.vit?$$RANDOMIZER$$">Authorization</a></li>
+    </ul>
+  </li>
+
+  <li id="headerHelp"><a class="menuLink" href="#nogo" title="get help with Spartan" id="_helpMenu">Help</a>
+    <ul class="right hidden" id="helpMenu">
+      <li><a id="QC_help"    href="http://www.spartanqms.com/help/"       target="_blank">Spartan&nbsp;help</a></li>
+      <li><a id="QC_discuss" href="https://summitek.fogbugz.com/?spartan" target="_blank">Discussion&nbsp;group</a></li>
+      <li><a id="QC_support" href="http://www.spartanqms.com/support/"    target="_blank">Support&nbsp;page</a></li>
+
+      <li class="sep" style="display:none;">&nbsp;</li>
+      <li style="display:none;"><a id="QC_log" href="/cgi-bin/eventlog.vit?$$RANDOMIZER$$">Event&nbsp;log</a></li>
+      <li class="sep" style="display:none;">&nbsp;</li>
+      <li style="display:none;"><a id="QC_about" href="/cgi-bin/about.vit?$$RANDOMIZER$$">About&nbsp;Spartan&nbsp;</a></li>
+    </ul>
+  </li>
+
+  <li id="headerLogout" style="display:none;"><a id="QC_logout" href="/cgi-bin/logout.vit?$$RANDOMIZER$$" title="log out of Spartan">Log Out</a></li>
+</ul>
+
+<div id="menubody">
+  <a href="http://www.SpartanTest.com" target="_blank" title="SpartanTest.com"><img id="spartanlogo" src="/images/spartan.gif" width="60" height="50" alt="Spartan logo" /></a>
+  <a href="http://www.Kaelus.com" target="_blank" title="Kaelus.com"><img id="kaeluslogo" src="/images/kaelus.gif" width="309" height="92" alt="Kaelus Logo" /></a>
+
+  <span id="subtitle">Quality Management System <span id="version"></span></span>
+
+  <ul id="nav" class="hidden">
+    <li><a class="disabled" id="headerTesting" href="/cgi-bin/testing.vit?$$RANDOMIZER$$" title="Search, edit, and run test sequences"><img src="/images/testingsmalldisabled.gif" width="16" height="16" alt="small test icon" />Testing</a></li>
+    <li><a class="disabled" id="headerMining"  href="/cgi-bin/mining.vit?$$RANDOMIZER$$"  title="Search, edit, and run data mining scenarios"><img src="/images/datasheetsmalldisabled.gif" width="16" height="16" alt="small user icon" />Data&nbsp;Mining</a></li>
+
+    <li><a class="menuLink" href="#nogo" title="Users, test stations, templates and fields" id="_configMenu"><img src="/images/configsmall.gif" width="16" height="16" alt="small configuration icon" />Configure&nbsp;<img src="/images/submenu.gif" width="9" height="5" alt="submenu icon"/></a>
+      <ul class="hidden" id="configMenu">
+        <li><a class="disabled" id="headerUsers"     href="/cgi-bin/users.vit?$$RANDOMIZER$$" title="configure the system's users"><img src="/images/userssmalldisabled.gif" width="16" height="16" alt="small user icon" />Users</a></li>
+        <li><a class="disabled" id="headerStations"  href="/cgi-bin/stations.vit?$$RANDOMIZER$$" title="test stations make the measurements"><img src="/images/stationsmalldisabled.gif" width="16" height="16" alt="small station icon" />Test&nbsp;Stations</a></li>
+        <li><a class="disabled" id="headerTemplates" href="/cgi-bin/templates.vit?$$RANDOMIZER$$" title="data mining templates"><img src="/images/datasheetsmalldisabled.gif" width="16" height="16" alt="small datasheet icon" />Templates</a></li>
+        <li><a class="disabled" id="headerFields"    href="/cgi-bin/fields.vit?$$RANDOMIZER$$" title="fields define how data is tagged"><img src="/images/fieldsmalldisabled.gif" width="16" height="16" alt="small field icon" />Fields</a></li>
+     </ul>
+  	</li>
+  </ul>
+</div>

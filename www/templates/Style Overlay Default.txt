@@ -1,0 +1,37 @@
+[Template]
+sxTemplateId=multiOverlay
+sDescription="Overlay Plot"
+sType="Multiple Item Datasheet"
+sStyle="Graphical - Overlay"
+sStyleProcess=Overlay
+sFormat=PDF
+sCreator=Kaelus
+sModifier=Kaelus
+dWidth=8.5
+dHeight=11.0
+[sScript]
+Name=spoverlay.vbs
+Content=""
+[sLayout]
+Name1="REPORT ONE PLOT OVERLAY.TDR"
+Content1=""
+[sEditor]
+Name="edittemplate overlay.htm"
+Content=""
+[Parameters]
+Plot_Label=Test
+Plot_Size=Letter
+Plot_Orientation=Portrait
+Plot_Count=1
+Plot1_LineType=0
+Plot1_X_Unit=MHz
+Plot1_X_Min=500
+Plot1_X_Max=1500
+Plot1_Auto_X=1
+Plot1_Y_Format="Log Mag"
+Plot1_Scale=2
+Plot1_Reference=-80
+Plot1_Position=10
+Plot1_Auto_Y=1
+Plot1_Curve1_Parameter=S11
+Plot1_Curve1_LimitOn=1

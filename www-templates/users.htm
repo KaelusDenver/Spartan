@@ -1,0 +1,544 @@
+$$DOCTYPE$$
+<head>
+<title>Spartan Users</title>
+$$META$$
+$$STYLES$$
+<style type="text/css">
+form { border-width: 0; }
+
+#ident { margin: 2em 0 2em 1em; width: 60%; float: left; clear: both; white-space: nowrap; }
+#ident td { vertical-align: top; text-align: right; }
+#ident td.l { padding: 0.15em 1em 1.2em 0;  width: 25%; }
+#ident td input { width: 98%; }
+
+#perms { float: left; margin: 0; padding: 3em; }
+#perms ul { margin: 0; padding: 0; list-style: none; }
+#perms li ul { border: solid 0px #000; border-width: 0 0 0 2px; margin-left: 0.8em; }
+#perms li li { margin-left: 1em; margin-top: 0.5em; }
+
+a.tooltip { white-space: nowrap; }
+a.tooltip:hover { text-decoration: none; }
+a.tooltip span { display: none; padding: 0.35em; color: #000; text-align: left; }
+a.tooltip:hover span { z-index: 99; position: absolute; left: 10px; display: block; background: #fec; border: 1px solid #ccc; }
+</style>
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+$(document).ready(function () {
+  buildUsersTable(); // build table then catch events
+
+  // topbar handlers
+
+  // list users
+  $('#listUsers').click(function () {
+    $(this).blur();
+    if ($(this).hasClass('disabled')) return false;
+    return true;
+  });
+
+  // save
+  $('#saveUser').click(function () {
+    $(this).blur();
+    saveUser();
+  });
+
+  // new
+  $('#newUser').click(function () {
+    $(this).blur();
+    if ($(this).hasClass('disabled')) return false;
+    return true;
+  });
+
+  // copy (and copy from table)
+  $('#copyUser, .copy').click(function () {
+    $(this).blur();
+    if ($(this).hasClass('disabled')) return false;
+    if (actionCancelledAlert()) return false;
+    return true;
+  });
+
+
+  // delete (and delete from table)
+  $('#deleteUser, .delete').click(function () {
+    $(this).blur();
+    if ($(this).hasClass('disabled')) return false;
+    if (confirm("Delete this user?\n\nThis action cannot be undone.")) {
+      CHANGES = false;
+      $('.busyNote').show();  // disable form
+      return true;
+    }
+    return false;
+  });
+
+
+  // watch for logouts from table
+  $('.logout').click(function() {
+    $(this).blur();
+    var msg = "Are you sure you want to log this user out?";
+    if (confirm(msg)) {
+      $('.busyNote').show();  // disable form
+      return true;
+    }
+    return false;
+  });
+
+  // watch for edits from table
+  $('.edit').click(function() {
+    var index = parseInt($(this).blur().attr('id'));
+    editUser(index);
+    return false;
+  });
+
+  // watch for edit control changes
+  $('#ident input').change(function() {  makeChanges(); });
+
+  // for IE we have to check if something did change
+  $("#perms input").bind(($.browser.msie)? "click" : "change", function() {
+    if ($(this).is('#permAdmin')) toggleAdm($(this).is(':checked'));
+    makeChanges();
+  });
+
+  // handle blur and focus for passwords
+  $('#ident #pw, #ident #cpw').focus(function() {
+    if ($(this).hasClass('grayedout')) $(this).val('');
+  }).blur(function() {
+    if (isBlank(Trim($(this).val()))) {
+      $(this).val(EMPTYPW).addClass('grayedout');
+    } else {
+      $('#newPassHash').val(sha1Hash(Trim($(this).val())));
+      $(this).removeClass("grayedout");
+    }
+  });
+
+  if (seats == 1) {
+    var note = 'Spartan is licensed for 1 concurrent seat.';
+  } else {
+    var note = 'Spartan is licensed for ' + seats + ' concurrent seats.';
+  }
+  $('#licensesummary').append(note);
+
+  // store mode for subsequent submissions
+  $('#editMode').val(editMode);
+
+  if (editMode) editUser(editIndex);
+  else $('#usersTable').show();
+
+});
+
+
+function buildUsersTable() {
+
+  // clear rows
+  $('#users > tbody tr').remove();
+
+  // add users
+  for (var i=0; i<USERS.length; i++) {
+
+    $('#users tbody').tplAppend(USERS[i], function () {
+
+      var logoutCell = [ nbsp(' ') ];
+      if (this.lastlogin != 0) {
+        var lastStation = (isBlank(this.laststation))? '(not a test station)' : this.laststation;
+        var idleTime = ((new Date().getTime()) - jsTimeFromLV(this.lastlogin))/1000;
+
+        idleTime = (idleTime <= 1)? 'Idle less than 1 second' : (idleTime > 24*360000)? 'Session locked for testing' : 'Idle for at least ' + formatTime(idleTime);
+
+        logoutCell = [ 'a', { href: '$$THISCGI$$?logout=' + encodeURIComponent(this.username) + '&' + randomizer(), className: 'tooltip logout' }, [
+                         'img', { src: '/images/keysmall.gif', width: '16', height: '16' },
+                         'span', {}, [ idleTime + ' (click to logout)', 'br', this.laststationip + ' ' + lastStation ] ] ];
+      }
+
+      return ['tr', {},
+              ['td', { className: "icon" }, logoutCell,
+               'td', { className: "icon" }, [
+                 'a', { className: 'delete', title: 'Delete ' + this.username, href: '$$THISCGI$$?delete=' + encodeURIComponent(this.username) + '&' + randomizer() }, [
+                   'img', { src: '/images/deletesmall.gif', width: '16', height: '16' }
+                 ]
+               ],
+               'td', { className: "icon" }, [
+                 'a', { className: 'edit', title: 'Edit ' + this.username, id: i, href: '$$THISCGI$$?edit=' + encodeURIComponent(this.username) + '&' + randomizer() }, [
+                   'img', { src: '/images/editsmall.gif', width: '16', height: '16' }
+                 ]
+               ],
+               'td', { className: "icon" }, [
+                 'a', { className: 'copy', title: 'Copy ' + this.username, href: '$$THISCGI$$?copy=' + encodeURIComponent(this.username) + '&' + randomizer() }, [
+                   'img', { src: '/images/copysmall.gif', width: '16', height: '16' }
+                 ]
+               ],
+               'td', { className: "w24" }, [ 
+                 'a', { className: 'edit', title: 'Edit ' + this.username, id: i, href: '$$THISCGI$$?edit=' + encodeURIComponent(this.username) + '&' + randomizer() }, [ this.username ]
+               ],
+               'td', {}, [nbsp(this.firstname)],
+               'td', {}, [nbsp(this.lastname)],
+               'td', {}, [nbsp(this.email)]
+              ]
+           ];
+    });
+
+  } // for each USER;
+
+  // table is now built, style it
+  $("#users tbody > tr:nth-child(odd)").addClass("o"); // zebra stripes
+
+}
+
+
+// loads the individual user record for edits;
+// fairly complex, but basically assumes everything
+// is disabled, then selectively enables things as
+// permitted by current user permissions.  Note that
+// all logic here is double-checked during record
+// commits (form submission) on the VIT backend.
+function editUser(i) {
+
+  // hide table and reset changes
+  $('#usersTable').hide();
+  $('#f').css("border-width", "1px");
+
+  $('#headlabel').text("Spartan User Editor")
+  CHANGES = false;
+  $('.pendingChanges').hide();
+
+  // set CURRENTUSERINDEX global
+  CURRENTUSERINDEX = i;
+
+  // load edit controls (everything disabled, and selectively enable...
+  $('#newUsername').val(USERS[i].username).attr("disabled", "disabled");
+
+  ORIGINAL = USERS[i].username;  // save original name for new edit name change comparisons
+  if (editNew) {
+    EMPTYPW = '';
+    $('#newUsername').removeAttr("disabled");
+    $('#pw').val('').removeAttr("disabled");
+    $('#cpw').val('').removeAttr("disabled");
+    makeChanges();
+
+  } else {
+    EMPTYPW = '      ';
+    $('#pw').val(EMPTYPW).attr({ disabled: "disabled", className: "grayedout" });
+    $('#cpw').val(EMPTYPW).attr({ disabled: "disabled", className: "grayedout" });
+  }
+
+  $('#firstname').val(USERS[i].firstname).attr("disabled", "disabled");
+  $('#lastname').val(USERS[i].lastname).attr("disabled", "disabled");
+  $('#email').val(USERS[i].email).attr("disabled", "disabled");
+
+  // load edited passhash - will be updated onBlur() events, see below
+  $('#newPassHash').val(USERS[i].passhash);
+
+  // Editable record if (note that this logic is duplicated on save in the VIT)
+  //   you are the Admin, or
+  //   you are an Admin, or
+  //   record does NOT have admin set, or
+  //   if it's your record
+  if (theAdmin || anAdmin || !USERS[i].p.fAdmin || (thisIsMe.toLowerCase() == USERS[i].username.toLowerCase())) {
+    $('#newUsername').removeAttr("disabled");
+    $('#firstname').removeAttr("disabled");
+    $('#lastname').removeAttr("disabled");
+    $('#email').removeAttr("disabled");
+    $('#pw').removeAttr("disabled");
+    $('#cpw').removeAttr("disabled");
+  }
+
+  // set permissions for edited record  (everything disabled right now)
+  $('#permAdmin').attr         ({ checked: (USERS[i].p.fAdmin)        ? "checked" : "", disabled: "disabled" });
+  $('#permRunSequences').attr  ({ checked: (USERS[i].p.fRunTest)      ? "checked" : "", disabled: "disabled" });
+  $('#permEditSequences').attr ({ checked: (USERS[i].p.fEditTest)     ? "checked" : "", disabled: "disabled" });
+  $('#permRunScenarios').attr  ({ checked: (USERS[i].p.fRunScen)      ? "checked" : "", disabled: "disabled" });
+  $('#permEditScenarios').attr ({ checked: (USERS[i].p.fEditScen)     ? "checked" : "", disabled: "disabled" });
+  $('#permEditTemplates').attr ({ checked: (USERS[i].p.fEditTemp)     ? "checked" : "", disabled: "disabled" });
+  $('#permEditUsers').attr     ({ checked: (USERS[i].p.fEditUsers)    ? "checked" : "", disabled: "disabled" });
+  $('#permEditStations').attr  ({ checked: (USERS[i].p.fEditStations) ? "checked" : "", disabled: "disabled" });
+  $('#permEditFields').attr    ({ checked: (USERS[i].p.fEditFields)   ? "checked" : "", disabled: "disabled" });
+
+  // now selectively enable based on Current User (user viewing this page)
+
+  // only an Admin can set/unset Admin priviledge (but not his own!)
+  if ((theAdmin || anAdmin) && (USERS[i].username.toLowerCase() != 'administrator')) {
+    $('#permAdmin').removeAttr("disabled");
+  }
+
+  // if edited record has Admin - set all others True and disable
+  // otherwise look at current user's privileges
+  toggleAdm(USERS[i].p.fAdmin);
+
+  // set up the topbar icons (save always enabled)
+  if (editUsers) {
+    $('#listUsers').attr('href', '$$THISCGI$$?' + randomizer()).removeClass('disabled').children('img').attr({ src: "/images/listsmall.gif", width: "16", height: "16" });
+    $('#newUser').attr('href', '$$THISCGI$$?edit=&' + randomizer()).removeClass('disabled').children('img').attr({ src: "/images/newsmall.gif", width: "16", height: "16" });
+    $('#copyUser').attr('href', '$$THISCGI$$?copy=' + encodeURIComponent(USERS[i].username) + '&' + randomizer()).removeClass('disabled').children('img').attr({ src: "/images/copysmall.gif", width: "16", height: "16" });
+
+    if ( (theAdmin || anAdmin) && (USERS[i].username.toLowerCase() != 'administrator') ) {
+      $('#deleteUser').attr('href', '$$THISCGI$$?delete=' + encodeURIComponent(USERS[i].username) + '&' + randomizer()).removeClass('disabled').children('img').attr({ src: "/images/deletesmall.gif", width: "16", height: "16" });
+    } else {
+      $('#deleteUser').attr('href', '#nogo').addClass('disabled').children('img').attr({ src: "/images/deletesmalldisabled.gif", width: "16", height: "16" });
+    }
+
+  } else {
+    $('#listUsers').attr('href', '#nogo').addClass('disabled').children('img').attr({ src: "/images/listsmalldisabled.gif", width: "16", height: "16" });
+    $('#newUser').attr('href', '#nogo').addClass('disabled').children('img').attr({ src: '/images/newsmalldisabled.gif', width: '16', height: '16' });
+    $('#copyUser').attr('href', '#nogo').addClass('disabled').children('img').attr({ src: '/images/copysmalldisabled.gif', width: '16', height: '16' });
+    $('#deleteUser').attr('href', '#nogo').addClass('disabled').children('img').attr({ src: "/images/deletesmalldisabled.gif", width: "16", height: "16" });
+  }
+
+  // show edit form
+  $('#userEditor').show();
+}
+
+function toggleAdm(a) {
+  if (a) {
+    $('#perms ul ul input').attr( { checked: "checked", disabled: "disabled" });
+
+  } else {
+    // need "Edit Users" to enable these
+    $('#permRunSequences, #permEditSequences, #permRunScenarios, #permEditScenarios').attr({ disabled: (editUsers)? "" : "disabled" });
+
+    // need "Admin" to enable these
+    $('#permEditUsers, #permEditStations, #permEditFields, #permEditTemplates').attr({ disabled: (anAdmin)? "" : "disabled" });
+  }
+}
+
+
+
+// validate before saving the user edits
+function saveUser() {
+  var msg = '';
+
+  // check for empty newUsername, first, and last names
+  if (isBlank($('#newUsername').val())) msg =  "  * Username cannot be empty\n"
+  if (isBlank($('#firstname').val()))   msg += "  * First name cannot be empty\n"
+  if (isBlank($('#lastname').val()))    msg += "  * Last name cannot be empty\n"
+
+  // check for password/confirm equivalency
+  var pw  = $('#pw').val();
+  var cpw = $('#cpw').val();
+
+  // the pw logic is kind of complex...
+  // First check that pw matches cpw (password = confirm).
+  // Next, check that pw is not blank, but if it is blank, it could be okay
+  // - i.e., the user did not update.  In that case it will be the EMPTYPW global
+  // value.  Finally, new user records get an empty pw from the start.  This must be
+  // non-empty when record is submitted.
+  if ( (  Trim(pw) != Trim(cpw) ) ||
+       (  isBlank(Trim(pw)) && pw != EMPTYPW ) ||
+       (  editNew && isBlank(Trim(pw)) ) ) msg += "  * Blank or invalid password, or password confimation does not match\n";
+
+  if (!isBlank(msg)) {
+    alert("Please fix these problems before submitting the changes:\n\n" + msg);
+    return false;
+
+  }
+
+  // no horrible errors, check for name duplication
+  $('.busyNote').show();  // disable form
+  var newUsername = $('#newUsername').val();
+
+  if (ORIGINAL != newUsername) { // did they change names?
+    var overwrite = false;
+    $.ajax({ type: "GET",
+             url: '$$THISCGI$$?checkExists=' + encodeURIComponent(newUsername),
+             async: false,
+             cache: false,
+             success: function(response) {
+               try {
+                 eval('var data=' + response);
+               } catch(e) {
+                 msg = 'An error occurred checking the record name.\n\n' + e;
+               }
+
+               if (isBlank(msg)) {
+                 if (data.status) msg='An error occurred checking the record name.\n\n' + data.source;
+                 else {
+                   overwrite = (data.payload === true);
+                   if (overwrite) msg='A record with that username already exists.\n\nContinue and overwrite?';
+                 }
+               }
+             }
+           });
+
+    // alert/confirm if msg not blank
+    if (!isBlank(msg)) {
+      if (overwrite && !confirm(msg)) {
+        $('.busyNote').hide();
+        return false;
+      }
+
+      if (!overwrite) {  
+        alert(msg);
+        $('.busyNote').hide();
+        return false;
+      }
+    }
+  }
+
+  // send ORIGINAL username in the GET...
+  $('#f').attr("action", '$$THISCGI$$?save=' + encodeURIComponent(ORIGINAL) + '&' + randomizer());
+
+  // pashhash gets sent - clear pw and cpw
+  $('#pw').val('').attr("disabled", "disabled");
+  $('#cpw').val('').attr("disabled", "disabled");
+
+  // enable permissions for submission (otherwise they're not sent)
+  $('#perms input').removeAttr("disabled");
+
+  CHANGES = false;    // reset changes
+  $('#f').submit();   // submit the form...
+}
+
+//---------------------------------------------------------
+//  Globals
+//---------------------------------------------------------
+
+// USERS array of USER objects
+$$USERDEFINITION$$
+$$USERS$$
+
+var ORIGINAL;  // for checking duplicate names
+var EMPTYPW;   // for showing some fake content in PW inputs
+
+var CURRENTUSERINDEX; // for editing a single record
+
+var editMode  = $$EDITMODE$$;
+var editIndex = $$EDITINDEX$$;
+var editNew   = $$EDITNEW$$;
+var editUsers = $$EDITUSERS$$;
+
+var theAdmin  = $$THEADMIN$$;
+var anAdmin   = $$ANADMIN$$;
+var thisIsMe  = '$$THISISME$$';
+
+var seats = $$LICENSEDSEATS$$;
+
+// warn of pending changes for browse-off's
+// (does not work in FF if added to BODY tag)
+window.onbeforeunload=confirmLeave;
+// --></script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/usersbig.gif" width="48" height="48" />
+  <label id="headlabel">Spartan Users</label></h2>
+  
+  <form id="f" method="POST" action="$$THISCGI$$">
+    <div class="busyNote hidden">
+      <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+    </div>
+
+    <!--  Users Table -->
+    <div id="usersTable" class="hidden">
+      <div id="licensesummary"></div>
+      <table class="standard" id="users" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="LOGOUT: hover for more information"><img src="/images/keysmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="DELETE: remove user from system"><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="EDIT: modify the user"><img src="/images/editsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="COPY: coy the user"><img src="/images/copysmall.gif" width="16" height="16" /></th>
+          <th title="How the system recognizes the user">Username</th>
+          <th title="user's first name">First Name</th>
+          <th title="user's last name">Last Name</th>
+          <th title="user's email">Email</th>
+        </tr></thead>
+        <tbody></tbody>
+        <tfoot><tr></tr></tfoot>
+      </table>
+      <div class="add_wrapper">
+        <a id="btn_add" href="$$THISCGI$$?edit=" title="add a new user"><img src="/images/addsmall.gif" />Add New User...</a>
+      </div>
+    </div>
+
+    <!--  User Editor -->
+    <div class="hidden" id="userEditor">
+      <!-- Hidden User Record Inputs -->
+      <input type="hidden" id="editMode"    name="editMode" value="" />
+     	<input type="hidden" id="newPassHash" name="newPassHash" value="" />
+
+      <div class="topbar">
+        <a id="listUsers"  href="#nogo" title="List all users" class="left"><img src="/images/listsmalldisabled.gif" width="16" height="16" /></a>
+        <span class="pendingChanges hidden">* There are unsaved changes</span>
+        <a id="saveUser"   href="#nogo" title="Save this user"><img src="/images/floppysmall.gif" width="16" height="16" alt="small save icon"/></a>
+        <a id="newUser"    href="#nogo" title="Create a new user"><img src="/images/newsmalldisabled.gif" width="16" height="16" /></a>
+        <a id="copyUser"   href="#nogo" title="Copy this user"><img src="/images/copysmalldisabled.gif" width="16" height="16" /></a>
+        <a id="deleteUser" href="#nogo" title="Delete this user"><img src="/images/deletesmalldisabled.gif" width="16" height="16" /></a>
+      </div>
+
+      <table id="ident" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="l"><label for="newUsername">Username</label></td>
+          <td><input disabled="disabled" type="text" id="newUsername" name="newUsername" value="" /></td>
+        </tr>
+        <tr>
+          <td class="l"><label for="firstname">First Name</label></td>
+          <td><input disabled="disabled" type="text" id="firstname" name="firstname" value="" /></td>
+        </tr>
+        <tr>
+          <td class="l"><label for="lasttname">Last Name</label></td>
+          <td><input disabled="disabled" type="text" id="lastname" name="lastname" value="" /></td>
+        </tr>
+        <tr>
+          <td class="l"><label for="email">Email</label></td>
+          <td><input disabled="disabled" type="text" id="email" name="email" value="" /></td>
+        </tr>
+
+        <tr><!-- spacer --><td class="l">&nbsp;</td><td>&nbsp;</td></tr>
+
+        <tr>
+          <td class="l"><label for="pw">Password</label></td>
+          <td><input class="grayedout" disabled="disabled" type="password" id="pw" value="" /></td>
+        </tr>
+        <tr>
+          <td class="l"><label for="cpw">Confirm Password</label></td>
+          <td><input class="grayedout" disabled="disabled" type="password" id="cpw" value="" /></td>
+        </tr>
+      </table>
+
+      <div id="perms">
+        <ul><!-- Administrator Attribute -->
+          <li><label for="permAdmin" title="Administrator users can do anything within Spartan">
+              <input id="permAdmin" name="permAdmin" type="checkbox" disabled="disabled" />Administrator</label>
+  
+            <ul><!-- Individual Attributes -->
+              <li><label for="permRunSequences" title="Allow this user to execute approved test sequences on a test station.">
+                  <input id="permRunSequences" name="permRunSequences" type="checkbox" disabled="disabled" />Run Sequences</label>
+              </li>
+
+              <li><label for="permEditSequences" title="Allow this user to create and modify their own test sequences.">
+                  <input id="permEditSequences" name="permEditSequences" type="checkbox" disabled="disabled" />Modify Sequences</label>
+              </li>
+
+              <li><label for="permRunScenarios" title="Allow this user to execute data mining scenarios on stored data.">
+                  <input id="permRunScenarios" name="permRunScenarios" type="checkbox" disabled="disabled" />Run Scenarios</label>
+              </li>
+
+              <li><label for="permEditScenarios" title="Allow this user to create and modify their own data mining scenarios.">
+                  <input id="permEditScenarios" name="permEditScenarios" type="checkbox" disabled="disabled" />Modify Scenarios</label>
+              </li>
+
+              <li><label for="permEditTemplates" title="Allow this user to create and modify their own datasheet templates.">
+                  <input id="permEditTemplates" name="permEditTemplates" type="checkbox" disabled="disabled" />Modify Templates</label>
+              </li>
+
+              <li><label for="permEditUsers" title="Allow this user to create and modify Spartan users.">
+                  <input id="permEditUsers" name="permEditUsers" type="checkbox" disabled="disabled" />Modify Users</label>
+              </li>
+
+              <li><label for="permEditStations" title="Allow this user to create and modify Spartan test stations.">
+                  <input id="permEditStations" name="permEditStations" type="checkbox" disabled="disabled" />Modify Stations</label>
+              </li>
+
+              <li><label for="permEditFields" title="Allow this user to create and modify custom Spartan fields.">
+                  <input id="permEditFields" name="permEditFields" type="checkbox" disabled="disabled" />Modify Fields</label>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+  
+      <div class="buttonbar"></div>
+
+    </div><!-- record editor -->
+  
+  </form>
+</div>
+</body>
+</html>

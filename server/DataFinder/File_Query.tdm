@@ -1,0 +1,813 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<usi:tdm xmlns:usi="http://www.ni.com/Schemas/USI/1_0" version="1.0">
+
+  <usi:documentation>
+    <usi:exporter>National Instruments USI</usi:exporter>
+    <usi:exporterVersion>1.3</usi:exporterVersion>
+  </usi:documentation>
+
+  <usi:model modelName="National Instruments USI generated meta file" modelVersion="1.0">
+    <usi:include nsUri="http://www.ni.com/DataModels/USI/TDM/1_0"/>
+  </usi:model>
+
+  <usi:include/>
+
+  <usi:data>
+    <string_sequence id="usi1">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\PDA_Model Number_west1.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi2">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\S Parameter_1_ALLPARA.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi3">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\S Parameter_1_WEST.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi4">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\S Parameter_1_WEST14.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi5">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\S Parameter_1_WEST15.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi6">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\S Parameter_1_WEST16.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi7">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\S Parameter_1_WEST17.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi8">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\S Parameter_1_WEST8.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi9">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\S Parameter_1_test.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi10">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\S Parameter_1_west1.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi11">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\S Parameter_1_west10.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi12">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\Prompt Measurement_1_$MSN$ 0000000000000060.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi13">
+      <values>
+        <s>I:\Engineering\Development\SPARTAN\DATA\TDM\Prompt Measurement_1_west.tdm</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi14">
+      <values>
+        <s>eSearchChannelGroup</s>
+        <s>Serial_Number</s>
+        <s>=</s>
+        <s>1</s>
+      </values>
+    </string_sequence>
+    <string_sequence id="usi15">
+      <values>
+        <s>eSearchChannelGroup</s>
+        <s>Batch</s>
+        <s>=</s>
+        <s>*</s>
+      </values>
+    </string_sequence>
+    <tdm_root id="usi16">
+      <name>File_query</name>
+      <description></description>
+      <title></title>
+      <author></author>
+      <datetime>2006-03-14T13:35:58</datetime>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="datestring">
+          <s>03/14/2006</s>
+        </string_attribute>
+        <string_attribute name="timestring">
+          <s>13:35:58</s>
+        </string_attribute>
+      </instance_attributes>
+      <channelgroups>#xpointer(id("usi17") id("usi18"))</channelgroups>
+    </tdm_root>
+    <tdm_channelgroup id="usi17">
+      <name>Spartan_Results</name>
+      <description></description>
+      <root>#xpointer(id("usi16"))</root>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <channels>#xpointer(id("usi19") id("usi20") id("usi21") id("usi22") id("usi23") id("usi24") id("usi25") id("usi26") id("usi27") id("usi28") id("usi29") id("usi30") id("usi31"))</channels>
+      <submatrices>#xpointer(id("usi34") id("usi35") id("usi36") id("usi37") id("usi38") id("usi39") id("usi40") id("usi41") id("usi42") id("usi43") id("usi44") id("usi45") id("usi46"))</submatrices>
+    </tdm_channelgroup>
+    <tdm_channelgroup id="usi18">
+      <name>Spartan_Query</name>
+      <description>eSearchFile</description>
+      <root>#xpointer(id("usi16"))</root>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <channels>#xpointer(id("usi32") id("usi33"))</channels>
+      <submatrices>#xpointer(id("usi47") id("usi48"))</submatrices>
+    </tdm_channelgroup>
+    <tdm_channel id="usi19">
+      <name>Result1</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi49"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi20">
+      <name>Result2</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi50"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi21">
+      <name>Result3</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi51"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi22">
+      <name>Result4</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi52"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi23">
+      <name>Result5</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi53"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi24">
+      <name>Result6</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi54"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi25">
+      <name>Result7</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi55"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi26">
+      <name>Result8</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi56"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi27">
+      <name>Result9</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi57"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi28">
+      <name>Result10</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi58"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi29">
+      <name>Result11</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi59"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi30">
+      <name>Result12</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi60"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi31">
+      <name>Result13</name>
+      <description></description>
+      <group>#xpointer(id("usi17"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi61"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi32">
+      <name>Spartan_Cond0</name>
+      <description></description>
+      <group>#xpointer(id("usi18"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi62"))</local_columns>
+    </tdm_channel>
+    <tdm_channel id="usi33">
+      <name>Spartan_Cond1</name>
+      <description></description>
+      <group>#xpointer(id("usi18"))</group>
+      <unit_string></unit_string>
+      <datatype>DT_STRING</datatype>
+      <registerint1>0</registerint1>
+      <registerint2>0</registerint2>
+      <registerint3>0</registerint3>
+      <registerint4>0</registerint4>
+      <registerint5>0</registerint5>
+      <registerint6>0</registerint6>
+      <registertxt1></registertxt1>
+      <registertxt2></registertxt2>
+      <registertxt3></registertxt3>
+      <instance_attributes>
+        <string_attribute name="displaytype">
+          <s>Text</s>
+        </string_attribute>
+        <string_attribute name="monotony">
+          <s>not calculated</s>
+        </string_attribute>
+        <string_attribute name="novaluekey">
+          <s>Yes</s>
+        </string_attribute>
+      </instance_attributes>
+      <local_columns>#xpointer(id("usi63"))</local_columns>
+    </tdm_channel>
+    <submatrix id="usi34">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi49"))</local_columns>
+    </submatrix>
+    <submatrix id="usi35">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi50"))</local_columns>
+    </submatrix>
+    <submatrix id="usi36">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi51"))</local_columns>
+    </submatrix>
+    <submatrix id="usi37">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi52"))</local_columns>
+    </submatrix>
+    <submatrix id="usi38">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi53"))</local_columns>
+    </submatrix>
+    <submatrix id="usi39">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi54"))</local_columns>
+    </submatrix>
+    <submatrix id="usi40">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi55"))</local_columns>
+    </submatrix>
+    <submatrix id="usi41">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi56"))</local_columns>
+    </submatrix>
+    <submatrix id="usi42">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi57"))</local_columns>
+    </submatrix>
+    <submatrix id="usi43">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi58"))</local_columns>
+    </submatrix>
+    <submatrix id="usi44">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi59"))</local_columns>
+    </submatrix>
+    <submatrix id="usi45">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi60"))</local_columns>
+    </submatrix>
+    <submatrix id="usi46">
+      <name>submatrix</name>
+      <description></description>
+      <measurement>#xpointer(id("usi17"))</measurement>
+      <number_of_rows>1</number_of_rows>
+      <local_columns>#xpointer(id("usi61"))</local_columns>
+    </submatrix>
+    <submatrix id="usi47">
+      <name>Spartan_Cond0</name>
+      <description></description>
+      <measurement>#xpointer(id("usi18"))</measurement>
+      <number_of_rows>4</number_of_rows>
+      <local_columns>#xpointer(id("usi62"))</local_columns>
+    </submatrix>
+    <submatrix id="usi48">
+      <name>Spartan_Cond1</name>
+      <description></description>
+      <measurement>#xpointer(id("usi18"))</measurement>
+      <number_of_rows>4</number_of_rows>
+      <local_columns>#xpointer(id("usi63"))</local_columns>
+    </submatrix>
+    <localcolumn id="usi49">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi19"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi34"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi1"))</values>
+    </localcolumn>
+    <localcolumn id="usi50">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi20"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi35"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi2"))</values>
+    </localcolumn>
+    <localcolumn id="usi51">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi21"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi36"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi3"))</values>
+    </localcolumn>
+    <localcolumn id="usi52">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi22"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi37"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi4"))</values>
+    </localcolumn>
+    <localcolumn id="usi53">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi23"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi38"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi5"))</values>
+    </localcolumn>
+    <localcolumn id="usi54">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi24"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi39"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi6"))</values>
+    </localcolumn>
+    <localcolumn id="usi55">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi25"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi40"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi7"))</values>
+    </localcolumn>
+    <localcolumn id="usi56">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi26"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi41"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi8"))</values>
+    </localcolumn>
+    <localcolumn id="usi57">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi27"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi42"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi9"))</values>
+    </localcolumn>
+    <localcolumn id="usi58">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi28"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi43"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi10"))</values>
+    </localcolumn>
+    <localcolumn id="usi59">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi29"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi44"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi11"))</values>
+    </localcolumn>
+    <localcolumn id="usi60">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi30"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi45"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi12"))</values>
+    </localcolumn>
+    <localcolumn id="usi61">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi31"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi46"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi13"))</values>
+    </localcolumn>
+    <localcolumn id="usi62">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi32"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi47"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi14"))</values>
+    </localcolumn>
+    <localcolumn id="usi63">
+      <name></name>
+      <description></description>
+      <measurement_quantity>#xpointer(id("usi33"))</measurement_quantity>
+      <submatrix>#xpointer(id("usi48"))</submatrix>
+      <global_flag>15</global_flag>
+      <independent>0</independent>
+      <sequence_representation>explicit</sequence_representation>
+      <values>#xpointer(id("usi15"))</values>
+    </localcolumn>
+  </usi:data>
+
+</usi:tdm>

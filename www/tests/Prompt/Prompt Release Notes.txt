@@ -1,0 +1,47 @@
+[5.2.0240]
+Date="May 2010"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0114]
+Date="January 2010"
+note0="Spartan 5.1.0117 Release."
+
+[4.2.0071]
+Date="October 2008"
+note1="Replaced Active X status Bar with new controls to eliminate errors loading status bar (only occurred on some machines)."
+
+[4.0.0144]
+Date="June 2008"
+note1="Removed remote panel configuration panel."
+
+[3.1.0060]
+Date="July 2007"
+note1="Converted to TDMS format."
+
+[2.2.0013]
+Date="July 2006"
+note1="Corrected reported bugs."
+note2="Added ability to generate reports at the end of the step."
+
+[2.1.0039]
+Date="June 2006"
+note1="Minor bug fixes on the configuration panel."
+note2="Changed test status."
+note3="Modified button setup."
+
+[2.0.0012]
+Date="March 2006"
+note0="Minor bug fixing for standalone operation."
+
+[2.0.0026]
+Date="February 2006"
+note1="Minor bug fixing for final Spartan 2.0 release."
+
+[2.0.0021]
+Date="January 2006"
+note1="Added 'Abort All' button to abort an entire sequence."
+note2="Added step tag for easier interpretation."
+
+[1.0.0026]
+Date="September 2005"
+note1="Initial Release."

@@ -1,0 +1,528 @@
+<form class="pimpanel">
+  <div class="panellegend">PIM Step Configuration</div>
+
+  <div class="panelbody">
+    <div class="hidden" id="PIM Object Initialization">
+      <textarea id="LOAD_PIM_STIMULUS$$UID$$" class="hidden">
+        PIM_STIMULUS$$UID$$ = new PIM_STIMULUS( '$$UID$$',
+                                                $$C1FREQ$$,
+                                                $$C2FREQ$$,
+                                                $$C1POWER$$,
+                                                $$C2POWER$$,
+                                                '$$PWRUNITS$$',
+                                                '$$MEASTYPE$$',
+                                                $$FREQSTEP$$ );
+      </textarea>
+
+      <textarea id="LOAD_PIM_MEASURE$$UID$$">
+        PIM_MEASURE$$UID$$ = new PIM_MEASURE( '$$UID$$',
+                                              '$$PORT$$',
+                                              $$DIRECTION$$,
+                                              $$IMORDER$$,
+                                              $$IMAVG$$,
+                                              $$DISPLAYSAMPS$$,
+                                              '$$SAMPLETYPE$$',
+                                              $$UPDATERATE$$ );
+      </textarea>
+
+      <textarea id="LOAD_PIM_DISPLAY$$UID$$">
+        PIM_DISPLAY$$UID$$ = new PIM_DISPLAY( '$$UID$$',
+                                              $$DISPLAYMIN$$,
+                                              $$DISPLAYMAX$$,
+                                              '$$MEASURE$$',
+                                              $$DISPLAYUNITS$$ );
+      </textarea>
+
+      <textarea id="LOAD_PIM_LIMIT$$UID$$">
+        PIM_LIMIT$$UID$$ = new PIM_LIMIT( '$$UID$$',
+                                          $$PASSIMBELOW$$,
+                                          $$PEAKHOLDSAMP$$,
+                                          $$PASSIMPERCENTAGE$$ );
+      </textarea>
+    
+    </div>
+
+    <!-- TAB MENU -->
+    <div class="paneltabmenu">
+      <ul>
+        <li><a id="t$$UID$$0" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 0);">Setup</a></li>
+        <li><a id="t$$UID$$1" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 1);">Stimulus</a></li>
+        <li><a id="t$$UID$$2" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 2);">Measure</a></li>
+        <li><a id="t$$UID$$3" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 3);">Display</a></li>
+        <li><a id="t$$UID$$4" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 4);">Limits</a></li>
+        <!--<li><a id="t$$UID$$5" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 5);">Datasheets</a></li>-->
+      </ul>
+    </div>
+
+    <!-- SETUP TAB -->
+    <div class="hidden" id="tab$$UID$$0" name="setup$$UID$$">
+      <div id="instructions$$UID$$" class="info">
+        This test sequence step uses a Passive Intermodulation (PIM) Analyzer to measure
+        PIM in devices under test.  Several configuration options are available including:
+        <ul>
+          <li>Stimulus - Configure the Carrier Frequency Tones which will be mixed to generate PIM</li>
+          <li>Measure - Select measurement options</li>
+          <li>Display - Manage the way the data will be presented to the user</li>
+          <li>Limits - Define pass/fail criteria for the measurements</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- STIMULUS TAB -->
+    <div class="hidden" id="tab$$UID$$1">
+      <fieldset>
+        <legend>Measurement Type</legend>
+
+        <!-- Set Measurement Mode -->
+        <div class="pim">
+          <label>Measure PIM vs.</label> <!-- Label here indents the MeasType radio btns -->
+          <div class="pim control wide">
+            <label for="FIXEDPAIR$$UID$$" class="pim">
+              <input id="FIXEDPAIR$$UID$$"
+                     name="MEASUREMENT$$UID$$"
+                     type="radio"
+                     value="FIXEDPAIR"
+                     title="Carriers are set to the frequencies specified below and remain fixed for the duration of the test."
+                     onClick="getPIMStimulusObj('$$UID$$').setMeasType(FIXED);"
+                     onChange="makeChanges();" />
+            Time (Fixed Pair)</label>
+          </div>
+          <div class="pim control wide">
+            <label for="SWEPT$$UID$$" class="pim">
+              <input id="SWEPT$$UID$$"
+                     name="MEASUREMENT$$UID$$"
+                     type="radio"
+                     value="SWEPT"
+                     title="Carrier 2 sweeps down while Carrier 1 remains fixed, then Carrier 1 sweeps up while Carrier 2 remains fixed."
+                     onClick="getPIMStimulusObj('$$UID$$').setMeasType(SWEPT);"
+                     onChange="makeChanges();" />
+            Frequency (Swept)</label>
+          </div>
+          <div class="rightlabel">
+            <!-- Set Step Size -->
+            <label for="SWEPTSTEP$$UID$$" class="pim">
+            <select id="SWEPTSTEP$$UID$$"
+                    name="SWEPTSTEP"
+                    class="pim control"
+                    title="Carriers will be swept in step increments defined here."
+                    onChange="getPIMStimulusObj('$$UID$$').sweptFreqStep = this.value;
+                              makeChanges();" >
+                      <option value="0">0.2</option>
+                      <option value="1">0.4</option>
+                      <option value="2">1.0</option>
+                      <option value="3">2.0</option>
+                      <option value="4">4.0</option>
+            </select>
+            MHz</label>
+          </div>
+        </div>
+      </fieldset>
+    
+      <fieldset>
+        <legend>Carrier Configuration</legend>
+    
+        <!-- Select PIM Carrier Band -->
+        <div class="pim">
+          <label for="TXBAND$$UID$$">PIM Band:</label>
+          <div class="pim control wide">
+            <select id="TXBAND$$UID$$"
+                    name="TXBAND"
+                    title="Specify a default PIM operation band for this step to operate within.  This will limit the step to be run ONLY on the selected band."
+                    class="pim"
+                    onChange="getPIMStimulusObj('$$UID$$').setBand(this.value);
+                              makeChanges();" >
+                      <!-- Filled In Dynamically -->
+            </select>
+          </div>
+        </div>
+    
+        <!-- Set Carrier Frequencies -->
+        <div class="pim">
+          <label>Frequencies:</label>
+          <!-- Frequency Units -->
+          <div class="pim control">
+            <label title="Frequency displayed in Megahertz" class="pim" style="text-align: center;">MHz</label>
+          </div>
+          <!-- Set Carrier 1 Frequency -->
+          <div class="pim control">
+            <label for="C1FREQ$$UID$$" class="pim">Carrier 1:</label>
+          </div>
+          <div class="pim control">
+            <input id="C1FREQ$$UID$$"
+                   name="C1FREQ"
+                   type="text"
+                   class="pim numeric"
+                   title="Set the Carrier 1 transmit frequency"
+                   onKeyPress="captureReturn(this,event);"
+                   onChange="getPIMStimulusObj('$$UID$$').setC1Freq(this.value);
+                             makeChanges();" />
+          </div>
+          <!-- Set Carrier 2 Frequency -->
+          <div class="pim control">
+            <label for="C2FREQ$$UID$$" class="pim">Carrier 2:</label>
+          </div>
+          <div class="pim control">
+            <input id="C2FREQ$$UID$$"
+                   name="C2FREQ"
+                   type="text"
+                   class="pim numeric"
+                   title="Set the Carrier 2 transmit frequency"
+                   onKeyPress="captureReturn(this,event);"
+                   onChange="getPIMStimulusObj('$$UID$$').setC2Freq(this.value);
+                             makeChanges();" />
+          </div>
+          <div class="pim rightlabel">
+            <label for="FREQOVERRIDE$$UID$$" class="pim">
+            <input id="FREQOVERRIDE$$UID$$"
+                   name="FREQOVERRIDE"
+                   type="checkbox"
+                   title="Check this box to customize Carrier Frequencies. Un-check to restore to Band Defaults."
+                   onClick=" if(this.checked) setOverride('$$UID$$', true);
+                             else getPIMStimulusObj('$$UID$$').setBand(getPIMStimulusObj('$$UID$$').PIMband);
+                             makeChanges();"
+                   onChange="if(this.checked) setOverride('$$UID$$', true);
+                             else getPIMStimulusObj('$$UID$$').setBand(getPIMStimulusObj('$$UID$$').PIMband);
+                             makeChanges();" />
+            Edit Frequencies</label>
+            <!-- Set ALC -->
+            <input type="hidden" id="ALC$$UID$$" name="ALC" value="checked" />
+          </div>
+        </div>
+    
+        <!-- Set Carrier Power -->
+        <div class="pim">
+          <label>Power:</label>
+          <div class="pim control">
+            <!-- Select PIM Power Units -->
+            <select id="C1UNITS$$UID$$" 
+                    name="C1UNITS"
+                    class="pim"
+                    title="Set the carrier power units for this step."
+                    onChange="getPIMStimulusObj('$$UID$$').setPwrUnits(this.value);
+                              makeChanges();">
+                      <option value="dBm">dBm</option>
+                      <option value="Watts">Watts</option>
+            </select>
+          </div>
+          <!-- Set Carrier 1 Power -->
+          <div class="pim control">
+            <label for="C1POWER$$UID$$" class="pim">Carrier 1:</label>
+          </div>
+          <div class="pim control">
+            <input id="C1POWER$$UID$$" name="C1POWER"
+                   type="text" 
+                   class="pim numeric"
+                   title="Set the power for carrier 1."
+                   onKeyPress="captureReturn(this,event);"
+                   onChange="getPIMStimulusObj('$$UID$$').setC1Pwr(this.value);
+                             makeChanges();" />
+          </div>
+          <!-- Set Carrier 2 Power -->
+          <div class="pim control">
+            <label for="C2POWER$$UID$$" class="pim">Carrier 2:</label>
+          </div>
+          <div class="pim control">
+            <input id="C2POWER$$UID$$" 
+                   name="C2POWER"
+                   type="text"
+                   class="pim numeric"
+                   title="Set the power for carrier 2."
+                   onKeyPress="captureReturn(this,event);"
+                   onChange="getPIMStimulusObj('$$UID$$').setC2Pwr(this.value);
+                             makeChanges();" />
+          </div>
+          <div class="pim rightlabel">
+            <label for="LOCKC2$$UID$$" class="pim">
+            <input id="LOCKC2$$UID$$"
+                   name="LOCKC2"
+                   type="checkbox"
+                   title="Check this box to set Carrier 2 power seperately. Un-check to synchronize with Carrier 1 power."
+                   onClick="this.blur()"
+                   onChange="getPIMStimulusObj('$$UID$$').setLock(!this.checked);
+                             makeChanges();" />
+            Unlock Carrier 2</label>
+          </div>
+        </div>
+    
+      </fieldset>
+    </div>
+    
+    <!-- MEASURE TAB -->
+    <div class="hidden" id="tab$$UID$$2">
+      <fieldset>
+        <legend>Measurement Parameters</legend>
+    
+        <!-- BEGIN Stimulus Port Configuration -->
+        <div class="pim">
+          <label for="DUTPORT$$UID$$">Stimulus Port:</label>
+          <!-- Set DUT Port -->
+          <div class="pim control">
+            <select id="DUTPORT$$UID$$"
+                    name="DUTPORT"
+                    class="pim"
+                    title="Select a stimulus port to identify where carrier power should be transmitted (Port 1 is default. Port 2 available only on 'Option D (Dual Port)' configuration analyzers."
+                    onChange="getPIMMeasureObj('$$UID$$').setDUTport(this.value);
+                              makeChanges();">
+                      <option title="Port 1 (Default)" value="Port 1">Port 1</option>
+                      <option title="Port 2 (Only available with Option D analyzers)" value="Port 2">Port 2</option>
+            </select>
+          </div>
+          <div class="pim control">
+            <select id="IM$$UID$$"
+                    name="IM"
+                    class="pim"
+                    title="Identify whether PIM should be measured in Reverse or Forward measurement mode."
+                    onChange="getPIMMeasureObj('$$UID$$').setDirection(this.value);
+                              makeChanges();" >
+                      <option title="Reverse IM (Default) measures IM present at the device input." value="0">Reverse</option>
+                      <option title="Forward IM (Option D or F analyzers only) measures IM present at the device output." value="1">Forward</option>
+            </select>
+          </div>
+          <!-- PIM Parameter -->
+          <div class="pim control">
+            <label id="PPARAM$$UID$$" title="PIM P-Parameter, denoted 'P<response port> <stimulus port>', identifies the response and stimulus ports used for this measurement." class="pim" style="text-align: center;">P11</label>
+          </div>
+        </div>
+    
+        <!-- Set IM Order -->
+        <div class="pim">
+          <label for="IMORDER$$UID$$">IM Product:</label>
+          <div class="pim control">
+            <select id="IMORDER$$UID$$"
+                    name="IMORDER"
+                    title="Select an IM Product of interest for this measurement.  3rd order IM is the default for most systems."
+                    class="pim"
+                    onChange="getPIMMeasureObj('$$UID$$').setIMorder(this.value);
+                              makeChanges();">
+                      <option value="3">3rd</option>
+                      <option value="5">5th</option>
+                      <option value="7">7th</option>
+                      <option value="9">9th</option>
+                      <option value="11">11th</option>
+                      <option value="13">13th</option>
+                      <option value="15">15th</option>
+                      <option value="17">17th</option>
+                      <option value="19">19th</option>
+                      <option value="21">21st</option>
+                      <option value="23">23rd</option>
+                      <option value="25">25th</option>
+                      <option value="27">27th</option>
+                      <option value="29">29th</option>
+                      <option value="31">31st</option>
+                      <option value="33">33rd</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Set Averaging -->
+        <div class="pim">
+          <label for="AVERAGE$$UID$$">Averaging:</label>
+          <div class="pim control">
+            <select id="AVERAGE$$UID$$"
+                    name="AVERAGE"
+                    title="Select a level of averaging which should be applied to the selected IM Product."
+                    class="pim"
+                    onChange="getPIMMeasureObj('$$UID$$').Averaging = this.value;
+                              makeChanges();" >
+                      <option value="0">None</option>
+                      <option value="1">Minimum</option>
+                      <option value="2">Normal</option>
+                      <option value="3">High</option>
+                      <option value="4">Maximum</option>
+            </select>
+          </div>
+        </div>
+    
+        <!-- Set Measurement Count -->
+        <div class="pim">
+          <label for="MEASURE$$UID$$">Measure:</label>
+          <div class="pim control">
+            <input  id="MEASURE$$UID$$"
+                    name="MEASURE"
+                    title="Define the number of measurements to be taken based on the sample-type defined for this step."
+                    type="text"
+                    class="pim numeric"
+                    onKeyPress="captureReturn(this,event);"
+                    onChange="getPIMMeasureObj('$$UID$$').setNumSamples(this.value);
+                              makeChanges();" />
+          </div>
+          <div class="pim control">
+            <select id="MEASURETYPE$$UID$$" 
+                    name="MEASURETYPE" 
+                    title="Sample-Type: Select the sampling units to use in defining the duration of the test."
+                    class="pim"
+                    onChange="getPIMMeasureObj('$$UID$$').SampleUnits = this.value;
+                              chkSampleUnits('$$UID$$');
+                              makeChanges();">
+                      <option title="Specify an exact number of samples to be acquired for this measurement." value="Sample(s)">Sample(s)</option>
+                      <option title="Specify a timed measurement in seconds." value="Second(s)">Second(s)</option>
+                      <option title="Specify the number of sweeps which should be acquired during this measurement." value="Sweep(s)">Sweep(s)</option>
+            </select>
+          </div>
+        </div>
+    
+        <!-- Set Update Rate -->
+        <div class="pim">
+          <label for="SETUPSECS$$UID$$">Sampling Rate (sec):</label>
+          <div class="pim control">
+            <input id="SETUPSECS$$UID$$"
+                   name="SETUPSECS"
+                   type="text"
+                   class="pim numeric"
+                   title="Set a sampling update rate (in seconds). Samples will be taken every n seconds (set to 0 for fastest possible rate)."
+                   onKeyPress="captureReturn(this,event);"
+                   onblur="getPIMMeasureObj('$$UID$$').updateRate = this.value = setPrecision(inBoundsAndCoerce(this.value,0),0);"
+                   onChange="makeChanges();" 
+                   DISABLED />
+          </div>
+          <div class="pim rightlabel">
+            <label for="SETUPRATE$$UID$$" class="pim">
+            <input id="SETUPRATE$$UID$$"
+                   name="SETUPRATE"
+                   title="Check this box to specify a custom sampling rate for this measurement.  Un-check to use the default (fastest possible) sampling rate."
+                   type="checkbox"
+                   onClick="this.blur();" 
+                   onChange="document.getElementById('SETUPSECS$$UID$$').disabled = !(this.checked); makeChanges();" />
+            Specify Sampling Rate</label>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    
+    <!-- DISPLAY TAB -->
+    <div class="hidden" id="tab$$UID$$3">
+      <fieldset>
+        <legend>Display Parameters</legend>
+    
+        <!-- Set Range Max -->
+        <div class="pim">
+          <label for="DISPLAYMAX$$UID$$">Max Range (Y-scale):</label>
+          <div class="pim control">
+            <input id="DISPLAYMAX$$UID$$"
+                   name="DISPLAYMAX"
+                   title="Set the maximum plot boundary to be displayed during measurement."
+                   type="text"
+                   class="pim numeric"
+                   onKeyPress="captureReturn(this,event);"
+                   onChange="getPIMDisplayObj('$$UID$$').setMax(this.value); makeChanges();" />
+          </div>
+          <div class="pim control">
+            <select id="DISPLAYIMUNITS$$UID$$"
+                    name="DISPLAYIMUNITS"
+                    title="Specify which units should be displayed during measurement."
+                    class="pim"
+                    onChange="getPIMDisplayObj('$$UID$$').setUnits(this.value); makeChanges();" >
+                      <option value="dBm">dBm</option>
+                      <option value="dBc">dBc</option>
+            </select>
+          </div>
+        </div>
+    
+        <!-- Set Range Min -->
+        <div class="pim">
+          <label for="DISPLAYMIN$$UID$$">Min Range (Y-scale):</label>
+          <div class="pim control">
+            <input id="DISPLAYMIN$$UID$$"
+                   name="DISPLAYMIN"
+                   title="Set the minimum plot boundary to be displayed during measurement."
+                   type="text"
+                   class="pim numeric"
+                   onKeyPress="captureReturn(this,event);"
+                   onChange="getPIMDisplayObj('$$UID$$').setMin(this.value); makeChanges();" />
+          </div>
+        </div>
+    
+        <!-- Set Domain Span -->
+        <div class="pim">
+          <label for="DISPLAYSAMP$$UID$$" id="DISPLAYSAMPLBL$$UID$$">Sample(s):</label>
+          <div class="pim control">
+            <input id="DISPLAYSAMP$$UID$$"
+                   name="DISPLAYSAMP"
+                   title="Display some or all of the measured data while executing this test step."
+                   type="text"
+                   class="pim numeric"
+                   onKeyPress="captureReturn(this,event);"
+                   onChange="getPIMDisplayObj('$$UID$$').setSpan(this.value); makeChanges();" />
+          </div>
+        </div>
+    
+      </fieldset>
+    </div>
+    
+    <!-- LIMIT TAB -->
+    <div class="hidden" id="tab$$UID$$4">
+      <fieldset>
+        <legend>Limits</legend>
+    
+        <!-- Set Reference Limit -->
+        <div class="pim">
+          <label for="PASSIMBELOW$$UID$$">Pass Peak IM Below:</label>
+          <div class="pim control">
+            <input id="PASSIMBELOW$$UID$$"
+                   name="PASSIMBELOW"
+                   type="text"
+                   title="Pass this step if the measured Peak IM level is below this limit."
+                   class="pim numeric"
+                   onKeyPress="captureReturn(this,event);"
+                   onChange="getPIMLimitObj('$$UID$$').setLimit(this.value); makeChanges();" />
+          </div>
+          <div class="pim control">
+            <select id="PASSIMBELOWUNITS$$UID$$"
+                    name="PASSIMBELOWUNITS" 
+                    class="pim"
+                    onChange="getPIMDisplayObj('$$UID$$').setUnits(this.value); makeChanges();">
+                      <option value="dBm">dBm</option>
+                      <option value="dBc">dBc</option>
+            </select>
+          </div>
+		  <div class="pim rightlabel">
+			<label for="ENABLELIMIT$$UID$$" class="pim">
+				<input id="ENABLELIMIT$$UID$$"
+					name="ENABLELIMIT$$UID$$"
+					class="pim"
+					type="checkbox"
+					onChange="getPIMLimitObj('$$UID$$').toggleLimit(this.checked); makeChanges();">
+			Set Limit
+			</label>
+		  </div>
+        </div>
+        
+        <!-- Percentage of Limit -->
+        <div class="pim">
+          <label for="PASSIMPERCENTAGE">Percentage of IM (%):</label>
+          <div class="pim control">
+            <input id="PASSIMPERCENTAGE$$UID$$"
+                   name="PASSIMPERCENTAGE"
+                   title="Pass this step if the measured X percent of the Peak IM levels are below the limit."
+                   type="text"
+                   class="pim numeric"
+                   onKeyPress="captureReturn(this,event);"
+                   onChange="getPIMLimitObj('$$UID$$').setPercent(this.value); makeChanges();" />
+          </div>
+        </div>
+
+        <!-- Set Peak Hold -->
+        <div class="pim">
+          <label for="PEAKHOLDSAMP$$UID$$">Peak Hold Last:</label>
+          <div class="pim control">
+            <input id="PEAKHOLDSAMP$$UID$$"
+                   name="PEAKHOLDSAMP"
+                   title="Specify Peak History (keep peak history for this number of samples/seconds/sweeps)"
+                   type="text"
+                   class="pim numeric"
+                   onKeyPress="captureReturn(this,event);"
+                   onblur=""
+                   onChange="getPIMLimitObj('$$UID$$').setPeakHold(this.value);
+                             makeChanges();"
+            />
+          </div>
+          <!-- Peak Units -->
+          <div class="pim control">
+            <label id="PEAKHOLDSAMPLBL$$UID$$" title="Peak Hold Units" class="pim" style="text-align: center;">Sample(s)</label>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+
+  </div>
+</form>

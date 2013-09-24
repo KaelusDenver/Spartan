@@ -1,0 +1,296 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>About Spartan QMS</title>
+$$STYLES$$
+<style type="text/css">
+#content { width: 7in; }
+#content h3 { border-top: solid 2px #00f; margin-top: 2em; }
+#content h4 { margin-bottom: 0; margin-top: 2em; }
+#content h4 span { font-weight: normal; }
+#content h4.version { font-weight: bold; color: #c60; margin-left: 1em; }
+
+#content table#about { text-align: left; margin: 0 auto; border: solid 1px #ccc; }
+#content table#about th,
+#content table#about td { font-weight: normal; padding: 5px 20px 0 20px; }
+#content table#about th.label { background: #eee; padding-left: 5px; padding-bottom: 5px; font-weight: bold; border-bottom: solid 1px #eee; }
+
+#content #mainHistory {  }
+#content #mainHistory h5 { margin: 0 2em; }
+#content #mainHistory ul { list-style: none; font-size: 85%; }
+
+#content .modules { list-style: none; padding: 1em; }
+#content .modules li { margin-bottom: 1em; }
+#content .modules li a { font-weight: bold; padding: 2px 2em; }
+#content .modules li ul { list-style: none; margin: 1em; padding: 0; }
+#content .modules ol li { margin-bottom: 0.25em; }
+#content .modules table { font-size: 90%; background: #eee; }
+#content .modules table tr { background: #fff; }
+#content .modules table tr.o { background: #f1f5fa; }
+#content .modules table th,
+#content .modules table td { text-align: left; vertical-align: top; padding: 5px 2em 0 10px; }
+#content .modules table td.version { white-space: nowrap; }
+#content .modules table th { color: #c60; text-transform: uppercase; }
+
+</style>
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+function number_format(number, decimals, dec_point, thousands_sep) {
+  var n = !isFinite(+number) ? 0 : +number,
+      prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+      sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+      dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+      s = '',
+      toFixedFix = function (n, prec) {
+        var k = Math.pow(10, prec);
+        return '' + Math.round(n * k) / k;
+      };
+  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  if (s[0].length > 3) {
+    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+  }
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+  return s.join(dec);
+}
+
+$(document).ready(function () {
+
+  $('#serverVersion').text(SPARTANVERSION);
+  var d = new Date(jsTimeFromLV(BUILDDATE));
+  $('#serverVersion2').text(SPARTANVERSION + ' ' + d.format('mmmm yyyy'));
+
+  $('#clientVersion').text(CLIENTVERSION);
+  $('#ddVersion').text(DDVERSION);
+  $('#dfVersion').text(DFVERSION);
+
+  $('#uptime').text(formatTime(UPTIME));
+
+  $('#activeUsers').text(ACTIVEUSERS);
+
+  $('#dataRepo').text(DATADIR);
+
+  d = new Date(jsTimeFromLV(LASTINDEX));
+  $('#lastIndex').text(d.format(SPARTANDATE));
+  $('#indexSize').text(number_format(INDEXSIZE/(1024*1024), 2) + ' MB');
+
+  $.getJSON('$$THISCGI$$?action=repoSize', function(json){$('#repoSize').text(number_format(json.payload, 2) + ' MB')});
+  $.getJSON('$$THISCGI$$?action=organized', function(json){$('#organized').text(number_format(json.payload))});
+
+  $('#testItems').text(number_format(TESTITEMS));
+  $('#testRuns').text(number_format(TESTRUNS));
+  $('#failures').text(number_format(FAILURES));
+  $('#remaining').text(number_format(REMAINING));
+
+
+  // put current release notes
+  for (var i=0; i<MAIN[0].history[0].notes.length; i++) {
+    $('#MAIN').tplAppend(MAIN[0].history[0].notes[i], function() {
+      return ['li', [ this.toString() ] ];
+    });
+  }
+
+  // put MAIN history links (everything after first entry)
+  for (var i=1; i<MAIN[0].history.length - 1; i++) {
+    $('#mainHistory > ul').tplAppend(MAIN[0].history[i], function() {
+      var notes = [];
+      for (var j=0; j<this.notes.length; j++) {
+        notes.push('li', [this.notes[j].toString()]);
+      }
+      return ['li', { }, ['a', { href: "#nogo", className: "toggler", id: "_main" + i }, [ this.version + ' ' + this.date ], 'ol', { id: "main" + i, className: "hidden" }, notes ] ];
+    });
+  }
+
+  // add TEST notes
+  for (var i=0; i<TESTS.length; i++) {
+    $('#TESTS').tplAppend(TESTS[i], function () {
+      var hist = [];
+      for (var j=0; j<this.history.length; j++) {
+        var notes = [];
+        for (var k=0; k<this.history[j].notes.length; k++) {
+          notes.push('li', { }, [ this.history[j].notes[k] ] );
+        }
+        hist.push('tr', { }, ['td', { className: "version" }, [ this.history[j].version + nbsp() + this.history[j].date ], 'td', {}, [ 'ol', { }, notes ] ]);
+      }
+      return ['li', { }, ['a', { href: "#nogo", id: "_test" + i, className: "toggler" }, [ this.name ], 'table', { id: "test" + i, className: "hidden" }, hist ] ];
+    });
+  }
+
+  // add DRIVERS notes
+
+  // 1. Sort by Driver Type (e.g., DMM, VNA, ...)
+  var TYPES = [];
+  var types = [];
+  for (var i=0; i<DRIVERS.length; i++) {
+    var name = DRIVERS[i].name;
+    var type = name.slice(name.length - 3);
+    var index = types.indexOf(type);
+    if (index < 0) {
+      types.push(type);
+      TYPES.push( { "drivers" : [ DRIVERS[i] ] } );
+    } else {
+      TYPES[index].drivers.push(DRIVERS[i]);
+    }
+  }
+
+  for (var i=0; i<TYPES.length; i++) {
+    $('#DRIVERS').tplAppend(TYPES[i], function() {
+      var type = this.drivers[0].name.slice(this.drivers[0].name.length - 3);
+
+      var brands = [];
+      for (var j=0; j<this.drivers.length; j++) {
+
+        var hist = ['tr', ['td', ['Supported Models'],
+                           'td', [ this.drivers[j].models.join(', ') ]
+                          ] ];
+
+        for (var k=0; k<this.drivers[j].history.length; k++) {
+
+          var notes = [];
+          for (var m=0; m<this.drivers[j].history[k].notes.length; m++) {
+            notes.push('li', [ this.drivers[j].history[k].notes[m] ]);
+          }
+
+          hist.push('tr',
+                      ['td', { className: "version" }, [ this.drivers[j].history[k].version + nbsp() + this.drivers[j].history[k].date ],
+                       'td', ['ol', notes ] ]);
+        }
+
+        brands.push('li',
+                     ['a', { id: '_type' + i + '_' + j, className: 'toggler', href: '#nogo'}, [ this.drivers[j].name.slice(0, this.drivers[j].name.length - 4) ],
+                      'table', { className: 'hidden', id: 'type' + i + '_' + j}, hist
+                     ]);
+
+      }
+
+      return ['li', 
+               ['a', { className: 'toggler', id: '_type' + i, href: '#nogo' }, [ type + ' - ' + driverInfo(type) ],
+                'ul', { id: 'type' + i, className: 'hidden' }, brands
+               ]
+             ];
+    });
+  }
+
+  $("ul.modules table tr:nth-child(odd)").addClass("o"); // zebra stripes
+
+  $("a.toggler").unbind().click(function () {
+    $(this).blur();
+    $('#' + $(this).attr("id").slice(1)).slideToggle("normal");
+    $(this).toggleClass("toggleOpen"); 
+    return false;
+  });
+
+});
+
+// convert types into informational string
+function driverInfo(type) {
+  switch(type.toUpperCase()) {
+
+    case 'DMM': return 'Digital Multi-Meter';
+    break;
+
+    case 'SWI': return 'DC Switch';
+    break;
+
+    case 'VNA': return 'Vector Network Analyzer';
+    break;
+
+    case 'SNA': return 'Scalar Network Analyzer';
+    break;
+
+    case 'PIM': return 'Passive Intermodulation Distortion Analyzer';
+    break;
+
+    case 'IMP': return 'Data Import';
+    break;
+
+    default: return 'Unknown';
+  }
+}
+
+// page globals
+var BUILDDATE = parseFloat('$$BUILDDATE$$');
+var CLIENTVERSION = '$$CLIENTVERSION$$';
+var DDVERSION = '$$DDVERSION$$';
+var DFVERSION = '$$DFVERSION$$';
+
+var UPTIME = parseFloat('$$UPTIME$$');
+var ACTIVEUSERS = parseInt('$$ACTIVEUSERS$$');
+var DATADIR = '$$DATADIR$$';
+var LASTINDEX = parseFloat('$$LASTINDEX$$');
+var INDEXSIZE = parseInt('$$INDEXSIZE$$');
+var TESTITEMS = parseInt('$$TESTITEMS$$');
+var TESTRUNS = parseInt('$$TESTRUNS$$');
+var FAILURES = parseInt('$$FAILURES$$');
+var REMAINING = parseInt('$$REMAINING$$');
+
+var MAIN = [$$MAIN$$];
+var TESTS = [$$TESTS$$];
+var DRIVERS = [$$DRIVERS$$];
+
+--></script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/releasenotes.gif"  width="48" height="48" />
+  <label id="headlabel">About Spartan QMS</label></h2>
+
+  <table id="about" cellspacing="0">
+    <tr><th colspan="2" class="label">Versions</th></tr>
+    <tr><th>Spartan Server</th><td id="serverVersion"></td></tr>
+    <tr><th>Spartan Client (on Server)</th><td id="clientVersion"></td></tr>
+    <tr><th>DIAdem (report engine)</th><td id="ddVersion"></td></tr>
+    <tr><th>DataFinder (indexing engine)</th><td id="dfVersion"></td></tr>
+    <tr><th colspan="2">&nbsp;</th></tr>
+    <tr><th colspan="2" class="label">Status</th></tr>
+    <tr><th>Server Uptime</th><td id="uptime"></td></tr>
+    <tr><th>Active Users</th><td id="activeUsers"></td></tr>
+    <tr><th>Data Repository</th><td id="dataRepo"></td></tr>
+    <tr><th>Last Completed Indexing</th><td id="lastIndex"></td></tr>
+    <tr><th>Index Size</th><td id="indexSize"></td></tr>
+    <tr><th>Repository Size</th><td id="repoSize"><img src="/images/bigrotation.gif" width="16" height="16" />&nbsp;reading...</td></tr>
+    <tr><th>Number of Test Items</th><td id="testItems"></td></tr>
+    <tr><th>Number of Test Runs</th><td id="testRuns"></td></tr>
+    <tr><th>Number of Organized Files</th><td id="organized"><img src="/images/bigrotation.gif" width="16" height="16" />&nbsp;reading...</td></tr>
+    <tr><th>Number of Organizational Failures</th><td id="failures"></td></tr>
+    <tr><th>Number of Files to Organize</th><td id="remaining"></td></tr>
+    <tr><th colspan="2">&nbsp;</th></tr>
+  </table>
+
+  <h3>Release Notes</h3>
+
+  <h4>Server/Client/API</h4>
+  <p>There are several components that run in concert on either a self-contained
+  system (&quot;stand-alone&quot;) or between computers accessible from within your
+  organization (&quot;hosted&quot;).</p>
+
+  <h4 id="serverVersion2" class="version"></h4>
+  <ol id="MAIN"></ol>
+
+  <div id="mainHistory">
+    <a href="#nogo" class="toggler" id="_previous">Previous Releases</a>
+    <ul id="previous" class="hidden"></ul>
+  </div>
+
+  <h4>Tests <span>&mdash; Test modules are released independently of Spartan minor versions
+  (however, the major version numbers must still be the same).  Tests
+  use instrument driver modules to create a flexible and automated means for Spartan to collect
+  measured data.  You can find a history of the tests on this system below.</span></h4>
+
+  <ul id="TESTS" class="modules"></ul>
+
+  <h4>Drivers <span>&mdash; Instrument driver modules support various classes and brands
+  of test instrumentation.  Drivers are used on Spartan test stations by test modules to
+  facilitate the automated collection of test data.  You can find a history of the drivers
+  on this system below.</span></h4>
+
+  <ul id="DRIVERS" class="modules"></ul>
+
+</div>
+</body>
+</html>

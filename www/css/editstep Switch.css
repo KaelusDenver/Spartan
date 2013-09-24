@@ -1,0 +1,15 @@
+.switchpanel {  }
+.switchpanel .info { margin: 0; margin-bottom: 1em; }
+.switchpanel fieldset { border: 1px solid #ccc; margin: 0em auto 5px; padding: 0.3em 1em;}
+.switchpanel legend { font-size: 86%; font-weight: bold; padding: 0.2em 0.5em; color: #666; }
+.switchpanel input,
+.switchpanel select { font-size: 86%; margin-left: 2px; }
+.switchpanel input.numeric { width: 4em; }
+.switchpanel div.checkbox label { float: none; margin-left: 13em; text-align: left; width: 20em; }
+.switchpanel div.radio label { display: inline; float: none; margin-left: 0em; text-align: left; width: auto; }
+.switchpanel div.buttons { border: none; padding: 5px; margin-left: 11.2em; }
+.switchpanel label,
+.switchpanel fieldset div.radio p { clear: left; font-size: 86%; display: block; float: left; margin: 0pt; text-align: right; width: 13em; }
+.switchpanel fieldset div p { font-size: 86%; display: inline; margin: 0; }
+.switchpanel div.typebox { float: none; display: none; margin-left: 11.2em; border: solid #ccc 1px; padding: 3px; float: left; }
+.switchpanel div.typebox label { float: none; display: inline; margin-left: 0em; text-align: left; width: auto; }

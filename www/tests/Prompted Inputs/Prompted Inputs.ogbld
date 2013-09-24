@@ -1,0 +1,102 @@
+[General]
+File Format Version=1.0.2
+Project Root=""
+Source Root=../../..
+Build Root="../../../../SPARTAN BUILT"
+Namespace=""
+Overwrite Existing Files=TRUE
+Log Dir="/C/DEVELOPMENT/SPARTAN BUILT LOGS"
+Log File=""
+Log File Suffix=""
+Include Help Files=FALSE
+Help File Dir=""
+Include Shared Libs=TRUE
+Shared Lib Dir=""
+Include External Subrs=TRUE
+External Subr Dir=""
+Include Hidden VIs=TRUE
+EXE Icon File=""
+New Build Root=FALSE
+Unsaved Changes MsgBox=FALSE
+Ambiguous VIs Dest Dir=""
+Call Pre-Build VI=""
+Call Post-Build VI="../spartan tests post-build.vi"
+Revision File="Prompted Inputs Version.ini"
+Version VI Name="Prompted Inputs Version.vi"
+Version Ctrl Name=Version
+Apply New Password=""
+RemovePolyVIsAndTypedefs=TRUE
+Allow CBVI & Build Hierarchy Overlap=FALSE
+Namespace Convention=0
+EXE App Flags=4
+EXE LVRT Res Flags=0
+
+[Top Level VIs]
+VI 1="www/tests/Test Top Level.vi"
+VI 2="www/tests/Prompted Inputs/LIB/Prompted Inputs Version.vi"
+
+[Dynamic VIs]
+DynVI 1="www/tests/Prompted Inputs/Prompted Inputs.vit"
+DynVI 2="www/tests/Prompted Inputs/Prompted Inputs Storage.vit"
+DynVI 3="www/tests/Prompted Inputs/Prompted Inputs Configuration.vi"
+
+[Exclude Lib Dirs from Build]
+
+[Destination 1]
+Source Dir=""
+Target Dir="www/tests/Prompted Inputs.llb"
+Convert Target to LLB=TRUE
+Convert Target to EXE=FALSE
+Save Level=2
+Default Destination=TRUE
+Apply New Password=""
+Namespace=""
+Debug Level=0
+
+[SupportFiles 1]
+TargetDir=www/tests
+OverwriteExisting=TRUE
+FollowVIDirHierarchy=FALSE
+Recursive=FALSE
+Exclude=FALSE
+SourceFile 1="www/tests/Prompted Inputs/prompted inputs release notes.txt"
+
+[SupportFiles 2]
+TargetDir=www-templates
+OverwriteExisting=TRUE
+FollowVIDirHierarchy=FALSE
+Recursive=FALSE
+Exclude=FALSE
+SourceFile 1="www-templates/editstep Prompted Inputs.htm"
+
+[SupportFiles 3]
+TargetDir=www/src
+OverwriteExisting=TRUE
+FollowVIDirHierarchy=FALSE
+Recursive=FALSE
+Exclude=FALSE
+SourceFile 1="www/src/editstep Prompted Inputs.js"
+
+[SupportFiles 4]
+TargetDir=www/css
+OverwriteExisting=TRUE
+FollowVIDirHierarchy=FALSE
+Recursive=FALSE
+Exclude=FALSE
+SourceFile 1="www/css/editstep Prompted Inputs.css"
+
+[VI Property - Prompted Inputs.vit]
+Save Level=1
+
+[VI Property - Prompted Inputs Storage.vit]
+Save Level=1
+
+[VI Property - Prompted Inputs Unflatten Test Parameters.vi]
+Save Level=1
+
+[VI Property - Prompted Inputs Flatten Test Parameters.vi]
+Save Level=1
+
+[VI Property - Prompted Inputs Version.vi]
+Save Level=1
+

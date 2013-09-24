@@ -1,0 +1,13 @@
+.promptedinputspanel {  }
+.promptedinputspanel .info { margin: 0; margin-bottom: 1em; }
+.promptedinputspanel fieldset { border: 1px solid #ccc; margin: 0em auto 5px; padding: 0.3em 1em;}
+.promptedinputspanel legend { font-size: 86%; font-weight: bold; padding: 0.2em 0.5em; color: #666; }
+.promptedinputspanel input,
+.promptedinputspanel select { font-size: 86%; margin-left: 2px; }
+.promptedinputspanel input.numeric { width: 4em; }
+.promptedinputspanel div.checkbox label { float: none; margin-left: 13em; text-align: left; width: 20em; }
+.promptedinputspanel div.radio label { display: inline; float: none; margin-left: 0em; text-align: left; width: auto; }
+.promptedinputspanel div.buttons { border: none; padding: 5px; margin-left: 11.2em; }
+.promptedinputspanel label,
+.promptedinputspanel fieldset div.radio p { clear: left; font-size: 86%; display: block; float: left; margin: 0pt; text-align: right; width: 13em; }
+.promptedinputspanel fieldset div p { font-size: 86%; display: inline; margin: 0; }

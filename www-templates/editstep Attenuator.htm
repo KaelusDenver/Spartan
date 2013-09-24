@@ -1,0 +1,156 @@
+<form class="attenuatorpanel">
+  <div class="panellegend">Attenuator Step Configuration</div>
+
+  <!-- this text area is eval'ed at runtime to define the STIMULUS_ATT object -->
+  <textarea id="stimulusSetup$$UID$$" class="hidden">
+  $$STIMULUS_ATT$$
+  </textarea>
+
+  <!-- this text area is eval'ed at runtime to define the MEASUREMENT_ATT object -->
+  <textarea id="measurementSetup$$UID$$" class="hidden">
+  $$MEASUREMENT_ATT$$
+  </textarea>
+
+  <!-- this text area is eval'ed at runtime to define the BOUND_ATT object -->
+  <textarea id="boundSetup$$UID$$" class="hidden">
+  $$BOUND_ATT$$
+  </textarea>
+
+  <!-- this is so that JS functions can get the MN/SN display names if needed. -->
+  <input type="hidden" id="MNDisplay$$UID$$" name="MNDisplay$$UID$$" value="$$MNDISPLAY$$" />
+  <input type="hidden" id="SNDisplay$$UID$$" name="SNDisplay$$UID$$" value="$$SNDISPLAY$$" />
+
+  <div class="panelbody">
+
+    <!-- TAB MENU -->
+    <div class="paneltabmenu">
+      <ul>
+        <li><a id="t$$UID$$0" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 0);" title="General setup and instructions">Setup</a></li>
+        <li><a id="t$$UID$$1" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 1);" title="Set the ATT and VNA stimulus parameters">Stimulus</a></li>
+        <li><a id="t$$UID$$2" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 2);" title="Setup the Attenuator measurement">Measure</a></li>
+        <li><a id="t$$UID$$3" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 3);" title="Define pass/fail criteria for the measurement">Limits</a></li>
+      </ul>
+    </div>
+    
+    <!-- SETUP TAB -->
+    <div class="hidden" id="tab$$UID$$0" name="setup$$UID$$">
+      <div class="info">
+          This test sequence step uses a Vector Network Analyzer (VNA) to measure a Variable Attenuator (ATT).
+          <p>The ATT is stepped through its range being measured by the VNA to determine if it varries by more than
+          the allowable limits.</p>
+          <ul>
+            <li>Stimulus - Set the VNA and ATT stimulus parameters</li>
+            <li>Measure - Select the range of the test</li>
+            <li>Limits - Define pass/fail criteria for the measurements</li>
+          </ul>
+      </div>
+    </div>
+
+    <!-- STIMULUS_ATT TAB -->
+    <div class="hidden" id="tab$$UID$$1" name="stimulus$$UID$$">
+      <fieldset class="attenuatorpanel">
+        <legend>ATT Instrument Settings</legend>
+        <div class="checkbox">
+          <label for="normalize$$UID$$">
+          <input type="checkbox" id="normalize$$UID$$" name="normalize$$UID$$" title="Normalize the loss that occurs at 0 dB." onClick="saveATTNormalize('$$UID$$');">Normalize</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>VNA Instrument Settings</legend>
+    
+        <div class="checkbox">
+          <label for="instrumentState$$UID$$">
+          <input type="checkbox" id="instrumentState$$UID$$" name="instrumentState$$UID$$" title="Use the current settings on the instrument for testing, i.e. change nothing." onClick="saveATTInstrumentState('$$UID$$');" />Use Current Instrument State</label>
+        </div>
+        
+        <div class="checkbox">
+          <label for="calibrate$$UID$$">
+          <input type="checkbox" id="calibrate$$UID$$" name="calibrate$$UID$$" title="Check that there is a valid calibration active on the instrument." onClick="saveATTCalibrate('$$UID$$')" />Calibrate</label>
+        </div>
+    
+        <div class="checkbox">
+          <label for="blank$$UID$$">
+          <input type="checkbox" id="blank$$UID$$" name="blank$$UID$$" title="Turn the frequency display off of both the test panel and the instrument.  The instrument frequencies can only be turned back on by presetting the instrument." onClick="saveATTBlankFrequencies('$$UID$$');" />Blank Frequencies</label>
+        </div>
+
+        <div>
+          <label for="startFreq$$UID$$">Start Frequency:</label>
+          <input type="text" class="numeric" id="startFreq$$UID$$" name="startFreq$$UID$$" onChange="this.value = validateNumeric(this.value); saveATTStartFrequency('$$UID$$');" />
+
+          <p>Stop Frequency:</p>
+          <input type="text" class="numeric" id="stopFreq$$UID$$" name="stopFreq$$UID$$" onChange="this.value = validateNumeric(this.value); saveATTStopFrequency('$$UID$$');" />
+    
+          <p>Units:</p>
+          <select id="units$$UID$$" name="units$$UID$$" onChange="saveATTFrequencyUnits('$$UID$$');">
+            <option value="Hz">Hz</option>
+            <option value="kHz">kHz</option>
+            <option value="MHz">MHz</option>
+            <option value="GHz">GHz</option>
+          </select>
+        </div>
+    
+        <div>
+          <label for="points$$UID$$">Points:</label>
+          <input type="text" class="numeric" id="points$$UID$$" name="points$$UID$$" onChange="this.value = validateNumeric(this.value); saveATTNumberOfPoints('$$UID$$');" />
+        </div>
+
+        <div>
+          <label for="power$$UID$$">Power (dBm):</label>
+          <input type="text" class="numeric" id="power$$UID$$" name="power$$UID$$" onChange="this.value = validateNumeric(this.value); saveATTPower('$$UID$$');" />
+          <input type="checkbox" id="autoPower$$UID$$" name="autoPower$$UID$$" onClick="saveATTPower('$$UID$$');" /><p>Automatic</p>
+        </div>
+
+        <div>
+          <label for="ifbw$$UID$$">IF Bandwidth (Hz):</label>
+          <input type="text" class="numeric" id="ifbw$$UID$$" name="ifbw$$UID$$" onChange="this.value = validateNumeric(this.value); saveATTIFBW('$$UID$$');" />
+          <input type="checkbox" id="autoIFBW$$UID$$" name="autoIFBW$$UID$$" onClick="saveATTIFBW('$$UID$$');" /><p>Automatic</p>
+        </div>
+
+        <div>
+          <label for="sweepTime$$UID$$">Sweep Time (s):</label>
+          <input type="text" class="numeric" id="sweepTime$$UID$$" name="sweepTime$$UID$$" onChange="this.value = validateNumeric(this.value); saveATTSweepTime('$$UID$$');" />
+          <input type="checkbox" id="autoSweepTime$$UID$$" name="autoSweepTime$$UID$$" onClick="saveATTSweepTime('$$UID$$');" /><p>Automatic</p>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- MEASURE_ATT TAB -->
+    <div class="hidden" id="tab$$UID$$2" name="measure$$UID$$">
+      <fieldset class="attenuatorpanel">
+        <legend>Measurement Parameters</legend>
+
+        <div>
+          <label for="step$$UID$$">Step Size (dB):</label>
+          <select id="step$$UID$$" name="step$$UID$$" onChange="saveATTStepSize('$$UID$$');">
+            <option value="0.25">0.25</option>
+            <option value="0.50">0.50</option>
+            <option value="1.00">1.00</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="startdB$$UID$$">Start (dB):</label>
+          <input type="text" class="numeric" id="startdB$$UID$$" name="startdB$$UID$$" onChange="this.value = validateNumeric(this.value); saveATTStartdB('$$UID$$');" />
+        </div>
+
+        <div>
+          <label for="stopdB$$UID$$">Stop (dB):</label>
+          <input type="text" class="numeric" id="stopdB$$UID$$" name="stopdB$$UID$$" onChange="this.value = validateNumeric(this.value); saveATTStopdB('$$UID$$');" />
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- LIMITS_ATT TAB -->
+    <div class="hidden" id="tab$$UID$$3" name="limits$$UID$$">
+      <fieldset class="attenuatorpanel">
+        <legend>Limit Parameters</legend>
+
+        <div>
+          <label for="maxError$$UID$$">Maximum Error (&#177dB):</label>
+          <input type="text" class="numeric" id="maxError$$UID$$" name="maxError$$UID$$" onChange="this.value = validateNumeric(this.value); saveATTMaximumError('$$UID$$');" />
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</form>

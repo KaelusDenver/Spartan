@@ -1,0 +1,71 @@
+[6.0]
+model0=SI-400D
+model1=SI-0700LD/E
+model2=SI-0700HD/E
+model3=SI-0790E
+model4=SI-800A/B/D/E
+model5=SI-850D/E
+model6=SI-900A/B/D/E
+model7=SI-1800A/B/D/E
+model8=SI-1900A/B/D/E
+model9=SI-1921D/E
+model10=SI-2000A/B/D
+model11=SI-2600D
+model12=SI-3500D
+model13=SI-DD800D
+note0="Converted from Summitek branded PIM driver to Kaelus branded PIM driver"
+
+[5.6.0020]
+Date="March 2012"
+note0="Rebuilt for compatibility with BPIM Software Suite v11.x which offers improved measurement speed and reliability with E series BPIM analyzers"
+note1="Known Issue: PC's configured with Regional Date settings other than United States (English) will suffer from a bug which fails to interpret the calibration date correctly if paired with a Web Engine version 11.1.0 or older (or a PIM Hardware Engine).  This bug is resolved with newer releases of the BPIM Web Engine."
+
+[5.5.0010]
+Date="March 2011"
+note0="Updated communications protocol for more robust communications with D/E series PIM analyzers (PIM Web Engine).  This fix resolves intermittent dropouts with the PIM Web Engine, which was sometimes interupting tests in progress."
+
+[5.4.0035]
+Date="February 2011"
+note1="Support for PIM Software Suite 9.0 and newer added. The latest in PIM analyzer driver software, PIM Software Suite 9 and newer offers support for new E-series PIM analyzer modules."
+note2="Driver updated to support control of both the PIM Web Engine (PIM 9.0 and newer software) and the PIM Hardware Engine (PIM software versions 7.4 to 8.x)"
+
+[5.2.0240]
+Date="January 2011"
+note1="Multiple PIM drivers on single Test Station.  Users can now connect multiple PIM instruments to a single Spartan test station."
+note2="New Device Configuration Panel Released.  New features include multi-instrument listing for unique instrument selection, individual instrument parameters and calibration date display, and new tree-view controls."
+note3="Driver updated to support specific instrument selection for increased flexibility and speed when switching between PIM instruments."
+
+[5.1.0114]
+Date="January 2010"
+
+[5.0.0124]
+Date="December 2009"
+note1="Support for option-D configuration PIM analyzers has been added."
+note2="Support for multi-band switched PIM analyzers has been added."
+note3="Instrument configuration now properly loads all device serial numbers after instrument connection test is run."
+note4="Instrument configuration now automatically populates calibration dates to the station editor interface.  If more than one instrument is present, the oldest calibration date will be used."
+note5="Introduced capability to communicate with PIM Hardware Engines version 7.x and version 8.x"
+note6="Driver version Updated to coincide with Spartan release version."
+
+[4.3.0260]
+Date="October 2008"
+note1="Driver v1.1.0260"
+note2="BUG FIX: PIM station IP Addresses can now be resolved using a fully qualified domain name, or an IP address."
+
+[4.2.0235]
+note1="Driver v1.1.0235"
+
+[4.1.0166]
+note1="Driver v1.1.0166"
+
+[4.0.0122]
+Date="June 2008"
+note1="Driver v1.1.0122"
+note2="PIM Hardware errors encountered during testing will cause the test to abort and an error message will be displayed to the user."
+note3="PIM Hardware Engine v7.4 is now available for <a href='http://www.summitekinstruments.com/passive/download/dl_dist.asp?dl=9'>download</a>."
+
+[3.2.0033]
+Date="January 2008"
+note1="Driver v1.0.0033"
+note2="Initial Release"
+note3="Requires PIM Hardware Engine version 7.4.x or newer."

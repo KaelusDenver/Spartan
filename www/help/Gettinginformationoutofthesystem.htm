@@ -1,0 +1,99 @@
+$$HEADER$$
+<title>Getting information out of the system</title>
+$$BODY$$
+
+  <h1>Getting information out of the system</h1>
+
+  <p>Because automated testing drives the data collection process in Spartan,
+  an enormous amount of useful data can be collected to monitor and refine the
+  manuafacturing process.  However the saved information is only as useful
+  as the process used to gather, analyze, and present it.</p>
+
+  <h2>Data Mining Scenarios</h2>
+
+  <p>Spartan uses the concept of data mining scenarios to simplify and centralize
+  the data gathering, analysis, and presentation process.  A scenario is the
+  combination of two pieces of information critical to data mining:
+
+    <ul>
+      <li>Identification of the specific data to be retrieved from the system, and</li>
+      <li>Instructions on how to analyze, format, and display parts of the identified data.</li>
+    </ul>
+  </p>
+
+  <p>So, when running a scenario, Spartan first retrieves data matching the
+  search criteria, then funnels this data through a
+  <a href="/help/dataminingtemplates.htm">template</a> to
+  create the visual presentation.</p>
+
+
+  <h3>Searching for Data</h3>
+
+  <blockquote>
+    <p>The top portion of a data mining scenario contains the search (or
+    <span class="italic">query</span>) criteria for the desired data set.
+    The primary means of identifying test data on the Spartan system are
+    various attributes, or <a href="/help/testdatafields.htm">fields</a>,
+    that were stored along with the data when the test was performed.  There
+    are several fields automatically stored by the system, and any number
+    of user-defined fields, that are available to search upon.</p>
+
+    <p><img class="sb" height="130" width="520" src="/help/images/dataout1.png" /></p>
+
+    <p>Spartan searches for fields with a value matching the specific field and
+    operation as specified. For the example above, Spartan would
+    find all test data with a Model Number equal to the string &quot;RF Widget&quot;.</p>
+
+    <p>Adding more search conditions filters the search results in a
+    top-down fashion.  Again, in the example shown here, Spartan
+    would return all data with &quot;RF Widget&quot; as the Model Number value
+    <span class="italic">as long as it did not also contain the string
+    &quot;pilot&quot;</span> within the Serial Number value.</p>
+
+    <p>So, Spartan search conditions are combined with a logical
+    <span class="strong">AND</span> operation.  That is, Spartan finds data where
+    <span class="italic">Condition 1</span>, AND <span class="italic">Condition 2</span>,
+    AND <span class="italic">Condition 3</span>, AND so on... evaluate to
+    a logical true.</p>
+
+  </blockquote>
+
+
+  <h3>Data Presentation</h3>
+  <blockquote>
+   <p>The bottom portion of a data mining scenario lists the
+   <a href="/help/dataminingtemplates.htm">templates</a> that will be used to process
+   and visualize the data found in the search.  Spartan templates can be categorized
+   into general classes according to the way they process the search results.</p>
+
+   <p><img class="sb" height="220" width="520" src="/help/images/dataout2.png" /></p>
+
+   <p class="strong">Item Mapping</p>
+   <p>Consider that a scenario's search results may include data for several items
+   previously tested by the system.  This data can be &quot;mapped&quot; into
+   reports on a one-to-one basis (i.e., one item per report) or on a many-to-one basis.</p>
+
+   <p>For example, a single item test datasheet template might present attributes and
+   graphical data regarding one particular manufactured item's RF performance
+   characteristics.  Another type of datasheet template might present a table
+   of performance specifications against which several produced items are shown.</p>
+
+   <p class="strong">Content Style</p>
+   <p>Templates may also present their data with a particular content style.  A basic
+   distinction is whether the data is presented in a tabular or graphical format.
+   Templates in any of the content style categories can be manipulated by the user
+   to refine the presentation and set processing and display parameters as desired.</p>
+
+   <p><img class="sb" height="200" width="520" src="/help/images/dataout3.png" /></p>
+
+   <p>Templates can also be used to generate non-traditional &quot;reports&quot;.  A
+   Spartan template could be used to convert measured electrical device
+   characteristics into alternative formats.  A specific example of this is a
+   template that converts Spartan measured vector network analyzer data (i.e.,
+   scattering, or S-parameters) into the industry standard Touchstone SnP formatted
+   data.</p>
+
+  </blockquote>
+
+</body>
+</html>

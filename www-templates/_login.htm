@@ -1,0 +1,221 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Spartan Login</title>
+$$STYLES$$
+<style type="text/css">
+form { text-align: center; border: none; }
+
+div#idleLogout { display: none; border: solid 3px #ff6500; background: #cc5000; color: #fff; padding: 10px; }
+
+#entry { margin: 4em auto; padding: 3em 1em; width: 460px; border: solid 1px #ccc; background: url("/images/login_bg.gif") #e6e6e6 repeat-x; }
+#entry .login { text-align: left; margin-top: .5em; }
+#entry .login label { float: left; clear: both; width: 22%; text-align: right; margin-right: 0.5em; padding-top: 0.2em; }
+#entry .login input { width: 65%; }
+#entry #forgotLink { margin-top: 1em; }
+#entry .button { margin-top: 2em; padding: 0.3em; }
+
+#cookieInfo { width: 460px; margin: auto; border: none; background: #fff; color: #bbb; text-align: justify; }
+
+</style>
+<!--[if IE]><style type="text/css">
+.login input { width: 74%; }
+</style><![endif]-->
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+$(document).ready(function() {
+
+  // this page does not timeout
+  $.spSessionTMO({ tmoSeconds: -1 });
+
+  // show message if idle logout
+  if (IDLELOGOUT) {
+    $('#welcome').remove();
+    $('#idleTime').text(formatTime(SESSIONTIMEOUT));
+    $('#idleLogout').show('slow');
+  }
+
+  checkAuth();
+  $('#username').val(THECURRENTUSER.sUsername).focus();
+
+  // show "no matches" if attempts > 0
+  $('#attempts').val(ATTEMPTS);
+  if (ATTEMPTS > 0) $('#tryagain').fadeIn("slow");
+
+  // show "pwd reset" if attempts < 0
+  if (ATTEMPTS < 0) {
+    $('#pwdReset').children('span').text(THECURRENTUSER.sUsername).end().toggleClass('warning');
+    $('#forgotLink').hide();
+  }
+
+  $('#forgotLink').click(function() {
+    $(this).blur();
+    showReset();
+    return false;
+  });
+
+});
+
+function hideReset() {
+
+  RESETTING = false;
+
+  $('#resetWelcome').hide();
+  $('#emailLbl').hide();
+  $('#email').hide().val('');
+  $('#resetWarn').hide();
+  $('#cancelBtn').hide();
+
+  $('#loginBtn').val('Log In');
+
+  $('#welcome').show();
+  $('#tryagain').hide();
+  $('#passwordLbl').show();
+  $('#password').val('').show();
+  $('#forgotLink').show();
+}
+
+function showReset() {
+  RESETTING = true;
+
+  $('#welcome').hide();
+  $('#tryagain').hide();
+	$('#passwordLbl').hide();
+  $('#password').hide();
+  $('#forgotLink').hide();
+
+  $('#loginBtn').val('Send Email');
+
+  $('#resetWelcome').show();
+  $('#emailLbl').show();
+  $('#email').show();
+  $('#resetWarn').toggleClass('warning');
+  $('#cancelBtn').show();
+}
+
+function validate() {
+  var error = '';
+
+  if (RESETTING) {
+    if (isBlank($('#username').val()) && isBlank($('#email').val())) {
+      error += "You must supply a valid username or email address.";
+    }
+  } else {
+    if (isBlank($('#username').val()) || isBlank($('#password').val())) {
+      error += "You must supply a valid username and password.";
+    }
+  }
+
+  if (!isBlank(error)) {
+    alert(error);
+    return false;
+  } else {
+    $('#passhash').val(sha1Hash($('#password').val()));
+    $('#password').attr("disabled", "disabled");  // disable so pwd does NOT get sent
+
+    // redirect to logout.vit for resets...
+    // check THISCGI for '/logout' and replace with '/testing'
+    var thisCGI = ('$$THISCGI$$' == '/cgi-bin/logout.vit')? '/cgi-bin/testing' : '$$THISCGI$$';
+    $('#f').attr("action", (RESETTING)? '/cgi-bin/logout.vit?reset': thisCGI);
+
+    return true;
+  }
+}
+
+function checkAuth() {
+  var msg = '';
+
+  if (EXPIRE == 0) {
+    msg = "The authorization for the Spartan server has expired."
+
+  } else if (EXPIRE > 0 && EXPIRE <= 30) {
+    if (EXPIRE == 1) {
+      msg = "The authorization for the Spartan server will expire in 1 day."
+    } else {
+      msg = "The authorization for the Spartan server will expire in " + EXPIRE + " days."
+    }
+  }
+
+  if (!isBlank(msg)) {
+    $('#authWarnMsg').append(msg);
+    $('#authWarn').toggleClass('warning');
+  }
+}
+
+// Globals
+var IDLELOGOUT = $$IDLELOGOUT$$;  // show message for idle logouts
+var ATTEMPTS   = parseInt('$$ATTEMPTS$$');  // track number of login attempts
+var EXPIRE     = parseInt('$$LICENSEEXPIRE$$'); // Spartan authorization status
+var RESETTING  = false;  // track if reset form is used
+--></script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/keybig.gif" width="48" height="48" />
+  <label id="headlabel">Spartan Login</label></h2>
+
+  <form id="f" method="POST" onSubmit="return validate();">
+
+    <input type="hidden" id="attempts" name="attempts" value="" />
+    <input type="hidden" id="passhash" name="passhash" value="" />
+
+    <div id="idleLogout">For your security we logged you out after being idle for&nbsp;<span id="idleTime"></span>.  <span class="strong">Please login again.</span></div>
+
+    <p id="welcome">Welcome!  To begin using Spartan, please log in to the system.</p>
+
+    <p id="resetWelcome" class="hidden">Fill in the details for the account and Spartan will send an
+    email with the login details to the matching account on file.</p>
+
+    <div id="authWarn" class="hidden">
+      <span id="authWarnMsg"></span>
+      <p>Please contact <a href="mailto:Support@SummitekInstruments.com">Summitek Instruments</a> to renew the authorization</p>
+    </div>
+
+    <div id="entry">
+      <div class="login">
+        <label for="username">Username</label>
+        <input id="username" name="username" value="" />
+      </div>
+
+      <div class="login">
+        <label id="passwordLbl" for="password">Password</label>
+        <input type="password" id="password" value="" />
+
+        <label class="hidden" id="emailLbl" for="email">Email Address</label>
+        <input class="hidden" id="email" name="email" value="" />
+      </div>
+  
+      <div id="tryagain" class="warning hidden">No matches, please try again.</div>
+  
+      <div id="resetWarn" class="hidden">Please note that the password for the matching account
+      will be reset to one generated by Spartan.  You will receive an email with the new
+      password to use for login.  After login you can change your password using the
+      "Profile" link above.</div>
+  
+      <div id="pwdReset" class="hidden">Spartan has reset the password for the
+      <span class="strong"></span> account and sent an email to the
+      address on record.  Please use the new password indicated in the email
+      to login to Spartan.</div>
+  
+      <div id="forgotLink"><a href="#nogo" title="click here to reset your password">Forgot your login?</a></div>
+  
+      <input id="cancelBtn" type="button" class="button hidden" value="Cancel" onClick="hideReset();" />
+      <input id="loginBtn"  type="submit" class="button" value="Log In" />
+  
+    </div>
+  
+    <div id="cookieInfo">
+        Please note that Spartan uses <span class="definition"
+        title="Files stored on your computer to save your login information between sessions.">cookies</span>
+        to store your account credentials on your computer, so you
+        can be logged into the system automatically.  If cookies are
+        not allowed by your browser, then you will need to log in
+        every time you visit Spartan.
+    </div>
+  </form>
+
+</div>
+</body>
+</html>

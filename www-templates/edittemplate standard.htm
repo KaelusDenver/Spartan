@@ -1,0 +1,238 @@
+      <!-- HEADER TAB -->
+      <div class="hidden" id="tempTab0">
+        <table class="standard" id="fields" cellpadding="0" cellspacing="0"><tbody>
+          <tr>
+            <th class="icon"><input type="checkbox" id="showhidefields" name="showhidefields" title="show/hide fields that cannot be changed" /></th>
+            <th class="icon" title="delete this field"><!-- delete --><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+            <th class="icon" title="Reorder table rows: data entry is presented in this order during test runs"><img src="/images/moverssmall.gif" width="16" height="16" /></th>
+            <th class="w24" title="display name">Name</th>
+            <th class="ni" title="field data type">Type</th>
+            <th class="ni" title="measurement units, if any">Units</th>
+            <th class="">&nbsp;</th>
+          </tr></tbody>
+        </table>
+
+        <div class="add_wrapper">
+          <a href="#nogo" class="adder" id="_add_field" title="Add a field">Add Field...</a>
+          <div class="hidden" id="add_field">
+            <select><option></option></select>
+            <a href="#nogo" class="btn_ok" title="Add this field"></a>
+            <a href="#nogo" class="btn_cancel" title="Make no changes"></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- BODY TAB -->
+      <div class="hidden" id="tempTab1">
+        <fieldset>
+          <legend>Plot Parameters</legend>
+          <div class="radio">
+            <p>Plot Settings:</p>
+            <label for="displayTest">
+            <input type="radio" id="displayTest" name="displaySource" value="Test" OnClick="updateDisplaySource(this.value); makeChanges();" title="Load plot parameters from test data"/>From Test</label>
+
+            <label for="displayCustom">
+            <input type="radio" id="displayCustom" name="displaySource" value="Custom" OnClick="updateDisplaySource(this.value); makeChanges();" title="Define custom plot parameters"/>Define Custom</label>
+          </div>
+          
+          <div class="radio">
+            <p>Results Processing:</p>
+            <label for="resultsAll">
+            <input type="radio" id="resultsAll" name="resultsProcessing" value="All" OnClick="updateResultsProcessing(this.value);" title="Process a datasheet for all of the results returned by the query"/>All</label>
+
+            <label for="resultsMostRecent">
+            <input type="radio" id="resultsMostRecent" name="resultsProcessing" value="Most Recent" OnClick="updateResultsProcessing(this.value);" title="Process a datasheet only for the most recent test run of the data returned by the query"/>Most Recent</label>
+          </div>
+
+          <div class="hidden" id="plotOrientationRadio">
+            <div class="radio" >
+              <p>Plot Orientation:</p>
+              <label for="plotSingle">
+              <input type="radio" id="plotSingle" name="plotOrientation" value="Single" title="One plot display" onClick="updatePlotOrientation(this.value); makeChanges();" />Single</label>
+              <label for="plotDual">
+              <input type="radio" id="plotDual" name="plotOrientation" value="Dual" title="Two plot display" onClick="updatePlotOrientation(this.value); makeChanges();" />Dual</label>
+              <label for="plotQuad">
+              <input type="radio" id="plotQuad" name="plotOrientation" value="Quad" title="Four plot display" onClick="updatePlotOrientation(this.value); makeChanges();" />Quad</label>
+            </div>
+
+            <div class="buttons" id="plotOrientationPictures" name="plotOrientationPictures">
+              <div class="hidden" id="plotOrientationPicturesSingle" name="single">
+                <a title="Plot 1" onClick="this.blur(); updatePlotSelection(0);"><img id="singlePlot0" name="singlePlot" class="borderOff" src="/images/SP Single Display.gif" /></a>
+              </div>
+              <div class="hidden" id="plotOrientationPicturesDual" name="dual">
+                <a title="Plot 1" onClick="this.blur(); updatePlotSelection(0);"><img id="dualPlot0" name="dualPlot" class="borderOff" src="/images/SP Dual Display.gif" /></a>
+                <br>
+                <a title="Plot 2" onClick="this.blur(); updatePlotSelection(1);"><img id="dualPlot1" name="dualPlot" class="borderOff" src="/images/SP Dual Display.gif" /></a>
+              </div>
+              <div class="" id="plotOrientationPicturesQuad" name="quad">
+                <a title="Plot 1" onClick="this.blur(); updatePlotSelection(0);"><img id="quadPlot0" name="quadPlot" class="borderOff" src="/images/SP Quad Display.gif" /></a>
+                <a title="Plot 2" onClick="this.blur(); updatePlotSelection(1);"><img id="quadPlot1" name="quadPlot" class="borderOff" src="/images/SP Quad Display.gif" /></a>
+                <br>
+                <a title="Plot 3" onClick="this.blur(); updatePlotSelection(2);"><img id="quadPlot2" name="quadPlot" class="borderOff" src="/images/SP Quad Display.gif" /></a>
+                <a title="Plot 4" onClick="this.blur(); updatePlotSelection(3);"><img id="quadPlot3" name="quadPlot" class="borderOff" src="/images/SP Quad Display.gif" /></a>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="dataSource">Test Type:</label>
+            <select id="dataSource" name="dataSource" OnChange="changeDataSource(this.value); makeChanges();" title="Select plot test type">
+            </select>
+          </div>
+
+          <div>
+            <label for="matchField">Match Field:</label>
+            <input type="checkbox" id="matchField" name="matchField" OnClick="updateMatchField(this.checked); makeChanges();" title="Use the test run of the test type where the specified field equals the field value"/>
+            
+            <select id="fieldName" name="fieldName" OnChange="updateFieldName(this.value);" title="Select the field to be matched">
+            </select>
+
+            <input id="fieldValue" name="fieldValue" value="" OnChange="updateFieldValue(this.value);" title="Enter the value of the field to be matched"/>
+          </div>
+
+          <div class="radio">
+            <p>Traces:</p>
+
+            <label for="lineTypeColors">
+            <input type="radio" id="lineTypeColors" name="lineType" value="Colors"  OnClick="updateLineType(this.value);"  title="Use a different color for each trace"/>Colors</label>
+
+            <label for="lineTypeSymbols">
+            <input type="radio" id="lineTypeSymbols" name="lineType" value="Symbols" OnClick="updateLineType(this.value);" title="Use a different symbol for each trace"/>Symbols</label>
+          </div>
+
+          <div id="parameters">
+            <!-- S Parameter Settings -->
+            <div id="SParameter">
+              <div>
+                <label for="SPAxisType">Axis Type:</label>
+                <select id="SPAxisType" name="SPAxisType" OnChange="updateSPAxisType(this.value);" title="Select Y axis layout">
+                  <option value="Default">Single Axis (8 Traces)</option>
+                  <option value="Overlay">Dual Axis Overlay (2 Traces)</option>
+                  <option value="Split">Dual Axis Split (2 Traces)</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="SPStartFreq">X-Axis: Start:</label>
+                <input type="text" class="numeric" id="SPStartFreq" name="SPStartFreq" onChange="this.value = validateNumeric(this.value); updateSPStartFrequency(this.value);" />
+
+                <p>Stop:</p>
+                <input type="text" class="numeric" id="SPStopFreq" name="SPStopFreq" onChange="this.value = validateNumeric(this.value); updateSPStopFrequency(this.value);" />
+
+                <p>Units:</p>
+                <select id="SPXUnits" name="SPXUnits" onChange="updateSPXUnits(this.value);">
+                  <option value="Hz">Hz</option>
+                  <option value="kHz">kHz</option>
+                  <option value="MHz">MHz</option>
+                  <option value="GHz">GHz</option>
+                </select>
+
+                <input type="checkbox" id="SPXAutoscale" name="SPXAutoscale" OnClick="updateSPXAutoscale(this.checked)" title="Check box to autoscale the X-axis"/><p>Autoscale</p>
+              </div>
+
+              <div>
+                <table id="traces" class="standard" cellpadding="0" cellspacing="0"><tbody>
+                  <tr>
+                    <th class="cb" title="Trace #: this is the trace number">#</th>
+                    <th class="icon" title="Delete this trace"><img src="/images/trashsmall.gif" /></th>
+                    <th class="icon" title="Reorder: traces are displayed in this order"><img src="/images/moverssmall.gif"></th>
+                    <th class="icon" title="Auto-Scale: auto-scale the trace on the plot"><img src="/images/autoscale.gif"></th>
+                    <th class="icon" title="Show Limits: show the trace limits on the plot"><img src="/images/showlimits.gif"></th>
+                    <th class="icon" title="Fill Limits: fill the trace limits on the plot"><img src="/images/filllimits.gif"></th>
+                    <th class="ni" title="Parameter: this is the parameter to be plotted">S<sub>##</sub></th>
+                    <th class="ni" title="Format: this is the format in which the s-parameter will be displayed on the plot">Format</th>
+                    <th class="ni" title="Scale: this is the scale in which the s-parameter will be displayed on the plot">Scale</th>
+                    <th class="ni" title="Position: this is the position in which the s-parameter will be displayed on the plot">Position</th>
+                    <th class="ni" title="Reference: this is the reference in which the s-parameter will be displayed on the plot">Reference</th>
+                    <th class="">Label</th>
+                  </tr></tbody>
+                </table>
+
+                <a id="aAddSPTrace" title="Add Trace" href="#nogo" title="Add another trace"><img src="/images/addsmall.gif">Add Trace</a>
+              </div>
+
+              <div>
+                <table id="markers" class="standard" cellpadding="0" cellspacing="0"><tbody>
+                  <tr>
+                    <th class="cb" title="Marker #: this is the marker number">#</th>
+                    <th class="icon" title="Delete this marker"><img src="/images/trashsmall.gif" /></th>
+                    <th class="icon" title="Reorder: markers are displayed in this order"><img src="/images/moverssmall.gif"></th>
+                    <th class="ni" title="Type: this is the type of marker">Type</th>
+                    <th class="ni" title="Frequency: this is the frequency at which the marker will be placed">&#160;</th>
+                    <th class="">&nbsp;</th>
+                  </tr></tbody>
+                </table>
+
+                <a id="aAddSPMarker" title="Add Marker" href="#nogo" title="Add another marker"><img src="/images/addsmall.gif">Add Marker</a>
+              </div>
+            </div>
+
+            <!-- PIM Settings -->
+            <div id="PIM">
+              <div>
+                <label for="PIMAxisType">Axis Type:</label>
+                <select id="PIMAxisType" name="PIMAxisType" OnChange="updatePIMAxisType(this.value);" title="Select Y axis layout">
+                  <option value="Frequency">Frequency</option>
+                  <option value="Frequency Max/Avg">Frequency Max/Avg</option>
+                  <option value="Time">Time</option>
+                </select>
+
+                <p>Order:</p>
+                <select id="PIMOrder" name="PIMOrder" onChange="updatePIMOrder(this.value);">
+                  <option value="3rd">IM3</option>
+                  <option value="5th">IM5</option>
+                  <option value="7th">IM7</option>
+                  <option value="9th">IM9</option>
+                  <option value="11th">IM11</option>
+                  <option value="13th">IM13</option>
+                  <option value="15th">IM15</option>
+                  <option value="17th">IM17</option>
+                  <option value="19th">IM19</option>
+                  <option value="21st">IM21</option>
+                  <option value="23rd">IM23</option>
+                  <option value="25th">IM25</option>
+                  <option value="27th">IM27</option>
+                  <option value="29th">IM29</option>
+                  <option value="31st">IM31</option>
+                  <option value="33rd">IM33</option>
+                </select>
+
+                <input type="checkbox" id="PIMShowLimit" name="PIMShowLimit" OnClick="updatePIMShowLimit(this.checked)" title="Check box to show the limit"/><p>Show Limit</p>
+
+                <input type="checkbox" id="PIMLimitFill" name="PIMLimitFill" OnClick="updatePIMLimitFill(this.checked)" title="Check box to fill the limit"/><p>Fill Limit</p>
+              </div>
+
+              <div>
+                <label for="PIMXStart">X-Axis: Start:</label>
+                <input type="text" class="numeric" id="PIMXStart" name="PIMXStart" onChange="this.value = validateNumeric(this.value); updatePIMXStart(this.value);" />
+
+                <p>Stop:</p>
+                <input type="text" class="numeric" id="PIMXStop" name="PIMXStop" onChange="this.value = validateNumeric(this.value); updatePIMXStop(this.value);" />
+
+                <p>Units:</p>
+                <select id="PIMXUnits" name="PIMXUnits" onChange="updatePIMXUnits(this.value);">
+                  <!-- Options added by JS -->
+                </select>
+
+                <input type="checkbox" id="PIMXAutoscale" name="PIMXAutoscale" OnClick="updatePIMXAutoscale(this.checked)" title="Check box to autoscale the X-axis"/><p>Autoscale</p>
+              </div>
+
+              <div>
+                <label for="PIMYStart">Y-Axis: Start:</label>
+                <input type="text" class="numeric" id="PIMYStart" name="PIMYStart" onChange="this.value = validateNumeric(this.value); updatePIMYStart(this.value);" />
+
+                <p>Stop:</p>
+                <input type="text" class="numeric" id="PIMYStop" name="PIMYStop" onChange="this.value = validateNumeric(this.value); updatePIMYStop(this.value);" />
+
+                <p>Units:</p>
+                <select id="PIMYUnits" name="PIMYUnits" onChange="updatePIMYUnits(this.value);">
+                  <option value="dBm">dBm</option>
+                  <option value="dBc">dBc</option>
+                </select>
+
+                <input type="checkbox" id="PIMYAutoscale" name="PIMYAutoscale" OnClick="updatePIMYAutoscale(this.checked)" title="Check box to autoscale the Y-axis"/><p>Autoscale</p>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>

@@ -1,0 +1,327 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Server Configuration</title>
+$$STYLES$$
+<style type="text/css">
+form { border: none; text-align: center; }
+.grey { color: #888; }
+.warning { border: none; margin: 0; }
+
+#configTable th img { vertical-align: middle; }
+#configTable th,
+#configTable td { text-align: left; }
+#configTable th.icon a { margin: 0; padding: 3px; border: solid 1px #ffefc5; }
+#configTable th.icon a:hover { border-color: #de9322; background: #efe; }
+#configTable td.icon a { margin: 0; padding: 3px; border: solid 1px transparent; }
+#configTable td.icon a:hover { border-color: #ccc; background: #efe; }
+#configTable td { vertical-align: top; padding-top: 10px; }
+#configTable td input { text-align: left; }
+#configTable td.w40 { width: 40em; }
+#configTable td h3 { margin-top: 0; }
+#configTable td p { padding-right: 2em; }
+
+#buttonBox { margin: 0; width: 100%; }
+#buttonBox td { border: solid 1px #ccc; vertical-align: top;  }
+#buttonBox td p { text-align: justify; margin: 0; padding: 20px; }
+#buttonBox td a { display: inline-block; margin: 0 0 20px; padding: 32px; border: solid 1px #ccc; }
+#buttonBox td a:hover { background: #f1f5fa; }
+
+#status { background: #eee; border: solid 1px #ccc; padding: 40px 100px; }
+
+</style>
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+$(document).ready(function () {
+
+  // handle resets or defaults clicks
+  $('.reset, .default').click(function () {
+    var id = $(this).blur().attr('id');
+    for (var i=0; i<CONFIG.length; i++) {
+      if ( id == '_All' || id == '_' + CONFIG[i].name ) {
+        if ($(this).is('.reset')) $('#' + CONFIG[i].name).val(CONFIG[i].value);
+        else $('#' + CONFIG[i].name).val(CONFIG[i].defaultValue)
+      }
+    }
+  });
+  $('.reset#_All').click();  // init controls w/reset
+
+  // handle server restart
+  $('#restartServer').click(function () {
+    $(this).blur();
+    var msg ="Changes to the server may affect users on the\n";
+        msg+="system.  You can press Cancel now to review\n";
+        msg+="these changes, or OK to confirm the changes\n";
+        msg+="and show the server restart control.\n\n";
+        msg+="The Spartan server must be restarted for any\n";
+        msg+="changes to take effect.";
+    if (confirm(msg)) {
+      // RESTART SERVER
+      RESTARTING = true; // avoid changes browse-off confirm
+
+      $('#statusTitle').text("Requesting Server Restart");
+      $('#statusInfo').text("Requesting a server restart...");
+
+      $('#config').hide();
+      $('#status').show();
+
+      // Request restart - POST configuration - response contains configuration updates object array
+      $.post('$$THISCGI$$?restart=server', $('#f').serialize(), function(response) {
+        var msg='';
+        try { eval('var data=' + response); }
+        catch(e) { msg='an error occurred while requesting server restart.<br /><br />' + e; }
+
+        if (isBlank(msg)) {
+          if (data.status) msg='an error occurred requesting server restart.<br /><br />' + data.source;
+          else {
+           msg ='server acknowledged restart request.<br /><br />';
+           msg+='Please standby, restarts usually take between 40 and 60 seconds.';
+
+           // start checking for server back up
+           setTimeout('checkAlive()', 5000);
+          }
+        }
+        // update info message
+        $('#statusInfo').append(msg);
+      });
+    }
+  });
+
+
+  // handle DIAdem restart
+  $('#restartDIAdem').click(function () {
+    $(this).blur();
+    var msg ="Restarting DIAdem may affect users on the\n";
+        msg+="system.\n\nPress OK to confirm restarting DIAdem."
+    if (confirm(msg)) {
+      // RESTART DIADEM
+      $('#statusTitle').text("Requesting DIAdem Restart");
+      $('#statusInfo').text("Attempting to restart DIAdem.  This normally takes only a few seconds.");
+
+      $('#config').hide();
+      $('#status').show();
+
+      $.get('$$THISCGI$$', { "restart" : "diadem" }, function(response) {
+
+        var msg = '';
+        try { eval('var data=' + response); }
+        catch(e) { msg = 'An error occurred while restarting DIAdem.\n\n' + e; }
+
+        if (isBlank(msg)) {
+          if (data.status) msg='An error occurred while restarting DIAdem.\n\n' + data.source;
+          else {
+            msg='DIAdem has been restarted successfully.';
+          }
+        }
+        alert(msg);
+        $('#status').hide();
+        $('#config').show();
+      });
+    }
+  });
+
+});
+
+// ajax call to see if server is back up
+// loads default page if good response status from GET
+function checkAlive(){
+
+  $.ajax({
+    url: "/",
+    type: "GET",
+    success: function(response) {
+      setTimeout('window.top.location="$$THISCGI$$"', 200);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      setTimeout('checkAlive()', 5000);  // try again...
+    }
+  });
+}
+
+//----- GLOBAL - hold the original/default values
+// CONFIG = { name: <key name> , value: <current setting> , defaultValue: <default setting> }
+// the order of the CONFIG array passed here
+// should match that of the configTable below
+var CONFIG = [ $$CONFIG$$ ];
+
+//----- See if restart is necessary
+var RESTARTING = false;
+
+// if changes, alert that restart will be neccessary
+window.onbeforeunload = function () {
+  WARNING  = 'The changes you have made will not take effect until the server is restarted.';
+
+  // set the CHANGES global if input values differ from originally loaded values
+  $('#configTable input').each(function (i) {
+    CHANGES = ( CONFIG[i].value.toLowerCase() != this.value.toLowerCase() ) && !RESTARTING;
+  });
+
+  return confirmLeave();
+}
+// --></script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/configbig.gif" width="48" height="48" />
+  <label id="headlabel">Server Configuration</label></h2>
+
+  <form id="f">
+
+    <!--  Configuration Table (the order of the rows here must match that of the CONFIG passed in by configure.vi -->
+    <div id="config">
+      <table class="standard" id="configTable" cellspacing="0">
+        <thead><tr>
+          <th class="icon"><a class="default" id="_All" href="#nogo" title="Set all to default"><img src="/images/defaultsmall.gif" width="16" height="16" /></a></th>
+          <th class="icon"><a class="reset"   id="_All" href="#nogo" title="Reset all to current values"><img src="/images/resetsmall.gif" width="16" height="16" /></a></th>
+          <th>Setting <span class="grey">[ Key Name ]</span></th>
+          <th>Value</th>
+        </tr></thead>
+        <tbody>
+          <tr class="o">
+            <td class="icon"><a class="default" id="_dataDir" href="#nogo" title="Set default dataDir"><img src="/images/defaultsmall.gif" width="16" height="16" /></a></td>
+            <td class="icon"><a class="reset"   id="_dataDir" href="#nogo" title="Reset dataDir"><img src="/images/resetsmall.gif" width="16" height="16" /></a></td>
+            <td class="w40">
+              <h3>Data and Index Repository <span class="grey">[ dataDir ]</span></h3>
+              <p>Spartan stores and indexes all the data from test sequence
+                 executions.  The path used here is relative to the server
+                 on which Spartan is installed, and the SYSTEM user on the
+                 server must have write access to this location.</p>
+            </td>
+            <td><input name="dataDir" id="dataDir" value="" />
+                <div class="warning">Change this value only if the data
+                folder was manually placed in a new location.  Data will NOT
+                be automatically moved to a new location indicated here. A UNC
+                path can be used here for added flexibility, however,
+                the location must be writable by the Spartan
+                SYSTEM user (if running as a service), or alternatively, the Spartan
+                server must be executed by an account with such privileges.</div>
+            </td>
+          </tr>
+
+          <tr>
+            <td class="icon"><a class="default" id="_controlDir" href="#nogo" title="Set default controlDir"><img src="/images/defaultsmall.gif" width="16" height="16" /></a></td>
+            <td class="icon"><a class="reset"   id="_controlDir" href="#nogo" title="Reset controlDir"><img src="/images/resetsmall.gif" width="16" height="16" /></a></td>
+            <td class="w40">
+              <h3>Control Database Directory <span class="grey">[ controlDir ]</span></h3>
+              <p>The Spartan control database (spartan.mdb/spartan.mdw) holds basic
+                 configuration details like Users and Stations, and also catalogs and
+                 maintains a synchronization between the Tests, Drivers, and Templates
+                 installed on the system.</p>
+            </td>
+            <td><input name="controlDir" id="controlDir" value="" />
+                <div class="warning">The control database cannot reside on a
+                mapped drive if running Spartan as a service.  Additionally,
+                the database should not reside in a UNC-named location.  The
+                control database should reside on a physical drive attached to
+                the Spartan server machine for best results.</div>
+            </td>
+          </tr>
+
+          <tr class="o">
+            <td class="icon"><a class="default" id="_dataFinder" href="#nogo" title="Set default dataFinder"><img src="/images/defaultsmall.gif" width="16" height="16" /></a></td>
+            <td class="icon"><a class="reset"   id="_dataFinder" href="#nogo" title="Reset dataFinder"><img src="/images/resetsmall.gif" width="16" height="16" /></a></td>
+            <td class="w40">
+              <h3>DataFinder <span class="grey">[ dataFinder ]</span></h3>
+              <p>Select the name of the DataFinder that Spartan will use for indexing
+                 data saved on the system.  Alternative indexing engines can be configured
+                 with the DIAdem data and report processing software installed on the server
+                 when Spartan was installed.</p>
+            </td>
+            <td><input name="dataFinder" id="dataFinder" value="" />
+                <div class="warning">Change this value only if an alternative
+                DataFinder has been configured using DIAdem.</div></td>
+          </tr>
+
+          <tr>
+            <td class="icon"><a class="default" id="_serverSMTP" href="#nogo" title="Set default serverSMTP"><img src="/images/defaultsmall.gif" width="16" height="16" /></a></td>
+            <td class="icon"><a class="reset"   id="_serverSMTP" href="#nogo" title="Reset serverSMTP"><img src="/images/resetsmall.gif" width="16" height="16" /></a></td>
+            <td class="w40">
+              <h3>Email (SMTP) Server <span class="grey">[ serverSMTP ]</span></h3>
+              <p>Spartan can only send email if there is a valid and accessible
+                 mail server to use.</p>
+            </td>
+            <td><input name="serverSMTP" id="serverSMTP" value="" />
+                <div class="warning">Use a fully qualified domain name (FQDN) or IP address here.</div></td>
+          </tr>
+
+          <tr class="o">
+            <td class="icon"><a class="default" id="_sessionTimeoutSeconds" href="#nogo" title="Set default session timeout"><img src="/images/defaultsmall.gif" width="16" height="16" /></a></td>
+            <td class="icon"><a class="reset"   id="_sessionTimeoutSeconds" href="#nogo" title="Reset session timeout"><img src="/images/resetsmall.gif" width="16" height="16" /></a></td>
+            <td class="w40">
+              <h3>Session Timeout <span class="grey">[ sessionTimeoutSeconds ]</span></h3>
+              <p>Spartan keeps track of users logged into the system and will
+                 automatically log the user out of an active session after this
+                 many seconds.  The default is 3,600 (1 hour).  Please note that
+                 Spartan locks the session during test sequence execution so
+                 the session will not timeout during testing.</p>
+            </td>
+            <td><input name="sessionTimeoutSeconds" id="sessionTimeoutSeconds" value="" />
+                <div class="warning">Enter a value between 600 (10 minutes) and 14,400 (4 hours).</div>
+            </td>
+          </tr>
+          
+          <tr>
+            <td class="icon"><a class="default" id="_archiveDataBenchMark" href="#nogo" title="Set default archive data bench mark"><img src="/images/defaultsmall.gif" width="16" height="16" /></a></td>
+            <td class="icon"><a class="reset"   id="_archiveDataBenchMark" href="#nogo" title="Reset archive data bench mark"><img src="/images/resetsmall.gif" width="16" height="16" /></a></td>
+            <td class="w40">
+              <h3>Archive Data Bench Mark <span class="grey">[ archiveDataBenchMark ]</span></h3>
+              <p>Spartan has the ability to archive old data files that are not
+                 deemed important in order to improve speed of the system.  Enter 
+                 the number of months worth of data you would like to remiain in the
+                 data repository and anything earlier than this will be archived.  The
+                 default is -1 (don't archive).</p>
+            </td>
+            <td><input name="archiveDataBenchMark" id="archiveDataBenchMark" value="" />
+                <div class="warning">Any files archived CAN be recovered manually.</div>
+            </td>
+          </tr>
+
+          <tr class="o">
+            <td class="icon"><a class="default" id="_archiveDataInterval" href="#nogo" title="Set default archive data interval"><img src="/images/defaultsmall.gif" width="16" height="16" /></a></td>
+            <td class="icon"><a class="reset"   id="_archiveDataInterval" href="#nogo" title="Reset archive data interval"><img src="/images/resetsmall.gif" width="16" height="16" /></a></td>
+            <td class="w40">
+              <h3>Archive Data Interval <span class="grey">[ archiveDataInterval ]</span></h3>
+              <p>Select the interval at which you would like Spartan to check the data
+                 repository for old files to archive.  Enter the number of weeks in between
+                 repository checks.  The repository check will occur on each Sunday at 
+                 12:00 am.  The default is 4.</p>
+            </td>
+            <td><input name="archiveDataInterval" id="archiveDataInterval" value="" />
+                <div class="warning">If you wish to run the repository check immediately, set this to -1.  It will start the check and then set it to the default.</div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+      <table id="buttonBox" cellpadding="0" cellspacing="50px"><tr>
+          <td><p>Any changes made above will require the Spartan web server to be
+                 restarted.  This does not necessarily mean a reboot of the physical
+                 hardware, just a restart of the Spartan software.  Click this button
+                 to request the restart.</p>
+              <a id="restartServer" href="#nogo" title="Restart Spartan server"><img src="/images/restartbig.gif" width="48" height="48" /></a>
+          </td>
+          <td><p>From time to time it may be desireable to restart DIAdem, the engine that
+                 Spartan uses to communicate with the data indexer (DataFinder).  Spartan
+                 periodically restarts DIAdem according to an internal schedule, but you can
+                 request a restart now by clicking this button.</p>
+              <a id="restartDIAdem" href="#nogo" title="Restart DIAdem"><img src="/images/DIAdembig.gif" width="48" height="48" /></a>
+        </tr></table>
+
+    </div>
+
+
+    <div id="status" class="hidden">
+      <h3 id="statusTitle"></h3>
+      <p id="statusInfo"></p>
+      <p><img src="/images/bigrotation.gif" width="32" height="32" /></p>
+      <p>Please wait, and this page will update when the process is complete.</p>
+    </div>
+
+  </form>
+
+</div>
+</body>
+</html>

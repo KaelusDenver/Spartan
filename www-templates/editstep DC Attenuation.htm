@@ -1,0 +1,167 @@
+<form class="dcattenuationpanel">
+  <div class="panellegend">DC Attenuation Step Configuration</div>
+
+  <!-- this text area is eval'ed at runtime to define the STIMULUS_DCA object -->
+  <textarea id="stimulusSetup$$UID$$" class="hidden">
+  $$STIMULUS_DCA$$
+  </textarea>
+
+  <!-- this text area is eval'ed at runtime to define the MEASUREMENT_DCA object -->
+  <textarea id="measurementSetup$$UID$$" class="hidden">
+  $$MEASUREMENT_DCA$$
+  </textarea>
+
+  <!-- this text area is eval'ed at runtime to define the BOUND_DCA object -->
+  <textarea id="boundSetup$$UID$$" class="hidden">
+  $$BOUND_DCA$$
+  </textarea>
+
+  <!-- this is so that JS functions can get the MN/SN display names if needed. -->
+  <input type="hidden" id="MNDisplay$$UID$$" name="MNDisplay$$UID$$" value="$$MNDISPLAY$$" />
+  <input type="hidden" id="SNDisplay$$UID$$" name="SNDisplay$$UID$$" value="$$SNDISPLAY$$" />
+
+  <div class="panelbody">
+
+    <!-- TAB MENU -->
+    <div class="paneltabmenu">
+      <ul>
+        <li><a id="t$$UID$$0" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 0);" title="General setup and instructions">Setup</a></li>
+        <li><a id="t$$UID$$1" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 1);" title="Set the DMM stimulus parameters">Stimulus</a></li>
+        <li><a id="t$$UID$$2" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 2);" title="Setup the DC Attenuation measurement and calulation parameters">Measure</a></li>
+        <li><a id="t$$UID$$3" href="#nogo" onClick="this.blur(); showMenuItem(menu$$UID$$, 3);" title="Define pass/fail criteria for the measurement">Limits</a></li>
+      </ul>
+    </div>
+    
+    <!-- SETUP TAB -->
+    <div class="hidden" id="tab$$UID$$0" name="setup$$UID$$">
+      <div class="info">
+          This test sequence step uses a Digital Multimeter (DMM) to measure DC attenuation.
+          Resistance is measured between three distinct points:
+          <ul>
+            <li>Input to Output (Rab)</li>
+            <li>Input to Ground (Rac)</li>
+            <li>Output to Ground (Rbc)</li>
+          </ul>
+          <p>The test utilizes these measurements to derive electrical attenuation, input and
+          output impedance, and resistor values based on the selected attenuator network topology.</p>
+          <ul>
+            <li>Stimulus - Set the DMM stimulus parameters</li>
+            <li>Measure - Select how to calculate the DC Attenuation results</li>
+            <li>Limits - Define pass/fail criteria for the measurements</li>
+          </ul>
+      </div>
+    </div>
+    
+    <!-- STIMULUS_DCA TAB -->
+    <div class="hidden" id="tab$$UID$$1" name="stimulus$$UID$$">
+      <fieldset class="dcattenuationpanel">
+        <legend>Instrument Settings</legend>
+        <div class="checkbox">
+          <label for="instrumentState$$UID$$">
+          <input type="checkbox" id="instrumentState$$UID$$" name="instrumentState$$UID$$" onClick="saveDCAInstrumentState('$$UID$$');">Use Current Instrument State</label>
+        </div>
+
+        <div class="checkbox">
+          <label for="normalize$$UID$$">
+          <input type="checkbox" id="normalize$$UID$$" name="normalize$$UID$$" onClick="saveDCANormalize('$$UID$$');">Normalize</label>
+        </div>
+
+        <div class="checkbox">
+          <label for="blank$$UID$$">
+          <input type="checkbox" id="blank$$UID$$" name="blank$$UID$$" onClick="saveDCABlank('$$UID$$');">Blank Screen</label>
+        </div>
+
+        <div>
+          <label for="range$$UID$$">Range (&#x2126;):</label>
+          <select id="range$$UID$$" name="range$$UID$$" onChange="saveDCARange('$$UID$$');">
+            <option value="Auto">Auto</option>
+            <option value="Minimum">Minimum</option>
+            <option value="Maximum">Maximum</option>
+            <option value="100">100</option>
+            <option value="1,000">1,000</option>
+            <option value="10,000">10,000</option>
+            <option value="100,000">100,000</option>
+            <option value="1,000,000">1,000,000</option>
+            <option value="10,000,000">10,000,000</option>
+            <option value="100,000,000">100,000,000</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="resolution$$UID$$">Resolution:</label>
+          <select id="resolution$$UID$$" name="resolution$$UID$$" onChange="saveDCAResolution('$$UID$$');">
+            <option value="Auto">Auto</option>
+            <option value="4 1/2">4 <sup>1</sup>/<sub>2</sub></option>
+            <option value="5 1/2">5 <sup>1</sup>/<sub>2</sub></option>
+            <option value="6 1/2">6 <sup>1</sup>/<sub>2</sub></option>
+          </select>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- MEASURE TAB -->
+    <div class="hidden" id="tab$$UID$$2" name="measure$$UID$$">
+      <fieldset class="dcattenuationpanel">
+        <legend>Topology</legend>
+
+        <div class="radio">
+          <p>Topology:</p>
+          <label for="topologyPI-Network$$UID$$">
+          <input type="radio" id="topologyPI-Network$$UID$$" name="topology$$UID$$" value="PI-Network" onClick="saveDCATopology('$$UID$$', 'PI-Network')" onChange="saveDCATopology('$$UID$$', 'PI-Network')">PI-Network</label>
+          <label for="topologyT-Network$$UID$$">
+          <input type="radio" id="topologyT-Network$$UID$$" name="topology$$UID$$" value="T-Network" onClick="saveDCATopology('$$UID$$', 'T-Network')" onChange="saveDCATopology('$$UID$$', 'T-Network')">T-Network</label>
+        </div>
+
+        <div class="buttons" id="topologyPictures$$UID$$" name="topologyPictures$$UID$$">
+          <a title="PI-Network" onClick="this.blur(); saveDCATopology('$$UID$$', 'PI-Network');"><img id="PI-NetworkPicture$$UID$$" name="PI-NetworkPicture$$UID$$" class="borderOff" src="/images/DCA PI-Network Disabled.gif" width="149" height="88" /></a>
+          <a title="T-Network" onClick="this.blur(); saveDCATopology('$$UID$$', 'T-Network');"><img id="T-NetworkPicture$$UID$$" name="T-NetworkPicture$$UID$$" class="borderOff" src="/images/DCA T-Network Disabled.gif" width="149" height="88" /></a>
+        </div>
+
+        <div class="checkbox">
+          <label for="lockTopology$$UID$$">
+          <input type="checkbox" id="lockTopology$$UID$$" name="lockTopology$$UID$$" onClick="saveDCALockTopology('$$UID$$');">Lock Topology</label>
+        </div>
+      </fieldset>
+
+      <fieldset class="dcattenuationpanel">
+        <legend>Calculation</legend>
+
+        <div class="radio">
+          <p>Domain:</p>
+          <label for="calculationPower$$UID$$">
+          <input type="radio" id="calculationPower$$UID$$" name="calculation$$UID$$" tabindex="5" value="Power" onClick="saveDCACalculation('$$UID$$')" onChange="saveDCACalculation('$$UID$$')">Power</label>
+          <label for="calculationVoltage$$UID$$">
+          <input type="radio" id="calculationVoltage$$UID$$" name="calculation$$UID$$" tabindex="5" value="Voltage" onClick="saveDCACalculation('$$UID$$')" onChange="saveDCACalculation('$$UID$$')">Voltage</label>
+        </div>
+
+        <div>
+          <label for="impedance$$UID$$">Impedance, Z<sub>0</sub> (&#x2126;):</label>
+          <input type="text" class="numeric" id="impedance$$UID$$" name="impedance$$UID$$" tabindex="6" onChange="this.value = validateNumeric(this.value); saveDCAImpedance('$$UID$$');">
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- LIMITS_DCA TAB -->
+    <div class="hidden" id="tab$$UID$$3" name="limits$$UID$$">
+      <!-- LIMITS_DCA TABLE -->
+      <table class="standard" id="limits$$UID$$" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="Limit Number">#</th>
+          <th class="icon" title="Delete this limit"><!-- delete --><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="Referential Limit: this limit will use previous data as a reference"><img src="/images/referential.gif"></th>
+          <th class="ni" title="Parameter: select the parameter that the limit applies to">Parameter</th>
+          <th class="ni" title="Comparison: select the comparison (>, &#8805, <, &#8804) to be made for the limit">Comparison</th>
+          <th class="ni" title="Operation: select operation (+, -) to be performed when defining a referential limit">Operation</th>
+          <th class="ni" title="Value: enter the value of the limit">Value</th>
+          <th class="">&nbsp;</th>
+        </tr></thead><tfoot><tr></tr></tfoot>
+        <tbody></tbody>
+      </table>
+
+      <div class="add_wrapper">
+        <a href="#nogo" id="addLimit$$UID$$" title="Add another limit" onClick="this.blur(); addDCALimit('$$UID$$');"><img src="/images/addsmall.gif">Add Limit</a>
+      </div>
+    </div>
+
+  </div>
+</form>

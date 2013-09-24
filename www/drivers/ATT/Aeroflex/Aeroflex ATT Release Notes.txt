@@ -1,0 +1,36 @@
+[5.2.0240]
+model0="Sea-Level REL-32 - 3098"
+model1="Sea-Level REL-32.PCI - 8007"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0114]
+Date="January 2010"
+note0="Spartan 5.1.0118 Release."
+
+[5.0.0124]
+Date="December 2009"
+note0="Spartan 5.0.0124 Release."
+
+[4.3.0512]
+Date="November 2008"
+note0="Spartan 4.3.0026"
+
+[3.2.0143]
+Date="August 2007"
+note0="Prepared installer for commercial release."
+
+[3.0.0104]
+Date="April 2007"
+note0="Improved normalization process."
+
+[2.2.0080]
+Date="July 2006"
+note0="Corrected reported bugs."
+
+[2.1.0044]
+Date="March 2006"
+note0="Rebuilt to maintain compatibility."
+
+[2.0.0023]
+Date="January 2006"
+note0="Initial Release."

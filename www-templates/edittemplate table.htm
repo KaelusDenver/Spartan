@@ -1,0 +1,36 @@
+      <!-- HEADER TAB -->
+      <div class="hidden" id="tempTab0">
+        <div>
+          <label for="tableLabel">Table Label:</label>
+          <input id="tableLabel" name="tableLabel" value="" OnChange="updateTableLabel(this.value);" title="Enter table label"/>
+        </div>
+      </div>
+
+      <!-- BODY TAB -->
+      <div class="hidden" id="tempTab1">
+        <legend>Columns Table</legend>
+
+        <div>
+          <table id="columns" class="standard" cellpadding="0" cellspacing="0"><tbody>
+            <tr>
+              <th class="icon" title="Column #: this is the column number">#</th>
+              <th class="icon" title="Delete this column"><img src="/images/trashsmall.gif"></th>
+              <th class="icon" title="Copy this column"><img src="/images/copysmall.gif"></th>
+              <th class="icon" title="Reorder: columns are displayed in this order"><img src="/images/moverssmall.gif"></th>
+              <th class="ni" title="Column Type: this is the type of the column">Column Type</th>
+              <th class="ni" title="Column Header: this is the label that will be applied to the column">Column Header</th>
+              <th class="" title="Run Selection: this is which run will be used" colspan="4">Run Selection</th>
+              <th class="" title="Summary: this is a summary of the column" colspan="5">Parameters</th>
+            </tr></tbody>
+          </table>
+
+          <div class="add_wrapper">
+            <a id="aAddColumn" href="#nogo" class="adder" title="Add another column" onClick="this.blur(); addColumn();">Add Column</a>
+            <div class="add hidden" id="add_column">
+              <select id="add_column_type" onKeyDown="this.blur(); if(detectEnter(event)) {saveAddedColumn();}"></select>
+              <a class="addokspecial" href="#nogo" id="column_btn_ok" title="OK" onClick="this.blur(); saveAddedColumn();"></a>
+              <a class="addcancelspecial" href="#nogo" id="column_btn_cancel" title="Cancel" onClick="this.blur(); toggleVisible('add_column'); toggleVisible('aAddColumn');"></a>
+            </div>
+          </div>
+        </div>
+      </div>

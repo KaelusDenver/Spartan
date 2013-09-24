@@ -1,0 +1,1142 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Spartan Run Data Mining Scenario</title>
+$$STYLES$$
+<style type="text/css">
+.legend { clear: both; margin: 5px 0; }
+#content img { vertical-align: middle; }
+
+span#scenarioId { float: left; font-weight: bold; }
+
+#results { padding: 20px; padding-top: 0;}
+#reports { position: relative; padding: 20px; }
+#reports:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
+#genSettingsDialog,
+#exportReportsDialog { width: 400px; }
+
+#exportResultsDialog #ziplegend { margin-top: 15px; }
+#exportReportsDialog #exportType { position: relative; margin-bottom: 20px; }
+#exportReportsDialog #exportType img { position: absolute; right: 0; }
+
+
+.dialog label { display: block; margin: 5px 20px; }
+.dialog label img { margin-right: 5px; }
+.dialog .legend { display: block; margin: 5px 0 1em; }
+.dialog .note { margin: 2em 3em 2em 1em; padding: 5px; border: solid 1px #666; background: #f1f5fa; }
+.dialog .note img { vertical-align: top; }
+.dialog .btn_ok,
+.dialog .btn_cancel { margin-top: 15px; }
+
+.topbar a.hover { border: solid 1px #de9322; background: #efe; }
+
+#pager { font-size: 90%; }
+#pager img { vertical-align: top; margin-top: 3px; }
+#pager a#previous { margin-right: 10px; }
+#pager a#previous img { margin-right: 3px; }
+#pager a#next { margin-left: 10px; }
+#pager a#next img { margin-left: 3px; }
+#pager a#showall { margin-left: 3em; }
+
+#dividerBar { text-align: center; background: #ccc; }
+
+.buttonbar #buttonLabel { float: left; }
+.buttonbar a { padding: 3px; border: solid 1px #ffefc5; }
+.buttonbar a:hover { border-color: #de9322; background: #efe; }
+.buttonbar img { vertical-align: middle; }
+
+#reportPager { position: relative; text-align: center; background: #eee url("/images/toolbar-bg_1x27.gif") repeat-x; padding: 2px 0; margin-bottom: 3px; border: 1px solid #ccc; }
+#reportPager input { width: 3em; text-align: center; }
+#reportPager a { padding: 1px 2px 4px; border: solid transparent 1px; }
+#reportPager a:hover { border: solid #de9322 1px; background: #efe; }
+#reportPager a:hover .show { display: block; }
+
+#reportPager #reportPagerInfo { color: #666; position: absolute; left: 0; }
+#reportPagerInfo table,
+#reportPagerInfo div { display: none; padding: 10px; position: absolute; z-index: 99; background: #fec; border: 1px solid #ccc; left: 0; bottom: 0; text-align: left; font-size: 90%; width: 350px; }
+#reportPagerInfo table td { white-space: nowrap; padding: 2px 10px; }
+
+#viewerEmpty,
+#viewerBusy { position: relative; padding: 28px 15%; border: 1px solid #ccc; background: #eee; }
+#viewerBusy #busyNote { position: relative; }
+/* #viewerBusy #progressBar { position:relative; border: solid #778 1px; /* border color  } */
+/* #viewerBusy #progressBarFill{ position:relative; width: 0%; background: #aaa; /* fill color  } */
+
+.viewerTXT { position: relative; border: 1px solid #ccc; }
+.viewerTXT .textToolbar { background: #eee url("/images/toolbar-bg_1x27.gif") repeat-x; padding: 3px; }
+.viewerTXT .textToolbar a { padding: 2px; border: solid 1px transparent; display: inline-block; }
+.viewerTXT .textToolbar a img { vertical-align: middle; }
+.viewerTXT .textToolbar a:hover { border: solid 1px #de9322; background: #efe; }
+.viewerTXT .textBody { font-family: "courier new"; font-size: 120%; max-height: 500px; overflow: auto; }
+.viewerTXT .textGutter { float: left; text-align: right; min-width: 40px; margin-right: 2px; background: #eee url("/images/gutter-bg_40x1.gif") repeat-y; }
+.viewerTXT .textContent { color: #223; white-space: nowrap; }
+
+.viewerPDF { position: relative; border: 1px solid #ccc; text-align: center; }
+</style>
+<!--[if IE]><style type="text/css">
+.dialog { height: auto; }
+</style><![endif]-->
+
+<!--[if lte IE 6]><style type="text/css">
+#content img { vertical-align: baseline; }
+
+#reportPager { padding: 0; zoom: 1; }
+#reportPager a { border-color: #eee; }
+#reportPager #reportPagerInfo { left: 0; top: 3px; } /* hover does not work in IE6 */
+#reportPager #reportPagerInfo img { vertical-align: middle; }
+
+.viewerTXT .textToolbar a { border-color: #eee; }
+.viewerTXT .textBody { height: 500px; width: 100%; position: relative; }
+.viewerTXT .textContent { position: absolute;  }
+</style><![endif]-->
+$$SCRIPTS$$
+<script type="text/javascript" src="/src/ZeroClipboard.js"></script>
+<script type="text/javascript"><!--
+$(document).ready(function() {
+
+  // show/hide the results panel
+  if ($.cookie('results')) $('#results').hide();
+
+  // add some bling and build the results table
+  $('#scenarioId').html(SCENARIO.sxScenarioId).attr("title", SCENARIO.sDescription);
+
+  if (ESTIMATE > 0) {
+    $('#go').attr('title', 'Report processing could take up to ' + formatTime(ESTIMATE) + '.');
+    $('#generateEstimate').text('Estimated processing time is ' + formatTime(ESTIMATE));
+    $('#estimate').text(' (for these templates and including all results, the worst-case estimate is ' + formatTime(ESTIMATE) + ')');
+  }
+
+  // set the UI control elements for report generation
+  if (SCENARIO.fSortByTemplates) {
+    $('#fSortByTemplates').attr('checked', 'checked');
+  } else {
+    $('#fSortByTemplates').removeAttr('checked');
+  }
+
+  if (SCENARIO.fCombinePDF) {
+    $('#fCombinePDF').attr('checked', 'checked');
+  } else {
+    $('#fCombinePDF').removeAttr('checked');
+  }
+
+
+  // sets up the clipboard handlers - must come before buildResultsTable/buildReportsTable
+  ZeroClipboard.setMoviePath('/src/ZeroClipboard.swf');
+  CLIPRESULTS = new ZeroClipboard.Client();
+  CLIPRESULTS.addEventListener('onComplete', function () { alert("Results copied to clipboard"); });
+
+//  CLIPREPORTS = new ZeroClipboard.Client();
+//  CLIPREPORTS.addEventListener('onComplete', function () { alert("Report copied to clipboard"); });
+  $(window).resize(function(){
+    CLIPRESULTS.reposition(); 
+//    CLIPREPORTS.reposition();
+  });
+
+  if (RESULTS.length > 0) {
+    var s = (RESULTS.length > 1)? 's' : '';
+    $('#resultSummary').text(RESULTS.length + ' Result' + s + ' (search took ' + SEARCHTIME + ' seconds)');
+
+    $('#copyResults').attr( { title: 'Copy the results to the clipboard' })
+                     .children(":first-child").attr({ src: '/images/copysmall.gif' });
+    CLIPRESULTS.glue("copyResults");
+
+    // add a "checked" attribute to all RESULTS (and set TRUE)
+    $.each(RESULTS, function (i) { RESULTS[i].checked = true; });
+
+    // export RESULTS table
+    $('a#_exportResultsDialog img').attr( { src: '/images/exportsmall.gif' });
+    $('a#_exportResultsDialog').attr( { href: '#nogo', title: 'Export these results' })
+                               .click(function () {
+      $(this).blur();
+
+      var button    = $(this).offset(); // left, top
+      button.height = $(this).height();
+      button.width  = $(this).width();
+
+      var $dialog = $("#" + this.id.slice(1));
+
+      var xPos = button.left - $dialog.width();
+      var yPos = button.top;
+
+      $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+      $dialog.show();
+      return false;
+    });
+    $("#exportResultsDialog .btn_ok").click(function () {
+      var formattedContent;
+
+      $.spSessionTMO({ tmoSeconds: SESSIONTIMEOUT });
+
+      if ($('#zip').is(':checked')) {
+        var fnames=[];
+        for (var i=0; i<RESULTS.length; i++) if (RESULTS[i].checked) fnames.push(RESULTS[i].item.filepath);
+
+        formattedContent = fnames.join(',');
+      } else {
+        var header = SCENARIO.sResultFieldsCSV.split('\t');
+        var content=[];
+
+        // fill header
+        for (var i=0; i<header.length; i++) content.push(formatFieldHeader(header[i]));
+        if ($('#comma').is(':checked')) content = [ content.join(',') ];
+        else content = [ content.join('\t') ];
+
+        // fill content
+        for (var i=0; i<RESULTS.length; i++) {
+          if (RESULTS[i].checked) {
+            var v=[];
+            for (var j=0; j<RESULTS[i].table.length; j++) v.push(formatFieldValue(header[j], RESULTS[i].table[j]).toString());
+
+            if ($('#comma').is(':checked')) {
+              // some displayed values (i.e., dates) might have commas already
+              // so we replace with space character
+              for (k=0; k<v.length; k++) v[k] = v[k].replace(/,/g, ' ');
+              content.push(v.join(','));
+            }
+            else  content.push(v.join('\t'));
+          }
+        }
+        formattedContent = content.join('\n');
+      }
+      $('#exportContent').val(formattedContent);
+      $('#exportResultsDialog').append('<input name=\"sxScenarioId\" type="hidden" value=\"' + SCENARIO.sxScenarioId + '\" />');
+      $(this).parent().hide().submit();
+      return false;
+    });
+
+
+  } else {
+    $('#resultSummary').text('There were no results found.');
+  }
+
+  // update tables and clipboard contents
+  buildResultsTable();
+  buildReportsTable();
+
+  CLIPRESULTS.reposition();
+
+  // for results pager...
+  $('a#showall').click(function () { $(this).blur(); buildResultsTable(-1); return false; });
+
+  // edit scenario
+  if (THECURRENTUSER.fEditScen) {
+    $('a#editScenario').attr( { href: '/cgi-bin/editscenario.vit?edit=' + encodeURIComponent(SCENARIO.sxScenarioId) + '&' + randomizer(), title: 'Edit this scenario'} )
+                       .children('img')
+                         .attr("src", "/images/editsmall.gif")
+                       .end();
+  }
+
+  // dialog cancel event handlers
+  $(".dialog .btn_cancel").click(function () {
+    $(this).parent().hide();
+    return false;
+  });
+
+  //========= TXT REPORT Toolbar
+  $('a.textGutterToggle').live('click', function () {
+    // set up a style element to show/hide the gutter
+    // for the particular report
+    var rptId = $(this).blur().parents('.viewerTXT').attr('id');
+    var $gutter = $('#' + rptId + ' .textGutter');
+    if ($gutter.is(':visible')) $gutter.css('display', 'none');
+    else $gutter.css('display', 'block');
+
+    return false;
+  });
+
+  $('a.textExport').live('click', function() {
+    // format an export request ...
+    var $rpt     = $(this).blur().parents('.viewerTXT');
+    var rawData  = ""; //$rpt.data('rawData');
+    var filename = $rpt.data('filename');
+
+    $('#exportReportsDialog #exportBucket').empty();
+
+    $('#exportReportsDialog #exportBucket').append('<input name=\"content\"  type="hidden" value=\"' + rawData  + '\" />');
+    $('#exportReportsDialog #exportBucket').append('<input name=\"filename\" type="hidden" value=\"' + filename + '\" />');
+
+    $('#exportReportsDialog').submit();
+
+    return false;
+  });
+
+  $('a.textPrint').live('click', function() {
+    var $rpt        = $(this).blur().parents('.viewerTXT');
+    var rawData     = $rpt.data('rawData');
+    var pageContent = rawData.replace(/(\r\n|[\r\n])/g, '<br />');
+
+    var win = window.open("","","height=480,width=640,toolbar=no,scrollbars=yes,status=no,location=no,resizable=yes,menubar=no");
+    win.document.open("text/html", "replace");
+    var doc  = '<html><head><title>Print Preview: ' + $rpt.data('sxTemplateId') + '</title><style type=\"text/css\">';
+        doc += 'body{font-family:\"courier new\";white-space:nowrap;}.pagebreak{font-size: 70%; text-align:center; background: #d0e0f3;';
+        doc += '</style></head><body>' + pageContent + '</body></html>';
+    win.document.write(doc);
+    win.document.close();
+
+    return false;
+  });
+  //===== END TXT REPORT TOOLBAR
+
+
+  //===== Generator Settings Dialog
+  //
+  $('a#_genSettingsDialog').click(function () {
+    $(this).blur();
+    if ($(this).is('.disabled')) return false;
+
+    if (SCENARIO.fSortByTemplates) {
+      $('#fSortByTemplates').attr('checked', 'checked');
+    } else {
+      $('#fSortByTemplates').removeAttr('checked');
+    }
+
+    if (SCENARIO.fCombinePDF) {
+      $('#fCombinePDF').attr('checked', 'checked');
+    } else {
+      $('#fCombinePDF').removeAttr('checked');
+    }
+
+    var button    = $(this).offset(); // left, top
+    button.height = $(this).height();
+    button.width  = $(this).width();
+
+    var $dialog = $("#" + this.id.slice(1));
+
+    var xPos = button.left - $dialog.width();
+    var yPos = button.top -  $dialog.height();
+
+    $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+
+    $dialog.show();
+    return false;
+  });
+  $("#genSettingsDialog .btn_ok").click(function () {
+    $(this).parent().hide();
+    SCENARIO.fSortByTemplates = $('#fSortByTemplates').is(':checked');
+    SCENARIO.fCombinePDF    = $('#fCombinePDF').is(':checked');
+
+    $('#go').click();  // just click "go"
+
+    return false;
+  });
+
+  // Generate Button handler
+  $('#go').click(function() {
+
+      SCENARIO.fAutoRunReports = true;
+      buildReportsTable();
+
+  });
+
+
+  //======= REPORT paging handler
+  $('#reportPagerPage').change(function () {
+    var newPage  = this.value;
+    var $currentViewer = $('#reportViewers .viewerTXT:visible, #reportViewers .viewerPDF:visible');
+
+    oldPage   = ($currentViewer.length == 0)? 1 : parseInt($currentViewer[0].id.split('_')[1]);
+    var pages = $('#reportViewers .viewerTXT, #reportViewers .viewerPDF').length;
+
+  if ( isNumeric(newPage) && (newPage >= 1) && (newPage <= pages) ) {
+      $('.viewerPDF').width(0).height(0).css('border-width', '0'); // hide all, but not with display:none (for iframe support)
+      $('.viewerTXT').addClass('hidden');
+
+      var $rpt = $('#report_' + (newPage - 1));
+
+      // show current page
+      if ($rpt.is('.viewerPDF')) {
+        $rpt.width('auto').height('auto').css({ 'display': 'block', 'border-width': '1px' });
+
+      } else {
+        $rpt.removeClass('hidden');  // show TXT report
+        if ($.browser.msie) $rpt.find(".textGutterToggle").click().click(); // fix IE gutter style render
+
+
+//        CLIPREPORTS.setText($rpt.data('rawData'));  // load clipboard data
+//        CLIPREPORTS.reposition($rpt.find('.reportCopy:visible').attr('id')); // repo and assign new button
+      }
+
+      // update pager info
+      var oTpl = getTemplate($rpt.data('sxTemplateId'));
+
+      if (oTpl) {
+        $('#reportPagerInfoTitle').text(truncStr(oTpl.sxTemplateId, 30));
+        $('#reportPager #sxTemplateId').text(oTpl.sxTemplateId);
+        $('#reportPager #sDescription').text(oTpl.sDescription);
+        $('#reportPager #sFormat').text(oTpl.sFormat);
+        $('#reportPager #Dims').text('N/A');
+        $('#reportPager #sStyle').text(oTpl.sStyle);
+        $('#reportPager #sType').text(oTpl.sType);
+      } else {
+
+        $('#reportPagerInfoTitle').text(truncStr($rpt.data('sxTemplateId'), 30));
+
+        $('#reportPager #sxTemplateId').text('Multiple templates');
+        $('#reportPager #sDescription').text('combined report PDF\'s');
+        $('#reportPager #sFormat').text('pdf');
+        $('#reportPager #Dims').text('multiple');
+        $('#reportPager #sStyle').text('multiple');
+        $('#reportPager #sType').text('multiple');
+
+      }
+
+      return false;
+    }
+
+    this.value = oldPage + 1; // current visible report index
+    return false;
+  });
+  $('a#reportPagerPrev, a#reportPagerNext').click(function () {
+    $(this).blur();                                            
+    var currentPage = parseInt($('#reportPagerPage').val()) - 1;
+    var newPage  = ($(this).is('#reportPagerNext'))? currentPage + 1 : currentPage - 1;
+    var pages    = $('#reportViewers .viewerTXT, #reportViewers  .viewerPDF').length;
+
+    if ( (newPage >= 0) && (newPage < pages)) $('#reportPagerPage').val(newPage + 1).change();
+
+    return false;
+  });
+
+
+  //====== Export and Settings dialog handlers
+  $('#_exportReportsDialog').click(function () {
+
+    if ($(this).is('.disabled'))return false;
+
+    var button    = $(this).offset(); // left, top
+    button.height = $(this).height();
+    button.width  = $(this).width();
+
+    var $dialog = $("#" + this.id.slice(1));
+
+    var xPos = button.left - $dialog.width();
+    var yPos = button.top -  $dialog.height();
+
+    $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+
+    $dialog.show();
+    return false;
+  });
+  $("#exportReportsDialog .btn_ok").click(function () {
+    $(this).parent().hide();
+    
+    $.spSessionTMO({ tmoSeconds: SESSIONTIMEOUT });
+
+    $('#exportReportsDialog #exportBucket').empty(); // remove any previous
+
+    // read report contents into controls
+    for (var i=0; i < $('#reportViewers .viewerTXT, #reportViewers .viewerPDF').length; i++) {
+
+      var $rpt = $('#report_' + i);
+      var filename = $rpt.data('filename');
+      var content = ""; //$rpt.data('rawData');
+
+      $('#exportReportsDialog #exportBucket').append('<input name=\"sxScenarioId\" type="hidden" value=\"' + SCENARIO.sxScenarioId + '\" />');
+      $('#exportReportsDialog #exportBucket').append('<input name=\"content\" type="hidden" value=\"' + content + '\" />');
+      $('#exportReportsDialog #exportBucket').append('<input name=\"filename\" type="hidden" value=\"' + filename + '\" />');
+    }
+
+    $('#exportReportsDialog').submit();
+
+    return false;
+  });
+
+
+
+  //======== key bindings
+  var isCtrl = false; //  Ctrl-key watcher
+
+  $(document).keyup(function (e) {
+    if (e.which == 17) isCtrl=false;
+  }).keydown(function (e) {
+    if (e.which == 17) isCtrl=true;
+    switch(e.which) {
+      case 13:   // "return"/"enter" key
+        $(".btn_ok:visible").click();
+        break;
+
+      case 27:   // "esc" key
+        $(".btn_cancel:visible").click();
+        break;
+
+      case 69:   // "E" - edit
+        if (isCtrl && THECURRENTUSER.fEditScen) {
+          document.location = '/cgi-bin/editscenario.vit?edit=' + encodeURIComponent(SCENARIO.sxScenarioId) + '&' + randomizer();
+          e.preventDefault();
+        }
+        break;
+    }
+  }); // key bindings
+
+}); // document.ready()
+
+
+function truncStr(s, l) {
+  if (!s || s.length < l) return s;
+  return s.substr(0, l) + ' ...';
+}
+
+// Process the non-PDF template content for viewing
+function formatTXTtoHTML(t) {
+  var lines  = t.split('\r\n');
+  var gutter = '<div class="textGutter">';
+  var text   = '<div class="textContent">';
+
+  for (var i=0; i<lines.length; i++) {
+    gutter += (i + 1)  + '<br />';
+    text   += lines[i] + '<br />';
+  }
+  gutter += '</div>';
+  text   += '</div>';
+
+  return (gutter + text);
+}
+
+// Format time from seconds to English string
+function formatTime(seconds) {
+  var h = parseInt(seconds / 3600);
+  var m = parseInt((seconds - (h * 3600)) / 60);
+  var s = parseInt((seconds - (h * 3600)) % 60);
+
+  var hStr = (h > 0)? h.toString() + ((h == 1)? ' hour'   : ' hours')   : '';
+  var mStr = (m > 0)? m.toString() + ((m == 1)? ' minute' : ' minutes') : '';
+  var sStr = (s > 0)? s.toString() + ((s == 1)? ' second' : ' seconds') : '';
+
+  // truth table for easier logic
+  var H = !(isBlank(hStr));
+  var M = !(isBlank(mStr));
+  var S = !(isBlank(sStr));
+
+  if ( H &&   M &&  S )  return (hStr + ', ' + mStr + ', and ' + sStr);
+  if (!H && ( M &&  S )) return (mStr + ' and ' + sStr);
+  if ( H && (!M &&  S )) return (hStr + ' and ' + sStr);
+  if ( H && ( M && !S )) return (hStr + ' and ' + mStr);
+
+  return (hStr + mStr + sStr);
+}
+
+
+// this function also builds the text for clipboard copy operation
+function buildResultsTable(page) {
+  var page    = page || 0; // which page?  0 is first (default), -1 is all
+  var perPage = 16;        // items per 'page'
+
+  var header = SCENARIO.sResultFieldsCSV.split('\t');
+
+  // clear previous header
+  $('#resultsTable > thead tr th').remove();
+  for (var i=0; i<header.length; i++) {
+
+    if (i==0) {  // add checkbox and export icons
+      $('#resultsTable thead tr').createAppend('th', { className: 'icon'}, ['input', { Type: 'checkbox', id: 'checkAll', title: 'Checkboxes below select results to include in report processing - this checkbox will select all or none' } ]);
+      $('#resultsTable thead tr').createAppend('th', { className: 'icon'}, ['img', { src: '/images/exportsmall.gif', width: '16', height: '16', alt: 'small export icon', title: 'export data file' } ]);
+    }
+
+    $('#resultsTable thead tr').createAppend('th', {}, [ formatFieldHeader(header[i]) ]);
+  }
+
+  // set the check all/none box state (only checked if all RESULTS are checked)
+  var checkAll = true;
+  for (var i=0; i<RESULTS.length; i++) {
+    if (!RESULTS[i].checked) {
+      checkAll = false;
+      break;
+    }
+  }
+  if (checkAll) $('#checkAll').attr('checked', 'checked');
+
+  // clear previous rows
+  $('#resultsTable > tbody tr').remove();
+
+  var row   = (page <= 0)? 0 : (page * perPage);
+  var limit = (page < 0)? RESULTS.length : Math.min(row + perPage, RESULTS.length);   // must check for max result in addition
+
+  for (var j=row; j < limit; j++) {
+    $('#resultsTable tbody').tplAppend(RESULTS[j], function () {
+      var cells=[];
+
+      for (var i=0; i<this.table.length; i++) {
+        var checkThis = (this.checked)? 'checked' : '';
+
+        if (i==0) {
+          cells.push('td');
+          cells.push({ className: 'icon' });
+          cells.push([ 'input', { Type: 'checkbox', checked: checkThis, id: 'index:' + j } ]);
+
+          cells.push('td');
+          cells.push({ className: 'icon' });
+          cells.push([ 'a', { href: '$$THISCGI$$?exportResults=' + encodeURIComponent(this.item.filepath) + '&' + randomizer() }, ['img', { src: '/images/exportsmall.gif', width: '16', height: '16', alt: 'small export icon', title: 'export this data file' } ] ]);
+        }
+
+        cells.push('td');
+        cells.push({});
+        cells.push([ formatFieldValue(header[i], this.table[i]) ]);
+      }
+      return ['tr', {}, cells];
+    });
+  }
+
+  // table is now built - add row styles
+  $("#resultsTable tbody > tr:nth-child(odd)").addClass("o");      // zebra stripes
+
+  // set up RESULTS pager
+  var pages = parseInt(RESULTS.length / perPage) + (((RESULTS.length % perPage) > 0)? 1 : 0);
+  var pp = 'page ' +(page + 1) + ' of ' + pages;
+  $('#page').text(pp);
+
+  $('#total').text(RESULTS.length + '');
+  $('#previous').unbind('click').click(function () {
+    $(this).blur();
+    if (page > 0) buildResultsTable(page-1);
+    return false;
+  });
+  $('#next').unbind('click').click(function () {
+    $(this).blur();
+    if (page < (pages - 1)) buildResultsTable(page+1);
+    return false;
+  });
+
+  if ((RESULTS.length > perPage) && (page >= 0)) $('#pager').show();
+  else $('#pager').hide();
+
+  // set up checkbox handlers
+  $('#resultsTable thead input').unbind('click').click(function() {
+    var checkAll = this.checked;
+
+    $('#resultsTable tbody input').each(function () { this.checked =  checkAll; });
+    $.each(RESULTS, function(index) { this.checked = checkAll; });
+
+    // call to enable/disable the Generate button
+    getCheckedResults(true);
+
+  });
+  $('#resultsTable tbody input').unbind('click').click(function() {
+    var index = this.id.split(':')[1];
+    RESULTS[index].checked = this.checked;
+
+    // call to enable/disable the Generate button
+    if (getCheckedResults(true) < RESULTS.length) {
+      $('#checkAll').removeAttr('checked');
+    } else {
+      $('#checkAll').attr('checked', 'checked');
+    }
+  });
+}// buildResultsTable
+
+
+// Updates the items array and clipboard text for selected RESULTS
+function getCheckedResults(updateGoState) {
+  var items = [];
+  var copyText = [];
+  var busy = false;
+
+  var header = SCENARIO.sResultFieldsCSV.split('\t');
+  for (var i=0; i<header.length; i++) copyText.push(formatFieldHeader(header[i]));
+  copyText = copyText.join('\t') + '\n'; // header row
+
+  // push items (for report generation)
+  // also update copyText (for results table copy)
+  for (var i=0; i<RESULTS.length; i++) {
+
+    var bodyText=[];
+
+    if (RESULTS[i].checked) {
+      items.push( [ RESULTS[i].item.testType, RESULTS[i].item.mn, RESULTS[i].item.sn, RESULTS[i].item.run,RESULTS[i].item.filepath ].join(',') );
+
+      var bodyText=[];
+      for (var j=0; j<RESULTS[i].table.length; j++) bodyText.push(formatFieldValue(header[j], RESULTS[i].table[j]));
+      copyText += bodyText.join('\t') + '\n'; // body row
+    }
+  }
+
+  // set for clipboard copy
+  CLIPRESULTS.setText(copyText);
+
+  // update the "Generate" button state
+  if ($.browser.msie && $('#viewerBusy').attr('style') != null) {
+    busy = $('#viewerBusy').attr('style').toLowerCase() == "display: none";
+  } else if ($('#viewerBusy').attr('style') != null) {
+    busy = ($('#viewerBusy').attr('style').toLowerCase() == "display: none;");
+  }
+  if (TEMPLATES.length && items.length > 0 && updateGoState && busy) {
+    $('#go').removeAttr('disabled');
+    $('a#_genSettingsDialog').removeClass('disabled').children('img').attr("src", "/images/configsmall.gif");
+  } else {
+    if (updateGoState) {
+      $('#go').attr('disabled', 'disabled');
+      $('a#_genSettingsDialog').addClass('disabled').children('img').attr("src", "/images/configsmalldisabled.gif");
+    }
+  }
+
+  $('#items').val(items.join('\n'));
+  return items.length;
+}
+
+
+// Generates and displays the reports
+function buildReportsTable() {
+
+  //==== disable the generate, settings, and export links
+  $('#go').attr('disabled', 'disabled');
+  $('a#_genSettingsDialog').addClass('disabled').children('img').attr("src", "/images/configsmalldisabled.gif");
+  $('a#_exportReportsDialog').addClass('disabled').removeAttr("href").children('img').attr("src", "/images/exportsmalldisabled.gif");
+
+  //======== clear report viewers
+  $('#reportViewers').empty();
+
+  //======== update the templates information
+  if (TEMPLATES.length > 0) {
+    var verb   = (TEMPLATES.length == 1)? 'is' : 'are';
+    var plural = (TEMPLATES.length == 1)? 'template'   : 'templates';
+    var sum = 'There ' + verb + ' ' + TEMPLATES.length + ' ' + plural + ' attached. ';
+    sum += 'Click Generate to create reports from selected results and attached templates:';
+    sum += '<ul>';
+    for (var i=0; i<TEMPLATES.length; i++) {
+      sum += '<li>' + TEMPLATES[i].sxTemplateId + ' (' + TEMPLATES[i].sDescription + ')</li>';
+    }
+    sum += '</ul>';
+    plural = plural.substr(0,1).toUpperCase() + plural.slice(1);
+    $('#reportPagerInfoAll').html(sum).prev().text(TEMPLATES.length + ' ' + plural);
+  }
+
+  //======== reset report pager
+  $('#reportPagerPage').val(1).attr('disabled', 'disabled');
+  $('#reportPagerTitle').text('');
+  $('#reportPagerInfoAll').addClass('show');
+  $('#reportPagerInfoOne').removeClass('show');
+
+  //======== update items with user selection
+  var checkedResults = getCheckedResults(false);
+
+  // show an appropriate message if no templates, no results, or NOT autoRun
+  if (TEMPLATES.length == 0 || checkedResults == 0 || !SCENARIO.fAutoRunReports) {
+    $('#viewerBusy').hide();
+    $('#viewerEmpty').show();
+
+    // enable the generate button if there are templates and results
+    if (TEMPLATES.length > 0 && checkedResults > 0) {
+      $('#go').removeAttr('disabled');
+      $('a#_genSettingsDialog').removeClass('disabled').children('img').attr("src", "/images/configsmall.gif");
+    }
+
+    return;
+  }
+
+  //======== show  busy
+  $('#viewerEmpty').hide();
+//  $('#busyMessage').text('Report generation requested (should take less than ' + formatTime(ESTIMATE) + ')...');
+
+  //======= start progress bar counting toward ESTIMATE
+//  var startTimeInSeconds = (new Date().getTime()) / 1000;
+//  var PROGRESS = setInterval(function() {
+//    var elapsed = ((new Date().getTime()) / 1000) - startTimeInSeconds;
+//    var percent = (elapsed / ESTIMATE)*100;
+//    if (percent < 100) $('#progressBarFill').width(percent + '%');
+//    else clearInterval(PROGRESS);
+//  }, 25); // update progress
+  $('#viewerBusy').show();
+
+  // suspend page session timer until call returns...
+  $.spSessionTMO({ tmoSeconds: -1 });
+
+  jobid =randomizer()
+  //=======  request (AJAX POST) the reports be generated
+  $.post('$$THISCGI$$?runReports=' + encodeURIComponent(SCENARIO.sxScenarioId) + '&' + 'jobid=' + jobid,
+    $('#genSettingsDialog').serialize(),
+
+    //===== handle reports sent back from server
+    function(response) {
+
+      //=== eval AJAX response; catch errors and format appropriately
+       try { eval('var data=' + response); }
+       catch(e) { var data = { status: true, code: e, source: 'runReports catch malformed response', sessionTimeout: 3600 }; }
+
+       if (data.payload.ready == "Data Not Ready"){
+        // check for not ready returned   - this is normal
+        //This is a recursive call. The checkready function will call itself on a delay until the report is ready.
+        // Send the are you ready request after the report acknowledgment
+        ready =setTimeout(function(){checkready(jobid,0);},10000);
+      } else { };
+      } );
+      
+
+  }// buildReportsTable
+
+
+ function checkready (jobid,iteration) {
+
+  if ($('#reportViewers .viewerTXT, #reportViewers  .viewerPDF').length<1) {
+    $.post('$$THISCGI$$?ready=' + encodeURIComponent(SCENARIO.sxScenarioId) + '&' + 'jobid=' + jobid+ '&' + 'iteration=' + iteration,
+    $('#genSettingsDialog').serialize(),
+
+    //===== handle reports sent back from server
+    function(response) {
+
+      //=== eval AJAX response; catch errors and format appropriately
+      try { eval('var data=' + response); }
+      catch(e) { var data = { status: true, code: e, source: 'ready malformed response', sessionTimeout: 3600 }; }
+
+      if (data.status) {  // check for error returned
+        var errMsg = "<h2>Error generating reports</h2><p>" + data.code + "</p><p>Source:<br />" + data.source + "</p>";
+        $('#viewerTXT').clone()
+                       .attr({ className: 'viewerTXT', id: 'report_0' })
+                       .html(errMsg)
+                       .appendTo('#reportViewers');
+
+        // hide status
+        $('#viewerBusy').hide();
+
+        // enable generate and settings
+        $('#go').removeAttr('disabled');
+
+        $('a#_genSettingsDialog').removeClass('disabled').children('img').attr("src", "/images/configsmall.gif");
+      } else if (data.payload.ready == "Data Not Ready"){
+        // check for not ready returned    
+         var delay;
+          if (iteration < 30) {      // vary the delay
+            delay = 1500;
+          } else if  (iteration < 60)  {
+            delay = 15000;
+          } else if  (iteration < 100) {
+            delay = 30000;
+          }  else  {
+            delay = 60000;
+          }
+          // Send the are you ready request after the "Data Not Ready" report acknowledgment
+          //This is a recursive call. The checkready function will call itself on a delay until the report is ready.
+          ready =setTimeout(function(){checkready(jobid,(iteration+1));},delay);
+              } else if (data.payload.ready == "Ready"){
+        //======= array (pages) of PDF filenames or TXT contents...
+        var reports = [];
+        if (data.payload.content) reports = data.payload.content;
+
+        //======= For each report - load into viewer
+        for (var i=0; i<reports.length; i++) {
+
+          // each report could be generated from multiple templates (e.g. if PDF's are combined)
+          if (reports[i].templates.length == 1) {
+            var oTpl = getTemplate(reports[i].templates[0]);
+          } else {
+            var oTpl = { sxTemplateId: reports[i].templates, sFormat: 'pdf' };
+          }
+
+          //======== PDF Display Processing
+          if (oTpl.sFormat.toLowerCase() == 'pdf') {
+            // report viewers get cloned, set hidden, and added here
+            $('#viewerPDF').clone().attr({ className: 'viewerPDF', id: 'report_' + i })
+                                   .data('rawData', '')
+                                   .data('filename', reports[i].filename)
+                                   .data('sxTemplateId', oTpl.sxTemplateId)
+                                   .width(0).height(0).css({'border-width' : '0', 'overflow' : 'hidden' })
+                                   .children('iframe')
+                                   .attr('src', encodeURI(reports[i].filename))
+                                   .load(function () {
+                                     $(this).width('100%').height(630).prev().remove();
+                                   })
+                                   .end()
+                                   .appendTo('#reportViewers');
+
+            // this not as pretty, but IE seems to miss the iframe load handler above...
+            if ($.browser.msie) $('iframe:last').width('100%').height(630).prev().remove();
+          } else {
+            //======== TXT Display Processing
+            // viewers get cloned, hidden, filled, and added here
+            $('#viewerTXT').clone().attr({ className: 'viewerTXT hidden', id: 'report_' + i })
+                                   .data('rawData', reports[i].rawData.replace(/(\r\n|[\r\n])/g, '\n'))
+                                   .data('sxTemplateId', reports[i].templates[0])
+                                   .data('filename', reports[i].filename)
+                                   .children('.textBody')
+                                   .html(formatTXTtoHTML(reports[i].rawData))
+                                   .end()
+                                   .appendTo('#reportViewers');
+          } // -- end TXT type
+        } // -- end for each report
+
+        //======== set report pager
+        plural = '';
+        if (reports.length > 1) {
+          $('#reportPagerPage').val(1).removeAttr('disabled');
+          plural = 's';
+        }
+        $('#reportPagerTitle').text('of ' + reports.length + ' Report' + plural);
+        $('#reportPagerInfoAll').removeClass('show');
+        $('#reportPagerInfoOne').addClass('show');
+
+        //-- show first report
+        $('a#_exportReportsDialog').removeClass('disabled').attr("href", "#nogo").children('img').attr("src", "/images/exportsmall.gif");
+        $('#reportPagerPage').change();
+
+        // hide status
+        $('#viewerBusy').hide();
+
+        // enable generate and settings
+        $('#go').removeAttr('disabled');
+
+        $('a#_genSettingsDialog').removeClass('disabled').children('img').attr("src", "/images/configsmall.gif");
+
+      } // -- end if good results
+  });
+
+  }
+  return iteration;
+}// checkready
+
+
+//-------------------
+// Globals
+//-------------------
+var rs_response;
+var CLIPRESULTS;
+//var CLIPREPORTS;
+
+$$SCENARIO$$
+
+var RESULTS    = [$$RESULTS$$];
+var SEARCHTIME = $$SEARCHTIME$$;
+var ESTIMATE   = 0; //$$ESTIMATE$$;
+
+
+// FIELDS
+$$FIELDS$$
+
+// return a Field from array by Id
+function getField(fid) {
+  if (!fid || typeof(fid) != "string") return {};
+  for (var i=0; i<FIELDS.length; i++) {
+    if (fid.toLowerCase() == FIELDS[i].sxFieldId.toLowerCase()) return FIELDS[i];
+  }
+  return {};
+}
+
+// format the result table headers
+function formatFieldHeader(fid) {
+  if (!fid) return '';
+   var fidpi =fid.split(' (Prompted Input)');
+   var t='';
+
+    if (fidpi.length ==2){
+    t=  ' (Prompted Input)';
+    }
+  var F = getField(fidpi[0]);
+  if (!isBlank(F.sUnits)) {
+    return (F.sDisplayName + ' (' + F.sUnits + ')' + t);
+  }
+  return F.sDisplayName+t;
+}
+
+function formatFieldValue(fid, val) {
+  if (!fid || !val) return '';
+   var fidpi =fid.split(' (Prompted Input)');
+// alert('='+fidpi[0]+'=');
+  switch (getField(fidpi[0]).nDataType.toLowerCase()) {
+    case 'boolean':
+    case 'list':
+    case 'numeric':
+      return val;
+    break;
+
+    case 'timestamp':
+      return (isBlank(val))? val : new Date(jsTimeFromLV(parseFloat(val))).format(SPARTANDATE);
+    break;
+
+    default: // 'text' - filter $MSN$, $SSN$
+      var i = val.indexOf("$SSN$");
+      i = (i<0)? val.indexOf("$MSN$") : i;
+
+      // Number() drops leading zeros
+      return (i<0)? val : Number(val.slice(i + 5));
+  }
+}
+
+// TEMPLATES
+$$TEMPLATES$$
+
+// return a Template from array by Id
+function getTemplate(tid) {
+  if (!tid || typeof(tid) != "string") return {};
+
+  for (var i=0; i<TEMPLATES.length; i++) {
+    if (tid.toLowerCase() == TEMPLATES[i].sxTemplateId.toLowerCase()) return TEMPLATES[i];
+  }
+  return {};
+}
+
+
+--></script>
+</head>
+<body>
+
+
+<div id="header">$$HEADER$$</div>
+
+<div><form id="exportResultsDialog" class="dialog" action="$$THISCGI$$?exportResults=" method="POST">
+  <input type="hidden" id="exportContent" name="exportContent" value="" />
+
+  <div class="legend">Export these results</div>
+  <label for="comma">
+    <input type="radio" name="delimiter" id="comma" checked="checked" value="comma" />
+    <img src="/images/excelexportsmall.gif" width="16" height="16" />... to Excel (results.csv)</label>
+  <label for="tab">
+    <input type="radio" name="delimiter" id="tab" value="tab" />
+    <img src="/images/textexportsmall.gif" width="16" height="16" />... to tab-delimited text (results.txt)</label>
+
+  <div class="legend" id="ziplegend">Export the results' raw data files</div>
+  <label for="zip"><input type="radio" name="delimiter" id="zip" value="zip" />
+    <img src="/images/zipexportsmall.gif" width="16" height="16" />... to file archive (results.zip)</label>
+
+  <input class="btn_ok"     type="button" value="OK" />
+  <input class="btn_cancel" type="button" value="Cancel" />
+</form></div>
+
+<div><form id="exportReportsDialog" class="dialog" action="$$THISCGI$$?exportReports=" method="POST">
+  <div class="legend">Export reports</div>
+
+  <p>Click "OK" to download and save these reports on your computer.</p>
+
+  <p class="note">
+    <img src="/images/zipexportsmall.gif" width="16" height="16" />
+    Note that if more than a single file
+    is required for the export, the
+    results will be returned in an archive (.zip).
+  </p>
+
+  <div id="exportBucket"></div>
+
+  <input class="btn_ok"     type="button" value="OK" />
+  <input class="btn_cancel" type="button" value="Cancel" />
+</form></div>
+
+
+<div><form id="genSettingsDialog" class="dialog">
+  <div class="legend">Report generator settings</div>
+
+  <input type="hidden" id="items" name="items" value="" />
+
+  <label for="fSortByTemplates" title="Check to arrange reports by template order instead of by result order">
+    <input type="checkbox" name="fSortByTemplates" id="fSortByTemplates" />Sort reports by template</label>
+
+  <label for="fCombinePDF" title="Join sequential PDF's into a single file">
+    <input type="checkbox" name="fCombinePDF" id="fCombinePDF" />Combine PDF reports</label>
+
+  <p class="note">
+    <img src="/images/bigrotation.gif" width="16" height="16" />
+    Note that report generation can take some time to complete<!--<span id="estimate"></span>-->.  Making changes here requires the reports to be regenerated.
+  </p>
+
+  <input class="btn_ok"     type="button" value="Generate" />
+  <input class="btn_cancel" type="button" value="Cancel" />
+</form></div>
+
+
+<div id="content">
+  <h2><img id="headImg" src="/images/runscenariobig.gif" width="48" height="48" alt="run scenario icon" />
+  <label id="headlabel">Run Data Mining Scenario</label></h2>
+
+  <form id="f" onSubmit="return false;">
+    <div class="busyNote hidden" id="miningBusy">
+      <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+    </div>
+
+    <div class="topbar">
+      <span id="scenarioId" class="definition"></span>
+      <a id="copyResults" title="No results"><img src="/images/copysmalldisabled.gif" width="16" height="16" alt="small copy icon" /></a>
+      <a id="_exportResultsDialog" title="No results"><img src="/images/exportsmalldisabled.gif" width="16" height="16" alt="small export icon" /></a>
+      <a id="editScenario"><img src="/images/editsmalldisabled.gif" width="16" height="16" alt="small edit icon" /></a>
+    </div>
+
+    <div id="results">
+      <div class="legend" id="resultSummary"></div>
+      <a name="tableTop"></a>
+      <table class="standard" id="resultsTable" cellspacing="0">
+        <thead><tr>
+        </tr></thead>
+        <tbody>
+        </tbody>
+      </table>
+
+      <div id="pager" class="hidden">
+        <a href="#tableTop" id="previous"><img src="/images/leftsmall.gif" width="10" height="14" alt="small left arrow" />Previous</a>
+        <span id="page"></span>
+        <a href="#tableTop" id="next">Next<img src="/images/rightsmall.gif" width="10" height="14" alt="small right arrow" /></a>
+        <a href="#tableTop" id="showall">Show all <span id="total"></span> results</a>
+      </div>
+
+    </div><!-- Search Results -->
+
+
+    <div id="dividerBar"><a href="#nogo" class="slider" id="_results" title="show/hide search results"><img src="/images/slide.gif" width="6" height="6" /></a></div>
+
+    <div class="buttonbar">
+      <div id="buttonLabel">
+        <input id="go" type="button" value="Generate" disabled="disabled" title="" />
+        <span class="strong">Reports</span>
+        <span class="emphasis" id="generateEstimate"></span>
+      </div>
+      <a id="_genSettingsDialog"   class="" href="#nogo" title="Report generator settings"><img src="/images/configsmall.gif" width="16" height="16" alt="small configuration icon" /></a>
+      <a id="_exportReportsDialog" class="disabled" title="Export reports"><img src="/images/exportsmalldisabled.gif" width="16" height="16" alt="small export icon" /></a>
+    </div>
+
+    <div id="reports"><!-- Reports -->
+      <div id="reportPager"><!-- pager bar across the top of reports -->
+        <a id="reportPagerInfo"><img src="/images/loginformation.gif" width="16" height="16" />
+          <span id="reportPagerInfoTitle" class="definition">Information</span>
+          <div id="reportPagerInfoAll" class="show">There are no templates attached</div>
+          <table id="reportPagerInfoOne" cellspacing="0"><tbody>
+            <tr><td>Template</td>         <td id="sxTemplateId">Template Id</td></tr>
+            <tr><td>Description</td>      <td id="sDescription">description</td></tr>
+            <tr><td>Output Format</td>    <td id="sFormat">format</td></tr>
+            <tr><td>Page Size (w x h)</td><td id="Dims">dimensions</td></tr>
+            <tr><td>Content Style</td>    <td id="sStyle">content style</td></tr>
+            <tr><td>Item mapping</td>     <td id="sType">item mapping</td></tr>
+          </tbody></table>
+        </a>
+
+        <a class="icon" href="#nogo" id="reportPagerPrev" title="previous"><img src="/images/pageleft.gif" width="16" height="16" /></a>
+        <input id="reportPagerPage" disabled="disabled" type="text" value="1" />
+        <span id="reportPagerTitle"></span>
+        <a class="icon" href="#nogo" id="reportPagerNext" title="next"><img src="/images/pageright.gif" width="16" height="16" /></a>
+      </div>
+
+      <!-- Below used to clone and fill reports -->
+      <div class="hidden" id="viewerTXT">
+        <div class="textToolbar">
+          <a class="textGutterToggle" title="turn line numbers on/off" href="#nogo"><img src="/images/numbersmall.gif" width="16" height="16" /></a>
+          <a class="textExport"       title="Export this report" href="#nogo"><img src="/images/exportsmall.gif" width="16" height="16" /></a>
+          <a class="textPrint"        title="Format this report for printing..." href="#nogo"><img src="/images/printsmall.gif" width="16" height="16" /></a>
+        </div>
+        <div class="textBody"></div>
+      </div>
+  
+      <div class="hidden" id="viewerPDF">
+        <div>Loading PDF content...<img src="/images/bigrotation.gif" width="32" height="32" /></div>
+        <iframe frameBorder="0"></iframe>
+      </div>
+
+      <div class="hidden" id="viewerEmpty">
+        The report viewer is currently empty.  This could be for several reasons:
+        <ul>
+          <li>There were no results found or none selected above with which to create reports,</li>
+          <li>there are no templates attached to the scenario with which to create reports, or</li>
+          <li>the scenario is not set to automatically generate reports; you must click the &quot;Generate&quot; button.</li>
+        </ul>
+      </div>
+      <div class="hidden" id="viewerBusy">
+        <!--<span id="busyMessage"></span>-->
+        <div class="busyNote">
+          <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+        </div>
+        <!--<div id="progressBar"><div id="progressBarFill">&nbsp;</div></div>-->
+      </div>
+
+      <div id="reportViewers">
+        <!-- Dynamic Content Shown Here -->
+      </div>
+
+    </div><!-- Reports -->
+  </form>
+
+</div><!-- Content -->
+
+</body>
+</html>

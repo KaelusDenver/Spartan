@@ -1,0 +1,20 @@
+[template]
+sxTemplateId=Summary
+sDescription="Run Summary"
+sType="Single Item Datasheet"
+sStyle="Tabular - Test Run Summary"
+sStyleProcess=Summary
+sFormat=TXT
+sCreator=Kaelus
+sModifier=Kaelus
+dWidth=8.5
+dHeight=11.0
+[sScript]
+Name=""
+Content=""
+[sLayout]
+Name1=""
+Content1=""
+[sEditor]
+Name="edittemplate table.htm"
+Content=""

@@ -1,0 +1,166 @@
+<form class="poweroutputpanel">
+  <div class="panellegend">Power Output Step Configuration</div>
+
+  <!-- this text area is eval'ed at runtime to define the STIMULUS_PO object -->
+  <textarea id="stimulusSetup$$UID$$" class="hidden">
+  $$STIMULUS_PO$$
+  </textarea>
+
+  <!-- this text area is eval'ed at runtime to define the MEASUREMENT_PO object -->
+  <textarea id="measurementSetup$$UID$$" class="hidden">
+  $$MEASUREMENT_PO$$
+  </textarea>
+
+  <!-- this text area is eval'ed at runtime to define the DISPLAY_PO object -->
+  <textarea id="displaySetup$$UID$$" class="hidden">
+  $$DISPLAY_PO$$
+  </textarea>
+
+  <!-- this text area is eval'ed at runtime to define the BOUND_PO object -->
+  <textarea id="boundSetup$$UID$$" class="hidden">
+  $$BOUND_PO$$
+  </textarea>
+
+  <!-- this is so the JS functions can get the MN/SN display names if needed. -->
+  <input type="hidden" id="MNDisplay$$UID$$" name="MNDisplay$$UID$$" value="$$MNDISPLAY$$" />
+  <input type="hidden" id="SNDisplay$$UID$$" name="SNDisplay$$UID$$" value="$$SNDISPLAY$$" />
+
+  <div class="panelbody">
+
+    <!-- TAB MENU -->
+    <div class="paneltabmenu">
+      <ul>
+        <li><a href="#nogo" id="t$$UID$$0" onClick="this.blur(); showMenuItem(menu$$UID$$, 0);" title="General setup and instructions">Setup</a></li>
+        <li><a href="#nogo" id="t$$UID$$1" onClick="this.blur(); showMenuItem(menu$$UID$$, 1);" title="Set the PIM and PWM stimulus parameters">Stimulus</a></li>
+        <li><a href="#nogo" id="t$$UID$$2" onClick="this.blur(); showMenuItem(menu$$UID$$, 2);" title="Configure the details of the measurement">Measure</a></li>
+        <li><a href="#nogo" id="t$$UID$$3" onClick="this.blur(); showMenuItem(menu$$UID$$, 3);" title="Manage the way the data will be presented to the user">Display</a></li>
+        <li><a href="#nogo" id="t$$UID$$4" onClick="this.blur(); showMenuItem(menu$$UID$$, 4);" title="Define pass/fail criteria for the measurements">Limits</a></li>
+      </ul>
+    </div>
+  
+    <!-- SETUP TAB -->
+    <div class="hidden" id="tab$$UID$$0" name="setup$$UID$$">
+      <div id="instructions" class="info">
+        This test sequence step uses a Passive Intermodulation Analyzer (PIM) and a Power Meter (PWM) to determine the
+        maximum achievable power output at the Front End Module (FE).  Several configuration options are available including:
+        <ul>
+          <li>Stimulus - Set the PIM and PWM stimulus parameters</li>
+          <li>Measure - Configure the details of the measurement</li>
+          <li>Display - Manage the way the data will be presented to the user</li>
+          <li>Limits - Define pass/fail criteria for the measurements</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- STIMULUS_PO TAB -->
+    <div class="hidden" id="tab$$UID$$1" name="stimulus$$UID$$">
+      <fieldset>
+        <legend>Instrument Settings</legend>
+
+        <div>
+          <label for="padMN$$UID$$">Pad Reference:</label>
+          <input type="text" class="text" id="padMN$$UID$$" name="padMN$$UID$$" onChange="savePOPadMN('$$UID$$');" />
+          <p>$$MNDISPLAY$$</p>
+          <input type="text" class="text" id="padSN$$UID$$" name="padSN$$UID$$" onChange="savePOPadSN('$$UID$$');" />
+          <p>$$SNDISPLAY$$</p>
+        </div>
+        
+        <div>
+          <label for="freqType$$UID$$">Frequency Type:</label>
+          <select id="freqType$$UID$$" name="freqType$$UID$$" onChange="savePOFrequencyType('$$UID$$');">
+            <option value="Band Edges">Band Edges</option>
+            <option value="Custom">Custom</option>
+          </select>
+        </div>
+      </fieldset>
+      
+      <!-- FREQUENCY_POINTS_PO TABLE -->
+      <table class="standard" id="freqRanges$$UID$$" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="Point #: this is the point number">#</th>
+          <th class="icon" title="Delete this point"><!-- delete --><img src="/images/trashsmall.gif" /></th>
+          <th class="icon" title="Reorder: points are measured in this order"><img src="/images/moverssmall.gif"></th>
+          <th class="w15" title="Start Frequency: this is the frequency at which the measurement range will begin">Start Frequency (MHz)</th>
+          <th class="w15" title="Stop Frequency: this is the frequency at which the measurement range will end">Stop Frequency (MHz)</th>
+          <th class="">&nbsp;</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="add_wrapper">
+        <a class="adder" id="_addPOFrequencyRange$$UID$$" href="#nogo" title="Add another frequency range" onClick="addPOFrequencyRange('$$UID$$');">Add Frequency Range</a>
+      </div>
+    </div>
+    
+    <!-- MEASURE TAB -->
+    <div class="hidden" id="tab$$UID$$2" name="measure$$UID$$">
+      <fieldset>
+        <legend>Measurement Parameters</legend>
+
+        <div>
+          <label for="port$$UID$$">Stimulus Port:</label>
+          <select id="port$$UID$$" name="port$$UID$$" onChange="savePOPort('$$UID$$');">
+            <option value="Port 1">Port 1</option>
+            <option value="Port 2">Port 2</option>
+          </select>
+
+          <select id="direction$$UID$$" name="direction$$UID$$" onChange="savePODirection('$$UID$$');">
+            <option value="Reverse">Reverse</option>
+            <option value="Forward">Forward</option>
+          </select>
+
+          <p id="portLabel$$UID$$">P11</p>
+        </div>
+
+        <div>
+          <label for="stepSize$$UID$$">Frequency Step Size (MHz):</label>
+          <select id="stepSize$$UID$$" name="stepSize$$UID$$" onChange="savePOStepSize('$$UID$$');">
+            <option value="0.2">0.2</option>
+            <option value="0.4">0.4</option>
+            <option value="1.0">1.0</option>
+            <option value="2.0">2.0</option>
+            <option value="4.0">4.0</option>
+          </select>
+        </div>
+      </fieldset>
+    </div>
+    
+    <!-- DISPLAY_PO TAB -->
+    <div class="hidden" id="tab$$UID$$3" name="display$$UID$$">
+      <fieldset>
+        <legend>Display Parameters</legend>
+
+        <div>
+          <label for="frequencyMin$$UID$$">Frequency Range (MHz):</label>
+          <input type="text" class="numeric" id="frequencyMin$$UID$$" name="frequencyMin$$UID$$" onChange="this.value = validateNumeric(this.value); savePOFrequencyMin('$$UID$$');" />
+          <p>Min</p>
+          <input type="text" class="numeric" id="frequencyMax$$UID$$" name="frequencyMax$$UID$$" onChange="this.value = validateNumeric(this.value); savePOFrequencyMax('$$UID$$');" />
+          <p>Max</p>
+          <input type="checkbox" id="autoFrequency$$UID$$" name="autoFrequency$$UID$$" onClick="savePOAutoFrequency('$$UID$$');" /><p>Automatic</p>
+        </div>
+
+        <div>
+          <label for="powerMin$$UID$$">Power Range (dBm):</label>
+          <input type="text" class="numeric" id="powerMin$$UID$$" name="powerMin$$UID$$" onChange="this.value = validateNumeric(this.value, true); savePOPowerMin('$$UID$$');" />
+          <p>Min</p>
+          <input type="text" class="numeric" id="powerMax$$UID$$" name="powerMax$$UID$$" onChange="this.value = validateNumeric(this.value, true); savePOPowerMax('$$UID$$');" />
+          <p>Max</p>
+          <input type="checkbox" id="autoPower$$UID$$" name="autoPower$$UID$$" onClick="savePOAutoPower('$$UID$$');" /><p>Automatic</p>
+        </div>
+      </fieldset>
+    </div>
+    
+    <!-- LIMITS_PO TAB -->
+    <div class="hidden" id="tab$$UID$$4" name="limits$$UID$$">
+      <fieldset>
+        <legend>Limit Parameters</legend>
+
+        <div>
+          <label for="minPower$$UID$$">Minimum Power (dBm):</label>
+          <input type="text" class="numeric" id="minPower$$UID$$" name="minPower$$UID$$" onChange="this.value = validateNumeric(this.value); savePOMinimumPower('$$UID$$');" />
+        </div>
+      </fieldset>
+    </div>
+
+  </div><!-- end panelbody -->
+</form>

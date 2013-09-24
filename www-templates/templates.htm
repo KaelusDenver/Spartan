@@ -1,0 +1,193 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Spartan Templates</title>
+$$STYLES$$
+<style type="text/css">
+form { border-width: 0; }
+
+table.standard th.w24,
+table.standard td.w24 { text-align: left; }
+
+</style>
+
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+$(document).ready(function() {
+
+  // set up new template link
+  $('a#_add_template').click(function () {
+    $(this).blur();
+    document.location='$$THISCGI$$?new=4-Plot&name=Template&' + randomizer();
+  });
+
+  // Set up import dialog
+  $("a#_importDialog").click(function () {
+    $(this).blur();
+    var button    = $(this).offset(); // left, top
+    button.height = $(this).height();
+    button.width  = $(this).width();
+
+    var $dialog = $("#" + this.id.slice(1));
+
+    var xPos = button.left; //- $dialog.width();
+    var yPos = button.top - $dialog.height();
+
+    $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+    $dialog.show();
+
+    return false;
+  });
+  $("#importDialog #filename").change(function () {
+    var f = $('#filename').val();
+    if (!isBlank(f)) {
+      if (f.substring(f.length - 3, f.length).toUpperCase() != 'INI') {
+        alert('Invalid file type (must be \".ini\").');
+        return false;
+      }
+
+      $('.busyNote').show();
+      $(this).parent().hide().submit();
+    } else {
+      $('#filename').focus();
+    }
+    return false;
+  });
+
+  buildTemplatesTable();            // build table
+  $('#templatesTable').show();      // show table
+
+  // table clicks...
+  $("#templatesTable a").live('click', function () {
+    $(this).blur();
+    if ($(this).is('#delete')) {
+      return (confirm("Really delete this template?\n\nThis action cannot be undone."));
+    }
+    return true;
+  });
+
+  // document key bindings
+  var isCtrl = false; // global Ctrl-key watcher
+
+  $(document).keyup(function (e) {
+    if (e.which == 17) isCtrl=false;
+
+  }).keydown(function (e) {
+    if (e.which == 17) isCtrl=true;
+
+    switch(e.which) {
+
+      case 13:   // "return"/"enter" key
+        break;
+
+      case 27:   // "esc" key
+        break;
+
+      case 83:   // "S" - save
+        if (isCtrl);
+        break;
+
+      case 90:   // "Z" - undo
+        if (isCtrl);
+        break;
+    }
+
+  }); // key bindings
+
+}) // document.ready()
+
+
+function buildTemplatesTable() {
+
+  // clear previous rows
+  $('#templatesTable > tbody tr').remove();
+
+  // append table rows for each condition
+  for (var i=0; i<TEMPLATES.length; i++) {
+    var cDate = new Date(jsTimeFromLV(TEMPLATES[i].tCreationDate));
+    var mDate = new Date(jsTimeFromLV(TEMPLATES[i].tModifiedDate));
+
+    $('#templatesTable tbody').tplAppend(TEMPLATES[i], function () {
+      var msg  = "return confirm('Are you sure you want to delete this template?\\nThis will remove the template from any scenarios and test steps that utilize it.\\n\\nThis action cannot be undone.');";
+      
+      var usersStyle="Custom";
+
+      var single    = (this.sType.toLowerCase().indexOf('single') >=0);
+      var itemIcon  = (single)? "/images/singleitemsmall.gif" : "/images/multiitemsmall.gif";
+      var itemTitle = (single)? "single item template" : "multiple items template";
+
+      return ['tr', {},
+        [ 'td', { className: "icon delete" }, tplIconTableCellDelete("", "$$THISCGI$$?delete=" + encodeURIComponent(this.sxTemplateId) + "&" + randomizer(), "/images/deletesmall.gif", "delete this template", msg),
+          'td', { className: "icon", title: itemTitle }, ['img', { src: itemIcon } ],
+          'td', { className: "icon" }, tplIconTableCell("", "$$THISCGI$$?edit="   + encodeURIComponent(this.sxTemplateId) + "&" + randomizer(), "/images/editsmall.gif",   "edit this template"),
+          'td', { className: "icon" }, tplIconTableCell("", "$$THISCGI$$?copy="   + encodeURIComponent(this.sxTemplateId) + "&" + randomizer(), "/images/copysmall.gif",   "copy this template"),
+          'td', { className: "icon" }, tplIconTableCell("", "$$THISCGI$$?export=" + encodeURIComponent(this.sxTemplateId) + "&" + randomizer(), "/images/exportsmall.gif", "export this template"),
+          'td', { className: "w24" }, tplLinkTableCell("", "$$THISCGI$$?edit=" + encodeURIComponent(this.sxTemplateId) + "&" + randomizer(), this.sxTemplateId, "edit this template", this.sDescription),
+          'td', {}, [nbsp(this.sStyle) + ' '],
+          'td', {}, [nbsp(this.sCreator)],
+          'td', {}, [cDate.format(SPARTANDATE)],
+          'td', {}, [nbsp(this.sModifier)],
+          'td', {}, [mDate.format(SPARTANDATE)],
+        ]
+      ]
+    });
+  }
+
+  // table is now built, style it
+  $("#templatesTable tbody > tr:nth-child(odd)").addClass("o"); // zebra stripes
+
+}// buildTemplatesTable
+
+
+//---------------------------------------------------------
+//  Globals
+//---------------------------------------------------------
+$$TEMPLATEDEFINITION$$
+$$TEMPLATES$$
+
+// --></script>
+</head>
+
+<body>
+<div id="header">$$HEADER$$</div>
+
+<form id="importDialog" class="dialog" action="$$THISCGI$$?import" method="POST" encoding="multipart/form-data" enctype="multipart/form-data">
+  <input type="file" id="filename" name="filename" accept="text/xml" title="choose a file on your computer" />
+</form>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/datasheetbig.gif" width="48" height="48" />
+  <label id="headlabel">Spartan Templates</label></h2>
+
+  <form id="f" method="POST" action="$$THISCGI$$">
+    <div class="busyNote hidden">
+      <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+    </div>
+
+    <!-- Template TABLE -->
+    <table  class="standard" id="templatesTable" cellpadding="0" cellspacing="0">
+      <thead><tr>
+        <th class="icon" title="Delete: remove template from the system"><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Template item mapping (single or multiple)"><img src="/images/singleormultismall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Edit: edit a template"><img src="/images/editsmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Copy:  edit a copy of this template"><img src="/images/copysmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Export: export this template"><img src="/images/exportsmall.gif" width="16" height="16" /></th>
+        <th class="w24" title="How templates are identified on the system">Template Id (Description)</th>
+        <th class="" title="Template style">Style</th>
+        <th class="" title="Original template creator">Created By</th>
+        <th class="" title="Creation date">Created On</th>
+        <th class="" title="Template last modifier">Modified By</th>
+        <th class="" title="Modification date">Modified On</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="add_wrapper">
+      <a href="#nogo" class="adder" id="_add_template" title="Create a new template">Create New Template</a>
+      <a href="#nogo" id="_importDialog" title="import a template from your computer"><img src="/images/importsmall.gif" width="16" height="16" alt="small import icon" /></a>
+    </div>
+
+  </form>
+</div>
+</body>
+</html>

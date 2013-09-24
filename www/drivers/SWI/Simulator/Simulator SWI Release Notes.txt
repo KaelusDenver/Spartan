@@ -1,0 +1,32 @@
+[5.2.0240]
+Date="May 2010"
+model0="Simulated Switch (SWI)"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0114]
+Date="January 2010"
+note0="Spartan 5.1.0118 Release."
+
+[4.2.0069]
+Date="October 2008"
+note0="Changed name to Simulator SWI."
+
+[3.2.0134]
+Date="August 2007"
+note0="Prepared installer for commercial release."
+
+[3.0.0093]
+Date="April 2007"
+note0="Improved normalization process."
+
+[2.2.0070]
+Date="July 2006"
+note0="Corrected reported bugs."
+
+[2.1.0034]
+Date="March 2006"
+note0="Rebuilt to maintain compatibility."
+
+[2.0.0017]
+Date="January 2006"
+note0="Initial Release."

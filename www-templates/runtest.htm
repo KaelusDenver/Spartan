@@ -1,0 +1,779 @@
+$$DOCTYPE$$
+<head>
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     NOTE- if you change the window title below. You must also change
+     C:\Development\Spartan\www\tests\Set Test Window Topmost.vi to match -->
+<title>Spartan Run Test Sequence</title>
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+$$META$$
+$$STYLES$$
+<style type="text/css"><!--
+.tab { margin: 0 20px; }
+.info { margin-left: 0; margin-right: 0; }
+.caption { margin: 2em 0 0.2em 0; font-weight: bold; }
+.buttonbar { background: #ffefc5; text-align: center; margin-top: 2em; padding: .5em 0; border-bottom: solid 1px #ccc; border-top: solid 1px #ccc; }
+
+textarea#note { width: 100%; overflow-y: auto; }
+
+.tablewrapper { width: 100%; } /* needed for IE */
+
+table.standard .w175 { width: 175px; }
+table.standard select { width: 100%; }
+table .required { border: solid 1px red; padding: 2px; }
+table .required:focus { border-width: 2px; padding: 1px; } /* IE6 doesn't style form element borders completely, too bad */
+table .normal { border: solid 1px #ccc; padding: 2px; }
+table .normal:focus { border-width: 2px; padding: 1px; }
+
+#stepsTable select { margin: 1px; }
+
+.ufd-skin li { text-align: center; }
+--></style>
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+$(document).ready(function() {
+
+  // sequence description
+  if (!isBlank(TSDESC)) $('#seqDescription').attr('title', TSDESC);
+
+  // provide alert if newer client available
+  // see "runtest client check.vi" for details
+  if ($$UPDATECLIENT$$) {
+
+    var msg  = "The current Spartan client program is version $$CURRENTCLIENTVERSION$$,\n";
+        msg += "but there is a newer Spartan client available ($$SERVERCLIENTVERSION$$)\n";
+        msg += "that may be downloaded and installed now.\n\n";
+        msg += "Press Ok to proceed to the client download page or Cancel to continue.";
+
+    if (confirm(msg)) document.location = '/cgi-bin/client.vit?' + randomizer();
+  }
+
+  if (USERCANEDIT) {
+    $('#editLink').attr({ href: "/cgi-bin/edittest.vit?edit=" + encodeURIComponent(TSID) + '&' + randomizer(), title: "click to edit this sequence" });
+    $('#imgEditLink').attr("src", "/images/editsmall.gif");
+  }
+
+  // show/hide fields checkbox
+  var evt = ($.browser.msie)? "click": "change";
+  var ckd = (SHSF)? 'checked' : '';
+  $("#showSysFields").bind(evt, function() {
+    if (($(this).is(":checked") && !SHSF) || (!$(this).is(":checked") && SHSF)) {
+      SHSF = $(this).is(":checked");
+      $("#fieldsTable tr.hidden").toggle();
+    }
+  }).attr({ checked: ckd });
+
+  // key bindings
+  var ctrlKey  = false;
+  var shiftKey = false;
+  var altKey   = false;
+
+  $(document).keyup(function (e) {
+    switch(e.which) {
+      case 9:
+        // tab, shift-tab - move focus forward/backward
+        // browser already moves focus - it's tracked via onFocus event
+        // we just need to handle the endpoints for wrapping focus...
+        (shiftKey)? setFocus(-1) : setFocus(1);
+      break;
+
+      case 13:   // enter/return - move focus forward
+        setFocus(1);
+      break;
+
+      case 16:
+        shiftKey=false;
+      break;
+
+      case 17:
+        ctrlKey=false;
+      break;
+
+      case 18:
+        altKey=false;
+      break;
+
+//      case 38:   // up arrow - move focus back
+//        setFocus(-1);
+//      break;
+
+//      case 40:   // down arrow - move focus forward
+//        setFocus(1);
+//      break;
+
+     case 69:   // Ctrl-E = edit
+        if (ctrlKey && USERCANEDIT) {
+          document.location = "/cgi-bin/edittest.vit?edit=" + encodeURIComponent(TSID) + '&' + randomizer();
+        }
+      break;
+
+      case 78:   // 'n' key - check for modifiers to NextItem
+        if (ctrlKey && altKey) nextItem();
+      break;
+
+      case 82:   // 'r' key - check for modifiers to Run
+        if (ctrlKey && altKey) runSequence(-1);
+      break;
+
+      default:   // normal key presses - do nothing
+    }
+
+  }).keydown(function (e) {
+
+    if (e.which == 9) return false;
+    if (e.which == 16) shiftKey=true;
+    if (e.which == 17) ctrlKey=true;
+    if (e.which == 18) altKey=true;
+
+  }); // key bindings
+
+  buildFieldsTable();
+  buildStepsTable();
+  setFocus(0);
+});
+
+function buildFieldsTable() {
+
+  // clear previous rows
+  $('#fieldsTable tbody').empty();
+
+  // This is the main loop that builds the rows
+  // of the table by adding cells one at a time
+  for (var i=0; i < FIELDS.length; i++) {
+    // This section sets the FIELDS up for display, editing, and running
+    // MN and SN are always shown;
+    // All fields with editable values are always shown;
+    // If there are any required items with empty values, run cannot proceed
+    //
+    // showSys parameter tells whether to show the 'uneditable' fields
+    // showMe variable tells whether the field can be changed by the operator
+    // OKTORUN global is true if all field entry requirements have been met
+
+    var showMe    = $('#showSysFields').is(':checked');  // start with input setting
+
+    // always show MN, SN in the table, and update their values in dedicated inputs...
+    switch (FIELDS[i].sxFieldId.toLowerCase()) {
+      case 'model_number':
+      case 'serial_number':
+      case 'company':
+        showMe = true;
+        break;
+      default: // always show set at test...
+        showMe = showMe || (FIELDS[i].fSetAtTest && !FIELDS[i].fSystemValue);
+    }
+
+    var rowClass       = (showMe)? '' : 'hidden';
+
+    var fieldIcon      = (FIELDS[i].fSystem)? '/images/fieldsystemsmall.gif' : '/images/fieldsmall.gif';
+    var fieldIconTitle = (FIELDS[i].fSystem)? 'this is a system field' : 'this is a custom field';
+
+    var cellClass      = (FIELDS[i].fSetAtTest && (!(EDITDISABLED || FIELDS[i].fSystemValue)))? '' : 'grayedout';
+
+    $('#fieldsTable tbody').tplAppend(FIELDS[i], function () {
+      return ['tr', { className: rowClass },
+                [ 'td', { className: "icon" }, ['img', { src: fieldIcon, title: fieldIconTitle } ],
+                  'td', { className: "icon" }, tplCheckboxTableCell('', this.fRequired, true, ''),
+                  'td', { className: "icon" }, tplCheckboxTableCell('', this.fSetAtTest, true, ''),
+                  'td', { className: "w175" }, [this.sDisplayName + ' '],
+                  'td', { className: cellClass }, fieldValueEditor(i),
+                  'td', { className: "ni" }, [this.sUnits + ' '],
+                ]
+              ]
+     });
+
+     // set up SELECTS - replace as combo boxes (ufd)
+     if (FIELDS[i].nDataType.toLowerCase() == 'list' && !EDITDISABLED) {
+       $('#field_' + i).val(FIELDS[i].sValue);
+
+       var $sel = $('select#field_' + i); // choose the new SELECT
+
+       // set either Free List or Regular ufd
+       if(FIELDS[i].fFreeList) $sel.ufd( { skin: 'ufd-skin', submitFreeText: true, triggerSelected: false, initialFreeText: FIELDS[i].sValue });
+       else $('select#field_' + i).ufd( { skin: 'ufd-skin', suffix: '' } );
+
+       // change SELECT and ufd INPUT id's (so FOCUS can work)
+       $sel.prevAll('input').attr('id', 'field_' + i).end().attr('id', 'field_' + i + '_ufd');
+       if (FIELDS[i].fRequired) $sel.parent().addClass('required');
+     }
+  }
+
+  // table built - update style and events
+  $("#fieldsTable tbody > tr:nth-child(odd)").addClass("o");      // zebra stripes
+
+  // keyup handler for all input elements..
+  $("#fieldsTable input").keyup(function (e) {
+    // validate numeric value entry
+    if ($(this).is('.numeric')) {
+      this.value = validateNumeric(this.value);
+      // prevent focus change unless tab, return, arrow keys...
+      if ([9,13,38,40].indexOf(e.which) < 0) return false;
+    }
+
+    // update Run status/button
+    updateRunButton();
+  });
+
+  // update FOCUS global for mouse clicks - to track focus when keyboard NOT used
+  $("#fieldsTable td input").focus(function () {
+    FOCUS=0;
+    for (var i=0; i < FIELDS.length; i++) {
+      if (!FIELDS[i].fSystemValue && FIELDS[i].fSetAtTest) {
+        if (this.id == 'field_' + i) break;
+        FOCUS++;
+      }
+    }
+    updateRunButton();
+  });
+}
+
+//  This is the 'meat' of the form.  All field values get sent back to the CGI in the POST,
+//  and they must be present for subsequent run processing, autoincrements, etc.  This means
+//  that editable fields are visible form inputs (or selects), and non-editable fields
+// (whose values might still be visible on the UI) are held in type='hidden' inputs.
+function fieldValueEditor(index) {
+
+  // control name and id
+  var name = "FIELD:" + FIELDS[index].sxFieldId + ":value";
+  var id   = "field_" + index;
+
+  if (FIELDS[index].fSetAtTest && (!(EDITDISABLED || FIELDS[index].fSystemValue))) {
+
+    // non-hidden input editors need to be set according to type of data
+    switch (FIELDS[index].nDataType.toLowerCase()) {
+      case "list":
+        var opt = [];
+        for (var i=0; i < FIELDS[index].ENUMS.length; i++) {
+          opt.push('option', { text: FIELDS[index].ENUMS[i], value: FIELDS[index].ENUMS[i] });
+        }
+        return ['select', { id: id, name: name }, opt ];
+        break;
+
+      default: // i.e., text, numeric...
+
+        var elClass = (FIELDS[index].fRequired)? 'required' : 'normal';
+        if (FIELDS[index].nDataType.toLowerCase() == 'numeric') elClass += ' numeric';
+        return ['input', { id: id, name: name, className: elClass, autocomplete: 'off', value: FIELDS[index].sValue } ];
+    }
+
+  } else { // hidden input...
+
+    var txt = (FIELDS[index].fSystemValue && isBlank(FIELDS[index].sValue))? '[Set by Spartan]' : displaySpartanValue(FIELDS[index].sValue);
+    return  ['input', { id: id, name: name, Type: 'hidden', value: FIELDS[index].sValue }, txt ];
+  }
+}
+
+function OKToRun() {
+  var fcount = 0;
+
+  // count the 'editable' fields and test for OKTORUN
+  OKTORUN = true;
+  for (var i=0; i < FIELDS.length; i++) {  // for each FIELD...
+
+    if (!FIELDS[i].fSystemValue && // is a SYSTEM FIELD and
+         FIELDS[i].fSetAtTest   && // to be SET AT TEST and
+        !EDITDISABLED ) {          // editing is NOT disabled...
+
+      // see if the FIELD value is blank...
+      if ( isBlank($('#field_' + i).val()) && FIELDS[i].fRequired ) OKTORUN = false;
+      fcount++;
+    }
+  }
+  if (OKTORUN) {
+    fcount++;  // add one for run button
+    if (ALLOWPARTIAL) {
+      fcount = fcount + STEPS.length;  // add one for each step
+    }
+  }
+
+  $('#fcount').val('fcount: ' + fcount);
+  return fcount;
+}
+
+
+// Sets input focus to the one tracked by the FOCUS global.  Also checks the
+// current FIELDS input and enables running if all requirements are met.
+function setFocus(d) {
+  $('#f').attr('action', '#nogo');  // disable submit until OKTORUN set
+
+  var f = OKToRun();
+
+  if (d) {  // moving focus? set the global
+    if (d<0) {
+      FOCUS--;
+      if (FOCUS<0) FOCUS = f - 1;
+    } else if (d>0) {
+      FOCUS++;
+      FOCUS = FOCUS%f;
+    }
+  }
+
+  // now cycle through fields to set focus
+  f=0;
+  for (var i=0; i < FIELDS.length; i++) {
+    if (!FIELDS[i].fSystemValue && FIELDS[i].fSetAtTest && !EDITDISABLED) {
+      if (f == FOCUS) {
+        $('#field_' + i).focus().select();
+        if ($.browser.msie) $('#field_' + i).focus().select(); // IE has problems
+      }
+      f++;
+    }
+  }
+
+  f++;
+  // now cycle through steps fields to set focus if single stepping is enabled
+  if (ALLOWPARTIAL) {
+    for (var i=0; i < STEPS.length; i++) {
+      if (f == FOCUS) {
+        $('#single_step_' + i).focus().select();
+        if ($.browser.msie) $('#single_step_' + i).focus().select(); // IE has problems
+      }
+      f++;
+    }
+  }
+
+  updateRunButton();
+}
+
+function updateRunButton() {
+  var f = OKToRun() - 1;
+  if (ALLOWPARTIAL) {
+    f = f - STEPS.length;
+  }
+  // check for run button enabled/focus
+  if (OKTORUN) {
+    $('#runButton').removeAttr('disabled');
+    if (FOCUS == f) $('#runButton').focus();
+  } else {
+    $('#runButton').attr('disabled', 'disabled');
+  }
+
+  // uncomment focus element in HTML content for debugging
+  $('#focus').val('FOCUS: ' + FOCUS);
+}
+
+
+function displaySpartanValue(fv) {
+  // parse $SSN$ , $MSN$ if not found, we're done
+
+  var i = fv.indexOf("$SSN$");
+  i = (i<0)? fv.indexOf("$MSN$") : i;
+
+  // Number() will drop leading zeros
+  return (i < 0)? fv : Number(fv.slice(i + 5));
+}
+
+
+//---------------------------------------------------------
+// This is the main function to build sequence steps table
+//
+//   * global STEPS[] array filled
+//   * table with id 'steps'
+//---------------------------------------------------------
+function buildStepsTable() {
+
+  // clear previous rows
+  $('#stepsTable > tbody tr').remove();
+
+  var tbl = document.getElementById('stepsTableBody');
+  
+  // This is the main loop that builds the rows
+  // of the table by adding cells one at a time
+  for (var i=0; i < STEPS.length; i++) {
+
+    var row = tbl.insertRow(i);
+    if (i%2!=0) row.className = "o";  // set odd rows (there's a header)
+
+    //---------------------------------------------------------
+    //  Cell 0:  Step Number
+    //    Row header showing step number in sequence
+    //  a little different method here as it's a "th" element
+    var cell0 = document.createElement('th');
+    cell0.className = "rowheader";
+    var el0   = document.createTextNode(i + 1);
+    cell0.appendChild(el0);
+    row.appendChild(cell0);
+
+    //---------------------------------------------------------
+    //  Cell 1:  Step Repeat Setting
+    //    Holds the step repeat setting number
+    var cell1    = row.insertCell(1);
+    var el1      = document.createTextNode(STEPS[i].repeat);
+    cell1.appendChild(el1);
+    cell1.className = "grayedout";
+
+    //---------------------------------------------------------
+    //  Cell 2:  Quickmode
+    //    Holds an checkbox to set/unset quickmode
+    var cell2 = row.insertCell(2);
+    var el2   = document.createElement('input');
+    el2.type  = "checkbox";
+    el2.id    = STEPS[i].stepname + "_" + i + "_quickmode"
+    el2.name  = STEPS[i].stepname + "_" + i + "_quickmode"
+    cell2.appendChild(el2);   // have to append before setting attributes for IE6
+
+    if (STEPS[i].quickmode > 1) {
+      el2.checked  = false;
+      el2.disabled = true;
+    } else {
+      (STEPS[i].quickmode == 0)? el2.checked = false : el2.checked = true;
+      if (ALLOWQMDISABLE && STEPS[i].stepname != 'Prompt') {
+        el2.onclick  = new Function ("setQuickmode(" + i + ");");
+        el2.title    = "Quickmode: if checked this step will execute in Quickmode";
+        el2.disabled = false;
+      } else {
+        el2.disabled = true;
+      }
+    }
+
+    //---------------------------------------------------------
+    //  Cell 3:  Single-Step
+    //    Holds a link to run individual step, if enabled
+    var cell3 = row.insertCell(3);
+    var el3a  = document.createElement('a');
+    el3a.id    = "single_step_" + i;
+    el3a.name  = "single_step_" + i;
+    var el3i  = document.createElement('img');
+    el3a.appendChild(el3i);
+    el3i.width="16";
+    el3i.height="16"
+    cell3.appendChild(el3a);
+    cell3.className="icon";
+
+    if (ALLOWPARTIAL) {
+      el3a.title = "run this step";
+      el3a.href  = "#nogo";
+      el3a.onclick = new Function ('runSequence(' + i + ');');
+      el3i.src   = "/images/runsmall.gif";
+    } else {
+      el3a.title = "single-step run not allowed";
+      el3a.href  = "#nogo";
+      el3i.src   = "/images/runsmalldisabled.gif";
+    }
+
+    //---------------------------------------------------------
+    //  Cell 4:  Step Type
+    //    Holds the step type (i.e. S Parameter)
+    var cell4    = row.insertCell(4);
+    var el4      = document.createTextNode(STEPS[i].stepname);
+    cell4.appendChild(el4);
+    cell4.className = "grayedout";
+    
+    //---------------------------------------------------------
+    //  Cell 5:  Instrument Type
+    //    Holds the step type (i.e. S Parameter)
+    var cell5 = row.insertCell(5);
+    var sDriverTypes = new Array();
+    for (var j=0; j<TESTS.length; j++) {
+      if (TESTS[j].sxTestId == STEPS[i].stepname && TESTS[j].sDriverTypesCSV != "") {
+        var sDriverTypes = TESTS[j].sDriverTypesCSV.split(",");
+        break;
+      }
+    }
+    if (sDriverTypes.length == 0) {
+      var el5 = document.createTextNode("--");
+      cell5.appendChild(el5);
+    } else {
+      for (var k=0; k<sDriverTypes.length; k++) {
+        if (k != 0) {
+          var el5a = document.createElement('br');
+          cell5.appendChild(el5a);
+        }
+        var el5 = document.createTextNode(sDriverTypes[k].replace("_", ","));
+        cell5.appendChild(el5);
+      }
+    }  
+    cell5.className = "grayedout";
+    
+    //---------------------------------------------------------
+    //  Cell 6:  Instrument
+    //    Holds the instrument for this test step
+    var cell6    = row.insertCell(6);
+
+    if (sDriverTypes.length == 0) {
+      var el6 = document.createTextNode("--");
+      cell6.appendChild(el6);
+      cell6.className = "grayedout";
+    } else {
+      for (var k=0; k<sDriverTypes.length; k++) {
+        var el6 = document.createElement('select');
+        el6.id = i + 1 + "_" + k + "_instrument";
+        el6.name = i + 1 + "_" + k + "_instrument";
+        var sDriverSubTypes = sDriverTypes[k].split("_");
+        var A = new Array("Auto Select");
+        var B = new Array();
+        for (var l=0; l<sDriverSubTypes.length; l++) {
+          B = getInstrumentsByType(sDriverSubTypes[l]);
+          A = A.concat(B);
+        }
+        addStringOptions(el6, A, A);
+        if (A.indexOf(STEPS[i].instruments[k]) == -1) {
+          el6.selectedIndex = 0;
+        } else {
+          el6.selectedIndex = A.indexOf(STEPS[i].instruments[k]);
+        }
+        cell6.appendChild(el6);
+      }
+    }
+
+    //---------------------------------------------------------
+    //  Cell 7:  Step Tag
+    //    Holds the step tag (if any)
+    var cell7    = row.insertCell(7);
+    var tag = STEPS[i].steptag;
+    if (tag == '') tag = '[empty]';
+    var el7      = document.createTextNode(tag);
+    cell7.appendChild(el7);
+    cell7.className = "grayedout";
+
+    //---------------------------------------------------------
+    //  Cell 8:  Step Status
+    //    Holds the step run status - can be formatted
+    //  according to the result string...
+    var cell8    = row.insertCell(8);
+    var stat     = STEPS[i].stepstatus;
+    cell8.appendChild(document.createTextNode(stat));
+    switch (stat.toLowerCase()) {
+      case 'error':
+      case 'fail':
+      case 'abort':
+        cell8.className='fail';
+        break;
+      case 'pass':
+        cell8.className='pass';
+        break;
+      default:
+        cell8.className='grayedout';
+    }
+
+    //---------------------------------------------------------
+    //  Cell 9:  Step Message
+    //    Holds the step result message (if any)
+    var cell9    = row.insertCell(9);
+    var msg = STEPS[i].stepmsg;
+    if (msg == '') msg = '[none]';
+    var el9      = document.createTextNode(msg);
+    cell9.appendChild(el9);
+    cell9.className = "grayedout";
+  }
+}
+
+
+//---------------------------------------------------------
+//  Steps Table Cell 2:  Quickmode
+//---------------------------------------------------------
+function setQuickmode(i) {
+  (STEPS[i].quickmode == 0)? STEPS[i].quickmode = 1 : STEPS[i].quickmode = 0;
+  buildStepsTable();
+}
+
+//---------------------------------------------------------
+//  Steps Table Cell 5:  Instrument
+//---------------------------------------------------------
+function getInstrumentsByType(sDriverType) {
+  var sInstruments = new Array();
+  var j = 0;
+  for (var i=0; i<INSTRUMENTS.length; i++) {
+    if (INSTRUMENTS[i].instDriverType == sDriverType) {
+      sInstruments[j] = INSTRUMENTS[i].instID;
+      j++;
+    }
+  }
+
+  return sInstruments;
+}
+
+
+//---------------------------------------------------------
+//  This sends all of the step table information when
+//  running a single step so that the settings can be
+//  retained between steps.
+//---------------------------------------------------------
+function sendStepsTable() {
+  var stepsObj = document.getElementById('stepsObj');
+  stepsObj.value = '';
+
+  for (i=0; i < STEPS.length; i++) {
+    stepsObj.value = stepsObj.value + 'stepname' + i + '=' + STEPS[i].stepname + '&steptag' + i + '=' + STEPS[i].steptag + '&quickmode' + i + '=' + STEPS[i].quickmode + '&repeat' + i + '=' + STEPS[i].repeat + '&stepstatus' + i + '=' + STEPS[i].stepstatus + '&stepmsg' + i + '=' + STEPS[i].stepmsg;
+    if (i < STEPS.length - 1) {
+      stepsObj.value = stepsObj.value + '&';
+    }
+  }
+}
+
+// submit form with load command
+function nextItem() {
+  if (EDITDISABLED) {  // next only works if EDITDISABLED is true
+    $('#stepToRun').val(-1);
+    $('#hideForm').show();
+    $('#f').attr("action", '$$THISCGI$$' +'?load=' + encodeURIComponent(TSID)).submit();
+  }
+}
+
+// runs sequence but checks for additional
+// activites on repeat
+function repeatSequence(i) {
+
+  // decrement the sequence count
+  var count=$('#seqCount').val();
+  if (count > 1) $('#seqCount').val(count-1);
+
+  runSequence(i);
+}
+
+// submit form (set step to run if appropriate) using run command
+function runSequence(i) {
+
+  if (!OKTORUN) return;
+
+  if(i && i<0 && OKTORUN) {             // run all steps
+    $('#stepToRun').val(-1);
+  } else if (ALLOWPARTIAL && OKTORUN) {  // single step
+    $('#stepToRun').val(i);
+  }
+  sendStepsTable();
+
+  $('#f').attr("action", '$$THISCGI$$' + '?run=' + encodeURIComponent(TSID) + '&' + randomizer());
+  $('#hideForm').show();
+
+  // suspend UI session timer while test runs...
+  $.spSessionTMO({ tmoSeconds: -1 });
+
+  $('#f').submit();
+}
+
+
+// --- Globals
+
+var EDITDISABLED   = $$EDITDISABLED$$;
+var ALLOWPARTIAL   = $$ALLOWPARTIAL$$;
+var ALLOWQMDISABLE = $$ALLOWQMDISABLE$$;
+var APPROVED       = $$APPROVED$$;
+var USERCANEDIT    = $$USERCANEDIT$$;
+var TSID           = "$$TESTSEQID$$";
+var TSDESC         = "$$SEQDESCRIPTION$$";
+var SHSF           = $$SHOWSYSTEMFIELDS$$;
+
+// these global updated as tables are built
+// and user enters field data
+var OKTORUN = false;
+var FOCUS   = 0;
+
+// Fields in the sequence
+$$FIELDDEFINITION$$
+$$FIELDS$$
+
+//---------------------------------------------------------
+// The STEP object holds the sequence steps
+//---------------------------------------------------------
+function STEP(stepname, steptag, quickmode, repeat, stepstatus, stepmsg, instruments) {
+  this.stepname = stepname;
+  this.steptag = steptag;
+  this.quickmode = quickmode;
+  this.repeat = repeat;
+  this.stepstatus = stepstatus;
+  this.stepmsg = stepmsg;
+  this.instruments= instruments;
+}
+var STEPS = [];
+$$STEPS$$
+
+// Instruments on the test station
+$$INSTRUMENTDEFINITION$$
+$$INSTRUMENTS$$
+
+// Tests on the system
+$$TESTDEFINITION$$
+$$TESTS$$
+--></script>
+</head>
+
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/runsequencebig.gif" width="48" height="48" alt="run test icon" />
+  <label id="headlabel">Run Test Sequence</label></h2>
+
+  <form id="f" method="POST" action="$$THISCGI$$" onsubmit="return false;">
+    <div class="busyNote hidden" id="hideForm">
+      <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+    </div>
+
+    <input type="hidden" id="seqCount"  name="seqCount"  value="$$SEQCOUNT$$" /><!-- track sequence cycles -->
+    <input type="hidden" id="priormn"  name="priormn"  value="$$PRIORMN$$" /><!-- track MN for auto spartan SN processing -->
+    <input type="hidden" id="stepToRun" name="stepToRun" value="-1" /><!-- POST which step to run -->
+
+    <div class="topbar">
+      <!--<input id="fcount" value="0" /><input id="focus" value="0" />debugging-->
+      <span class="strong left"><span id="seqDescription">$$TESTSEQID$$</span> (<span class="definition" title="shows how many times this sequence has been run in this session">$$SEQCOUNT$$</span>)</span>
+      <span class="pendingChanges hidden">* This sequence is not approved for use.</span>
+      <a id="editLink" href="#nogo" title="editing disabled"><img id="imgEditLink" src="/images/editsmalldisabled.gif" width="16" height="16" /></a>
+    </div>
+
+    <div class="tab" id="runTab"><!-- BEGIN Run Tab -->
+
+      <!-- FIELDS TABLE -->
+      <div class="caption"><span class="definition" title="these fields and their associated values are stored with the test data">Test Sequence Fields</span></div>
+      <div class="tablewrapper">
+      <table class="standard" id="fieldsTable" cellspacing="0">
+        <thead><tr>
+          <th class="icon"><input type="checkbox" id="showSysFields" title="show/hide fields that cannot be changed" /></th>
+          <th class="icon" title="Required: this value cannot be left empty"><img src="/images/required.gif" width="16" height="16" /></th>
+          <th class="icon" title="Set at Test: this value gets set during testing"><img src="/images/testingsmall.gif" width="16" height="16" /></th>
+          <th class="w175" title="Field: display name">Name</th>
+          <th class="" title="Value: This value will be stored with the test data">Value</th>
+          <th class="ni" title="Units: These are the Units of the field, if any">Units</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      </div>
+
+      <!-- STEPS TABLE -->
+      <div class="caption"><span class="definition" title="the test steps below are performed in order when the sequence is executed">Test Steps</span></div>
+      <div class="tablewrapper"><table class="standard" id="stepsTable" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="step number">#</th>
+          <th class="icon" title="Repeat Step: how often this step runs when repeating the sequence"><img src="/images/repeat.gif" width="16" height="16" /></th>
+          <th class="icon" title="Quickmode: run this step as fast as possible"><img src="/images/quickmode.gif" width="16" height="16"></th>
+          <th class="icon" title="Run individual step"><img src="/images/runsmall.gif" width="16" height="16" /></th>
+          <th class="w175">Test Step Type</th>
+          <th class="w175">Instrument Type</th>
+          <th class="w24">Instrument</th>
+          <th>Tag</th>
+          <th class="w175">Status</th>
+          <th>Message</th>
+        </thead></tr>
+        <tbody id="stepsTableBody"></tbody>
+      </table></div>
+
+      <input type="hidden" id="stepsObj" name="stepsObj" />
+    </div><!-- END Run Tab -->
+
+
+<!--    <div class="hidden" id="noteTab">
+      <div class="info">
+        <p class="strong">Require Note on Repeat</p>
+
+        <p>This sequence has been set to require an explanation when being repeated.
+        Please enter the explanation below and press Done to continue.</p>
+      </div>
+
+      <div class="tablewrapper">
+        <textarea id="note" name="note" rows="6" onKeyUp="validateInput(this, 1);"></textarea>
+      </div>
+
+    </div>-->
+
+    <div class="buttonbar">
+      <input id="nextButton" type="button" class="bigbutton" value="Next Item"  onClick="nextItem();"                   $$NEXTITEMDISABLED$$ />
+      <input id="runButton"  type="button" class="bigbutton" value="$$BUTTON$$" onClick="$$BUTTONACTION$$Sequence(-1);" disabled="disabled"  />
+      <input id="noteButton" type="button" class="hidden"    value="Done"       onClick="runSequence(-1);" />
+    </div>
+  </form>
+</div><!-- content -->
+
+  <div class="hidden">
+  $$TIMING$$
+  </div>
+
+</body>
+</html>

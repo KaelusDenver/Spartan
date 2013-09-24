@@ -1,0 +1,46 @@
+[5.2.0240]
+Date="May 2010"
+model0="ZVA 8/24"
+model1="ZVB 4/8/20"
+model2="ZVT 8"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0114]
+Date="January 2010"
+note0="Spartan 5.1.0118 Release."
+
+[5.0.0124]
+Date="December 2009"
+note0="Spartan 5.0.0124 Release."
+
+[4.3.0512]
+Date="November 2008"
+note0="Spartan 4.3.0026"
+
+[4.2.0068]
+Date="October 2008"
+note0="Adjusted sort mechanism to allow the use of higher channels without first using channel 1."
+
+[4.1.0045]
+Date="August 2008"
+note0="Changed interface panel to driver."
+
+[4.0.0114]
+Date="June 2008"
+note0="Significantly improved measurement speed."
+
+[3.2.0023]
+Date="January 2008"
+note0="Added support for multi-port VNAs, i.e. VNAs with more than two ports."
+
+[3.2.0040]
+Date="August 2007"
+note0="Prepared installer for commercial release."
+
+[3.1.0035]
+Date="July 2007"
+note0="Updated Configuration Panel."
+
+[3.0.0038]
+Date="April 2007"
+note0="Initial Release."

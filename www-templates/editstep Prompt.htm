@@ -1,0 +1,26 @@
+<form class="promptpanel">
+  <div class="panellegend">Prompt Step Configuration</div>
+
+  <div class="panelbody">
+
+    <div class="paneltabmenu">
+      <ul>
+        <li><a id="t$$UID$$0" class="active" href="#nogo" title="General setup and instructions">Setup</a></li>
+      </ul>
+    </div>
+
+
+    <!-- TAB CONTENT -->
+    <div class="paneltabcontent" id="tab$$UID$$0">
+      <div class="info">
+        The text entered here will be shown to the test operator
+        when this step of the sequence is executed.  The operator will be able
+        to read the text and acknowledge the prompt before the sequence
+        execution will continue.
+      </div>
+
+      <textarea id="prompt$$UID$$" name="prompt$$UID$$" disabled="disabled" rows="10" onChange="makeChanges();">$$PROMPT$$</textarea>
+    </div>
+
+  </div>
+</form>

@@ -1,0 +1,157 @@
+      <!-- HEADER TAB -->
+      <div class="hidden" id="tempTab0">
+      </div>
+
+      <!-- BODY TAB -->
+      <div class="hidden" id="tempTab1">
+        <fieldset>
+          <legend>Analysis Parameters</legend>
+
+          <div>
+            <label for="analysisType">Analysis Type:</label>
+            <select id="analysisType" name="analysisType" OnChange="updateAnalysisType(this.value); makeChanges();" title="Select an analysis type">
+              <option value="Yield">First Pass Yield</option>
+              <option value="Histogram">Histogram</option>
+              <option value="Statistics">Statistics</option>
+            </select>
+          </div>
+
+          <!-- Yield Parameters -->
+          <div id="Yield" class="hidden">
+          </div>
+
+          <!-- Histogram Parameters -->
+          <div id="Histogram" class="hidden">
+            <div class="radio">
+              <p>Results:</p>
+              <label for="resultsCounts">
+              <input type="radio" id="resultsCounts" name="resultsFormat" value="Counts" OnClick="updateResultsFormat(this.value);" title="Format results using the actual number of items"/>Count</label>
+
+              <label for="resultsPercentage">
+              <input type="radio" id="resultsPercentage" name="resultsFormat" value="Percentage" OnClick="updateResultsFormat(this.value);" title="Format results using a percentage of the items"/>Percentage</label>
+            </div>
+
+            <div class="radio">
+              <p>Bins:</p>
+              <label for="binInterval">
+              <input type="radio" id="binInterval" name="binMethod" value="Interval" OnClick="updateBinMethod(this.value);" title="Specify the number of bins to use"/>Number</label>
+
+              <label for="binWidth">
+              <input type="radio" id="binWidth" name="binMethod" value="Width" OnClick="updateBinMethod(this.value);" title="Specify the width of the bins"/>Width</label>
+            </div>
+
+            <label for="binEntry" id="binEntryLabel" name="binEntryLabel">Bin Value:</label>
+            <input type="text" class="numeric" id="binEntry" name="binEntry" onChange="this.value = validateNumeric(this.value); updateBinEntry(this.value);" />
+          </div
+
+          <!-- Statistics Parameters -->
+          <div id="Statistics" class="hidden">
+            <div>
+              <label for="sortField">Sort by Field:</label>
+              <select id="sortField" name="sortField" OnChange="updateSortField(this.value);" title="Select the field to sort the results by">
+              </select>
+            </div>
+
+            <input type="checkbox" id="showDetail" name="showDetail" OnClick="updateShowDetail(this.checked)" title="Check box to show the expanded detailed information"/><p>Detail</p>
+          </div>
+        </fieldset>
+        
+        <fieldset id="testParameters">
+          <legend>Test Parameters</legend>
+          
+          <div>
+            <label for="testType">Test Type:</label>
+            <select id="testType" name="testType" OnChange="updateTestType(this.value); makeChanges();" title="Select a test type">
+            </select>
+          </div>
+          
+          <!-- DC Attenuation -->
+          <div id="DCAttenuation" class="hidden">
+            <div>
+              <label for="DCAParameter">Parameter:</label>
+              <select id="DCAParameter" name="DCAParameter" OnChange="updateDCAParameter(this.value);" title="Select a parameter">
+                <option value="Attenuation">Attenuation</option>
+                <option value="Zin">Zin</option>
+                <option value="Zout">Zout</option>
+                <option value="R1">R1</option>
+                <option value="R2">R2</option>
+                <option value="R3">R3</option>
+                <option value="Rab">Rab</option>
+                <option value="Rab">Rab</option>
+                <option value="Rbc">Rbc</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- PIM -->
+          <div id="PIM" class="hidden">
+            <div>
+              <label for="PIMOrder">Order:</label>
+              <select id="PIMOrder" name="PIMOrder" OnChange="updatePIMOrder(this.value);" title="Select the order">
+                <option value="3rd">IM3</option>
+                  <option value="5th">IM5</option>
+                  <option value="7th">IM7</option>
+                  <option value="9th">IM9</option>
+                  <option value="11th">IM11</option>
+                  <option value="13th">IM13</option>
+                  <option value="15th">IM15</option>
+                  <option value="17th">IM17</option>
+                  <option value="19th">IM19</option>
+                  <option value="21st">IM21</option>
+                  <option value="23rd">IM23</option>
+                  <option value="25th">IM25</option>
+                  <option value="27th">IM27</option>
+                  <option value="29th">IM29</option>
+                  <option value="31st">IM31</option>
+                  <option value="33rd">IM33</option>
+              </select>
+            </div>
+  
+            <div>
+              <label for="PIMUnits">Units:</label>
+              <select id="PIMUnits" name="PIMUnits" onChange="updatePIMUnits(this.value);" title="Select the units">
+                <option value="dBm">dBm</option>
+                <option value="dBc">dBc</option>
+              </select>
+            </div>
+          </div>
+          
+          <!-- Prompted Input -->
+          <div id="PromptedInputs" class="hidden">
+            <div>
+              <label for="PIField">Field:</label>
+              <select id="PIField" name="PIField" OnChange="updatePIField(this.value);" title="Select a Field">
+              </select>
+            </div>
+          </div>
+          
+          <!-- S Parameter -->
+          <div id="SParameter" class="hidden">
+            <div>
+              <table id="parameters" class="standard" cellpadding="0" cellspacing="0"><tbody>
+                <tr>
+                  <th class="cb" title="Parameter #: this is the parameter number">#</th>
+                  <th class="icon" title="Delete this parameter"><img src="/images/trashsmall.gif" /></th>
+                  <th class="icon" title="Reorder: parameters are displayed in this order"><img src="/images/moverssmall.gif"></th>
+                  <th class="icon" title="Auto-Scale: auto-scale the parameter range"><img src="/images/autoscale.gif"></th>
+                  <th class="ni" title="Parameter: this is the parameter to be analyzed">S<sub>##</sub></th>
+                  <th class="ni" title="Format: this is the format in which the s-parameter values will be displayed">Format</th>
+                  <th class="ni" title="Start Frequency: this is the point at which to start the analysis">Start</th>
+                  <th class="ni" title="Stop Frequency: this is the point at which to stop the analysis">Stop</th>
+                  <th class="ni" title="Units: this is the units for the start and stop frequencies">Units</th>
+                  <th class="">&nbsp;</th>
+                </tr></tbody>
+              </table>
+              
+              <div class="add_wrapper">
+                <a id="aAddSPParameter" href="#nogo" title="Add another parameter" onClick="this.blur(); addSPParameter();"><img id="imgAddSPParameter" src="/images/addsmall.gif">Add Parameter</a>
+                <div class="add hidden" id="add_sp_parameter">
+                  <select id="add_sp_parameter_value" onKeyDown="this.blur(); if(detectEnter(event)) {saveAddedSPParameter();}"></select>
+                  <a href="#nogo" id="btn_ok" title="OK" onClick="this.blur(); saveAddedSPParameter();"></a>
+                  <a href="#nogo" id="btn_cancel" title="Cancel" onClick="this.blur(); toggleVisible('add_sp_parameter'); toggleVisible('aAddSPParameter');"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>

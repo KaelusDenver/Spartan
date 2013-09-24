@@ -1,0 +1,1763 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Spartan Sequence Editor</title>
+$$STYLES$$
+<style type="text/css">
+#summary { margin: 0.4em 20px 1em 20px; padding: 0; }
+
+#summary textarea { float: left; width: 70%; margin-right: 20px; margin-bottom: 0.8em; position: relative; z-index: 1; }
+#summary #summaryOptions { position: relative; z-index: 0; }
+#summary #summaryOptions label { display: table; }
+#summary #summaryOptions input { vertical-align: bottom; }
+#summary #summaryOptions a { margin: 4px; }
+
+#summary .one-liner { clear: both; margin: 0.4em 0; }
+
+.legend { clear: both; margin: 5px 0; }
+
+#dividerBar { text-align: center; background: #ccc; }
+
+#optionsDialog {  }
+#optionsDialog ul { list-style-type: none; }
+
+#fieldsTable td { text-align: center }
+#fieldsTable a { font-weight: normal; }
+.ufd-skin li { text-align: center; }
+
+#templateDialog { width: 640px; max-height: 330px; }
+#templateDialog #templateFilter { margin-top: 20px; }
+#templateDialog #templateFilter select { margin-right: 20px; }
+#templateDialog table { margin: 20px 0; }
+#templateDialog table .l { text-align: left; }
+
+#tabmenu { position: relative; clear: both; background: #ffefc5; border-bottom: 1px solid #ccc; border-top: 1px solid #ccc; }
+#tabmenu ul { padding: 15px 0 3px 15px; margin: 0; }
+#tabmenu li { list-style: none; margin: 0; padding: 0; display: inline; }
+#tabmenu li a { padding: 4px 0.5em; margin-left: 3px; border: 1px solid #ccc; border-bottom: none; font-weight: bold; text-decoration: none; }
+#tabmenu li a:hover {background: #fff; }
+#tabmenu li a.active { color: #666; background: #fff; border-bottom: 1px solid #fff; }
+
+.tabbody { clear: both; background: #fff; border-bottom: solid 1px #ccc; padding: 20px; }
+
+.movers { float: left; clear: left; margin-left: 5px; }
+
+#stepsTable tr.active { background: #fdfdd4; }
+#stepsTable .repeatN { text-align: center; width: 56px; }
+#stepsTable .repeatN input { float: left; width: 36px; text-align: center; }
+#stepsTable .repeatN img { vertical-align: top; }
+
+.stepconfig { margin-top: 20px; padding: 0; border: solid #ccc 1px; }
+.stepconfig .busyNote { position: relative; }
+.stepconfig .loadmsg { text-align: center; padding: 2em 0; min-height: 350px; height: auto !important; height: 350px; }
+.stepconfig form { margin: 0; padding: 0; border: 0; }
+.stepconfig .panellegend { padding: 0.2em 0.4em; color: #223; font-weight: bold; background: #edeee5; border-right: solid 1px #808759; border-bottom: solid 1px #808759; }
+.stepconfig .panelbody { margin: 0; padding: 0; border: none; }
+.stepconfig .paneltabmenu { position: relative; clear: both; background: #ffefc5; border-bottom: 1px solid #ccc; border-top: 1px solid #ccc; }
+.stepconfig .paneltabmenu ul { padding: 15px 0 3px 15px; margin: 0; }
+.stepconfig .paneltabmenu li { list-style: none; margin: 0; padding: 0; display: inline; }
+.stepconfig .paneltabmenu li a { padding: 4px 0.5em; margin-left: 3px; border: 1px solid #ccc; border-bottom: none; font-weight: bold; text-decoration: none; }
+.stepconfig .paneltabmenu li a:hover {background: #fff; }
+.stepconfig .paneltabmenu li a.active { color: #666; background: #fff; border-bottom: 1px solid #fff; }
+.stepconfig .paneltabcontent { border: none; padding: 20px; min-height: 350px; height: auto !important; height: 350px; } /* Dustin Diaz Min-Height Fast Hack */
+.stepconfig tr.active { background: #fdfdd4; }
+
+<!-- below for legacy reference - try to migrate to panel .css -->
+.stepconfig .info { margin: 0; margin-bottom: 1em; }
+.stepconfig fieldset { border: 1px solid #ccc; margin: 0em auto 5px; padding: 0.3em 1em;}
+.stepconfig legend { font-size: 86%; font-weight: bold; padding: 0.2em 0.5em; color: #666; }
+.stepconfig input,
+.stepconfig select { font-size: 86%; margin-left: 2px; }
+.stepconfig input.numeric { width: 4em; }
+.stepconfig div.checkbox label { float: none; margin-left: 13em; text-align: left; width: 20em; }
+.stepconfig div.radio label { display: inline; float: none; margin-left: 0em; text-align: left; width: auto; }
+.stepconfig div.buttons { border: none; padding: 5px; margin-left: 11.2em; }
+.stepconfig label,
+.stepconfig fieldset div.radio p { clear: left; font-size: 86%; display: block; float: left; margin: 0pt; text-align: right; width: 13em; }
+.stepconfig fieldset div p { font-size: 86%; display: inline; margin: 0; }
+</style>
+<!--[if IE]><style type="text/css">
+#summary label { display: block; }
+#summary #summaryOptions input { vertical-align: middle; }
+#seqTab2 input { vertical-align: middle; }
+</style><![endif]-->
+<!--[if lte IE 6]><style type="text/css">
+#optionsDialog { overflow-y: auto; }
+#stepsTable .repeatN img#down { position: absolute; top: 9px; left: -13px; }
+</style><![endif]-->
+$$SCRIPTS$$
+<!-- Individual STEPS js are loaded dynamically when the steps load -->
+<script type="text/javascript"><!--
+function runSequence() {
+  window.location = '/cgi-bin/runtest.vit?load=' + encodeURIComponent(SEQUENCE.sxSequenceId) + '&' + randomizer();
+}
+
+$(document).ready(function() {
+
+  // set the form's sequence Id
+  $('#sxSequenceId').val(SEQUENCE.sxSequenceId);  // could change on save...
+
+  // show/hide the summary panel
+  if ($.cookie('summary')) $('#summary').hide();
+
+  // Load sequence on list change
+  $('#sequences').change(function () {
+    var newOne = $(this).val();
+
+    if (saveChangesAlert()) {
+      $('.busyNote').show().bgiframe();
+      if ($.browser.msie) $('#sequences').hide();
+      CHANGES=false;
+      document.location='$$THISCGI$$?edit=' + encodeURIComponent(newOne) + '&' + randomizer();
+    } else {
+      $(this).val(SEQUENCE.sxSequenceId);
+    }
+  });
+
+  // save
+  if (THECURRENTUSER.fEditTest) $('#_saveDialog').removeClass('disabled').children('img').attr('src', '/images/floppysmall.gif');
+  else $('#_saveDialog').addClass('disabled').children('img').attr('src', '/images/floppysmalldisabled.gif');
+
+  $("#_saveDialog").click(function () {
+    $(this).blur();
+    if ($(this).hasClass('disabled')) return false;
+    var button    = $(this).offset(); // left, top
+    button.height = $(this).height();
+    button.width  = $(this).width();
+
+    var $dialog = $("#" + this.id.slice(1));
+
+    var xPos = button.left - $dialog.width();
+    var yPos = button.top;
+
+    $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+    $dialog.show().bgiframe();
+    $('#save').val(SEQUENCE.sxSequenceId).select();
+
+    return false;
+  });
+  $("#saveDialog .btn_ok").click(function () {
+    if (!isBlank($('#save').val())) {
+      $(this).parent().hide();
+      saveSequence($('#save').val()); // no callback
+    } else {
+      $('#save').focus();
+    }
+    return false;
+  });
+
+
+  // new
+  if (THECURRENTUSER.fEditTest) $('#newSequence').attr('href', '$$THISCGI$$?new=&' + randomizer()).removeClass('disabled').children('img').attr('src', '/images/newsmall.gif');
+  else $('#newSequence').attr('href', '#nogo').addClass('disabled').children('img').attr('src', '/images/newsmalldisabled.gif');
+
+  $('#newSequence').click(function () {
+    $(this).blur();
+    if ($(this).hasClass('disabled')) return false;
+    if (!saveChangesAlert()) return false;
+    CHANGES=false;
+    return true;
+  });
+
+
+  // copy
+  if (THECURRENTUSER.fEditTest) $('#copySequence').attr('href', '$$THISCGI$$?copy=' + encodeURIComponent(SEQUENCE.sxSequenceId) + '&' + randomizer()).removeClass('disabled').children('img').attr('src', '/images/copysmall.gif');
+  else $('#copySequence').attr('href', '#nogo').addClass('disabled').children('img').attr('src', '/images/copysmalldisabled.gif');
+
+  $('#copySequence').click(function () {
+    $(this).blur();
+    if ($(this).hasClass('disabled')) return false;
+    if (actionCancelledAlert()) return false;
+    return true;
+  });
+
+
+  // delete
+  if (THECURRENTUSER.fEditTest) $('#deleteSequence').attr('href', '$$THISCGI$$?delete=' + encodeURIComponent(SEQUENCE.sxSequenceId) + '&' + randomizer()).removeClass('disabled').children('img').attr('src', '/images/deletesmall.gif');
+  else $('#deleteSequence').attr('href', '#nogo').addClass('disabled').children('img').attr('src', '/images/deletesmalldisabled.gif');
+
+  $('#deleteSequence').click(function () {
+    $(this).blur();
+    if ($(this).hasClass('disabled')) return false;
+    if (confirm("Delete this sequence?\n\nThis action cannot be undone.")) {
+      CHANGES = false;
+      $('.busyNote').show().bgiframe();
+      if ($.browser.msie) $('#sequences').hide();
+      return true;
+    }
+    return false;
+  });
+
+
+  // export (all users allowed export)
+  $('#exportSequence').click(function () {
+    $(this).blur();
+    if (!(actionCancelledAlert())) {
+      // This method is slick but still may need some help
+      // in the form of feedback.
+
+      // create (or retrieve) an IFRAME
+      var iframe = document.getElementsByTagName("iframe")[0];
+      if (!iframe) iframe = document.createElement("iframe");
+      // Point IFRAME to CGI export function
+      iframe.src = "$$THISCGI$$?export=" + encodeURIComponent(SEQUENCE.sxSequenceId)
+      // Hide IFRAME
+      iframe.className = "hidden";
+      // Add the IFRAME to the page.  This triggers request.
+      document.body.appendChild(iframe);
+    }
+    return false;
+  });
+
+
+  // import
+  if (THECURRENTUSER.fEditTest) $('#_importSequence').removeClass('disabled').children('img').attr('src', '/images/importsmall.gif');
+  else $('#_importSequence').addClass('disabled').children('img').attr('src', '/images/importsmalldisabled.gif');
+
+  $("a#_importDialog").children('img').attr('src', '/images/importsmall.gif').end().click(function () {
+    $(this).blur();
+    if ($(this).hasClass('disabled')) return false;
+    if (saveChangesAlert()) {
+
+      var button    = $(this).offset(); // left, top
+      button.height = $(this).height();
+      button.width  = $(this).width();
+
+      var $dialog = $("#" + this.id.slice(1));
+
+      var xPos = button.left - $dialog.width();
+      var yPos = button.top;
+
+      $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+      $dialog.show().bgiframe( {top: "-10px", left: "-10px" });
+
+    }
+    return false;
+  });
+  $("#importDialog #filename").change(function () {
+    if (!isBlank($('#filename').val())) {
+      $('.busyNote').show().bgiframe();
+      if ($.browser.msie) $('#sequences').hide();
+      $(this).parent().hide().submit();
+    } else {
+      $('#filename').focus();
+    }
+    return false;
+  });
+
+  // run
+  $('#runSequence').click(function () {
+    $(this).blur();
+    if (USERCANRUN && autoSaveAlert()) { // does not reset CHANGES
+      if (CHANGES) {
+        $('.busyNote').show().bgiframe();
+        saveSequence(SEQUENCE.sxSequenceId, runSequence);
+          // no need to hide busyNote - run loads new page...
+      }
+      else runSequence();
+    }
+    return false;
+  });
+
+
+  //==== All dialogs Cancel event handler
+  $(".dialog .btn_cancel").click(function () {
+    $(this).parent().hide();
+    return false;
+  });
+
+
+  // "Add..." Handlers...
+  $(".add_wrapper a").live("click", function () {
+    // 'this' is clicked anchor element
+    $(this).blur();
+
+    if ($(this).is(".adder")) {
+      if (!THECURRENTUSER.fEditTest) return false;
+      var divId = this.id.slice(1);
+      $('#' + divId).fadeIn("fast");
+
+
+      // now decide who handles showing...
+      switch (this.id) {
+        case "_add_field":
+          var $s = $('#' + divId).children("select");
+          availableFields($s);
+          $s.focus();
+          break;
+
+        case "_add_step":
+          var $s = $('#' + divId).children("select");
+          availableSteps($(this).next("div").children("select"));
+          $s.focus();
+          break;
+
+        default:
+      }
+
+    } else if ($(this).is(".btn_cancel")) { // cancel adding
+      $(this).parent().hide();
+      return false;
+
+    } else if ($(this).is(".btn_ok")) { // add new field/step...
+      $(this).parent().hide();
+
+      switch ($(this).parent()[0].id) {
+        case "add_field":
+          if (CUSTOM.length == 0) return false; // any fields to add?
+
+          UNDO_QUEUE.push({ what: 'field', obj: {} }); // push empty obj onto undo queue
+          FIELDS.push(new copyObject(getField($(this).prev("select:first").val())));
+          updateUndo(UNDO_QUEUE);
+          buildFieldsTable();
+          break;
+
+        case "add_step":
+          if (TESTS.length == 0) return false;  // any tests to add?
+
+          // create a new empty STEP
+          var testType = $(this).prev("select:first").val();
+          
+          // get test defaults
+          var testDefaults = getTest(testType);
+
+          var newStep = new STEP(-1, '', testType, 0, 1, testDefaults.iQuickModeSupport, '', '', '');
+          STEPS.push(newStep);
+
+          UNDO_QUEUE.push({ what: 'addedstep', obj: {} });
+          updateUndo(UNDO_QUEUE);
+          buildStepsTable(STEPS.length-1); // activate step just added
+          break;
+
+        default:
+      }
+    }
+  }); // END "Add..." Handlers
+
+  // description handlers
+  $('#description').change(function () {
+    UNDO_QUEUE.push({ what: 'description', obj: SEQUENCE.sDescription });
+    updateUndo(UNDO_QUEUE);
+  });
+
+
+  // UNDO click handler
+  $("#undoer").click(function () {
+    $(this).blur();
+    if (UNDO_QUEUE.length > 0) {
+      var undo = UNDO_QUEUE.pop();
+      switch (undo.what.toLowerCase()) {
+        case 'field':
+          if (!isEmpty(undo.obj)) {
+            if (undo.obj.iFieldIndex >= 0 ) {  // positive index replace
+              FIELDS.splice(undo.obj.iFieldIndex, 0, undo.obj);
+            } else {                           // negative index add
+              undo.obj.iFieldIndex = -1 - undo.obj.iFieldIndex;
+              FIELDS.splice(undo.obj.iFieldIndex, 1, undo.obj);
+            }
+          } else {
+            FIELDS.splice(FIELDS.length - 1, 1); // undo.obj empty - remove last addition
+          }
+          buildFieldsTable();
+          updateUndo(UNDO_QUEUE);
+        break;
+
+        case 'fieldmove':
+          moveField(undo.obj, true)
+          updateUndo(UNDO_QUEUE);
+        break;
+
+        case 'description':
+          $('#description').val(undo.obj.toString());
+          updateUndo(UNDO_QUEUE);
+        break;
+
+        case 'spartansetsn':
+          SEQUENCE.fSpartanSetsSN = undo.obj;
+          if (SEQUENCE.fSpartanSetsSN) $('#spartansetsn').attr('checked','checked');
+          else $('#spartansetsn').removeAttr('checked');
+          buildFieldsTable();
+          updateUndo(UNDO_QUEUE);
+        break;
+
+        case 'attributes':
+          // undo.obj is an array holding these previous sequence bools
+          SEQUENCE.fApproved         = undo.obj[0];
+          SEQUENCE.fOverwriteData    = undo.obj[1];
+          SEQUENCE.fStopOnFail       = undo.obj[2];
+          SEQUENCE.fDisableQuickMode = undo.obj[3];
+          SEQUENCE.fPartialExecution = undo.obj[4];
+          SEQUENCE.fAutoNextItem     = undo.obj[5];
+          SEQUENCE.fDoNotPrintOnFail = undo.obj[6];
+          updateSequenceUI();
+          updateUndo(UNDO_QUEUE);
+        break;
+
+        case 'deletedstep':
+          // undo.obj is index of deletion
+          var theStep = new copyObject(DELETEDSTEPS.pop());
+          STEPS.splice(undo.obj, 0, theStep);
+
+          // renumber any step config's after the reinserted step...
+          for (var j=undo.obj+1; j<STEPS.length; j++) $("#stepconfig_" + (j - 1)).attr({ id: "stepconfig_" + j });
+
+          // then rename the previously hidden config panel back...
+          $("#REMOVEDstepconfig_" + undo.obj).attr({ id: "stepconfig_" + undo.obj});
+
+          updateUndo(UNDO_QUEUE);
+          buildStepsTable(undo.obj); // activate step just added
+        break;
+
+        case 'addedstep':
+          $('.stepconfig:last').remove();
+          STEPS.pop();  // pop last step added
+          updateUndo(UNDO_QUEUE);
+          buildStepsTable(STEPS.length - 1);
+        break;
+
+
+        default:
+
+      }
+    }
+  });
+
+
+  //===== Sequence options dialog
+  $("a#_optionsDialog").click(function () {
+    $(this).blur();
+
+    var yPos    = $(this).offset().top - $('#f').offset().top; // anchor top
+    var $dialog = $("#" + this.id.slice(1));
+
+    $dialog.css({ top: yPos + 'px', right: '10px' }).show().bgiframe();
+
+    return false;
+  });
+
+
+  //===== Template selection dialog stuff
+  //===== Rebuild table on filter changes
+  $("#templateDialog select").change(function () {
+    buildTemplateDialog($('#stepIndex').val());
+  });
+  //===== Add template dialog styles
+  var s=[];
+  for (var i=0; i<TEMPLATES.length; i++) {
+    if (!isBlank(TEMPLATES[i].sStyle) && s.indexOf(TEMPLATES[i].sStyle) < 0) {
+      s.push(TEMPLATES[i].sStyle);
+      $("#templateDialog #tplStyle").createAppend('option', { value: TEMPLATES[i].sStyle, text: TEMPLATES[i].sStyle });
+    }
+  }
+  //===== Handle template selections ("ok button")
+  $("#templateDialog .btn_ok").click(function () {
+    $(this).parent().hide();
+
+    var index = parseInt($('#stepIndex').val());
+
+    var s = [];
+    $("#templateDialog input:checked").each(function (i) {
+      s.push($(this).val());
+    });
+
+    // update template list
+    var newStuff = s.join('\t');
+    if (newStuff != STEPS[index].sDatasheetsCSV) {
+      STEPS[index].sDatasheetsCSV = newStuff;
+      buildStepsTable();
+      makeChanges();
+    }
+    return false;
+  });
+
+
+  // Spartan Sets SN...
+  var evt = ($.browser.msie)? "click" : "change";
+  $('#spartansetsn').bind(evt, function() {
+    // for IE we have to check if something did change
+    if ( ($(this).is(':checked') && !SEQUENCE.fSpartanSetsSN) ||
+         (!$(this).is(':checked') && SEQUENCE.fSpartanSetsSN) ) {
+      UNDO_QUEUE.push({ what: 'spartansetsn', obj: SEQUENCE.fSpartanSetsSN});
+      SEQUENCE.fSpartanSetsSN = $(this).is(':checked');
+      updateUndo(UNDO_QUEUE);
+      buildFieldsTable();
+    }
+  });
+
+  // other Boolean attributes...
+  var evt = ($.browser.msie)? "click" : "change";
+  $('#approvedforuse, #optionsDialog ul input').bind(evt, function() {
+    // for IE we have to check if something did change
+    var theItem;
+    switch ($(this).attr('id')) {
+      case 'approvedforuse': theItem = SEQUENCE.fApproved;
+      break;
+      case 'overwriteonrepeat': theItem = SEQUENCE.fOverwriteData;
+      break;
+      case 'stoponfirstfail': theItem = SEQUENCE.fStopOnFail;
+      break;
+      case 'allowquickmodedisable': theItem = SEQUENCE.fDisableQuickMode;
+      break;
+      case 'allowpartialrun': theItem = SEQUENCE.fPartialExecution;
+      break;
+      case 'autonextitem': theItem = SEQUENCE.fAutoNextItem;
+      break;
+      case 'donotprintonfail': theItem = SEQUENCE.fDoNotPrintOnFail;
+      break;
+
+      default: theItem = $(this).is(':checked');  // no action
+    }
+
+    var changed = ( (theItem && !$(this).is(':checked')) || (!theItem && $(this).is(':checked')) );
+
+    if (changed) {
+      var a = [ SEQUENCE.fApproved, SEQUENCE.fOverwriteData, SEQUENCE.fStopOnFail, SEQUENCE.fDisableQuickMode, SEQUENCE.fPartialExecution, SEQUENCE.fAutoNextItem, SEQUENCE.fDoNotPrintOnFail ];
+      UNDO_QUEUE.push({ what: 'attributes', obj: a });
+
+      switch ($(this).attr('id')) {
+        case 'approvedforuse': SEQUENCE.fApproved = $(this).is(':checked');
+        break;
+        case 'overwriteonrepeat': SEQUENCE.fOverwriteData = $(this).is(':checked');
+        break;
+        case 'stoponfirstfail': SEQUENCE.fStopOnFail = $(this).is(':checked');
+        break;
+        case 'allowquickmodedisable': SEQUENCE.fDisableQuickMode = $(this).is(':checked');
+        break;
+        case 'allowpartialrun': SEQUENCE.fPartialExecution = $(this).is(':checked');
+        break;
+        case 'autonextitem': SEQUENCE.fAutoNextItem = $(this).is(':checked');
+        break;
+        case 'donotprintonfail': SEQUENCE.fDoNotPrintOnFail = $(this).is(':checked');
+        break;
+
+        default:
+      }
+
+      updateUndo(UNDO_QUEUE);
+    }
+  });
+
+  // key bindings
+  var isCtrl = false; // global Ctrl-key watcher
+
+  $(document).keyup(function (e) {
+    if (e.which == 17) isCtrl=false;
+
+  }).keydown(function (e) {
+    if (e.which == 17) isCtrl=true;
+
+    switch(e.which) {
+
+      case 13:   // "return"/"enter" key
+        $(".btn_ok:visible").click();
+        $("#optionsDialog:visible").hide();
+        $('#fieldsTable input:visible').blur();
+        $('#stepsTable input:visible').blur();
+        break;
+
+      case 27:   // "esc" key
+        $('#THE_MAN').blur();
+        $(".btn_cancel:visible").click();
+        $("#optionsDialog:visible").hide();
+        break;
+
+      case 78:   // "N" - new
+        if (isCtrl) {
+          $('#newSequence').click();
+          e.preventDefault();  // some browsers > new window
+        }
+        break;
+
+      case 82:   // "R" - run
+        if (isCtrl && USERCANRUN) $('#runSequence').click();
+        break;
+
+      case 83:   // "S" - save
+        if (isCtrl) {
+          $('#_saveDialog').click();
+          e.preventDefault(); // some browsers save As...
+        }
+        break;
+
+      case 90:   // "Z" - undo
+        if (isCtrl) $("#undoer").click();
+        break;
+    }
+
+  }); // key bindings
+
+  if (SHOWHIDDENFIELDS) $('#showhiddenfields').val(['showhiddenfields']);
+
+  updateSequenceUI();
+  buildFieldsTable();
+  buildSequenceList();
+  buildStepsTable(0);  // start with first step activated
+
+  THEMENU = initMenu('seqTab', 'seqTabLink', 2, 'tabbody', 'active', '');
+  showMenuItem(THEMENU, $$MENUTAB$$);
+
+});  // document ready()
+
+
+function buildFieldsTable() {
+
+  var firstVisible = 0;
+  var lastVisible = FIELDS.length - 1;
+  var alreadySetFirstVisible = false;
+
+  // clear previous rows
+  $('#fieldsTable tbody').empty();
+
+  var showHidden = $('#showhiddenfields').is(':checked');
+
+  if (!showHidden) {  // if all fields shown...
+    // pre-process the FIELDS to determine field
+    // visibility, since that will affect reordering
+    for (var i=0; i<FIELDS.length; i++) {
+      if (fieldVisible(i)) {
+        if (!alreadySetFirstVisible) {
+          alreadySetFirstVisible = true;
+          firstVisible = i;
+        }
+        lastVisible = i;
+      }
+    }
+  }
+
+  for (var i=0; i<FIELDS.length; i++) {
+    // first set the SN according to user setting...
+    if (FIELDS[i].sxFieldId == "Serial_Number") {
+      if ($('#spartansetsn').is(':checked')) {
+        FIELDS[i].fSystemValue = true;
+        FIELDS[i].fSetAtTest   = true;
+        FIELDS[i].sValue = '';
+        FIELDS[i].nNextItem = 'Auto-increment';
+      } else {
+        FIELDS[i].fSystemValue = false;
+      }
+    }
+
+    if (!(FIELDS[i].fSystem && FIELDS[i].fSystemValue && !showHidden)) {
+
+      $('#fieldsTable tbody').tplAppend(FIELDS[i], function () {
+
+        var fieldIcon      = (this.fSystem)? "/images/fieldsystemsmall.gif" : "/images/fieldsmall.gif";
+        var fieldIconTitle = this.sDisplayName + ((this.fSystem)? " is a system field" : " is a custom field");
+
+        var fieldValue = (this.fSystemValue)? '[ Spartan sets ' + this.sDisplayName + ' ]' : (isBlank(this.sValue))? '[ Set ' + this.sDisplayName + ' ]' : this.sValue;
+
+        var disabled = this.fSystem || this.fSystemValue || !THECURRENTUSER.fEditTest;
+        var disabledClass = (disabled)? "disabled" : "";
+
+        var disabledValue = this.fSystemValue || !THECURRENTUSER.fEditTest;
+
+        return ['tr', {},
+                 ['td', { className: "icon" }, [ 'img', { width: 16, height: 16, src: fieldIcon, title: fieldIconTitle } ],
+                  'td', { className: "icon" }, [ 'input', { id: 'REQUIRED:'  + i,  name: 'FIELD:' + this.sxFieldId + ':required',  title: 'check to require a value for ' + this.sDisplayName, Type: "checkbox", checked: ((this.fRequired)? "checked" : ""), disabled: disabledClass } ],
+                  'td', { className: "icon" }, [ 'input', { id: 'SETATTEST:' + i, name: 'FIELD:' + this.sxFieldId + ':setattest', title: 'check to set the value for ' + this.sDisplayName + ' at test time', Type: "checkbox", checked: ((this.fSetAtTest)? "checked" : ""), disabled: ((this.fSystemValue || !THECURRENTUSER.fEditTest)? "disabled" : "") } ],
+                  'td', { className: "icon" }, [ 'a', { id: 'DELETE:' + i, title: ((disabled)? 'cannot ' : '') + 'remove ' + this.sDisplayName, className: disabledClass, href: '#nogo'}, [ 'img', { src: ((disabled)? '/images/deletesmalldisabled.gif' : '/images/deletesmall.gif'), width: "16", height: "16" } ] ],
+                  'td', { className: "icon" }, tplMoverTableCell(i, lastVisible + 1, THECURRENTUSER.fEditTest ),
+                  'td', { className: "w24" }, [ this.sDisplayName],
+                  'td', { className: "grayedout" }, [ this.nDataType ],
+                  'td', { className: "w24" }, [ 'a', { id: 'EDIT:' + i, href: ((disabledValue)? '': '#nogo'), className: ((disabledValue)? 'grayedout disabled' : ''), title: ((disabledValue)? '' : 'click to edit') }, [ fieldValue ],
+                                                'input', { id: 'FIELD:' + this.sxFieldId + ':value' , name: 'FIELD:' + this.sxFieldId + ':value', Type: 'hidden', value: this.sValue } ],
+                  'td', { className: "grayedout" }, [ nbsp(this.sUnits) ],
+                  'td', { }, [ 'a', { id: 'NEXT:' + i, href: ((disabledValue)? '': '#nogo'), className: ((disabledValue)? 'grayedout disabled' : ''), title: ((disabledValue)? '' : 'click to edit') }, [ this.nNextItem ],
+                               'input', { id: 'FIELD:' + this.sxFieldId + ':nextitem' , name: 'FIELD:' + this.sxFieldId + ':nextitem', Type: 'hidden', value: this.nNextItem } ]
+                 ]
+               ]
+        });
+    }
+  }
+  $("#fieldsTable tbody > tr:nth-child(odd)").addClass("o");      // zebra stripes
+
+  // add the click handlers to edit fields
+  $('#fieldsTable input:checkbox').unbind().bind(($.browser.msie)? "click" : "change", function () {
+    $(this).blur();
+    if ($(this).is('.disabled') || isBlank(this.id)) return false;
+
+    // show/hide fields checkbox handler
+    if ($(this).is('#showhiddenfields')) {
+        buildFieldsTable();
+        return ($.browser.msie);
+    }
+
+    // id = cmd:index
+    var cmd = this.id.split(':');
+    var index = (cmd[1])? parseInt(cmd[1]): -1;
+    cmd = cmd[0];
+
+    switch (cmd.toLowerCase()) {
+      case 'required':
+        var oldField = new copyObject(FIELDS[index]);
+        oldField.iFieldIndex = -1 - index;
+        UNDO_QUEUE.push({ what: 'field', obj: oldField });
+        FIELDS[index].fRequired = !(FIELDS[index].fRequired);
+        updateUndo(UNDO_QUEUE);
+        buildFieldsTable();
+        break;
+
+      case 'setattest':
+        var oldField = new copyObject(FIELDS[index]);
+        oldField.iFieldIndex = -1 - index;
+        UNDO_QUEUE.push({ what: 'field', obj: oldField });
+        FIELDS[index].fSetAtTest = !(FIELDS[index].fSetAtTest);
+        updateUndo(UNDO_QUEUE);
+        buildFieldsTable();
+        break;
+
+      default:
+        alert("Hey, you just clicked " + cmd + " : " + index);
+
+    }
+    return false;
+  });
+
+  $('#fieldsTable a').click(function () {
+    $(this).blur();
+    if ($(this).is('.disabled') || isBlank(this.id)) return false;
+
+    $('#THE_MAN').blur();
+
+    // id = cmd:index
+    var cmd = this.id.split(':');
+    var index = (cmd[1])? parseInt(cmd[1]): -1;
+    cmd = cmd[0];
+
+    switch (cmd.toLowerCase()) {
+      case 'delete':
+        var oldField = new copyObject(FIELDS[index]);
+        oldField.iFieldIndex = index; // positive index
+        UNDO_QUEUE.push({ what: 'field', obj: oldField });
+        FIELDS.splice(index, 1);
+        updateUndo(UNDO_QUEUE);
+        buildFieldsTable();
+        break;
+
+      case 'movedown':
+        moveField(index, false);
+        break;
+
+      case 'moveup':
+        moveField(-index, false);
+        break;
+
+      case 'next':
+        if (FIELDS[index].nDataType.toLowerCase() != 'list')
+          $(this).hide().parent().createAppend('select', { id: 'THE_MAN' }, ['option', { value: 'Reset', text: 'Reset' }, 'option', { value: 'Retain', text: 'Retain' }, 'option', { value: 'Auto-increment', text: 'Auto-increment' } ]);
+        else // don't offer auto-increment for lists...
+          $(this).hide().parent().createAppend('select', { id: 'THE_MAN' }, ['option', { value: 'Reset', text: 'Reset' }, 'option', { value: 'Retain', text: 'Retain' } ]);
+
+        $('#THE_MAN').val(FIELDS[index].nNextItem).focus().blur(function () {
+          if ($(this).val() != FIELDS[index].nNextItem) {
+            var oldField = new copyObject(FIELDS[index]);
+            oldField.iFieldIndex = -1 - index; // negative index
+            UNDO_QUEUE.push({ what: 'field', obj: oldField });
+            FIELDS[index].nNextItem = $(this).val();
+            updateUndo(UNDO_QUEUE);
+          }
+          buildFieldsTable();
+        });
+        break;
+
+      case 'edit':
+        // figure out type of editor to show
+        switch (FIELDS[index].nDataType.toLowerCase()) {
+          case 'list':
+            $(this).hide().parent().createAppend('select', { id: 'THE_MAN', name: 'THE_MAN' }, getEnumOptions(FIELDS[index]));
+            $('#THE_MAN').val(FIELDS[index].sValue);
+
+            if (FIELDS[index].fFreeList) {
+              $('#THE_MAN').ufd( { skin: 'ufd-skin', submitFreeText: true, triggerSelected: false, initialFreeText: FIELDS[index].sValue });
+            } else {
+              $('#THE_MAN').ufd( { skin: 'ufd-skin' });
+            }
+            $("input[name='THE_MAN']").focus();
+            break;
+
+          default: // all others
+            $(this).hide().parent().createAppend('input', { id: 'THE_MAN', value: FIELDS[index].sValue });
+            $('#THE_MAN').focus().select();
+        }
+
+        // set focus on new edit control and watch for blur() to save changes
+        $('#THE_MAN').blur(function () {
+          var newValue;
+          switch (FIELDS[index].nDataType.toLowerCase()) {
+            case 'numeric':
+              newValue = validateNumeric($.trim($(this).val()));
+              if (isBlank(newValue)) newValue = FIELDS[index].sValue;
+            break;
+
+            case 'list':
+              if (FIELDS[index].fFreeList)
+                newValue = $.trim($("input[name='THE_MAN']").val());
+              else
+                newValue = $(this).val();
+            break;
+
+            default:
+              newValue = $.trim($(this).val());
+          }
+
+          if (newValue != FIELDS[index].sValue) {
+            var oldField = new copyObject(FIELDS[index]);
+            oldField.iFieldIndex = -1 - index; // negative index
+            UNDO_QUEUE.push({ what: 'field', obj: oldField });
+            FIELDS[index].sValue = newValue;
+            updateUndo(UNDO_QUEUE);
+          }
+          buildFieldsTable();
+        });
+        break;
+
+      default:
+        alert("Hey, you just clicked " + cmd + " : " + index);
+
+    }
+
+    return false;
+  });
+}
+
+//---------------------------------------------------------
+//  Utility Functions
+//---------------------------------------------------------
+function fieldVisible(i) { return (!FIELDS[i].fSystem || !FIELDS[i].fSystemValue); }
+
+function availableFields($s) {
+  $s.empty();
+
+  for (var i=0; i<CUSTOM.length; i++) {
+    var notAdded = true;
+
+    for (var j=0; j<FIELDS.length; j++) {
+      if (CUSTOM[i].sxFieldId == FIELDS[j].sxFieldId) {
+        notAdded = false;
+        break;
+      }
+    }
+    if (notAdded && CUSTOM[i].sUnits == "") $s.createAppend('option', { value: CUSTOM[i].sxFieldId, text: CUSTOM[i].sDisplayName });
+    else if (notAdded) $s.createAppend('option', { value: CUSTOM[i].sxFieldId, text: CUSTOM[i].sDisplayName + ' (' + CUSTOM[i].sUnits + ')' });
+  }
+  if (CUSTOM.length == 0) $s.createAppend('option', { text: 'No available fields', disabled: 'disabled' });
+}
+
+function getEnumOptions(field) {
+  var opts = [];
+
+  for (var i=0; i<field.ENUMS.length; i++) {
+    opts.push('option');
+    opts.push({ value: field.ENUMS[i], text: field.ENUMS[i] });
+  }
+  return opts;
+}
+
+function moveField(i, noUndo) {
+  var noUndo = false || noUndo;
+  var dir = 1;  // move toward end of list
+  if (i<0) { dir = -1; i   = -i; } // move toward beginning of list
+
+  // modify dir to account for field visibility
+  if (!$('#showhiddenfields').is(':checked')) {
+    if (dir>0) {
+      for (dir=1; dir < (FIELDS.length - i); dir++) { //cycle forward for next visible
+        if (fieldVisible(i + dir)) break;
+      }
+    } else {
+      for (dir=-1; dir >= -i; dir--) { //cycle backward for prev visible
+        if (fieldVisible(i + dir)) break;
+      }
+    }
+  }
+
+  var tmp = new copyObject(FIELDS[i + dir]);    // save field above (or below)
+  FIELDS[i + dir] = new copyObject(FIELDS[i]);  // replace index with next (or prev)
+  FIELDS[i] = new copyObject(tmp);              // move temp back
+
+  if (!noUndo) {
+    var back = (dir<0)? -1 : 1;
+    UNDO_QUEUE.push({ what: 'fieldmove', obj: i*back });
+    updateUndo(UNDO_QUEUE);
+  }
+  buildFieldsTable();
+}
+
+function availableSteps($s) {
+  $s.empty();
+
+  for (var i=0; i<TESTS.length; i++) $s.createAppend('option', { value: TESTS[i].sxTestId, text: TESTS[i].sxTestId });
+  if (TESTS.length == 0) $s.createAppend('option', { text: 'No steps available', disabled: 'disabled' });
+}
+
+
+function buildStepsTable(activeStep) {
+  var activeStep = (activeStep === undefined || activeStep < 0)? 0 : activeStep;
+
+  // clear previous rows
+  $('#stepsTable > tbody').empty();
+
+  var removeImg   = (!THECURRENTUSER.fEditTest)? '/images/deletesmalldisabled.gif' : '/images/deletesmall.gif';
+  var removeTitle = (!THECURRENTUSER.fEditTest)? 'cannot edit sequence' : 'remove this step';
+  var copyImg     = (!THECURRENTUSER.fEditTest)? '/images/copysmalldisabled.gif' : '/images/copysmall.gif';
+  var copyTitle   = (!THECURRENTUSER.fEditTest)? 'cannot edit sequence' : 'copy this step';
+  var repeatTitle = (!THECURRENTUSER.fEditTest)? 'cannot edit sequence' : 'click to change';
+  var grayedout   = (!THECURRENTUSER.fEditTest)? 'grayedout' : '';
+  var qmTitle     = (!THECURRENTUSER.fEditTest)? 'cannot edit sequence' : 'check to execute step in Quickmode';
+  var tagTitle    = (!THECURRENTUSER.fEditTest)? 'cannot edit sequence' : 'click to edit tag';
+
+
+  for (var i=0; i<STEPS.length; i++) {
+
+    if ((getTest(STEPS[i].sxTestId).iQuickModeSupport > 1) || !THECURRENTUSER.fEditTest) {
+      var qmChecked    = false;
+      var qmDisabled = true;
+    } else {
+      var qmDisabled = false;
+      var qmChecked  = (STEPS[i].iQuickMode != 0);
+    }
+    var stepTag = (isBlank(STEPS[i].sTag) && !!THECURRENTUSER.fEditTest)? "[empty - click to change]" : STEPS[i].sTag + ' ';
+
+    $('#stepsTable tbody').tplAppend(STEPS[i], function () {
+      var stepTemplates = (isBlank(this.sDatasheetsCSV))? "[ none ]" : truncStr(this.sDatasheetsCSV, 40);
+      return ['tr', {},
+                [ 'th', { className: 'rowheader'}, [(i + 1) + ''],
+                  'td', { className: "icon" }, tplIconTableCell("remove:"   + i, "#nogo", removeImg, removeTitle),
+                  'td', { className: "icon" }, tplIconTableCell("copy:"     + i, "#nogo", copyImg, copyTitle),
+                  'td', { className: "repeatN"},
+                    ['a', { id: 'repeat:' + i, className: grayedout, title: repeatTitle, href: '#nogo' }, [ this.iRepeat + ''],
+                     'div', { className: 'hidden' },
+                      ['input', { id: this.sxTestId + '_' + i + '_repeat', name: this.sxTestId + '_' + i + '_repeat', value: this.repeat, title: 'Repeat: 0 = First time only; 1 = Every time; 2, 3, 4, ... = Every 2nd, 3rd, 4th, ... time'},
+                       'a', { id: 'repeatup:' + i, href: '#nogo', title: 'increase' }, ['img', { src: '/images/scrollup.gif', width: 13, height: 9 } ],
+                       'a', { id: 'repeatdown:' + i, href: '#nogo', title: 'decrease' }, ['img', { src: '/images/scrolldown.gif', width: 13, height: 9 } ]
+                      ]
+                    ],
+                  'td', { className: "icon" }, tplCheckboxTableCell("quickmode:" + i, qmChecked, qmDisabled, qmTitle),
+                  'td', { className: "icon" }, tplMoverTableCell(i, STEPS.length, true),
+                  'td', { }, [this.sxTestId + ' '],
+                  'td', { }, ['a', { id: 'tag:' + i, href: '#nogo', className: grayedout }, [ stepTag ],
+                              'input', { id: this.sxTestId + '_' + i + '_tag', name: this.sxTestId + '_' + i + '_tag', className: 'hidden', value: this.sTag }  ],
+                  'td', { }, ['a', { id: 'template:' + i, href: '#nogo', title: 'add/remove templates to generate reports at step completion'}, [stepTemplates] ]
+                ]
+              ]
+     });
+
+    // hidden DIV to hold the step configuration panel
+    if ($('#stepconfig_' + i).length == 0) {  // if the config doesn't yet exist...
+      $('#seqTab1').createAppend('div', { id: 'stepconfig_' + i, className: 'stepconfig' },
+                                   ['div', { className: 'loadmsg busyNote' }, ['Loading...', 'img', { src: "/images/bigrotation.gif", width: 32, height: 32, alt: "busy" } ] ]);
+    }
+    // load (ajax) if necessary
+    if ($('#stepconfig_' + i + ' div.loadmsg').length != 0) loadStep(i);
+
+  } // end for each step...
+
+  // everything's added - paint the table styles
+  $("#stepsTable tbody > tr:nth-child(odd)").addClass("o");      // zebra stripes
+
+  var evt = ($.browser.msie)? "click": "change";
+  $("#stepsTable input:checkbox").bind(evt, function() {
+    var index = this.id.split(":");
+    index = index[1];
+
+    // check changes for IE
+    if (( $(this).is(":checked") && STEPS[index].iQuickMode == 0 ) ||
+        (!$(this).is(":checked") && STEPS[index].iQuickMode != 0 ) ) {
+      STEPS[index].iQuickMode = ($(this).is(":checked"))? 1 : 0;
+      makeChanges();
+    }
+  });
+
+  // table is built - add click handler...
+  $("#stepsTable tbody > tr").click(function () {
+    // 'this' is TR clicked
+    var row = this.rowIndex - 1; // this.rowIndex is body row clicked + one header row
+
+    if (!$(this).hasClass('active')) {  // need to activate step?
+      $(this).siblings().removeClass('active'); // deactivate all rows
+      $('.stepconfig').hide();                  // hide all config panels
+      $('#stepconfig_' + row).show(); // show active panel
+
+      $(this).toggleClass('active');            //set active row
+    }
+  });
+
+  $('#stepsTable a').click(function () {
+    $(this).blur();
+    // id = cmd:index
+    var cmd = this.id.split(':');
+    var index = (cmd[1])? parseInt(cmd[1]): -1;
+    cmd = cmd[0];
+
+    switch(cmd) {
+      case 'remove':
+        $('#stepconfig_' + index).hide().attr({id: 'REMOVEDstepconfig_' + index});  // hide and rename this step config...
+        DELETEDSTEPS.push(new copyObject(STEPS[index])); // add to deleted steps
+        STEPS.splice(index, 1);         // remove step from STEPS array
+        // renumber any step config's after the deleted step...
+        for (var j=index+1; j<=STEPS.length; j++) $("#stepconfig_" + j).attr({ id: "stepconfig_" + (j - 1)});
+
+        UNDO_QUEUE.push({ what: 'deletedstep', obj: index });  // save index of deleted step
+        updateUndo(UNDO_QUEUE);
+        buildStepsTable((index >= STEPS.length) ? STEPS.length - 1 : index);
+      break;
+
+      case 'copy':
+        var newStep = new copyObject(STEPS[index]);
+
+        newStep.ixStep = -1;
+        STEPS.push(newStep);
+        UNDO_QUEUE.push({ what: 'addedstep', obj: {} });
+        updateUndo(UNDO_QUEUE);
+        buildStepsTable(STEPS.length-1); // activate step just added
+      break;
+
+      case 'repeat':
+        $(this).hide().siblings().show().children('input').focus().select().blur(function () {
+          if (!isInteger(this.value)) this.value = STEPS[index].iRepeat;
+
+          if (this.value != STEPS[index].iRepeat) {
+            STEPS[index].iRepeat = this.value;  // update changes to STEPS array
+            makeChanges();
+          }
+          REPEATTIMER = setTimeout(function () {buildStepsTable(index);}, 250);
+        });
+      break;
+
+      case 'repeatup':
+        clearTimeout(REPEATTIMER);
+        var $ctl = $(this).siblings('input');
+        var currentValue = parseInt($ctl.val());
+        $ctl.val(currentValue + 1).focus().select();
+      break;
+
+      case 'repeatdown':
+        clearTimeout(REPEATTIMER);
+        var $ctl = $(this).siblings('input');
+        var currentValue = parseInt($ctl.val());
+        var newValue = currentValue - 1;
+        if (newValue>=0) $ctl.val(newValue);
+        $ctl.focus().select();
+      break;
+
+      case 'moveup':  // note that iIndex is set at save
+        var tmp = new copyObject(STEPS[index-1]);    // save step above
+        STEPS[index-1] = new copyObject(STEPS[index]);   // replace index with next
+        STEPS[index] = new copyObject(tmp);              // move temp back
+
+        // switch config elements
+        $("#stepconfig_" + (index-1)).attr("id", "tmp");
+        $("#stepconfig_" + index).attr("id", "stepconfig_" + (index-1));
+        $("#tmp").attr("id", "stepconfig_" + index);
+
+        makeChanges();
+        buildStepsTable(index-1);
+      break;
+
+      case 'movedown': // note that iIndex is set at save
+        var tmp = new copyObject(STEPS[index+1]);    // save step above
+        STEPS[index+1] = new copyObject(STEPS[index]);   // replace index with next
+        STEPS[index] = new copyObject(tmp);              // move temp back
+
+        // switch config elements
+        $("#stepconfig_" + (index+1)).attr("id", "tmp");
+        $("#stepconfig_" + index).attr("id", "stepconfig_" + (index+1));
+        $("#tmp").attr("id", "stepconfig_" + index);
+
+        makeChanges();
+        buildStepsTable(index+1);
+      break;
+
+      case 'tag':
+        $(this).hide().siblings().show().focus().select().blur(function () {
+          if (this.value != STEPS[index].sTag) {
+            STEPS[index].sTag = this.value;  // update changes to STEPS array
+            makeChanges();
+          }
+          buildStepsTable(index);
+        });
+      break;
+
+      case 'template':
+        var button    = $(this).offset(); // left, top
+        button.height = $(this).height();
+        button.width  = $(this).width();
+
+        buildTemplateDialog(index); // build table for step[index]
+
+        var $dialog = $("#templateDialog");
+        var xPos = (button.left + button.width) - $dialog.width();
+        var yPos = button.top;
+
+        $dialog.css({ top: yPos + 'px', left: xPos + 'px' }).show().bgiframe();
+        return false;
+      break;
+
+
+      default:
+        alert("Something unknown clicked with ID = " + this.id);
+
+    }
+    return false;
+  });
+
+  // click rows to activate step
+  $("#stepsTable tbody > tr:eq(" + activeStep + ")").click();
+}
+
+function copyObject(obj) { for (var i in obj) this[i] = obj[i]; }
+
+function truncStr(s, l) {
+  if (s.length < l) return s;
+  return s.substr(0, l) + ' ...';
+}
+
+// this builds the table in the template selection dialog
+function buildTemplateDialog(index) {
+
+  $('#stepIndex').val(index); // set so we know which step to save on OK
+
+  // clear previous items
+  $('#templateDialog table > tbody tr').remove();
+
+  var t = STEPS[index].sDatasheetsCSV.toLowerCase().split('\t'); // get current step templates
+
+  // append table rows for filter matches
+  for (var i=0; i<TEMPLATES.length; i++) {
+
+    // check selection if already added...
+    var checked = (t.indexOf(TEMPLATES[i].sxTemplateId.toLowerCase()) < 0)? "" : "checked";
+
+    // filter by sStyle
+    var styleFilter = $('#tplStyle').val().toLowerCase();
+    if (styleFilter == '*' || styleFilter == TEMPLATES[i].sStyle.toLowerCase()) {
+
+      // filter by sType (item mapping)
+      var typeFilter = $('#tplType').val().toLowerCase();
+      if (typeFilter == '*' || TEMPLATES[i].sType.toLowerCase().indexOf(typeFilter) >=0) {
+
+        $('#templateDialog tbody').tplAppend(TEMPLATES[i], function () {
+
+          var single    = (this.sType.toLowerCase().indexOf('single') >=0);
+          var itemIcon  = (single)? "/images/singleitemsmall.gif" : "/images/multiitemsmall.gif";
+          var itemTitle = (single)? "single item template" : "multiple items template";
+
+          var pdf      = (this.sFormat.toLowerCase().indexOf('pdf') >=0);
+          var pdfIcon  = (pdf)? "/images/pdfsmall.gif" : "/images/textexportsmall.gif";
+          var pdfTitle = (pdf)? "displays as portable document format (PDF)" : "displays as text";
+
+          return ['tr', {}, [
+                    'td', { className: "icon" }, [
+                       'input', { Type: "checkbox", value: this.sxTemplateId, checked: checked } ],
+                     'td', { className: "icon" }, [
+                       'img', { height: "16", width: "16", src: itemIcon, title: itemTitle } ],
+                     'td', { className: "icon" }, [
+                       'img', {  height: "16", width: "16", src: pdfIcon, title: pdfTitle } ],
+                     'td', { className: "l" }, [ this.sxTemplateId ],
+                     'td', { className: "l" }, [ truncStr(this.sDescription, 60) ],
+                     'td', { className: "l" }, [ this.sStyle ] ] ]
+        });
+
+      } // if type matches
+    } // if style matches
+  }
+  $('#templateDialog table > tbody tr:odd').addClass('o');
+}
+
+
+
+// loads a step UI into config panel at index position in the steps table
+function loadStep(index) {
+
+  // generate a UID for this step
+  var uid  = 's' + Math.floor(Math.random()*1000000) + 'uid';
+
+  // check old UID (for copy operation) before overwrite with new UID
+  // existing STEP config will be sent in POST for copies
+  var POST = (STEPS[index].uid)? parseParams(eval('saveStep' + removeSpaces(STEPS[index].sxTestId) + '(\'' + STEPS[index].uid + '\');')): {};
+
+  // save UID with STEP object
+  STEPS[index].uid = uid;
+
+  // could be an existing step: ixStep = (positive) database index of step,
+  // or a new step: ixStep < 0
+  var k = (STEPS[index].ixStep < 0)? STEPS[index].sxTestId : STEPS[index].ixStep;
+
+  var url = '$$THISCGI$$?loadstep=' + encodeURIComponent(k) + '&UID=' + uid;
+
+  // AJAX load panel UI (.htm)
+  $('#stepconfig_' + index).load(url, POST, function(response) {
+    if (!isBlank(response)) {
+
+      // AJAX load panel style (.css) ***beware as this is finicky for IE!
+      var id = removeSpaces(STEPS[index].sxTestId) + '_style'; // id to avoid repeat loading
+      if ($('link#' + id).length == 0) {
+        $('<link rel="stylesheet" type="text/css" id="' + id + '" href="/css/editstep ' + STEPS[index].sxTestId + '.css" />').appendTo("head");
+      }
+
+      // AJAX load panel code (.js) ***note every step has an initialization function, s:
+      var s = 'initStep' + removeSpaces(STEPS[index].sxTestId) + '(uid)';
+      $.getScript('/src/editstep ' + STEPS[index].sxTestId + '.js', function () { eval(s); });
+      
+      if (STEPS[index].sxSequenceId != SEQUENCE.sxSequenceId) {
+        STEPS[index].ixStep = -1;
+      }
+
+    } else {
+
+      $('#stepconfig_' + index).text("Error loading configuration : unknown or invalid test step");
+    }
+  });
+}
+
+
+function parseParams(url) {
+  var params=url;
+  // in case it is a full query string with ?, only take everything after the ?
+  if (url.match(/\?(.+)$/)) params = RegExp.$1;
+
+ var pArray = params.split("&");  // split the params
+ var pHash = {};  // hash to store result
+
+ // parse each param in the array and put it in the hash
+ for(var i=0;i<pArray.length;i++) {
+   var temp = pArray[i].split("=");
+   pHash[temp[0]] = unescape(temp[1]);
+ }
+ return pHash;
+}
+
+function saveStep(sequenceId, oSTEP, stepIndex, callback) {
+  var msg='';
+
+  oSTEP.iIndex = stepIndex;   // step ordering gets updated at save
+
+  // first we format the 'outer' STEP details in the POST
+  var POST  = 'ixStep='          + oSTEP.ixStep;         // step identifier
+      POST += '&sxTestId='       + oSTEP.sxTestId;       // what type of test
+      POST += '&iIndex='         + oSTEP.iIndex;         // sequence order for the step
+      POST += '&iRepeat='        + oSTEP.iRepeat;        // how to repeat the step
+      POST += '&iQuickMode='     + oSTEP.iQuickMode;     // quickmode step setting
+      POST += '&sTag='           + oSTEP.sTag;           // step tag string
+      POST += '&sDatasheetsCSV=' + oSTEP.sDatasheetsCSV; // datasheet CSV string
+
+  // now add the individual step configuration details
+  //  (note that oSTEP.uid was added in loadStepUI() )
+      POST += '&' + eval('saveStep' + removeSpaces(oSTEP.sxTestId) + '(\'' + oSTEP.uid + '\');');
+
+  // send the POST data
+  var ixStep = -1;
+  $.ajax({
+    url: "$$THISCGI$$?savestep=" + encodeURIComponent(sequenceId) + "&" + randomizer(),
+    type: "POST",
+    cache: false,
+    dataType: "text",
+    data: POST,
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      //alert("An unknown error occurred:\n\n" + textStatus);
+    },
+    success: function(response) {
+      try { eval('var data=' + response); }
+      catch(e) { msg = 'An error occurred while saving the step.\n\n' + e; }
+
+      if (isBlank(msg)) {
+        if (data.status) msg='An error occurred while saving the step.\n\n' + data.source;
+        else {
+          ixStep = data.payload;
+          if (ixStep != -1) STEPS[stepIndex].ixStep = ixStep;
+        }
+      }
+      if (!isBlank(msg)) alert(msg);
+    },
+    complete: callback
+  });
+}
+
+function deleteStep(sequenceId, oSTEP) {
+  var msg='';
+
+  // first we format the 'outer' STEP details in the POST
+  var POST  = 'ixStep='          + oSTEP.ixStep;         // step identifier
+  
+  // send the POST data
+  $.ajax({
+    url: "$$THISCGI$$?deletestep=" + encodeURIComponent(sequenceId) + "&" + randomizer(),
+    type: "POST",
+    cache: false,
+    dataType: "text",
+    data: POST,
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("An error occurred while removing the step.\n\n" + textStatus);
+    }
+  });
+}
+
+// list of previously edited sequences
+function buildSequenceList() {
+  $('#sequences').empty();
+
+  for (var i=0; i<SEQLIST.length; i++) {
+    var $o = $('#sequences').createAppend('option', { value: SEQLIST[i], text: SEQLIST[i] });
+  }
+  if (SEQLIST.length == 0) {
+    var $o = $('#sequences').createAppend('option', { value: '', text: '[no sequences]' });
+    $('#sequences').attr("disabled", "disabled");
+  }
+  if ($.browser.msie) $('#sequences').hide().show();
+}
+
+
+function saveSequence(seqId, callback){
+  var msg='';
+
+  // disable form
+  $('.busyNote').show().bgiframe();
+  if ($.browser.msie) $('#sequences').hide();
+
+  //======== Verify good data to save
+  // check that MN/SN fields have values if not setAtTest
+  for (var i=0; i<FIELDS.length; i++) {
+    // first set the MN, SN PID according to user setting...
+    switch (FIELDS[i].sxFieldId.toLowerCase()) {
+      case "model number":
+        if (!FIELDS[i].fSetAtTest && isBlank(FIELDS[i].sValue)) msg += '\n  * Invalid $$MNDISPLAY$$ value';
+        break;
+      case "serial number":
+        if (!FIELDS[i].fSetAtTest && isBlank(FIELDS[i].sValue)) msg += '\n  * Invalid $$SNDISPLAY$$ value';
+        break;
+      default:
+        if (!FIELDS[i].fSetAtTest && FIELDS[i].fRequired && isBlank(FIELDS[i].sValue)) msg += '\n  * '+ FIELDS[i].sDisplayName +' must not be blank';
+        break;
+
+    }
+  }
+
+  if (!isBlank(msg)) {
+    alert("Cannot save the sequence.  Please fix the following items:\n" + msg);
+    $('#sequences').show();
+    $('.busyNote').hide();
+    return false;
+  }
+
+
+  //======== Data verified - check for duplicate/overwrite
+  // only check if name changed (aside from capitalization)
+  if (seqId.toLowerCase() != SEQUENCE.sxSequenceId.toLowerCase()) {
+    var overwrite = false;
+    $.ajax({
+      type: "GET",
+      url: '$$THISCGI$$?checkExists=' + encodeURIComponent(seqId),
+      async: false,
+      cache: false,
+      success: function(response) {
+        try { eval('var data=' + response); }
+        catch(e) { msg = 'An error occurred checking the record name.\n\n' + e; }
+
+        if (isBlank(msg)) {
+          if (data.status) msg='An error occurred checking the record name.\n\n' + data.source;
+          else {
+            overwrite = (data.payload === true);
+            if (overwrite) msg='A record with that name already exists.\n\nContinue and overwrite?';
+          }
+        }
+      }
+    });
+
+    // alert/confirm if msg not blank
+    if (!isBlank(msg)) {
+      if (overwrite && !confirm(msg)) {
+        $('#sequences').show();
+        $('.busyNote').hide();
+        return false;
+      }
+
+      if (!overwrite) {
+        alert(msg);
+        $('#sequences').show();
+        $('.busyNote').hide();
+        return false;
+      }  
+    }
+  } // end duplicate name check
+
+  // Ready to save the record
+  $('#sxSequenceId').val(seqId);  // update new name
+  if (THECURRENTUSER.fEditTest) $('#copySequence').attr('href', '$$THISCGI$$?copy=' + encodeURIComponent(seqId) + '&' + randomizer()).removeClass('disabled').children('img').attr('src', '/images/copysmall.gif');
+  CHANGES=false;                  //reset before submitting form
+
+  $.ajax({
+    url: "$$THISCGI$$?save=" + encodeURIComponent(SEQUENCE.sxSequenceId) + "&" + randomizer(),
+    type: "POST",
+    data: $('#f').serialize(),
+    success: function(response) {
+      try { eval('var data=' + response); }
+      catch(e) { var data = { status: true, source: e } }
+
+      if (data.status) {
+        alert("An error occurred!\n\n" + "Code: " + data.code + "\nSource:\n\n" + data.source);
+        $('#sequences').show();
+        $('.busyNote').hide();
+        return false;
+
+      } else {
+
+        // update the UI
+        SEQUENCE.sxSequenceId = seqId;
+        SEQLIST               = data.payload;
+        buildSequenceList();
+        UNDO_QUEUE   = [];
+        updateUndo(UNDO_QUEUE);
+        
+        // delete all DELETEDSTEPS
+        for (var i = 0; i < DELETEDSTEPS.length; i++) {
+          deleteStep(seqId, DELETEDSTEPS[i]);
+        }
+        DELETEDSTEPS = [];
+
+        // save all the steps - last step gets callback (enable UI if no callback passed in)
+        for (var i = 0; i < STEPS.length; i++) {
+          if (i != STEPS.length - 1) saveStep(seqId, STEPS[i], i);
+          else saveStep(seqId, STEPS[i], i, callback || function() { $('#sequences').show(); $('.busyNote').hide(); } );
+        }
+
+        // enable the UI here if no steps saved
+        if (STEPS.length == 0) {
+          $('#sequences').show();
+          $('.busyNote').hide();
+        }
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("An unknown error occurred:\n\n" + textStatus);
+      $('#sequences').show();
+      $('.busyNote').hide();
+    }
+  });
+}
+
+
+function updateSequenceUI() {
+
+  if (!THECURRENTUSER.fEditTest) { //disabled by default
+    $('#_add_field').attr({ className: "adder_grayedout", title: "Cannot change sequence" });
+    $('#_add_step').attr({ className: "adder_grayedout", title: "Cannot change sequence"});
+
+  } else {
+
+    $('#description').removeAttr('disabled');
+    $('#approvedforuse').removeAttr('disabled');
+    $('#spartansetsn').removeAttr('disabled');
+    $('#saveButton').removeAttr('disabled');
+    $('#overwriteonrepeat').removeAttr('disabled');
+    $('#stoponfirstfail').removeAttr('disabled');
+    $('#allowquickmodedisable').removeAttr('disabled');
+    $('#allowpartialrun').removeAttr('disabled');
+    $('#autonextitem').removeAttr('disabled');
+    $('#donotprintonfail').removeAttr('disabled');
+
+  }
+
+  // set the create/modify dates...
+  var d = new Date(jsTimeFromLV(SEQUENCE.tCreationDate));
+  $('#createDate').text(d.format(SPARTANDATE));
+  if (!isBlank(SEQUENCE.sModifier)) d = new Date(jsTimeFromLV(SEQUENCE.tModifiedDate));
+  $('#modifyDate').text(d.format(SPARTANDATE));
+
+  $('#description').val(SEQUENCE.sDescription);
+  if (SEQUENCE.fSpartanSetsSN)    $('#spartansetsn').attr('checked', 'checked');
+                             else $('#spartansetsn').removeAttr('checked');
+  if (SEQUENCE.fApproved)         $('#approvedforuse').attr('checked', 'checked');
+                             else $('#approvedforuse').removeAttr('checked');
+  if (SEQUENCE.fOverwriteData)    $('#overwriteonrepeat').attr('checked', 'checked');
+                             else $('#overwriteonrepeat').removeAttr('checked');
+  if (SEQUENCE.fStopOnFail)       $('#stoponfirstfail').attr('checked', 'checked');
+                             else $('#stoponfirstfail').removeAttr('checked');
+  if (SEQUENCE.fDisableQuickMode) $('#allowquickmodedisable').attr('checked', 'checked');
+                             else $('#allowquickmodedisable').removeAttr('checked');
+  if (SEQUENCE.fPartialExecution) $('#allowpartialrun').attr('checked', 'checked');
+                             else $('#allowpartialrun').removeAttr('checked');
+  if (SEQUENCE.fAutoNextItem)     $('#autonextitem').attr('checked', 'checked');
+                             else $('#autonextitem').removeAttr('checked');
+  if (SEQUENCE.fDoNotPrintOnFail) $('#donotprintonfail').attr('checked', 'checked');
+                             else $('#donotprintonfail').removeAttr('checked');
+
+  if (USERCANRUN) $('a#runSequence').attr({ href: "#nogo", title: "run this sequence" }).removeClass('disabled').children('img').attr({ src: "/images/runsmall.gif" });
+
+  if (STARTWITHCHANGES && UNDO_QUEUE.length == 0) {
+    UNDO_QUEUE.push({ what: 'cantundo', obj: {} });
+    updateUndo(UNDO_QUEUE);
+  }
+}
+
+
+//---------------------------------------------------------
+//  Globals
+//---------------------------------------------------------
+var UNDO_QUEUE = [];
+var SEQLIST=$$SEQLIST$$; // array provided by VIT
+
+$$SEQUENCEDEFINITION$$
+$$SEQUENCE$$
+
+var EDITDISABLED     = $$EDITDISABLED$$;
+var USERCANRUN       = $$USERCANRUN$$;
+var STARTWITHCHANGES = $$STARTWITHCHANGES$$;
+
+$$FIELDDEFINITION$$
+$$FIELDS$$
+
+$$CUSTOM$$
+
+// return a Field from array (regular or custom) by Id
+function getField(fid) {
+  for (var i=0; i<FIELDS.length; i++) {
+    if (fid.toLowerCase() == FIELDS[i].sxFieldId.toLowerCase()) return FIELDS[i];
+  }
+  for (i=0; i<CUSTOM.length; i++) {
+    if (fid.toLowerCase() == CUSTOM[i].sxFieldId.toLowerCase()) return CUSTOM[i];
+  }
+  return {};
+}
+
+//----------------------------------------------------------
+// This STEP object is the basis for all steps in
+// the Sequence.
+//----------------------------------------------------------
+$$STEPDEFINITION$$
+
+$$STEPS$$
+var DELETEDSTEPS = []; // Array of steps to delete (empty for now)
+
+// return a STEP by sxTestId
+function getStep(sxTestId) {
+  for (var i=0; i<STEPS.length; i++) {
+    if (sxTestId.toLowerCase() == STEPS[i].sxTestId.toLowerCase()) return STEPS[i];
+  }
+  return {};
+}
+
+$$TESTDEFINITION$$
+$$TESTS$$
+
+// return TEST by sxTestId
+function getTest(sxTestId) {
+  for (var i=0; i<TESTS.length; i++) {
+    if (sxTestId.toLowerCase() == TESTS[i].sxTestId.toLowerCase()) return TESTS[i];
+  }
+  return {};
+}
+
+// TEMPLATES
+$$TEMPLATEDEFINITION$$
+$$TEMPLATES$$
+
+// return a Template from array by Id
+function getTemplate(tid) {
+  for (var i=0; i<TEMPLATES.length; i++) {
+    if (tid.toLowerCase() == TEMPLATES[i].sxTemplateId.toLowerCase()) return TEMPLATES[i];
+  }
+  return {};
+}
+
+
+var SHOWHIDDENFIELDS = $$SHOWHIDDENFIELDS$$; // Fields table state
+
+var THEMENU;  // global to handle tabbed menu
+function setMenu(i) { $('#menuTab').val(i); } // save visible tab for reloads
+
+// warn of pending changes for browse-off's
+// (does not work in FF if added to BODY tag)
+window.onbeforeunload=confirmLeave;
+// --></script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="saveDialog" class="dialog">
+  Save this sequence with name:<br />
+  <input type="text" id="save" value="" /><br />
+  <input class="btn_ok" type="button" value="OK" />
+  <input class="btn_cancel" type="button" value="Cancel" />
+</div>
+
+<form id="importDialog" class="dialog" action="$$THISCGI$$?import" method="POST" encoding="multipart/form-data" enctype="multipart/form-data">
+  <input type="file" id="filename" name="filename" accept="text/xml" title="choose a file on your computer" />
+</form>
+
+<div id="templateDialog" class="dialog">
+  <div class="legend">Select templates to add (filter this list with the drop-downs)</div>
+
+  <input type="hidden" id="stepIndex" value="-1"/>                          
+
+  <div id="templateFilter">
+    <label for="tplType" title="item mapping controls how templates handle search result items">Item Mapping
+    <select id="tplType">
+      <option value="*">All mappings</option>
+      <option value="single">Single item per template</option>
+      <option value="multi">Multiple items per template</option>
+    </select></label>
+    <label for="tplStyle">Content Style
+    <select id="tplStyle"><option value="*">All styles</option></select></label>
+  </div>
+
+  <table class="standard" cellspacing="0">
+    <thead><tr>
+      <th class="icon"><img src="/images/smallcheck.gif" width="16" height="16" /></th>
+      <th class="icon"><img src="/images/singleormultismall.gif" width="16" height="16" title="item mapping (single or multiple)" /></th>
+      <th class="icon"><img src="/images/displaytypesmall.gif" width="16" height="16" title="display format (text or PDF)" /></th>
+      <th class="l">Name</th>
+      <th class="l">Description</th>
+      <th class="l">Content Style</th>
+    </tr></thead>
+    <tbody>
+  </table>
+
+
+  <input class="btn_ok" type="button" value="OK" />
+  <input class="btn_cancel" type="button" value="Cancel" />
+</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/editsequencebig.gif" width="48" height="48" alt="sequence edit icon" />
+  <label id="headlabel">Test Sequence Editor</label></h2>
+
+  <form id="f" method="POST" action="$$THISCGI$$?save=" />
+    <input type="hidden" id="sxSequenceId" name="sxSequenceId" value="" />
+    <div class="busyNote hidden">
+      <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+    </div>
+
+    <div id="optionsDialog" class="dialog">
+      More sequence options:<br />
+
+      <ul>
+        <li><label for="overwriteonrepeat">
+            <input type="checkbox" title="data will be overwritten during repeat runs" id="overwriteonrepeat" name="overwriteonrepeat" disabled="disabled" />Overwrite Data on Repeat</label></li>
+        <li><label for="stoponfirstfail">
+            <input type="checkbox" title="sequence execution will halt at first step failure" id="stoponfirstfail" name="stoponfirstfail" disabled="disabled" />Stop on First Fail</label></li>
+        <li><label for="allowquickmodedisable">
+            <input type="checkbox" title="operator can change step quickmode setting" id="allowquickmodedisable" name="allowquickmodedisable" disabled="disabled" />Allow Quickmode Changes</label></li>
+        <li><label for="allowpartialrun">
+            <input type="checkbox" title="operator can run individual sequence steps" id="allowpartialrun" name="allowpartialrun" disabled="disabled" />Allow Single Stepping</label></li>
+        <li><label for="autonextitem">
+            <input type="checkbox" title="sequence execution automatically moves to next item unless the item fails" id="autonextitem" name="autonextitem" disabled="disabled" />Automatically Test Next Item</label></li>
+        <li><label for="donotprintonfail">
+            <input type="checkbox" title="any and all datasheets that are to be printed will be cancelled once any of the steps in the sequence fail" id="donotprintonfail" name="donotprintonfail" disabled="disabled" />Cancel Datasheet Printing On Failure</label></li>
+      </ul>
+    </div>
+
+    <input type="hidden" id="menuTab" name="menuTab" value="$$MENUTAB$$" />
+
+    <div class="topbar">
+      <a class="left disabled" id="undoer"><img src="/images/undosmalldisabled.gif" width="16" height="16" /></a>
+      <span class="pendingChanges hidden">* There are unsaved changes</span>
+      <select id="sequences" title="Load a previous sequence"><option>&nbsp;</option></select>
+      <a id="_saveDialog"    href="#nogo" title="Save this sequence"><img src="/images/floppysmalldisabled.gif" width="16" height="16" alt="small save icon"/></a>
+      <a id="newSequence"    href="#nogo" title="Create a new sequence"><img src="/images/newsmalldisabled.gif" width="16" height="16" /></a>
+      <a id="copySequence"   href="#nogo" title="Copy this sequence"><img src="/images/copysmalldisabled.gif" width="16" height="16" /></a>
+      <a id="deleteSequence" href="#nogo" title="Delete this sequence"><img src="/images/deletesmalldisabled.gif" width="16" height="16" /></a>
+      <a id="exportSequence" href="#nogo" title="Export this sequence"><img src="/images/exportsmall.gif" width="16" height="16" /></a>
+      <a id="_importDialog"  href="#nogo" title="Import another sequence"><img src="/images/importsmalldisabled.gif" width="16" height="16" /></a>
+      <a id="runSequence"    href="#nogo" title="Run this sequence"><img src="/images/runsmalldisabled.gif" width="16" height="16" /></a>
+    </div>
+
+    <div id="summary">
+      <div class="legend"><label for="description">Description</label></div>
+      <textarea id="description" name="description" rows="4" title="a short reason for or explanation about this sequence" disabled="disabled"></textarea>
+
+      <div id="summaryOptions">
+        <label for="approvedforuse">
+        <input type="checkbox" id="approvedforuse" name="approvedforuse" disabled="disabled" />Approved for Use</label>
+
+        <label for="spartansetsn">
+        <input type="checkbox" id="spartansetsn" name="spartansetsn" disabled="disabled" />Spartan sets $$SNDISPLAY$$</label>
+
+        <label for="moreOptions">
+        <a id="_optionsDialog" href="#nogo"><img src="/images/smallcheck.gif" width="16" height="16" />&nbsp;More sequence options...</a></label>
+      </div>
+
+      <div class="one-liner"><span class="strong">Created by</span>
+        <a href="mailto:$$CREATOREMAIL$$">$$CREATOR$$</a>
+        <span id="createDate" class="grayedout"></span></div>
+
+      <div class="one-liner"><span class="strong">Last modified by</span>
+        <a href="mailto:$$MODIFIEDBYEMAIL$$">$$MODIFIEDBY$$</a>
+        <span id="modifyDate" class="grayedout"></span></div>
+    </div><!-- SUMMARY -->
+
+    <div id="dividerBar"><a href="#nogo" class="slider" id="_summary" title="show/hide summary"><img src="/images/slide.gif" width="6" height="6" /></a></div>
+
+    <!-- FIELDS/STEPS/OPTIONS TAB CONTROLS -->
+    <div id="tabmenu">
+      <ul>
+        <li><a href="#nogo" id="seqTabLink0"  onClick="this.blur(); setMenu(0); showMenuItem(THEMENU, 0); return false;"
+             title="view the table of items that are collected when the sequence is run">Fields</a></li>
+        <li><a href="#nogo" id="seqTabLink1"  onClick="this.blur(); setMenu(1); showMenuItem(THEMENU, 1); return false;"
+             title="view the list of the steps performed by the sequence">Steps</a></li>
+      </ul>
+    </div>
+
+
+    <!-- FIELDS TABLE -->
+    <div class="hidden" id="seqTab0">
+      <table class="standard" id="fieldsTable" cellspacing="0">
+        <thead><tr>
+          <th class="icon"><input type="checkbox" id="showhiddenfields" name="showhiddenfields" value="showhiddenfields" title="show/hide fields that cannot be changed" /></th>
+          <th class="icon" title="Required: if checked, the value cannot be left empty"><img src="/images/required.gif" width="16" height="16" /></th>
+          <th class="icon" title="Set at Test: if checked, the value gets set during testing"><img src="/images/testingsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="Delete: remove this field"><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="Reorder table rows: data entry is presented in this order during test runs"><img src="/images/moverssmall.gif" width="16" height="16" /></th>
+          <th class="w24">Name</th>
+          <th class="ni" title="field data type">Type</th>
+          <th class="w24" title="default value when running the sequence">Default Value</th>
+          <th class="ni" title="measurement units, if any">Units</th>
+          <th class="ni" title="tells what happens to the value when testing the next item">Next Item</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="add_wrapper">
+        <a href="#nogo" class="adder" id="_add_field" title="Add a field">Add Field...</a>
+        <div class="hidden" id="add_field">
+          <select><option></option></select>
+          <a href="#nogo" class="btn_ok" title="Add this field"></a>
+          <a href="#nogo" class="btn_cancel" title="Make no changes"></a>
+        </div>
+      </div>
+    </div><!-- FIELDS TAB -->
+
+
+    <!-- STEPS TAB -->
+    <div class="hidden" id="seqTab1">
+      <table class="standard" id="stepsTable" cellspacing="0">
+        <thead><tr>
+          <th class="icon" title="step number">#</th>
+          <th class="icon" title="remove this step"><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="copy this step"><img src="/images/copysmall.gif" width="16" height="16" /></th>
+          <th class="repeatN" title="Repeat Step: how often this step runs when repeating the sequence"><img src="/images/repeat.gif" width="16" height="16" /></th>
+          <th class="icon" title="Quickmode: run this step without a UI or as fast as possible"><img src="/images/quickmode.gif" width="16" height="16"></th>
+          <th class="icon" title="Reorder table rows: test steps are run in this order"><img src="/images/moverssmall.gif" width="16" height="16"></th>
+          <th title="Test Name">Name</th>
+          <th class="w32" title="Tag gets associated with this step of the sequence">Tag</th>
+          <th title="Templates to generate reports at step completion">Templates</th>
+        </thead></tr>
+        <tbody></tbody>
+      </table>
+
+      <div class="add_wrapper">
+        <a href="#nogo" class="adder" id="_add_step" title="Add a step">Add Step...</a>
+        <div class="hidden" id="add_step">
+          <select><option></option></select>
+          <a href="#nogo" class="btn_ok" title="Add this step"></a>
+          <a href="#nogo" class="btn_cancel" title="Make no changes"></a>
+        </div>
+      </div>
+
+      <!-- STEP PANELS LOAD HERE -->
+
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

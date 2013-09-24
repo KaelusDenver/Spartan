@@ -1,0 +1,51 @@
+[General]
+File Format Version=1.0.2
+Project Root=""
+Source Root=../../..
+Build Root="../../../../SPARTAN BUILT"
+Namespace=""
+Overwrite Existing Files=TRUE
+Log Dir="/C/DEVELOPMENT/SPARTAN BUILT LOGS"
+Log File=""
+Log File Suffix=""
+Include Help Files=FALSE
+Help File Dir=""
+Include Shared Libs=TRUE
+Shared Lib Dir=updater
+Include External Subrs=TRUE
+External Subr Dir=updater
+Include Hidden VIs=TRUE
+EXE Icon File=""
+New Build Root=FALSE
+Unsaved Changes MsgBox=FALSE
+Ambiguous VIs Dest Dir=""
+Call Pre-Build VI=""
+Call Post-Build VI=""
+Revision File="Prompted Inputs Version.ini"
+Version VI Name="Prompted Inputs Updater.vi"
+Version Ctrl Name=Version
+Apply New Password=""
+RemovePolyVIsAndTypedefs=TRUE
+Allow CBVI & Build Hierarchy Overlap=FALSE
+Namespace Convention=0
+EXE App Flags=4
+EXE LVRT Res Flags=0
+
+[Top Level VIs]
+VI 1="www/tests/Prompted Inputs/Prompted Inputs Updater.vi"
+
+[Dynamic VIs]
+
+[Exclude Lib Dirs from Build]
+
+[Destination 1]
+Source Dir=""
+Target Dir="updater/Prompted Inputs Updater.exe"
+Convert Target to LLB=FALSE
+Convert Target to EXE=TRUE
+Save Level=2
+Default Destination=TRUE
+Apply New Password=""
+Namespace=""
+Debug Level=0
+

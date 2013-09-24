@@ -1,0 +1,834 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Spartan Fields</title>
+$$STYLES$$
+<style type="text/css">
+#ident { margin: 2em 0 2em 1em; width: 60%; float: left; clear: both; white-space: nowrap; }
+#ident td { vertical-align: top; text-align: right; }
+#ident td.l { padding: 0.15em 1em 1.2em 0;  width: 25%; }
+#ident td #fieldId, #ident td #displayName { width: 98%; }
+#ident td#valueTypes, #ident td#values, #ident td#defaultValueCell  { text-align: left; }
+#ident td#values table  { width: 100%; }
+#ident td#values table td#defaultValueCell { width: 65%; }
+#ident td#values table input#defaultValue { width: 98%; }
+#ident td#values table input#fieldUnits { width: 6em; }
+
+#ident td#listOptions { position: relative; display: block; text-align: left; }
+#ident td#listOptions td { text-align: left; }
+#ident td#listOptions #listOptionsDisabled { position: absolute; width: 100%; height: 100%; z-index: 1; background: #ccc; filter: alpha(opacity=50); opacity: 0.5; }
+#ident td#listOptions th { background: #fff; color: #ccc; border: solid #ccc 0px; border-bottom-width: 1px; padding: 0; }
+
+#behave { float: left; margin: 0; padding: 3em 0 0 4em; }
+#behave label { display: block; margin-top: 0.75em; margin-left: 1em; }
+#behave label#freelistlabel { margin-top: 2em; }
+#behave select { width: 50%; }
+</style>
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+$(document).ready(function() {
+  buildFieldsTable();
+
+  // topbar and table links
+
+  // list
+  $('#listFields').click(function () {
+    $(this).blur();
+    return true;
+  });
+
+  // save
+  $('#saveField').click(function () {
+    $(this).blur();
+    saveField();
+  });
+
+  // new
+  $('#newField').click(function () {
+    $(this).blur();
+    return true;
+  });
+
+  // copy (from topbar and table)
+  $('#copyField, .copy').live('click', function() {
+    $(this).blur();
+    if (actionCancelledAlert()) return false;
+    return true;
+  });
+
+  // delete (from topbar and table)
+  $('#deleteField, .delete').live('click', function () {
+    $(this).blur();
+    if ($(this).hasClass("disabled")) return false;
+    if (confirm("Delete this field?\n\nThis action cannot be undone.")) {
+      $('.busyNote').show();
+      CHANGES=false;
+      return true;
+    }
+    return false;
+  });
+
+  $('.edit').live('click', function () {
+    var index = parseInt($(this).blur().attr('id'));
+    editField(index);
+    return false;
+  });
+
+
+  if (editMode) {
+    $('#editMode').val(editMode);     // store mode for subsequent submissions
+    $('#headlabel').text("Spartan Field Editor");
+    editField(editIndex);             // edit field
+  } else {
+    $('#f').css("border-width", "0"); // set form border
+    $('#headlabel').text("Spartan Fields");
+    $('#fieldsTable').show();         // show table
+  }
+
+  // show/hide fields checkbox
+  $("#showhidefields").click(function () {
+    buildFieldsTable();
+  });
+
+  // bind click for IE, change for others
+  var evt = ($.browser.msie)? "click" : "change";
+  $("input[name='fieldType']").bind(evt, function() {
+    updateDefaultValueAndUnits($(this).val());
+
+    // for IE we have to check if something did change
+    if ($(this).val() != FIELDS[CURRENTFIELDINDEX].nDataType) makeChanges();
+  });
+
+  $('#defaultValue, #fieldUnits, #displayName').change(function () {
+    makeChanges();
+  });
+
+
+  // "Add Field/Option..." handler
+  $(".add_wrapper a").click( function () {
+    // 'this' is clicked anchor element
+    $(this).blur();
+
+    if ($(this).is(".adder")) {
+
+      if ($(this).is("#_add_field")) return true;
+
+      if (!$('#fieldType_list').is(":checked")) return false;
+
+      $(this).next("div").fadeIn("fast").children("input").select();
+      return false;
+
+    } else if ($(this).is(".btn_cancel")) { // cancel adding
+      $(this).parent().hide();
+      return false;
+
+    } else if ($(this).is(".btn_ok")) { // add new
+      addOption();
+      $(this).parent().hide();
+      return false;
+    }
+
+  }); // "Add Option..." handler
+
+
+  $("#listOptionsTable input").live('click', function () {
+    if ($(this).val() != $('#defaultValue').val()) {
+      $('#defaultValue').val($(this).val());
+      makeChanges();
+    }
+  });
+
+  $("#listOptionsTable a").live('click', function () {
+    $(this).blur();
+    var cmd = $(this).attr("id").split(":");
+    var index = parseInt(cmd[1]);
+    cmd = cmd[0].toLowerCase();
+    switch (cmd) {
+      case 'delete':
+        deleteOption(index);
+        break;
+      case 'moveup':
+        moveOption(0-index);
+        break;
+      case 'movedown':
+        moveOption(index);
+        break;
+
+      default:
+    }
+  });
+
+  // document key bindings
+  var isCtrl = false; // global Ctrl-key watcher
+
+  $(document).keyup(function (e) {
+    if (e.which == 17) isCtrl=false;
+
+  }).keydown(function (e) {
+    if (e.which == 17) isCtrl=true;
+
+    switch(e.which) {
+
+      case 13:   // "return"/"enter" key
+        addOption();
+        $(".add_wrapper > div").hide();
+        break;
+
+      case 27:   // "esc" key
+        $(".add_wrapper > div").hide();
+        break;
+
+      case 83:   // "S" - save
+        if (isCtrl);
+        break;
+
+      case 90:   // "Z" - undo
+        if (isCtrl);
+        break;
+    }
+
+  }); // key bindings
+
+}) // document.ready()
+
+
+function buildFieldsTable() {
+
+  // clear previous rows
+  $('#fields > tbody tr').remove();
+
+  // append table rows for each condition
+  for (var i=0; i<FIELDS.length; i++) {
+    FIELDS[i].index = i; // save a new local index
+
+    if (!(FIELDS[i].fSystem && FIELDS[i].fSystemValue) || $("#showhidefields").is(":checked")) {
+
+      $('#fields tbody').tplAppend(FIELDS[i], function () {
+
+        if (this.fSystem) {
+          var fieldIcon      = "/images/fieldsystemsmall.gif";
+          var fieldIconTitle = "this is a system field";
+          var deleteLink      = "#nogo";
+          var deleteIcon      = "/images/deletesmalldisabled.gif";
+          var deleteIconTitle = "Cannot delete this field";
+        } else {
+          var fieldIcon      = "/images/fieldsmall.gif";
+          var fieldIconTitle = "this is a custom field";
+          var deleteLink      = '$$THISCGI$$?delete=' + encodeURIComponent(this.sxFieldId) + '&' + randomizer();
+          var deleteIcon      = "/images/deletesmall.gif";
+          var deleteIconTitle = "Delete " + this.sDisplayName;
+        }
+
+        return ['tr', {},
+                 ['td', { className: "icon" }, [
+                    'a', { title: fieldIconTitle, href: '#nogo' }, [
+                      'img', { src: fieldIcon, width: '16', height: '16' }
+                    ]
+                 ],
+                 'td', { className: "icon" },[
+                   'a', { className: 'delete', title: deleteIconTitle, href: deleteLink }, [
+                     'img', { src: deleteIcon, width: '16', height: '16' }
+                   ]
+                 ],
+                 'td', { className: "icon" }, tplCheckboxTableCell("", this.fRequired, true, "required"),
+                 'td', { className: "icon" }, tplCheckboxTableCell("", this.fSetAtTest, true, "set at test"),
+                 'td', { className: "icon" },[
+                   'a', { className: 'edit', id: i, title: 'Edit ' + this.sDisplayName, href: '$$THISCGI$$?edit=' + encodeURIComponent(this.sxFieldId) + '&' + randomizer() }, [
+                     'img', { src: '/images/editsmall.gif', width: '16', height: '16' }
+                   ]
+                 ],
+                 'td', { className: "icon" },[
+                   'a', { className: 'copy', title: 'Copy ' + this.sDisplayName, href: '$$THISCGI$$?copy=' + encodeURIComponent(this.sDisplayName) + '&' + randomizer() }, [
+                     'img', { src: '/images/copysmall.gif', width: '16', height: '16' }
+                   ]
+                 ],
+                 'td', {}, [this.sxFieldId],
+                 'td', {}, [
+                   'a', { className: 'edit', id: i, title: 'Edit ' + this.sDisplayName, href: '$$THISCGI$$?edit=' + encodeURIComponent(this.sxFieldId) + '&' + randomizer() }, [
+                     this.sDisplayName
+                   ]
+                 ],
+                 'td', {}, [this.nDataType],
+                 'td', {}, [nbsp(this.sValue)],
+                 'td', {}, [nbsp(this.sUnits)],
+                 'td', {}, [this.nNextItem]
+               ]
+             ]
+      });
+    }
+  }
+
+  // table is now built, style it
+  $("#fields tbody > tr:nth-child(odd)").addClass("o"); // zebra stripes
+
+}// buildFieldsTable
+
+function updateDefaultValueAndUnits(type) {
+
+  // start by disabling value and units
+  $('#defaultValue').unbind('keyup').attr("disabled", "disabled");
+  $('#fieldUnits').attr("disabled", "disabled");
+
+  switch(type.toLowerCase()) {
+    case "text": // preserve numerics and/or default list values
+      var t = $('#defaultValue').val();
+      $('#defaultValue').val(t.replace(ILLEGAL(2),''))
+                        .keyup(function () {
+                          var newVal = this.value.replace(ILLEGAL(2),'');
+                          if (newVal != this.value) {
+                            this.value = newVal;
+                            if ($.browser.msie) makeChanges();
+                          }
+                        });
+      $('#freelist').removeAttr("checked")
+                    .disabled = true;
+      FIELDS[CURRENTFIELDINDEX].fFreeList = false;
+      break;
+
+    case "numeric": // preserve numeric portion of other types
+      var lastNum = validateNumeric($('#defaultValue').val());
+
+      $('#defaultValue').val(lastNum)
+                        .keyup(function () {
+                          var newVal = validateNumeric(this.value);
+                          if (newVal != this.value) {
+                            this.value = newVal;
+                            if ($.browser.msie) makeChanges();
+                          }
+                        });
+      $('#freelist').removeAttr("checked")
+                    .disabled = true;
+      FIELDS[CURRENTFIELDINDEX].fFreeList = false;
+      break;
+
+    case "list":    // list (enumerated)
+      // use the default radio selection to fill defaultValue
+      $('#defaultValue').val(getRadioSelection('defaultOption'));
+      $('#freelist').removeAttr("disabled");
+      break;
+
+    default:
+  }
+
+  // now enable if necessary
+  if (!FIELDS[CURRENTFIELDINDEX].fSystemValue) {
+    if(!(type.toLowerCase() == 'list')) $('#defaultValue').removeAttr("disabled");
+    $('#fieldUnits').removeAttr("disabled");
+  }
+
+  buildListOptionsTable(type.toLowerCase() == 'list' && !FIELDS[CURRENTFIELDINDEX].fSystemValue);
+}
+
+
+
+//----------------------------------------------------------
+//  AJAX undelete
+//----------------------------------------------------------
+function undelete(deletedFieldIdOrDisplayName) {
+  var msg = '';
+
+  $.ajax({
+    url: "$$THISCGI$$?undelete=" + encodeURIComponent(deletedFieldIdOrDisplayName),
+    type: "GET",
+    cache: false,
+    success: function(response) {
+      try { eval('var data=' + response); }
+      catch(e) { msg = 'An error occurred checking the record.\n\n' + e; }
+
+      if (isBlank(msg) && data.status == 'true') {
+        msg = "An error occurred!\n\n" + "Code: " + data.code + "\nSource:\n\n" + data.source;
+
+      } else {
+        // delete successful (sDisplayName returned) - load field into editor
+        CHANGES = false;
+        document.location = "$$THISCGI$$?edit=" + encodeURIComponent(data.payload)+ "&" + randomizer();
+      }
+    }
+  });
+  alert(msg);
+}
+
+
+//----------------------------------------------------------
+// loads the individual record for edit
+//----------------------------------------------------------
+function editField(i) {
+
+  $('#fieldsTable').hide();   // hide table and reset changes
+  $('#f').css("border-width", "1px");  // for border styling
+  CHANGES = false;
+  $('.pendingChanges').hide();
+
+  if (editNew) makeChanges();
+
+  // set CURRENTFIELDINDEX global
+  CURRENTFIELDINDEX = i
+
+  // clear global ENUMS array and copy
+  // any current enums
+  CURRENTENUMS = [];
+
+  // set up topbar link destinations
+  $("#listFields").attr('href', '$$THISCGI$$?' + randomizer());
+  $('#newField').attr('href', '$$THISCGI$$?edit=' + '&' + randomizer());
+  $('#copyField').attr('href', '$$THISCGI$$?copy=' + encodeURIComponent(FIELDS[i].sDisplayName) + '&' + randomizer());
+
+  // update the delete link ... can't delete system fields
+  if (FIELDS[i].fSystem) {
+    $('#deleteField').attr( {
+         className: "disabled",
+         href: '#nogo',
+         title: "cannot delete this field" }).children("img").attr({ src: "/images/deletesmalldisabled.gif", width: "16", height: "16" });
+  } else {
+    $('#deleteField').attr( {
+         className: '',
+         href:  '$$THISCGI$$?delete=' + encodeURIComponent(FIELDS[i].sxFieldId) + "&" + randomizer(),
+         title: "delete this field" }).children("img").attr( {src: "/images/deletesmall.gif", width: "16", height: "16" });
+  }
+
+
+  try {  // load current fields ENUMS (if any)
+    for (var j = 0; j<FIELDS[i].ENUMS.length; j++) CURRENTENUMS[j] = FIELDS[i].ENUMS[j]
+  } catch (ex) {} // do nothing if no current enums
+
+  // load edit controls
+  $('#fieldId').val(FIELDS[i].sxFieldId);
+  $('#displayName').val(FIELDS[i].sDisplayName);
+  ORIGINAL = FIELDS[i].sDisplayName;  // save original name for new edit name change comparisons
+
+  // reset/disable value, type, and units prior to filling in with new record values
+  $('#fieldType_text').attr({ checked: '', disabled: 'disabled' });
+  $('#fieldType_numeric').attr({ checked: '' , disabled: 'disabled' });
+  $('#fieldType_list').attr({ checked: '', disabled: 'disabled' });
+  $('#defaultValue').val(FIELDS[i].sValue).attr("disabled", "disabled");
+  $('#fieldUnits').val(FIELDS[i].sUnits).attr("disabled", "disabled");
+
+  // build list options and disable, enable happens below
+  buildListOptionsTable(false);
+
+  // set appropriate field type:
+  $('#fieldType').val(FIELDS[i].nDataType.toLowerCase());
+  if (FIELDS[i].nDataType.toLowerCase() == "list") {
+		$('#fieldType_list').attr("checked", "checked");
+  } else if (FIELDS[i].nDataType.toLowerCase() == "numeric") {
+    $('#fieldType_numeric').attr("checked", "checked");
+  } else {
+    $('#fieldType_text').attr("checked", "checked");
+  }
+
+  // Edit allowed if NOT (fSystemValue or fIndexed)
+  if (!(FIELDS[i].fSystemValue || FIELDS[i].fIndexed)) {
+    $('#fieldType_text').removeAttr("disabled");
+    $('#fieldType_numeric').removeAttr("disabled");
+    $('#fieldType_list').removeAttr("disabled");
+  }
+
+  // Change the way value editing happens based on value type
+  updateDefaultValueAndUnits(FIELDS[i].nDataType);
+
+  // set up behaviors
+  if (FIELDS[i].fSetAtTest) $('#setAtTest').attr("checked", "checked");
+  if (!FIELDS[i].fSystemValue) $('#setAtTest').removeAttr("disabled");
+
+  if (FIELDS[i].fRequired) $('#required').attr("checked", "checked");
+  if (!FIELDS[i].fSystem) $('#required').removeAttr("disabled");
+
+  switch (FIELDS[i].nNextItem.toLowerCase()) {
+    case "reset":
+      document.getElementById('nextItem').selectedIndex = 0
+      break;
+    case "retain":
+      document.getElementById('nextItem').selectedIndex = 1
+      break
+    default:
+      document.getElementById('nextItem').selectedIndex = 2
+  }
+  if (!FIELDS[i].fSystemValue) $('#nextItem').removeAttr("disabled");
+
+  if (FIELDS[i].fFreeList) $('#freelist').attr("checked", "checked");
+  if (FIELDS[i].nDataType.toLowerCase() == "list" && !FIELDS[i].fSystemValue) $('#freelist').removeAttr("disabled");
+
+  // show edit form
+  $('#fieldEditor').show();
+}
+
+
+// uses the global ENUMS to build a
+// table of list options
+function buildListOptionsTable(enable) {
+  // clear first
+  $('#listOptionsTable tbody tr').remove();
+
+  // now build if we've got enums
+  for (i=0; i<CURRENTENUMS.length; i++) {
+
+    var state = (CURRENTENUMS[i] == $('#defaultValue').val());
+
+    if (enable) {
+      $('#listOptionsTable tbody').tplAppend(CURRENTENUMS[i], function () {
+           return ['tr', {},
+                    [ 'td', { className: "icon" }, tplRadioTableCell("defaultOption", CURRENTENUMS[i], state, false, "default selection"),
+                      'td', { className: "icon" }, tplIconTableCell("delete:" + i, "#nogo", "/images/deletesmall.gif", "remove this option"),
+                      'td', { className: "icon" }, tplMoverTableCell(i, CURRENTENUMS.length, enable),
+                      'td', {}, [CURRENTENUMS[i]]
+                    ]
+                  ]
+           });
+    } else {
+      $('#listOptionsTable tbody').tplAppend(CURRENTENUMS[i], function () {
+           return ['tr', {},
+                    [ 'td', { className: "icon" }, tplRadioTableCell("defaultOption", CURRENTENUMS[i], state, true, "default selection"),
+                      'td', { className: "icon" }, tplIconTableCell("", "#nogo", "/images/deletesmalldisabled.gif", "cannot remove this option"),
+                      'td', { className: "icon" }, tplMoverTableCell(i, CURRENTENUMS.length, enable),
+                      'td', {}, [CURRENTENUMS[i]]
+                    ]
+                  ]
+           });
+    }
+  }
+
+  if (enable) {
+    $('#_add_option').attr("className", "adder")
+                     .attr("title", "add another option");
+                     
+    // disable (and change if necessary) next item auto-increment
+    if ($('#nextItem').val().toLowerCase() == 'auto-increment') $('#nextItem').val('reset')
+    $('#nextItem #autoInc').attr("disabled", "disabled");
+    
+    // IE6/7 do not support disabled select options begin hack to replace disabled option
+    // with similarly labelled optgroup; see http://www.inquirium.net/blog/entry_157.php
+    if ($.browser.msie && parseInt($.browser.version)<=7) {
+      $('#nextItem #autoInc').replaceWith('<optgroup id="autoIncIE" label="Auto-Increment" class="grayedout"></optgroup>');
+    }
+  } else {
+    $('#_add_option').attr("className", "adder_grayedout")
+                     .attr("title", "cannot add options");
+                     
+    $('#nextItem option:last').removeAttr("disabled");
+    $('#freelist').attr("disabled", "disabled");
+
+    if ($.browser.msie && parseInt($.browser.version)<=7) { // IE hack
+      $('#nextItem #autoIncIE').replaceWith('<option id="autoInc" value="auto-increment">Auto-Increment</option>');
+    }
+  }
+
+  if (CURRENTENUMS.length == 0) $('#listOptionsTable thead').show();
+  else $('#listOptionsTable thead').hide();
+
+  $("#listOptionsTable tbody > tr:nth-child(odd)").addClass("o"); // zebra stripes
+}
+
+
+function addOption() {
+  var n = $('#add_option_input').val();
+
+  if (isBlank(n)) return;
+
+  $('#add_option_input').val('');
+  CURRENTENUMS.push(n);
+
+  if (isBlank($('#defaultValue').val())) $('#defaultValue').val(n);
+
+  makeChanges();
+  buildListOptionsTable(true);
+}
+
+// recall list default selection
+function getRadioSelection(r) {
+  var opts=document.getElementsByName(r)
+  for (var i = 0; i < opts.length; i++) {
+    if (opts[i].checked) return opts[i].value
+  }
+  return ''
+}
+
+// reorder options list
+function moveOption(i) {
+  var dir=1;  // move toward end of list
+  if (i<0) {
+    dir = -1; // move toward beginning of list
+    i   = -i;
+  }
+
+  var tmp = CURRENTENUMS[i + dir];    // save field above (or below)
+  CURRENTENUMS[i + dir] = null;
+  CURRENTENUMS[i + dir] = CURRENTENUMS[i];   // replace index with next (or prev)
+  CURRENTENUMS[i] = null;
+  CURRENTENUMS[i] = tmp;              // move temp back
+  tmp = null;
+
+  makeChanges();
+  buildListOptionsTable(true);
+}
+
+function deleteOption(i) {
+
+  // deleting default item or last item?
+  if ((CURRENTENUMS[i] == document.getElementById('defaultValue').value) || (CURRENTENUMS.length == 1)) {
+    if (CURRENTENUMS.length == 1) { // deleting last element, clear value
+      $('#defaultValue').val('');
+    } else {
+      if (i == 0) {  // deleting first element, value gets next
+        $('#defaultValue').val(CURRENTENUMS[1]);
+      } else {       // deleting not first element, value gets previous
+        $('#defaultValue').val(CURRENTENUMS[i - 1]);
+      }
+    }
+  }
+
+  CURRENTENUMS.splice(i, 1);
+
+  makeChanges();
+  buildListOptionsTable(true);
+  return false;
+}
+
+
+// validate before saving
+function saveField() {
+  var msg = '';
+
+  $('.busyNote').show();  // disable form
+
+  // check for empty display name
+  var dname = $('#displayName').val();
+
+  if (isBlank(dname)) {
+    msg = "  * Display Name cannot be empty\n";
+
+  } else { // cannot have duplicate display names either
+
+    if (dname.toLowerCase() != ORIGINAL.toLowerCase()) {
+      $.ajax({
+        type: "GET",
+        async: false,
+        cache: false,
+        url: '$$THISCGI$$?checkExists=' + encodeURIComponent(dname),
+        success: function(response) {
+          try { eval('var data=' + response); }
+          catch(e) { msg += 'An error occurred checking the record.\n\n' + e; }
+
+          if (isBlank(msg)) {
+            if (data.status) msg += 'An error occurred checking the record.\n\n' + data.source;
+            else {
+              overwrite = (data.payload === true);
+              if (overwrite) msg += '* A field with that display name already exists.\n';
+            }
+          }
+        }
+      });
+    }
+  }
+
+  if ($('#fieldType_list').is(':checked')) { // check for empty lists, format form elements for list
+    if (CURRENTENUMS.length > 0) {
+      for (var i=0; i < CURRENTENUMS.length; i++) {
+        if (isBlank(CURRENTENUMS[i])) {
+          msg += "  *  List options cannot be blank\n"
+          break;
+        }
+
+        // check for duplicate list entries
+        var duplicate = false;
+        if (i < (CURRENTENUMS.length - 1)) {
+          for (var j=i+1; j < CURRENTENUMS.length; j++) {
+            if (CURRENTENUMS[i] == CURRENTENUMS[j]) {
+              duplicate = true;
+              break;
+            }
+          }
+        }
+        if (duplicate) {
+          msg += "  *  List options must be unique (no duplicates).\n"
+          break;
+        }
+
+        // this reads the list and appends them to the form
+        $('#f').append('<input type="hidden" name="listOption' + i + '" value="' + encodeURIComponent(CURRENTENUMS[i]) + '" />');
+        $('#defaultValue').removeAttr('disabled');  // enable for form submission
+      } // end If not empty CURRENTENUMS
+
+    } else {
+      msg += "  * List type specified with no entries\n"
+    }
+  } // end list-type verify
+
+
+  if (msg != '') {
+    alert("Please fix these problems before submitting the changes:\n\n" + msg)
+    $('.busyNote').hide();  // enable form
+  } else {
+    $('#fieldType_text').attr('disabled', '');
+    $('#fieldType_numeric').attr('disabled', '');
+    $('#fieldType_list').attr('disabled', '');
+    $('#f').attr('action', '$$THISCGI$$?save=' + encodeURIComponent($('#fieldId').val()) + '&' + randomizer());
+    CHANGES = false; // reset for submission
+    $('#f').submit();
+  }
+
+}
+
+
+//------ GLOBALS
+var editMode  = $$EDITMODE$$;
+var editIndex = $$EDITINDEX$$;
+var editNew   = $$EDITNEW$$;
+
+var CURRENTFIELDINDEX;   // for handling record-level edits
+var CURRENTENUMS = [];   // for editing enumerated lists
+var ORIGINAL;            // for new item name checking
+
+// FIELDS array of FIELD objects
+$$FIELDDEFINITION$$
+$$FIELDS$$
+
+// warn of pending changes for browse-off's
+// (does not work in FF if added to BODY tag)
+window.onbeforeunload=confirmLeave;
+--></script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img src="/images/fieldbig.gif" width="48" height="48" />
+  <label id="headlabel">Spartan Fields</label></h2>
+
+  <form id="f" method="POST" action="$$THISCGI$$">
+    <div class="busyNote hidden">
+      <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+    </div>
+  
+    <input type="hidden" id="editMode" name = "editMode" value="" />
+
+    <!--  Fields Table -->
+    <div id="fieldsTable" class="hidden">
+      <table class="standard" id="fields" cellpadding="0" cellspacing="0">
+        <thead><tr>
+          <th class="icon"><input type="checkbox" id="showhidefields" name="showhidefields" title="show uneditable system value fields"/></th>
+          <th class="icon" title="DELETE: remove field from system"><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="REQUIRED: default sequence editor setting"><img src="/images/required.gif" width="16" height="16" /></th>
+          <th class="icon" title="SET AT TEST: default sequence editor setting"><img src="/images/testingsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="EDIT: edit this field"><img src="/images/editsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="COPY: copy this field"><img src="/images/copysmall.gif" width="16" height="16" /></th>
+          <th class="w12">Field Id</th>
+          <th class="w12">Display Name</th>
+          <th title="data type">Type</th>
+          <th title="default sequence editor value">Default Value</th>
+          <th title="measurement units, if any">Units</th>
+          <th title="default action for sequence editor">Next Item</th>
+        </tr></thead>
+        <tbody>
+        </tbody>
+      </table>
+
+      <div class="add_wrapper">
+        <a href="$$THISCGI$$?edit=&$$RANDOMIZER$$" class="adder" id="_add_field" title="Add a new field">Add New Field...</a>
+      </div>
+
+    </div>
+
+    <!--  Field Editor -->
+    <div class="hidden" id="fieldEditor">
+      <div class="topbar">
+        <a id="listFields" class="left" title="List all fields"><img src="/images/listsmall.gif" width="16" height="16" /></a>
+        <span class="pendingChanges">* There are unsaved changes</span>
+        <a id="saveField"   href="#nogo" title="Save this field"><img src="/images/floppysmall.gif" width="16" height="16" alt="small save icon"/></a>
+        <a id="newField"    href="#nogo" title="Create a new field"><img src="/images/newsmall.gif" width="16" height="16" /></a>
+        <a id="copyField"   href="#nogo" title="Copy this field"><img src="/images/copysmall.gif" width="16" height="16" /></a>
+        <a id="deleteField" href="#nogo" title="Delete this field"><img src="/images/deletesmalldisabled.gif" width="16" height="16" /></a>
+      </div>
+
+      <table id="ident" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="l"><label for="fieldId">Field Id</label></td>
+          <td><input title="Identifies the field assigned by Spartan" disabled="disabled" type="text" id="fieldId" name="fieldId" value="" /></td>
+        </tr>
+
+        <tr>
+          <td class="l"><label for="displayName">Display Name</label></td>
+          <td><input title="Identifies the field and must be unique" id="displayName" name="displayName" value="" />
+          </td>
+        </tr>
+
+        <tr>
+          <td class="l"><label>Value Type</label></td>
+          <td id="valueTypes">
+            <label for="fieldType_text" title="operators enter free-form text">
+            <input type="radio" disabled="disabled" name="fieldType" id="fieldType_text" value="text" />Text</label>
+
+            <label for="fieldType_numeric" title="operators enter a number">
+            <input type="radio" disabled="disabled" name="fieldType" id="fieldType_numeric" value="numeric" />Numeric</label>
+
+            <label for="fieldType_list" title="operators select from a list">
+            <input type="radio" disabled="disabled" name="fieldType" id="fieldType_list" value="list" />List</label>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="l"><label for="defaultValue">Default Value</label></td>
+          <td id="values">
+            <table cellpadding="0" cellspacing="0"><tr>
+              <td id="defaultValueCell">
+                <input disabled="disabled" type="text" id="defaultValue" name="defaultValue" value="" title="Default value is used during sequence editing" />
+              </td>
+              <td>
+                <label id="unitLabel" for="fieldUnits">Units</label>
+                <input disabled="disabled" type="text" id="fieldUnits" name="fieldUnits" value="" title="Enter any units" /></td>
+            </tr></table>
+
+          </td>
+        </tr>
+
+
+        <tr>
+          <td class="l"><label>List Options</label></td>
+          <td id="listOptions">
+
+            <table class="standard" id="listOptionsTable" cellpadding="0" cellspacing="0">
+              <thead><tr><th>Empty</th></tr></thead>
+              <tbody></tbody>
+            </table>
+
+            <div class="add_wrapper">
+              <a class="adder" id="_add_option" href="#nogo" title="add another item">Add Option...</a>
+              <div class="hidden" id="add_option">
+                <input type="text" id="add_option_input" />
+                <a href="#nogo" class="btn_ok" title="Add this item"></a>
+                <a href="#nogo" class="btn_cancel" title="Make no changes"></a>
+              </div>
+            </div>
+
+          </td>
+        </tr>
+      </table>
+
+      <div id="behave">
+        <legend>Default Behavior</legend>
+
+  	<label for="setAtTest">
+        <input type="checkbox" disabled="disabled" id="setAtTest" name="setAtTest" onClick="makeChanges();" />Set at Test</label>
+  
+        <label for="required">
+        <input type="checkbox" disabled="disabled" id="required" name="required" onClick="makeChanges();" />Required</label>
+
+        <label for="nextItem">
+        <select disabled="disabled" id="nextItem" name="nextItem" onChange="makeChanges();">
+          <option value="reset">Reset</option>
+          <option value="retain">Retain</option>
+          <option id="autoInc" value="auto-increment">Auto-Increment</option>
+        </select>&nbsp;Next Item</label>
+
+        <label id="freelistlabel" for="freelist">
+        <input type="checkbox" disabled="disabled" id="freelist" name="freelist" onClick="makeChanges();" />Free List</label>
+
+      </div>
+  
+      <div class="buttonbar"></div>
+  
+    </div><!-- record editor -->
+  </form>
+
+</div> <!-- Content -->
+</body>
+</html>

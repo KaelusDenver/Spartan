@@ -1,0 +1,1661 @@
+$$DOCTYPE$$
+<head>
+$$META$$
+<title>Spartan Scenario Editor</title>
+$$STYLES$$
+<style type="text/css">
+#conditions,
+#templates { position: relative; padding: 20px; }
+#templates:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
+#resultColsBox,
+#descriptionBox { margin-bottom: 20px; }
+#descriptionBox { width: 65%; float: left; }
+#descriptionBox #sDescription { width: 100%; }
+
+#resultColsBox { width: 30%; float: right; }
+#resultColsBox #resultCols { width: 92%; float: left; }
+
+#searchLogicBox { margin-top: 20px; display: none; }
+.legend { clear: both; margin: 5px 0; }
+.legend a img { vertical-align: middle; }
+
+#conditionsTable select { width: auto; }
+#conditionsTable td.edit { width: 40%; }
+#conditionsTable img { text-align: middle; }
+#conditionsTable #datepicker { width: 8em; }
+#conditionsTable #timepicker { margin-left: 1em; width: 6em; }
+#conditionsTable #timeselect { margin-left: 1em; }
+#conditionsTable a.btn_ok { display: inline; position: absolute; margin: 0 0 0 5px; background: transparent url("/images/ok.gif") no-repeat 0 0; width: 18px; height: 18px; }
+#conditionsTable a.btn_ok:hover { background-position: -18px 0; }
+#conditionsTable a.btn_cancel { display: inline; position: absolute; margin: 0 0 0 23px; background: transparent url("/images/cancel.gif") no-repeat 0 0; width: 18px; height: 18px; }
+#conditionsTable a.btn_cancel:hover { background-position: -18px 0; }
+
+input#testRunValue { margin-left: 5px; width: 25px; }
+input#SNValue { margin-left: 5px; width: 200px; }
+
+div#searchLogicUI { display: none; border: solid 1px #ccc; padding: 3px 5px; color: #334; }
+div#searchLogicUI a { text-decoration: underline; font-weight: bold; color: #334; }
+
+div#resultOps { position: absolute; border: solid 3px #ccc; padding: 12px; right: 20px; top: 32px; }
+div#resultOps span { position: absolute; top: -3px; left: -3px; right: -3px; height: 75%; border: solid 3px #fff; border-bottom: 0; }
+div#resultOps a { position: relative; margin: 0; padding: 3px; border: solid 1px #ccc; }
+div#resultOps a:hover { border-color: #de9322; background: #efe; }
+
+#dividerBar { text-align: center; background: #ccc; }
+
+.buttonbar table { width: 100%; }
+.buttonbar img { vertical-align: middle; }
+.buttonbar th { font-weight: bold; text-align: left; }
+.buttonbar td.icon { width: 25px; }
+.buttonbar a { margin: 0; padding: 3px; border: solid 1px #ffefc5; }
+.buttonbar a:hover { border-color: #de9322; background: #efe; }
+
+#genSettingsDialog label { display: block; margin: 5px 20px; }
+#genSettingsDialog .legend { display: block; margin: 5px 0 1em; }
+#genSettingsDialog .btn_ok,
+#genSettingsDialog .btn_cancel { margin-top: 15px; }
+
+#templatesTableWrapper { float: left; }
+
+#templatesTable { width: auto; border-bottom: 1px solid #808759; }
+#templatesTable th { font-size: 80%; font-weight: normal; text-align: right; padding: 0; line-height: 6px; }
+#templatesTable th img { vertical-align: middle; }
+#templatesTable td { vertical-align: middle; text-align: center; padding: 0; border: 0 solid #808759; border-right-width: 1px; }
+#templatesTable td a { background: transparent url("/images/miningbigdisabled.gif") no-repeat; color: #ccc; font-size: 28pt; padding: 13px;}
+#templatesTable td a:hover { color: green; background: url("/images/miningbig.gif") no-repeat; }
+#templatesTable td a.empty:hover { background: transparent url("/images/miningbigdisabled.gif") no-repeat; }
+#templatesTable td a.active { background: transparent url("/images/miningbig.gif") no-repeat; color: #000; }
+#templatesTable td a.active:hover { color: #000; }
+
+.preview { position: relative; margin-left: 76px; padding: 3px; text-align: center; background: #eee; border: 1px solid #ccc; }
+#empty.preview { padding: 20px; }
+.preview a.templateInfo { position: absolute; left: 7px; top: 7px; }
+.preview a.templateInfo table { display: none; text-align: left; color: #666; font-size: 90%; }
+.preview a.templateInfo table td { white-space: nowrap; padding: 2px 10px; }
+.preview a.templateInfo:hover table { position: absolute; left: 10px; display: block; background: #fec; border: 1px solid #ccc; width: auto; }
+.preview .templateImage { border: solid 2px #ddd; }
+
+#resultsDialog { height: 330px; width: 300px; }
+#resultsDialog ul { list-style-type: none; }
+
+#templateDialog { width: 640px; max-height: 330px; }
+#templateDialog #templateFilter { margin-top: 20px; }
+#templateDialog #templateFilter select { margin-right: 20px; }
+#templateDialog table { margin: 20px 0; }
+#templateDialog table .l { text-align: left; }
+
+</style>
+<!--[if IE]><style type="text/css">
+div#resultOps span { width: 68px; height: 24px; }
+.dialog { height: auto; }
+#saveDialog { height: 100px; width: 200px; }
+</style><![endif]-->
+<!--[if lte IE 6]><style type="text/css">
+#resultsDialog { overflow-y: auto; }
+</style><![endif]-->
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+$(document).ready(function() {
+
+  // set up topbar and handlers
+
+  // load previous
+  $('#scenarios').change(function () {
+    var newOne = PREVSCENARIOS[$(this).val()];
+
+    if (saveChangesAlert()) {
+      $('.busyNote').show();
+      if ($.browser.msie) $('#scenarios').hide();
+      CHANGES=false;
+      document.location='$$THISCGI$$?edit=' + encodeURIComponent(newOne) + '&' + randomizer();
+    } else {
+      $(this).val(SCENARIO.sxScenarioId);
+    }
+  });
+
+  // save
+  $("a#_saveDialog").click(function () {
+    $(this).blur();
+    var button    = $(this).offset(); // left, top
+    button.height = $(this).height();
+    button.width  = $(this).width();
+
+    var $dialog = $("#" + this.id.slice(1));
+
+    var xPos = button.left - $dialog.width();
+    var yPos = button.top;
+
+    $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+    $dialog.show().bgiframe();
+    $('#save').val(SCENARIO.sxScenarioId).select();
+    return false;
+  });
+  $("#saveDialog .btn_ok").click(function () {
+    if (!isBlank($('#save').val())) {
+      $(this).parent().hide();
+
+      $('.busyNote').show();
+      if ($.browser.msie) $('#scenarios').hide();
+
+      saveScenario($('#save').val(), function() {
+        $('.busyNote').hide();
+        $('#scenarios').show();
+      });
+
+    } else {
+      $('#save').focus();
+    }
+    return false;
+  });
+
+  // new
+  $('#newScenario').attr('href', '$$THISCGI$$?new=&' + randomizer()).click(function () {
+    $(this).blur();
+    if (!saveChangesAlert()) return false;
+    return true;
+  });
+
+  // copy
+  $('#copyScenario').attr('href', '$$THISCGI$$?copy=' + encodeURIComponent(SCENARIO.sxScenarioId) + '&' + randomizer()).click(function () {
+    $(this).blur();
+    if (actionCancelledAlert()) return false;
+    return true;
+  });
+
+  // delete
+  $('#deleteScenario').attr('href', '$$THISCGI$$?delete=' + encodeURIComponent(SCENARIO.sxScenarioId) + '&' + randomizer()).click(function () {
+    $(this).blur();
+    if ($.browser.msie) $('#scenarios').hide();
+    if (confirm("Delete this scenario?\n\nThis action cannot be undone.")) {
+      CHANGES=false;
+      $('.busyNote').show();
+      return true;
+    }
+    $('.busyNote').hide();
+    $('#scenarios').show();
+    return false;
+  });
+
+  // export
+  $('#exportScenario').attr('href', '$$THISCGI$$?export=' + encodeURIComponent(SCENARIO.sxScenarioId) + '&' + randomizer()).click(function () {
+    $(this).blur();
+    if (actionCancelledAlert()) return false;
+    return true;
+  });
+
+  // import
+  $("a#_importDialog").click(function () {
+    $(this).blur();
+    var button    = $(this).offset(); // left, top
+    button.height = $(this).height();
+    button.width  = $(this).width();
+
+    var $dialog = $("#" + this.id.slice(1));
+
+    var xPos = button.left - $dialog.width();
+    var yPos = button.top;
+
+    $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+    $dialog.show().bgiframe( {top: "-10px", left: "-10px" });
+
+    return false;
+  });
+  $("#importDialog #filename").change(function () {
+    if (!isBlank($('#filename').val())) {
+      $('.busyNote').show();
+      if ($.browser.msie) $('#scenarios').hide();
+      $(this).parent().hide().submit();
+    } else {
+      $('#filename').focus();
+    }
+    return false;
+  });
+
+
+  // run
+  $('#runScenario').click(function () {
+    $(this).blur();
+    if (autoSaveAlert()) { // does not reset CHANGES
+      if (CHANGES){
+        $('.busyNote').show();
+        if ($.browser.msie) $('#scenarios').hide();
+        saveScenario(SCENARIO.sxScenarioId, function () {
+          // no need to hide busyNote - run loads new page...
+          runScenario();
+        });
+      }
+      else runScenario();
+    }
+    return false;
+  });
+
+  // all dialogs Cancel handler
+  $(".dialog .btn_cancel").click(function () {
+    $(this).parent().hide();
+    return false;
+  });
+
+
+  // search result cols up/down
+  $('a#rcUp, a#rcDown').click(function () {
+    $(this).blur();
+    var up = $(this).is("#rcUp");
+    var i  = parseInt($('#resultCols').val());
+    var rc = SCENARIO.sResultFieldsCSV.split('\t');
+
+    if (isNull(i) || rc.length==0) return false;
+    if ( (up && i==0) || (!up && i==rc.length-1) ) return false;
+
+    var tmp = (up)? rc[i-1] : rc[i+1];
+    if (up) {
+      rc[i-1] = rc[i];
+      rc[i] = tmp;
+      i = i-1;
+    } else {
+      rc[i+1] = rc[i];
+      rc[i] = tmp;
+      i = i+1;
+    }
+
+    UNDO_QUEUE.push({ what: 'resultscsv', obj: SCENARIO.sResultFieldsCSV }); // save previous
+    SCENARIO.sResultFieldsCSV = rc.join('\t');
+    $('#sResultFieldsCSV').val(SCENARIO.sResultFieldsCSV);
+    updateResultColumns(i);
+    updateUndo(UNDO_QUEUE); // update any undo operations
+    return false;
+  });
+
+  if ($.browser.msie) $('#sDescription').attr('rows', 3);
+
+  // show/hide the conditions panel
+  if ($.cookie('conditions')) $('#conditions').hide();
+
+  // Conditions table "a" events (note checkbox events (for booleans) below
+  $("#conditionsTable a").live("click", function () {
+
+    // 'this' is clicked match element
+    $(this).blur();
+
+    if ($("#conditionsTable .btn_ok:visible").length) // is date/time or Free edit visible?
+      if (!($(this).is(".btn_ok") || $(this).is(".btn_cancel"))) return false;
+
+    // id format is "cmd:index"
+    var cmd
+    var index
+
+    if (!isBlank($(this).attr('id'))) {  // if this has ID, use it
+      cmd = $(this).attr('id').split(':');
+    } else {                             // else check next sibling for ID
+      cmd = $(this).next().attr('id').split(':');
+    }
+
+    index = (cmd[1])? parseInt(cmd[1]): -1;
+    cmd = cmd[0].toLowerCase();
+
+    switch (cmd) {
+      case 'delete':   // delete condition
+        UNDO_QUEUE.push({ what: 'condition', obj: SCENARIO.CONDITIONS[index]});
+        SCENARIO.CONDITIONS.splice(index, 1);
+        buildConditionsTable();
+        break;
+
+      case 'f':   // change condition field
+        var t  = $(this).next().val() // current value
+        var $s = $(this).hide().parent().createAppend('select', {}, []);
+        buildFieldsList($s, t);
+
+          $s.blur(function () { // handle blur event - change condition's field
+          $s.siblings().show();
+          $s.remove();
+          if ($s.val().toLowerCase() != SCENARIO.CONDITIONS[index].sxFieldId.toLowerCase()) {
+            undoCondition(index);
+            SCENARIO.CONDITIONS[index].sxFieldId = $s.val();  // new field selected
+
+            // modify operator if necessary...
+            var fld = getField(SCENARIO.CONDITIONS[index].sxFieldId);
+            var ops = SCENARIO.getOperators(fld.nDataType); // operator objects
+            var opv = [];
+            for (var i=0; i<ops.length; i++) opv.push(ops[i].value);
+
+            if (opv.indexOf(SCENARIO.CONDITIONS[index].nOperator) < 0) {
+              SCENARIO.CONDITIONS[index].nOperator = opv[0]; // set an operator that works
+            }
+
+            buildConditionsTable();
+          }
+        });
+        break;
+
+      case 'c':   // change condition operator
+        var t  = $(this).next().val() // current value
+        var $s = $(this).hide().parent().createAppend('select', {}, []).empty();
+        buildOperatorsList($s, t, getField(SCENARIO.CONDITIONS[index].sxFieldId).nDataType);
+
+        $s.focus().blur(function () { // handle blur event
+          $s.siblings().show();
+          $s.remove();
+          if ($s.val() != SCENARIO.CONDITIONS[index].nOperator) {
+            undoCondition(index);
+            SCENARIO.CONDITIONS[index].nOperator = $s.val();  // new operator
+            buildConditionsTable();
+          }
+        });
+        break;
+
+      case 'v':  // change condition match value
+        var t  = SCENARIO.CONDITIONS[index].sMatchValue; // current value
+        var f  = getField(SCENARIO.CONDITIONS[index].sxFieldId);
+
+        // data entry depends on Field data type...
+        switch (f.nDataType.toLowerCase()) {
+          case 'numeric':
+            t = validateNumeric(t);
+
+            // special case for "Test_Run" value editing
+            if (SCENARIO.CONDITIONS[index].sxFieldId.toLowerCase() == "test_run") {
+              t = (t <= 0)? -1 : t;
+              $(this).hide().parent().createAppend(
+                'select', {}, [
+                  'option', { text: "Most recent", value:  0 },
+                  'option', { text: "First ever",  value:  1 },
+                  'option', { text: "Enter run",   value:  2 } ],
+                'input', { id: "testRunValue", disabled: "disabled", value: t },
+                'a', { className: 'btn_ok',     id: 'changeRun:' + index, href: '#nogo', title: 'ok'},
+                'a', { className: 'btn_cancel', id: 'cancel:', href: '#nogo', title: 'cancel'}
+              );
+
+              var s = (t <= 0)? "0" : (t == 1)? "1" : "2";
+
+              $(this).parent().children('select').val(s).change(function() {
+                var v = parseInt($(this).val());
+                if (v < 2) {
+                  $('#testRunValue').attr({ disabled: 'disabled' }).val((v==0)? "-1" : "1");
+                } else {
+                  $('#testRunValue').removeAttr('disabled')
+                                    .focus()
+                                    .select()
+                                    .keyup(function (){ // numerical entry
+                                      this.value = validateNumeric(this.value, true);
+                                    });
+                }
+              }).change();
+
+            } else {
+
+              var $s = $(this).hide().parent().createAppend('input', { value: t });
+              $s.select().focus();
+              $s.keyup(function () { // numerical entry
+                this.value = validateNumeric(this.value);
+              });
+              $s.blur(function () { // handle blur event
+                $s.siblings().show();
+                $s.remove();
+                if ($s.val() != SCENARIO.CONDITIONS[index].sMatchValue) {
+                  undoCondition(index);
+                  SCENARIO.CONDITIONS[index].sMatchValue = $s.val() + '';  // new match value
+                  buildConditionsTable();
+                }
+              });
+            }
+            break;
+
+          case 'timestamp':
+            // t can be actual timestamp (float), or one of the optional strings
+            var v = SCENARIO.TIMESTAMPOPTIONS.indexOf(t);
+            var date = (isNumeric(parseFloat(t)))? new Date(jsTimeFromLV(t)) : new Date();
+
+            var opt = [];
+            for (var i=0; i<SCENARIO.TIMESTAMPOPTIONS.length; i++) {
+              opt.push('option');
+              opt.push( { value: i, text: SCENARIO.TIMESTAMPOPTIONS[i] } );
+              if (i === v) opt[2*i+1].selected = 'selected';
+            }
+
+            $(this).hide();
+            $(this).parent().createAppend('select', { id: 'timeselect' }, opt );
+            $(this).parent().createAppend('input', { id: 'datepicker', value: date.format('mediumDate') })
+                   .datepicker({
+                      dateFormat: SPARTANDATEPICKER,
+                      showOn: "both",
+                      changeMonth: true, changeYear: true,
+                      buttonImage: "/images/calendarsmall.gif",
+                      buttonImageOnly: true
+                    });
+            $(this).parent().createAppend('input', { id: 'timepicker', value: date.format('shortTime') }).timeEntry({ ampmPrefix: ' ' });
+            $(this).parent().children('select').change(function() {
+              if ($(this).val() != 0) {
+                $('#datepicker').datepicker('disable');
+                $('#timepicker').timeEntry('disable');
+              } else {
+                $('#datepicker').datepicker('enable');
+                $('#timepicker').timeEntry('enable');
+              }
+            }).change();
+
+            $(this).parent().createAppend('a', { className: 'btn_ok',     id: 'changeDate:' + index, href: '#nogo', title: 'ok'});
+            $(this).parent().createAppend('a', { className: 'btn_cancel', id: 'cancel:', href: '#nogo', title: 'cancel'});
+            break;
+
+          case 'list':
+            var o = [];
+            for (var i=0; i<f.ENUMS.length; i++) {
+              o.push('option');
+              o.push({ value: i, text: f.ENUMS[i] });
+            }
+            $(this).hide().parent().createAppend('select', { id: "THE_MAN", name: "THE_MAN"}, o);
+            $('#THE_MAN').val(t);
+
+            if (f.fFreeList) {
+              $('#THE_MAN').ufd({ skin: 'ufd-skin', suffix: '', submitFreeText: true, triggerSelected: false, initialFreeText: t })
+            } else {
+              $('#THE_MAN').ufd({ skin: 'ufd-skin', suffix: '' });
+            }
+            if ($.browser.msie) $("input[name='THE_MAN']").select();
+            else $("input[name='THE_MAN']").focus(); // this stuff is a bit fickle - see case 1834
+
+            $('#THE_MAN').blur(function () { // handle blur event
+              var newValue = $.trim($("input[name='THE_MAN']").val());
+              if (newValue != SCENARIO.CONDITIONS[index].sMatchValue) {
+                undoCondition(index);
+                SCENARIO.CONDITIONS[index].sMatchValue = newValue;  // new match value
+              }
+              buildConditionsTable();
+            });
+          break;
+
+
+          case 'boolean':
+            // do nothing here - boolean checkbox handled below...
+          break;
+
+
+          default:  // free-text
+            // There are a couple of special cases depend on sxFieldId:
+            switch (SCENARIO.CONDITIONS[index].sxFieldId.toLowerCase()) {
+
+              case "serial_number":
+                var i  = SCENARIO.CONDITIONS[index].sMatchValue.indexOf("$SSN$");
+                var sv = (i<0)? SCENARIO.CONDITIONS[index].sMatchValue : SCENARIO.CONDITIONS[index].sMatchValue.slice(5);
+
+                var $s = $(this).hide()
+                                .parent()
+                                .createAppend('select', { id: "SNType" }, [
+                                                'option', { text: "User Entered",      value: 0 },
+                                                'option', { text: "Spartan Assigned",  value: 1 } ],
+                                              'input', { id: "SNValue", value: sv },
+                                              'a', { className: 'btn_ok',     id: 'changeSN:' + index, href: '#nogo', title: 'ok'},
+                                              'a', { className: 'btn_cancel', id: 'cancel:', href: '#nogo', title: 'cancel'}
+                                              );
+                if (i > 0) $('#SNType').val(1);
+              break;
+
+              default:
+                var $s = $(this).hide().parent().createAppend('input', { value: t });
+
+                $s.select().focus().blur(function () { // handle blur event
+                  $(this).siblings().show();
+                  if ($(this).val() != SCENARIO.CONDITIONS[index].sMatchValue) {
+                    undoCondition(index);
+                    SCENARIO.CONDITIONS[index].sMatchValue = $s.val();  // new match value
+                    buildConditionsTable();
+                  }
+                  $(this).remove();
+                });
+            }
+
+          }
+        break;  // case 'value'
+
+      case 'changedate': // accepting a new timestamp
+        var newDate;
+        if ($('#timeselect option:selected').val() > 0) { // relative time
+          newDate = $('#timeselect option:selected').text();
+        } else {  // date/time entry
+
+          newDate = new Date($('#datepicker').val() + ' ' + $('#timepicker').val());
+          newDate = lvTimeFromJS(newDate.getTime());
+        }
+        if (newDate != SCENARIO.CONDITIONS[index].sMatchValue) {
+          undoCondition(index);
+          SCENARIO.CONDITIONS[index].sMatchValue = newDate + '';  // new match value
+        }
+
+        buildConditionsTable();
+      break;
+
+
+      case 'changefree': // accepting a new free list
+        var newValue = $("input[name='_ufd']").val();
+        newValue = isEmptyNote(newValue)? '' : newValue;
+        if (newValue != SCENARIO.CONDITIONS[index].sMatchValue) {
+          undoCondition(index);
+          SCENARIO.CONDITIONS[index].sMatchValue = newValue;  // new match value
+        }
+        buildConditionsTable();
+      break;
+
+      case 'changerun': // accepting a new test run value
+        var newValue = $("#testRunValue").val();
+        if (newValue != SCENARIO.CONDITIONS[index].sMatchValue) {
+          undoCondition(index);
+          SCENARIO.CONDITIONS[index].sMatchValue = newValue;  // new match value
+        }
+        buildConditionsTable();
+      break;
+      case 'changesn': // accepting a new serial number value
+
+        var newValue = "";
+        if  ($("#SNType").val()== 0) {
+             newValue = $("#SNValue").val();
+             }
+             else {
+             newValue = "$SSN$"+$("#SNValue").val();
+             }
+        if (newValue != SCENARIO.CONDITIONS[index].sMatchValue) {
+          undoCondition(index);
+          SCENARIO.CONDITIONS[index].sMatchValue = newValue;  // new match value
+        }
+        buildConditionsTable();
+      break;
+      case 'cancel':
+        buildConditionsTable();  // just rebuild table - no changes
+      break;
+
+      default: // not recognized
+    }
+
+    return false;
+  });  // Conditions table events
+
+  // handle Boolean valued conditions directly
+  $('#conditionsTable input:checkbox').live("click", function () {
+    var index = $(this).attr("id").split(":");
+    index = index[1];
+    undoCondition(index);
+    SCENARIO.CONDITIONS[index].sMatchValue = $(this).is(":checked");  // new match value
+    updateUndo(UNDO_QUEUE); // update any undo operations
+  });
+
+
+  // Conditions Table "Add Condition..." handler
+  $(".add_wrapper a").click(function () {
+    // 'this' is clicked anchor element
+    $(this).blur();
+
+    if ($(this).is(".adder")) {
+      var $s = $(this).next("div").fadeIn("fast").children("select");
+      buildFieldsList($s);
+      return false;
+
+    } else if ($(this).is(".btn_cancel")) { // cancel adding
+      $(this).parent().hide();
+      return false;
+
+    } else if ($(this).is(".btn_ok")) { // add new
+      UNDO_QUEUE.push({ what: 'condition', obj: {} }); // push empty obj onto undo queue
+      var newFieldId = $(this).prev("select:first").val();
+      var newOp      = SCENARIO.getOperators(getField(newFieldId).nDataType);
+      var newMV      = '';
+      if (getField(newFieldId).nDataType == 'timestamp') newMV = lvTimeFromJS((new Date()).getTime());
+      var n = { iConditionIndex: SCENARIO.CONDITIONS.length, sxFieldId: newFieldId, nOperator: newOp[0].value, sMatchValue: newMV };
+      SCENARIO.CONDITIONS.push(n);
+      $(this).parent().hide();
+      buildConditionsTable();
+      return false;
+    }
+  }); // Condtitions table "Add Condition..."
+
+  // CONDITIONS UNDO click handler
+  $("#undoer").click(function () {
+    $(this).blur();
+
+    if (UNDO_QUEUE.length > 0) {
+      var undo = UNDO_QUEUE.pop();
+      switch (undo.what.toLowerCase()) {
+        case 'condition':
+          if (!isEmpty(undo.obj)) {
+            if (undo.obj.iConditionIndex >= 0 ) {  // positive index replace
+              SCENARIO.CONDITIONS.splice(undo.obj.iConditionIndex, 0, undo.obj);
+            } else {                                 // negative index add
+              undo.obj.iConditionIndex = -1 - undo.obj.iConditionIndex;
+              SCENARIO.CONDITIONS.splice(undo.obj.iConditionIndex, 1, undo.obj);
+            }
+          } else {
+            SCENARIO.CONDITIONS.splice(SCENARIO.CONDITIONS.length - 1, 1); // undo.obj empty - remove last addition
+          }
+          buildConditionsTable();
+        break;
+
+        case 'description':
+          $('#sDescription').val(undo.obj.toString());
+          updateUndo(UNDO_QUEUE);
+        break;
+
+        case 'resultscsv':
+          SCENARIO.sResultFieldsCSV = undo.obj;
+          $('#sResultFieldsCSV').val(SCENARIO.sResultFieldsCSV);
+          updateResultColumns();
+          updateUndo(UNDO_QUEUE);
+        break;
+
+        case 'gensettings':
+          SCENARIO.fAutoRunReports  = undo.obj.fAutoRunReports;
+          SCENARIO.fSortByTemplates = undo.obj.fSortByTemplates;
+          SCENARIO.fCombinePDF      = undo.obj.fCombinePDF;
+          updateUndo(UNDO_QUEUE);
+        break;
+
+       case 'templatescsv':
+          SCENARIO.sTemplatesCSV = undo.obj;
+          $('#sTemplatesCSV').val(SCENARIO.sTemplatesCSV);
+          buildTemplatesTable();
+          updateUndo(UNDO_QUEUE);
+        break;
+
+        default:
+
+      }
+    }
+  });
+
+
+
+
+  // description handlers
+  $('#sDescription').change(function () {
+    UNDO_QUEUE.push({ what: 'description', obj: SCENARIO.sDescription });
+    SCENARIO.sDescription = $(this).val();
+    updateUndo(UNDO_QUEUE);
+  });
+
+
+  // Set up Results Columns dialog
+  $("a#_resultsDialog").click(function () {
+    $(this).blur();
+
+    var button    = $(this).offset(); // left, top
+    button.height = $(this).height();
+    button.width  = $(this).width();
+
+    var $dialog = $("#" + this.id.slice(1));
+
+    var xPos = button.left - $dialog.width();
+    var yPos = button.top;
+
+    buildResultFieldsList();
+    
+    // Results Columns change
+    var evt = ($.browser.msie)? "click" : "change";
+    $("#resultsDialog ul li input").bind(evt, function() {
+      UNDO_QUEUE.push({ what: 'resultscsv', obj: SCENARIO.sResultFieldsCSV }); // save previous
+      updateUndo(UNDO_QUEUE); // update any undo operations
+
+      var sResultFieldsArray = [];
+      sResultFieldsArray = SCENARIO.sResultFieldsCSV.split('\t');
+      var index = sResultFieldsArray.indexOf(this.value);
+      if (index >= 0) {
+        sResultFieldsArray.splice(index, 1);
+      } else {
+        sResultFieldsArray[sResultFieldsArray.length] = this.value;
+      }
+
+      SCENARIO.sResultFieldsCSV = sResultFieldsArray.join('\t');
+      $('#sResultFieldsCSV').val(SCENARIO.sResultFieldsCSV);
+      updateResultColumns();
+    });
+
+    $dialog.css({ top: yPos + 'px', left: xPos + 'px' }).show().bgiframe();
+
+    return false;
+  });
+
+  // all dialogs Cancel handler
+  $("#resultsDialog .btn_ok").click(function () {
+    $(this).parent().hide();
+    return false;
+  });
+
+  $("#resultsDialog #btn_selectAll").click(function () {
+        UNDO_QUEUE.push({ what: 'resultscsv', obj: SCENARIO.sResultFieldsCSV }); // save previous
+      updateUndo(UNDO_QUEUE); // update any undo operations
+
+      for (var i=0; i<FIELDS.length; i++) {
+
+        if (document.getElementById("rc"+i).checked) {
+             // do nothing
+        } else {
+        document.getElementById("rc"+i).checked=true;
+        SCENARIO.sResultFieldsCSV= SCENARIO.sResultFieldsCSV  + '\t'+    document.getElementById("rc"+i).value;
+        }
+      }
+            $('#sResultFieldsCSV').val(SCENARIO.sResultFieldsCSV);
+        updateResultColumns();
+  });
+
+  $("#resultsDialog #btn_clearAll").click(function () {
+     UNDO_QUEUE.push({ what: 'resultscsv', obj: SCENARIO.sResultFieldsCSV }); // save previous
+     updateUndo(UNDO_QUEUE); // update any undo operations
+
+    SCENARIO.sResultFieldsCSV=  '';
+
+    for (var i=0; i<FIELDS.length; i++) {
+
+        document.getElementById("rc"+i).checked=false;
+      }
+      $('#sResultFieldsCSV').val(SCENARIO.sResultFieldsCSV);
+        updateResultColumns();
+  });
+
+
+  //======== REPORTS SETTINGS dialog
+  $('a#_genSettingsDialog').click(function () {
+    $(this).blur();
+
+
+    if (SCENARIO.fAutoRunReports) {
+      $('#fAutoRunReports').attr('checked', 'checked');
+    } else {
+      $('#fAutoRunReports').removeAttr('checked');
+    }
+
+    if (SCENARIO.fSortByTemplates) {
+      $('#fSortByTemplates').attr('checked', 'checked');
+    } else {
+      $('#fSortByTemplates').removeAttr('checked');
+    }
+
+    if (SCENARIO.fCombinePDF) {
+      $('#fCombinePDF').attr('checked', 'checked');
+    } else {
+      $('#fCombinePDF').removeAttr('checked');
+    }
+
+    var button    = $(this).offset(); // left, top
+    var $dialog = $("#" + this.id.slice(1));
+
+    var xPos = button.left - $dialog.width();
+    var yPos = button.top;
+
+    $dialog.css({ top: yPos + 'px', left: xPos + 'px' });
+
+    $dialog.show();
+    return false;
+
+  });
+  $("#genSettingsDialog .btn_ok").click(function () {
+    $(this).parent().hide();
+
+    // check for changes and set an UNDO if necessary
+    // fancy logic is just an XOR
+    if ( (!SCENARIO.fAutoRunReports != !$('#fAutoRunReports').is(':checked') ) ||
+         (!SCENARIO.fSortByTemplates  != !$('#fSortByTemplates').is(':checked')  ) ||
+         (!SCENARIO.fCombinePDF     != !$('#fCombinePDF').is(':checked')     ) ) {
+
+      // set UNDO w/existing
+      UNDO_QUEUE.push({ what: 'gensettings', 
+                        obj: { fAutoRunReports: SCENARIO.fAutoRunReports, 
+                               fSortByTemplates: SCENARIO.fSortByTemplates, 
+                               fCombinePDF: SCENARIO.fCombinePDF } });
+
+      // set new
+      SCENARIO.fAutoRunReports = $('#fAutoRunReports').is(':checked');
+      SCENARIO.fSortByTemplates = $('#fSortByTemplates').is(':checked');
+      SCENARIO.fCombinePDF   = $('#fCombinePDF').is(':checked');
+
+      updateUndo(UNDO_QUEUE);
+
+    }
+    return false;
+  });
+
+
+  // Set up template dialog
+  $("a#_templateDialog").click(function () {
+    $(this).blur();
+
+    var button    = $(this).offset(); // left, top
+    button.height = $(this).height();
+    button.width  = $(this).width();
+
+    buildAddTemplatesTable(); // build first for sizing
+
+    var $dialog = $("#" + this.id.slice(1));
+
+    var xPos = button.left - $dialog.width();
+    var yPos = button.top;
+
+    $dialog.css({ top: yPos + 'px', left: xPos + 'px' }).show().bgiframe();
+    return false;
+  });
+
+  $("#templateDialog .btn_ok").click(function () {
+    $(this).parent().hide();
+
+    var s = (!isBlank(SCENARIO.sTemplatesCSV))? SCENARIO.sTemplatesCSV.split('\t') : [];
+
+    $("#templateDialog input:checked").each(function (i) {
+      s.push($(this).val());
+    });
+
+    if (s.length == 0) return false;
+
+    // push original template list onto undo
+    UNDO_QUEUE.push({ what: 'templatescsv', obj: SCENARIO.sTemplatesCSV });
+
+    // update template list
+    SCENARIO.sTemplatesCSV = s.join('\t');
+    $('#sTemplatesCSV').val(SCENARIO.sTemplatesCSV);
+
+    // rebuild table
+    buildTemplatesTable();
+
+    return false;
+  });
+
+  // add template dialog styles, types and events
+  var s=[];
+  for (var i=0; i<TEMPLATES.length; i++) {
+    if (!isBlank(TEMPLATES[i].sStyle) && s.indexOf(TEMPLATES[i].sStyle) < 0) {
+      s.push(TEMPLATES[i].sStyle);
+      $("#templateDialog #tplStyle").createAppend('option', { value: TEMPLATES[i].sStyle, text: TEMPLATES[i].sStyle });
+    }
+  }
+
+  $("#templateDialog select").change(function () {
+    buildAddTemplatesTable();
+  });
+
+
+  $("#removeTemplate").click(function () {
+    $(this).blur();
+
+    if (isBlank(SCENARIO.sTemplatesCSV)) return false;
+
+    var index = -1;
+    $("#templatesTable a").each(function (i) {
+       if ($(this).hasClass('active')) { index = i; return false; }
+    });
+
+    if (index < 0) return false;
+
+    // push original template list onto undo
+    UNDO_QUEUE.push({ what: 'templatescsv', obj: SCENARIO.sTemplatesCSV });
+
+    // remove indicated template
+    var t = SCENARIO.sTemplatesCSV.split('\t');
+    t.splice(index, 1);
+    SCENARIO.sTemplatesCSV = t.join('\t');
+
+    $('#sTemplatesCSV').val(SCENARIO.sTemplatesCSV);
+
+    // rebuild table
+    buildTemplatesTable();
+
+    return false;
+  });
+
+
+
+  // key bindings
+  var isCtrl = false; // global Ctrl-key watcher
+
+  $(document).keyup(function (e) {
+    if (e.which == 17) isCtrl=false;
+
+  }).keydown(function (e) {
+    if (e.which == 17) isCtrl=true;
+
+    switch(e.which) {
+
+      case 13:   // "return"/"enter" key
+        $(".btn_ok:visible").click();
+        $(".dialog:visible").children(".btn_ok").click();
+        $('#conditionsTable input:visible').blur();
+        e.preventDefault();
+        break;
+
+      case 27:   // "esc" key
+        $(".btn_cancel:visible").click();
+        break;
+
+      case 78:   // "N" - new
+        if (isCtrl) {
+          $('#newScenario').click();
+          e.preventDefault();  // some browsers > new window
+        }
+        break;
+
+      case 82:   // "R" - run
+        if (isCtrl) {
+          $('#runScenario').click();
+          e.preventDefault();
+        }
+        break;
+
+      case 83:   // "S" - save
+        if (isCtrl) {
+          $('#_saveDialog').click();
+          e.preventDefault(); // some browsers save As...
+        }
+        break;
+
+      case 90:   // "Z" - undo
+        if (isCtrl) {
+          $("#undoer").click();
+          e.preventDefault();
+        }
+        break;
+    }
+
+  }); // key bindings
+
+  if (INITCHANGED) UNDO_QUEUE.push({ what: 'cantundo', obj: {} });
+
+  $('#sDescription').val(SCENARIO.sDescription);
+  $('#sResultFieldsCSV').val(SCENARIO.sResultFieldsCSV);
+  updateResultColumns();
+  $('#sTemplatesCSV').val(SCENARIO.sTemplatesCSV);
+  buildScenariosList();    // list of user's previous scenarios
+  buildConditionsTable();
+  buildTemplatesTable();
+
+}); // document.ready()
+
+function undoCondition(cIndex) {
+  var newCondition = $.extend(true, {}, SCENARIO.CONDITIONS[cIndex]);
+  newCondition.iConditionIndex = (-1 - SCENARIO.CONDITIONS[cIndex].iConditionIndex);
+  UNDO_QUEUE.push({ what: 'condition', obj: newCondition });
+}
+
+function runScenario() {
+  if (SCENARIO.CONDITIONS.length == 0) {
+    alert("Sorry, this scenario has no search conditions defined.");
+  } else {
+    window.location = '/cgi-bin/runscenario.vit?run=' + encodeURIComponent(SCENARIO.sxScenarioId) + '&' + randomizer();
+  }
+}
+
+function saveScenario(scenarioId, callback) {
+
+  // first warn for duplicates if we're changing names...
+  if (scenarioId.toLowerCase() != SCENARIO.sxScenarioId.toLowerCase()) {
+    var overwrite = false;
+    var msg = '';
+    $.ajax({
+      url: '$$THISCGI$$?checkExists=' + encodeURIComponent(scenarioId),
+      type: 'GET',
+      async: false,
+      cache: false,
+      success: function(response) {
+        try { eval('var data=' + response); }
+        catch(e) { msg = 'An error occurred checking the record name.\n\n' + e; }
+
+        if (isBlank(msg)) {
+          if (data.status) msg='An error occurred checking the record name.\n\n' + data.source;
+          else {
+            overwrite = (data.payload === true);
+            if (overwrite) msg='A record with that name already exists.\n\nContinue and overwrite?';
+          }
+        }
+      }
+    });
+
+    // alert/confirm if msg not blank
+    if (!isBlank(msg)) {
+      if (overwrite && !confirm(msg)) {
+        $('.busyNote').hide();
+        $('#scenarios').show()
+        return false;
+      }
+
+      if (!overwrite) {
+        alert(msg);
+        $('.busyNote').hide();
+        $('#scenarios').show()
+        return false;
+      }
+    }
+  } // end duplicate check if they've changed the name
+
+  // okay to save
+  $.ajax({
+    url: "$$THISCGI$$?save=" + encodeURIComponent(SCENARIO.sxScenarioId) + "&" + randomizer(),
+    type: "POST",
+    dataType: "text",
+    data: formatScenario(scenarioId),
+    success: function(saveResults) {
+      eval('var data=' + saveResults);
+      if (data.status) {
+        alert("An error occurred!\n\n" + "Code: " + data.code + "\nSource:\n\n" + data.source);
+      } else {
+
+        SCENARIO.sxScenarioId=scenarioId;
+        PREVSCENARIOS=data.payload;
+
+        buildScenariosList();
+        UNDO_QUEUE=[];
+        updateUndo(UNDO_QUEUE);
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("An unknown error occurred:\n\n" + textStatus);
+    },
+    complete: callback
+  });
+}
+
+
+function updateResultColumns(sel) {
+
+  var sel = sel || 0;
+
+  var rc = $('#sResultFieldsCSV').val().split('\t');
+  var rcopt=  document.getElementById("resultCols").length;
+ 
+  for (var i=0; i<rcopt; i++) {
+   document.getElementById("resultCols").remove(0);
+  }
+  if ( $('#sResultFieldsCSV').val().length>0){
+  for (var i=0; i<(rc.length); i++) {
+    if ( rc[i].length >0){
+    if (getField(rc[i]).sUnits == "") {
+      $('#resultCols').createAppend('option', { value: i, text: getField(rc[i]).sDisplayName });
+    } else {
+      $('#resultCols').createAppend('option', { value: i, text: getField(rc[i]).sDisplayName + ' (' + getField(rc[i]).sUnits + ')' });
+    }
+    }
+  }
+  try { $('#resultCols').val(sel); } catch(err) {}; // nice kludge for IE6 (see jQuery bug #2252)
+  }
+}
+
+// sets up the object for saving
+function formatScenario(newScenarioId) {
+
+  // add scenario conditions
+  var s = $("#conditionsTable :input").each(function (i, n) {
+            n.name = n.name.replace(/:/,'');  // remove input colons prior to save
+          }).serializeArray();
+
+  // add search logic
+  var c = [];
+  for (var i=0; i<SCENARIO.CONDITIONS.length; i++) c.push('C' + (i+1));
+  $('#sLogic').val(encodeURIComponent(c.join(' AND ')));
+  s = s.concat($("#sLogic").serializeArray());
+
+  // add new name
+  s = s.concat([ { name: 'newScenarioId', value: newScenarioId }]);
+
+  // add description
+  s = s.concat($("#sDescription").serializeArray());
+
+  // add results list
+  s = s.concat($("#sResultFieldsCSV").serializeArray());
+
+  // add templates list
+  s = s.concat($("#sTemplatesCSV").serializeArray());
+
+  // add generator settings
+  s = s.concat($("#genSettingsDialog").serializeArray());
+
+  return s;
+}
+
+// populate select with Fields
+function buildFieldsList($s, v) {
+
+  $s.empty();
+
+  for (var i=0; i<FIELDS.length; i++) {
+    if (FIELDS[i].sUnits == "") {
+      var $o = $s.createAppend('option', { value: FIELDS[i].sxFieldId, text: FIELDS[i].sDisplayName });
+    } else {
+      var $o = $s.createAppend('option', { value: FIELDS[i].sxFieldId, text: FIELDS[i].sDisplayName + ' (' + FIELDS[i].sUnits + ')' });
+    }
+    // select current value
+    if (v && v.toLowerCase() == FIELDS[i].sxFieldId.toLowerCase()) $o.attr("selected", "selected");
+  }
+  $s[0].focus();
+}
+
+// populate select with appropriate comparison operators
+function buildOperatorsList($s, nOperator, fieldType) {
+
+  var fieldType = fieldType || 'text'; // default to text
+  var operators = SCENARIO.getOperators(fieldType);
+
+  for (var i=0; i<operators.length; i++) {
+    var $o = $s.createAppend('option', { value: operators[i].value, text: operators[i].display });
+    if (nOperator && nOperator == operators[i].value) $o.attr("selected", "selected");
+  }
+}
+
+// list users saved sets
+function buildScenariosList() {
+
+  $('#scenarios').empty();
+
+  for (var i=0; i<PREVSCENARIOS.length; i++) {
+    var $o = $('#scenarios').createAppend('option', { value: i, text: PREVSCENARIOS[i] });
+      if (SCENARIO.sxScenarioId.toLowerCase() == PREVSCENARIOS[i].toLowerCase()) $o.attr("selected", "selected");
+  }
+  if (PREVSCENARIOS.length == 0) {
+    var $o = $('#scenarios').createAppend('option', { value: 0, text: '[no scenarios]' });
+    $('#scenarios').attr("disabled", "disabled");
+  }
+  if ($.browser.msie) $('#scenarios').hide().show();
+}
+
+function buildResultFieldsList() {
+
+  $('#resultsDialog ul').empty();
+
+  for (var i=0; i<FIELDS.length; i++) {
+    if (FIELDS[i].fIndexed) {
+
+      $('#resultsDialog ul').tplAppend(FIELDS[i], function () {
+
+        var s = SCENARIO.sResultFieldsCSV.split('\t');
+        var sel=(s.indexOf(FIELDS[i].sxFieldId) >= 0)? 'checked' : false;
+
+        if (FIELDS[i].sUnits == "") {
+          return ['li', {}, [
+                   'input', { Type: 'checkbox', id: 'rc' + i, checked: sel, value: FIELDS[i].sxFieldId },
+                   'label', { htmlFor: 'rc' + i }, [FIELDS[i].sDisplayName] ]
+                 ]
+        } else {
+          return ['li', {}, [
+                  'input', { Type: 'checkbox', id: 'rc' + i, checked: sel, value: FIELDS[i].sxFieldId },
+                  'label', { htmlFor: 'rc' + i }, [FIELDS[i].sDisplayName + ' (' + FIELDS[i].sUnits + ')'] ]
+                 ]
+        }
+      });
+    }
+  }
+}
+
+
+function buildConditionsTable() {
+
+  // clear previous rows
+  $('#conditionsTable > tbody tr').remove();
+
+  // append table rows for each condition
+  for (var i=0; i<SCENARIO.CONDITIONS.length; i++) {
+
+    // provide some display formatting for the Match Value
+    // depending on data type
+    var formattedMatchValue;
+
+    switch (getField(SCENARIO.CONDITIONS[i].sxFieldId).nDataType) {
+      case 'numeric':
+        SCENARIO.CONDITIONS[i].sMatchValue = validateNumeric(SCENARIO.CONDITIONS[i].sMatchValue);
+        formattedMatchValue = SCENARIO.CONDITIONS[i].sMatchValue;
+
+        // put text string for test_run...and coerce Most Recent to -1
+        if (SCENARIO.CONDITIONS[i].sxFieldId.toLowerCase() == 'test_run' && formattedMatchValue <=0) formattedMatchValue = 'Most Recent';
+
+        var valueEditor = tplEditTableCell("v:" + i, "#nogo", formattedMatchValue, SCENARIO.CONDITIONS[i].sMatchValue, "value to match");
+        break;
+
+      case 'timestamp': // LabVIEW timestamp string
+        // t can be actual timestamp (float) or one of the optional strings
+        var t = SCENARIO.CONDITIONS[i].sMatchValue;
+        var v = SCENARIO.TIMESTAMPOPTIONS.indexOf(t);
+        var d = (isNumeric(parseFloat(t)))? new Date(jsTimeFromLV(t)) : new Date();
+
+        if (v > 0) formattedMatchValue = SCENARIO.CONDITIONS[i].sMatchValue;
+        else       formattedMatchValue = d.format(SPARTANDATE);
+
+        var valueEditor = tplEditTableCell("v:" + i, "#nogo", formattedMatchValue, SCENARIO.CONDITIONS[i].sMatchValue, "value to match");
+
+        break;
+
+      case 'list': // make sure valid selection
+        var E = getField(SCENARIO.CONDITIONS[i].sxFieldId).ENUMS;
+        if (getField(SCENARIO.CONDITIONS[i].sxFieldId).fFreeList) {
+          formattedMatchValue = emptyNote(SCENARIO.CONDITIONS[i].sMatchValue);
+        } else {
+          if (E.indexOf(SCENARIO.CONDITIONS[i].sMatchValue) >= 0) {
+            formattedMatchValue = E[E.indexOf(SCENARIO.CONDITIONS[i].sMatchValue)];
+          } else {
+            formattedMatchValue = E[0];
+            SCENARIO.CONDITIONS[i].sMatchValue = E[0];
+          }
+        }
+        var valueEditor = tplEditTableCell("v:" + i, "#nogo", formattedMatchValue, SCENARIO.CONDITIONS[i].sMatchValue, "value to match");
+
+        break;
+
+      case 'boolean': // yes/no; true/false
+        var valueEditor = tplCheckboxTableCell("v:" + i, SCENARIO.CONDITIONS[i].sMatchValue, false, '');
+        break;
+
+      default:  // free text type - let it be
+        formattedMatchValue = emptyNote(SCENARIO.CONDITIONS[i].sMatchValue);
+        if (formattedMatchValue.indexOf("$SSN$") >= 0) formattedMatchValue = formattedMatchValue.slice(5);
+        var valueEditor = tplEditTableCell("v:" + i, "#nogo", formattedMatchValue, SCENARIO.CONDITIONS[i].sMatchValue, "value to match");
+    }
+
+
+    $('#conditionsTable tbody').tplAppend(SCENARIO.CONDITIONS[i], function () {
+      return ['tr', {},
+              [ 'th', {}, ["C" + (i + 1)],
+                'td', { className: "icon" }, tplIconTableCell("delete:" + i, "#nogo", "/images/deletesmall.gif", "remove this condition"),
+                'td', { className: "edit" }, tplEditTableCell("f:" + i, "#nogo", getField(this.sxFieldId).sDisplayName, this.sxFieldId, "select search field"),
+                'td', { }, tplEditTableCell("c:" + i, "#nogo", SCENARIO.OPERATORS[this.nOperator].display, this.nOperator, "select match operation"),
+                'td', { className: "edit" }, valueEditor
+              ]
+            ]
+      });
+  }
+
+  // table is now built - add row styles
+  $("#conditionsTable tbody > tr:nth-child(odd)").addClass("o");      // zebra stripes
+  $("#conditionsTable tbody tr > th").addClass("rowheader");          // row headers
+
+  updateUndo(UNDO_QUEUE); // update any undo operations
+
+}// buildConditionsTable
+
+function buildTemplatesTable() {
+
+  // clear previous items
+  $('#templates div:gt(0)').remove();
+  $('#templatesTable > tbody tr').remove();
+
+  var t = [];
+  if (!isBlank(SCENARIO.sTemplatesCSV)) {
+    t = SCENARIO.sTemplatesCSV.split('\t'); // array of included templates (sxTemplateId)
+  }
+
+  if (t.length == 0) {
+    $('#templatesTable tbody').createAppend('tr', {}, [ 'td', {}, [ 'a', { className: "empty", title: "No templates" }, [ nbsp('') + nbsp('') ] ] ]);
+    $('#templates').createAppend('div', { className: "preview", id: "empty" }, [ "No templates" ]);
+  }
+  if (t.length > 1) {
+    $('#fJoinAll').removeAttr('disabled').click(function () {
+      if (this.checked) {
+        $('#fCollate').removeAttr('disabled').click(function () {
+          var imgSrc = (this.checked)? '/images/collateyes.gif' : '/images/collateno.gif';
+          $('#collateImg').attr('src',imgSrc);
+        });
+      } else {
+        $('#fCollate').removeAttr('checked').attr('disabled', 'disabled');
+        $('#collateImg').attr('src', '/images/collateno.gif');
+      }
+    });
+  } else {
+    $('#fJoinAll').removeAttr('checked').attr('disabled', 'disabled');
+    $('#fCollate').removeAttr('checked').attr('disabled', 'disabled');
+    $('#collateImg').attr('src', '/images/collateno.gif');
+  }
+
+  // append table rows for each condition
+  for (var i=0; i<t.length; i++) {
+
+    var T = getTemplate(t[i]);
+
+    var missing = (isNull(T.sxTemplateId));
+
+    var template    = (missing)? "\"" + t[i] + "\" not found" : T.sxTemplateId;
+    var description = (missing)? "This template was not found on the server" : T.sDescription;
+    var format      = (missing)? "N/A" : T.sFormat;
+
+    if (format.toLowerCase() == "pdf") {
+      var w           = (missing)? "W" : T.dWidth;
+      var h           = (missing)? "H" : T.dHeight;
+      var dims        =  w + " in x " + h + " in";
+
+      // image size based on letter portrait (8.5" x 11.0") of 494px x 640px
+      // "missing" image is letter landscape (640px x 494px)
+      var pxWidth  = (missing)? "640" : w * (494/8.5);
+      var pxHeight = (missing)? "494" : h * (640/11);
+
+    } else {
+      var w           = "W";
+      var h           = "H";
+      var dims        = "N/A";
+
+      // "noPreview" image is letter landscape (640px x 494px)
+      var pxWidth  = "640";
+      var pxHeight = "494";
+    }
+
+    var style       = (missing)? "N/A" : T.sStyle;
+    var type        = (missing)? "N/A" : T.sType;
+
+
+    // template table 'tabs' through previews
+    $('#templatesTable tbody').tplAppend(T, function () {
+       return ['tr', {}, [
+                 'td', {}, [ 'a', { href: "#nogo", className: "tabber", id: "_template" + i, title: template  }, [(i + 1) + '']
+                              ] ]
+              ]
+    });
+
+    // preview of the template
+    $('#templates').tplAppend(T, function () {
+       return ['div', { className: "preview hidden", id: "template" + i }, [
+                 'a', { className: "templateInfo" }, [
+                   'img', { src: "/images/loginformation.gif", width: "16", height: "16" },
+                   'table', { className: "hidden", cellspacing: "0" }, [
+                     'tbody', {}, [
+                       'tr', {}, [ 'td', {}, [ "Template" ], 'td', {}, [ template ] ],
+                       'tr', {}, [ 'td', {}, [ "Description" ], 'td', {}, [ description ] ],
+                       'tr', {}, [ 'td', {}, [ "Output Format" ], 'td', {}, [ format ] ],
+                       'tr', {}, [ 'td', {}, [ "Page Size (w x h)" ],  'td', {}, [ dims ] ],
+                       'tr', {}, [ 'td', {}, [ "Content Style" ], 'td', {}, [ style + ' ' ] ],
+                       'tr', {}, [ 'td', {}, [ "Item Mapping" ], 'td', {}, [ type  + ' '] ]
+                      ]
+                    ]
+                  ],
+                  'img', { className: "templateImage", src: "$$THISCGI$$?preview=" + encodeURIComponent(this.sxTemplateId), width: pxWidth, height: pxHeight }
+                ]
+              ]
+    });
+  }
+
+  $("#templatesTable a:first").click();  // click first to get preview
+
+  updateUndo(UNDO_QUEUE); // update any undo operations
+
+}// buildTemplatesTable
+
+function truncStr(s, l) {
+  if (s.length < l) return s;
+  return s.substr(0, l) + ' ...';
+}
+
+// this builds the table in the template Add dialog
+function buildAddTemplatesTable() {
+
+  // clear previous items
+  $('#templateDialog table > tbody tr').remove();
+
+  var t=$('#sTemplatesCSV').val().toLowerCase().split('\t'); // already added
+
+  // append table rows for filter matches (and not already added)
+  for (var i=0; i<TEMPLATES.length; i++) {
+
+    // first, filter by already added
+    if (t.indexOf(TEMPLATES[i].sxTemplateId.toLowerCase()) < 0) {
+
+      // then, by sStyle filter
+      var styleFilter = $('#tplStyle').val().toLowerCase();
+      if (styleFilter == '*' || styleFilter == TEMPLATES[i].sStyle.toLowerCase()) {
+
+        // finally, by sType (item mapping) filter
+        var typeFilter = $('#tplType').val().toLowerCase();
+        if (typeFilter == '*' || TEMPLATES[i].sType.toLowerCase().indexOf(typeFilter) >=0) {
+
+          $('#templateDialog tbody').tplAppend(TEMPLATES[i], function () {
+
+            var single    = (this.sType.toLowerCase().indexOf('single') >=0);
+            var itemIcon  = (single)? "/images/singleitemsmall.gif" : "/images/multiitemsmall.gif";
+            var itemTitle = (single)? "single item template" : "multiple items template";
+
+            var pdf      = (this.sFormat.toLowerCase().indexOf('pdf') >=0);
+            var pdfIcon  = (pdf)? "/images/pdfsmall.gif" : "/images/textexportsmall.gif";
+            var pdfTitle = (pdf)? "displays as portable document format (PDF)" : "displays as text";
+
+
+            return ['tr', {}, [
+                      'td', { className: "icon" }, [
+                         'input', { Type: "checkbox", value: this.sxTemplateId } ],
+                       'td', { className: "icon" }, [
+                         'img', { height: "16", width: "16", src: itemIcon, title: itemTitle } ],
+                       'td', { className: "icon" }, [
+                         'img', {  height: "16", width: "16", src: pdfIcon, title: pdfTitle } ],
+                       'td', { className: "l" }, [ this.sxTemplateId ],
+                       'td', { className: "l" }, [ truncStr(this.sDescription, 60) ],
+                       'td', { className: "l" }, [ this.sStyle ] ] ]
+          });
+
+        } // if type matches
+      } // if style matches
+    } // if not already added
+  }
+  $('#templateDialog table > tbody tr:odd').addClass('o');
+}
+
+
+function emptyNote(s) {
+  if (isBlank(s)) return '[Empty - click to edit]';
+  else return s;
+}
+
+function isEmptyNote(s) {
+  return (isBlank(s) || s == emptyNote(''));
+}
+
+
+//-------------------
+// Globals
+//-------------------
+var UNDO_QUEUE = [];
+var INITCHANGED=$$INITCHANGED$$;
+
+$$SCENARIODEFINITION$$
+$$SCENARIO$$
+
+var PREVSCENARIOS=$$PREVSCENARIOS$$;
+
+// FIELDS
+$$FIELDDEFINITION$$
+$$FIELDS$$
+
+// return a Field from array by Id
+function getField(fid) {
+  for (var i=0; i<FIELDS.length; i++) {
+    if (fid.toLowerCase() == FIELDS[i].sxFieldId.toLowerCase()) return FIELDS[i];
+  }
+  return {};
+}
+
+// TEMPLATES
+$$TEMPLATEDEFINITION$$
+$$TEMPLATES$$
+
+// return a Template from array by Id
+function getTemplate(tid) {
+  for (var i=0; i<TEMPLATES.length; i++) {
+    if (tid.toLowerCase() == TEMPLATES[i].sxTemplateId.toLowerCase()) return TEMPLATES[i];
+  }
+  return {};
+}
+
+
+
+// warn of pending changes for browse-off's
+window.onbeforeunload=confirmLeave;
+--></script>
+</head>
+<body>
+
+
+<div id="header">$$HEADER$$</div>
+
+<div id="saveDialog" class="dialog">
+  Save this scenario with name:<br />
+  <input type="text" name="save" id="save" value="" /><br />
+  <input class="btn_ok" type="button" value="OK" />
+  <input class="btn_cancel" type="button" value="Cancel" />
+</div>
+
+<div id="resultsDialog" class="dialog">
+  Choose search result columns:<br />
+
+  <input id="btn_selectAll" type="button" value="Select All" />
+  <input id="btn_clearAll"  type="button" value="Clear All" />
+
+  <ul></ul>
+
+  <input class="btn_ok" type="button" value="OK" />
+</div>
+
+
+<form id="importDialog" class="dialog" action="$$THISCGI$$?import" method="POST" encoding="multipart/form-data" enctype="multipart/form-data">
+  <input type="file" id="filename" name="filename" accept="text/xml" title="choose a file on your computer" />
+</form>
+
+
+<form id="genSettingsDialog" class="dialog">
+  <div class="legend">Report generator settings</div>
+
+  <label for="fAutoRunReports" title="Check to run the reports automatically after search results are found">
+    <input type="checkbox" name="fAutoRunReports" id="fAutoRunReports" />Automatically generate reports</label>
+
+  <label for="fSortByTemplates" title="Check to arrange reports by template order instead of by results">
+    <input type="checkbox" name="fSortByTemplates" id="fSortByTemplates" />Sort reports by template order</label>
+
+  <label for="fCombinePDF" title="Check to join sequential PDF reports into a single PDF">
+    <input type="checkbox" name="fCombinePDF" id="fCombinePDF" />Combine PDF reports</label>
+
+  <input class="btn_ok"     type="button" value="OK" />
+  <input class="btn_cancel" type="button" value="Cancel" />
+</form>
+
+
+<div id="templateDialog" class="dialog">
+  <div class="legend">Select templates to add (filter this list with the drop-downs)</div>
+
+  <div id="templateFilter">
+    <label for="tplType" title="item mapping controls how templates handle search result items">Item Mapping
+    <select id="tplType">
+      <option value="*">All mappings</option>
+      <option value="single">Single item per template</option>
+      <option value="multi">Multiple items per template</option>
+    </select></label>
+    <label for="tplStyle">Content Style
+    <select id="tplStyle"><option value="*">All styles</option></select></label>
+  </div>
+
+  <table class="standard" cellspacing="0">
+    <thead><tr>
+      <th class="icon"><img src="/images/smallcheck.gif" width="16" height="16" /></th>
+      <th class="icon"><img src="/images/singleormultismall.gif" width="16" height="16" title="item mapping (single or multiple)" /></th>
+      <th class="icon"><img src="/images/displaytypesmall.gif" width="16" height="16" title="display format (text or PDF)" /></th>
+      <th class="l">Name</th>
+      <th class="l">Description</th>
+      <th class="l">Content Style</th>
+    </tr></thead>
+    <tbody>
+  </table>
+
+
+  <input class="btn_ok" type="button" value="OK" />
+  <input class="btn_cancel" type="button" value="Cancel" />
+</div>
+
+
+<div id="content">
+  <h2><img id="headImg" src="/images/editscenariobig.gif" width="48" height="48" alt="edit scenario icon" />
+  <label id="headlabel">Scenario Editor</label></h2>
+
+  <form id="mining" method="POST" action="">
+    <input type="hidden" id="sResultFieldsCSV"  name="sResultFieldsCSV"  value="" />
+    <input type="hidden" id="sTemplatesCSV"     name="sTemplatesCSV"     value="" />
+
+    <div class="busyNote hidden" id="miningBusy">
+      <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+    </div>
+
+    <div class="topbar">
+      <a class="left disabled" id="undoer"><img src="/images/undosmalldisabled.gif" width="16" height="16" /></a>
+      <span class="pendingChanges">* There are unsaved changes</span>
+      <select id="scenarios" title="load a saved scenario"><option>&nbsp;</option></select>
+      <a id="_saveDialog"    href="#nogo" title="Save this scenario"><img src="/images/floppysmall.gif" width="16" height="16" alt="small save icon"/></a>
+      <a id="newScenario"    href="#nogo" title="Create a new scenario"><img src="/images/newsmall.gif" width="16" height="16" /></a>
+      <a id="copyScenario"   href="#nogo" title="Copy this scenario"><img src="/images/copysmall.gif" width="16" height="16" /></a>
+      <a id="deleteScenario" href="#nogo" title="Delete this scenario"><img src="/images/deletesmall.gif" width="16" height="16" alt="small delete icon" /></a>
+      <a id="exportScenario" href="#nogo" title="Export this scenario"><img src="/images/exportsmall.gif" width="16" height="16" alt="small export icon" /></a>
+      <a id="_importDialog"  href="#nogo" title="Import another scenario"><img src="/images/importsmall.gif" width="16" height="16" alt="small import icon" /></a>
+      <a id="runScenario"    href="#nogo" title="Run this scenario"><img src="/images/runsmall.gif" width="16" height="16" /></a>
+    </div>
+
+    <div id="conditions">
+      <div id="descriptionBox">
+        <div class="legend">Description</div>
+        <textarea id="sDescription" name="sDescription"></textarea>
+      </div>
+
+      <div id="resultColsBox">
+        <div class="legend">
+          <a id="_resultsDialog" href="#nogo" title="Add / Remove search result columns">
+          <img src="/images/columnssmall.gif" width="16" height="16" alt="small columns icon" />
+          Search Result Columns</a></div>
+        <select id="resultCols" size="3"></select>
+        <a id="rcUp" href="#nogo"><img src="/images/upsmall.gif" width="14" height="10" alt="up small" /></a>
+        <a id="rcDown" href="#nogo"><img src="/images/downsmall.gif" width="14" height="10" alt="down small" /></a>
+      </div>
+
+      <div class="legend">Search Conditions</div>
+      <table class="standard" id="conditionsTable" cellspacing="0">
+        <thead><tr>
+          <th class="icon">&nbsp;</th>
+          <th class="icon" title="Remove the condition"><img src="/images/trashsmall.gif" width="16" height="16" alt="small trash icon" /></th>
+          <th title="Search by any field on the system">Field</th>
+          <th class="w12" title="Set the operation that defines a match">Operator</th>
+          <th title="set the value to match">Value</th>
+        </tr></thead>
+        <tbody>
+        </tbody>
+      </table>
+
+      <div class="add_wrapper">
+        <a href="#nogo" class="adder" id="_add_condition" title="Add a condition">Add Condition...</a>
+        <div class="hidden" id="add_condition">
+          <select id="add_condition_list"><option></option></select>
+          <a href="#nogo" class="btn_ok" title="Add this condition"></a>
+          <a href="#nogo" class="btn_cancel" title="Make no changes"></a>
+        </div>
+      </div>
+
+      <div id="searchLogicBox">
+        <div class="legend"><a href="#nogo" class="toggler" id="_searchLogicUI" title="Combine the conditions above with logical operations">Search Logic</a></div>
+
+        <div id="searchLogicUI">
+          <input type="hidden" id="sLogic" name="sLogic" value="" />
+          <span class="Label">C1</span>
+          <a href="#nogo">AND</a>
+          <span class="leftParen">(</span>
+          <span class="Label">C2</span>
+          <a href="#nogo">OR</a>
+          <span class="Label">C3</span>
+          <span class="rightParen">)</span>
+        </div>
+      </div>
+
+    </div><!-- Search Conditions -->
+
+    <div id="dividerBar"><a href="#nogo" class="slider" id="_conditions" title="show/hide search conditions"><img src="/images/slide.gif" width="6" height="6" /></a></div>
+
+    <div class="buttonbar">
+      <table cellspacing="0">
+        <tr><th>Templates</th>
+            <td class="icon"><a href="#nogo" class="dialogger" id="_genSettingsDialog" title="Report generator settings"><img src="/images/configsmall.gif" width="16" height="16" alt="small configuration icon" /></a>
+            <td class="icon"><a href="#nogo" class="dialogger" id="_templateDialog" title="Add templates..."><img src="/images/addsmall.gif" width="16" height="16" alt="small add icon" /></a></td>
+            <td class="icon"><a href="#nogo" id="removeTemplate" title="Remove selected template"><img src="/images/deletesmall.gif" width="16" height="16" alt="small delete icon" /></a></td>
+        </tr>
+      </table>
+    </div>
+
+
+    <div id="templates">
+
+      <div id="templatesTableWrapper">
+        <table class="standard" id="templatesTable" cellspacing="0">
+          <thead><tr><th>&nbsp;</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+    </div><!-- Templates -->
+
+  </form>
+</div><!-- Content -->
+
+</body>
+<html>

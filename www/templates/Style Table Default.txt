@@ -1,0 +1,26 @@
+[Template]
+sxTemplateId=Table
+sDescription=
+sType="Multiple Item Datasheet"
+sStyle="Tabular - User Defined"
+sStyleProcess=Table
+sFormat=PDF
+dWidth=8.5
+dHeight=11.0
+sCreator=Kaelus
+sModifier=Kaelus
+tCreationDate="2009-10-14 22:39:22"
+tModifiedDate="2009-10-16 22:48:21"
+[sScript]
+Name=Table.vbs
+Content=""
+[sLayout]
+name1="Table.tdr"
+Content1=""
+[sEditor]
+Name="EditTemplate Table.htm"
+Content=""
+[Parameters]
+Plot_Size=Letter
+Plot_Orientation=Portrait
+Table_Label=

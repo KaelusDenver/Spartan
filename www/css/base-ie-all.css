@@ -1,0 +1,24 @@
+/* IE specific style overrides */
+body { font-size: 82%; color: #555; }
+
+#profile li ul { width: 14em; }
+#profile li ul.right { right: 95%; }
+
+#menubody { z-index: 2; }
+#content { position: relative; z-index: 1; }
+.ui-datepicker { z-index: 99; }
+
+fieldset.searchbox { margin: 0; padding-top: 0; }
+fieldset.searchbox legend { margin: 0 0 2em 0; }
+
+.busyNote { filter: alpha(opacity=85); }
+
+.topbar img { vertical-align: baseline; }
+.topbar select { position: relative; top: -3px; }
+.topbar #fileDialogWrapper { margin-left: auto; }
+.topbar #fileDialog { width: 100%; }
+
+.buttonbar ul.tabs { bottom: -5px; }
+.buttonbar ul.tabs li a { float: left; }
+
+#ufd-container div.list-wrapper { z-index: 1000; }

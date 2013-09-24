@@ -1,0 +1,1008 @@
+$$DOCTYPE$$
+<head>
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     NOTE- if you change the window title below. You must also change
+     C:\Development\Spartan\www\tests\Set Test Window Topmost.vi to match -->
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+<title>Spartan Test Stations</title>
+<!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+
+$$META$$
+$$STYLES$$
+<style type="text/css">
+form { border-width: 0; }
+.lineinput { text-align: left; margin-top: .5em; white-space: nowrap; }
+.lineinput label { float: left; clear: both; width: 15em; text-align: right; margin-right: 0.5em; padding-top: 0.2em; }
+
+table.standard input.lastCalDP,
+table.standard input.calDueDP { width: auto; }
+
+#clientPageLink { margin-bottom: 10px; }
+#clientPageLink img { vertical-align: middle; }
+#ident { margin: 0; padding: 2em; }
+#freeInstruments { margin-top: 2em; }
+#freeInstruments table { margin-top: 0.3em; }
+#instrumentsTable { width: 96%; margin-left: 2%; margin-bottom: 1em; }
+--></style>
+<!--[if IE]><style type="text/css">
+.lineinput input.longtextinput { width: 100%; }
+</style><![endif]-->
+$$SCRIPTS$$
+<script type="text/javascript"><!--
+// builds Stations table and sets up UI visibilities
+$(document).ready(function () {
+
+  // build tables then catch events
+  buildStationsTable();
+  buildFreeInstrumentsTable();
+
+  // mark changes on Station ID or IP
+  $('#stationName, #ipAddress').change(function () { makeChanges(); });
+
+  // setup topbar
+
+  // list
+  $('#listStations').attr('href', '$$THISCGI$$?' + randomizer()).click(function () {
+    $(this).blur();
+    return true;
+  });
+
+  // save
+  $('#saveStation').click(function () {
+    $(this).blur();
+    saveStation();
+  });
+
+  // new
+  $('#newStation').attr('href', '$$THISCGI$$?edit=&' + randomizer()).click(function () {
+    $(this).blur();
+    return true;
+  });
+
+  // copy
+  $('#copyStation, .copy').click(function () {
+    $(this).blur();
+    if (actionCancelledAlert()) return false;
+    return true;
+  });
+
+  // delete
+  $('#deleteStation, .delete').click(function () {
+    $(this).blur();
+    if (confirm("Delete this station?\n\nThis action cannot be undone.")) {
+      CHANGES = false;
+      $('.busyNote').show();  // disable form
+      return true;
+    }
+    return false;
+  });
+
+
+  // watch for pings
+  $('.ping').click(function() {
+    $(this).blur();
+    var index = parseInt($(this).blur().attr('id'));
+    pingStation(index);
+    return false;
+  });
+
+  // watch for edits from table
+  $('.edit').click(function() {
+    var index = parseInt($(this).blur().attr('id'));
+    editStation(index);
+    return false;
+  });
+
+
+  // add station/instrument handler
+  $(".add_wrapper a").click(function () {
+    // 'this' is clicked anchor element
+    $(this).blur();
+
+    if ($(this).is(".adder") && !$(this).is("#_add_station") ) {
+      var $s = $(this).next("div").fadeIn("fast").children("select");
+      buildInstrumentsList($s);
+      return false;
+    } else if ($(this).is(".btn_cancel")) { // cancel adding
+      $(this).parent().hide();
+      return false;
+
+    } else if ($(this).is(".btn_ok")) { // add new
+      $(this).parent().hide();
+      saveAddedInstrument($(this).prev().val());
+      buildInstrumentsTable();
+      makeChanges();
+      return false;
+    }
+  }); // Add...
+
+  $("#freeInstrumentsTable a").live('click', function () {
+    $(this).blur();
+    var msg = "Are you sure you want to delete this instrument?\n\nThis action cannot be undone.";
+    if (confirm(msg)) {
+      $('.busyNote').show();  // disable form
+      return true;
+    }
+    return false;
+  });
+
+
+  // key bindings
+  var isCtrl = false; // global Ctrl-key watcher
+
+  $(document).keyup(function (e) {
+    if (e.which == 17) isCtrl=false;
+  }).keydown(function (e) {
+    if (e.which == 17) isCtrl=true;
+
+    switch(e.which) {
+
+      case 13:   // "return"/"enter" key
+        $(".add_wrapper > div:visible a.btn_ok").click();
+        break;
+
+      case 27:   // "esc" key
+        $(".add_wrapper > div").hide();
+        break;
+
+      case 83:   // "S" - save
+        if (isCtrl && editMode) saveStation();
+        break;
+    }
+
+  }); // key bindings
+
+  if (editMode) {
+    $('#headlabel').html("Spartan Station Editor");
+    editStation(editIndex);
+  } else {
+    $('#headlabel').html("Spartan Test Stations");
+    $('#stationsTable').show();
+ }
+
+}); // document.ready()
+
+function buildStationsTable() {
+  // clear rows
+  $('#stations > tbody tr').remove();
+
+  // add stations
+  for (var i=0; i<STATIONS.length; i++) {
+
+    $('#stations tbody').tplAppend(STATIONS[i], function () {
+      var pingImg = (isNull(this.stationPing))? '/images/ping.gif' : (this.stationPing)? '/images/pingyes.gif' : '/images/pingno.gif';
+      var instStr = [];
+      for (var j=0; j < this.INSTRUMENTS.length; j++)  instStr.push(this.INSTRUMENTS[j].instID);
+
+      return ['tr', {},
+              ['td', { className: "icon" }, [
+                 'a', { className: 'ping', id: i, title: 'Ping ' + this.stationID, href: '#nogo' }, [
+                   'img', { src: pingImg, width: '16', height: '16' }
+                 ]
+               ],
+               'td', { className: "icon" }, [
+                 'a', { className: 'delete', title: 'Delete ' + this.stationID, href: '$$THISCGI$$?delete=' + encodeURIComponent(this.stationID) + '&' + randomizer() }, [
+                   'img', { src: '/images/deletesmall.gif', width: '16', height: '16' }
+                 ]
+               ],
+               'td', { className: "icon" }, [
+                 'a', { className: 'edit', title: 'Edit ' + this.stationID, id: i, href: '$$THISCGI$$?edit=' + encodeURIComponent(this.stationID) + '&' + randomizer() }, [
+                   'img', { src: '/images/editsmall.gif', width: '16', height: '16' }
+                 ]
+               ],
+               'td', { className: "icon" }, [
+                 'a', { className: 'copy', title: 'Copy ' + this.stationID, href: '$$THISCGI$$?copy=' + encodeURIComponent(this.stationID) + '&' + randomizer() }, [
+                   'img', { src: '/images/copysmall.gif', width: '16', height: '16' }
+                 ]
+               ],
+               'td', { className: "w24" }, [ 
+                 'a', { className: 'edit', title: 'Edit ' + this.stationID, id: i, href: '$$THISCGI$$?edit=' + encodeURIComponent(this.stationID) + '&' + randomizer() }, [ this.stationID ]
+               ],
+               'td', {}, [nbsp(this.stationIP)],
+               'td', {}, [nbsp(instStr.join(','))]
+              ]
+           ];
+    });
+
+  } // for each STATION
+
+  // table is now built, style it
+  $("#stations tbody > tr:nth-child(odd)").addClass("o"); // zebra stripes
+
+}
+
+function editStation(i) {
+  $('#stationsTable').hide();
+  $('#f').css("border-width", "1px");
+
+  CHANGES = false;
+  $('.pendingChanges').hide();
+
+  if (editNew) makeChanges();  
+
+  CURRENTSTATION = i; // set current station index global
+
+  $('#stationName').val(STATIONS[i].stationID);
+  handleBlur($('#ipAddress').val(STATIONS[i].stationIP)[0]);
+
+  // update copy/delete link href's
+  $('#copyStation').attr('href', '$$THISCGI$$?copy=' + encodeURIComponent(STATIONS[i].stationID) + '&' + randomizer());
+  $('#deleteStation').attr('href', '$$THISCGI$$?delete=' + encodeURIComponent(STATIONS[i].stationID) + '&' + randomizer());
+
+  // reset ping icon
+  $('#pinger').children('img').attr({src: "/images/ping.gif", width: 16, height: 16});
+
+  ORIGINALID = STATIONS[i].stationID;
+  ORIGINALIP = STATIONS[i].stationIP;
+
+  buildInstrumentsTable(i);
+
+  // show edit form
+  $('#editor').show();
+}
+
+
+function handleFocus(w) {
+  if (w.className == 'grayedout') {
+    w.value = '';
+    w.className = '';
+  } else {
+    w.select();
+  }
+}
+
+function handleBlur(w) {
+  if (isBlank(w.value)) {
+    w.value = EMPTY;
+    w.className = 'grayedout';
+  } else {
+    w.className = '';
+  }
+}
+
+
+// this is the call that saves it all...
+function saveStation() {
+
+  var msg = '';
+
+  // first ensure valid (non-blank) station name and IP...
+  var name=$('#stationName').val();
+  var ip=$('#ipAddress').val();
+
+  if (isBlank(name) || name==EMPTY) msg  = '  * Station ID cannot be empty\n';
+  if (isBlank(ip)   || ip==EMPTY )  msg += '  * Station IP address cannot be empty\n';
+
+  $('.busyNote').show();  // disable form
+
+  // IP address must be unique on system...
+  if (isBlank(msg) && (ip != ORIGINALIP)) {
+    $.ajax({ type: "GET",
+             async: false,
+             cache: false,
+             url: '$$THISCGI$$?checkExists=' + encodeURIComponent(ip),
+             success: function(response) {
+               try {
+                 eval('var data=' + response);
+               } catch(e) {
+                 msg += 'An error occurred checking the record.\n\n' + e;
+               }
+
+               if (isBlank(msg)) {
+                 if (data.status) msg += 'An error occurred checking the record.\n\n' + data.source;
+                 else {
+                   overwrite = (data.payload === true);
+                   if (overwrite) msg += '* A record with that IP address already exists.\n';
+                 }
+               }
+             }
+           });
+  }
+
+  // Check instruments:
+  //   Must have non-empty name, type, and driver
+  //   Duplicate names are not allowed, but save makes unique
+  for (var i=0; i<ITEMP.length; i++) {
+
+    if (isBlank(ITEMP[i].instID))         msg += '  * Instrument name cannot be empty\n';
+    if (isBlank(ITEMP[i].instDriverType)) msg += '  * Select the type of instrument\n';
+    if (isBlank(ITEMP[i].instDriverID))   msg += '  * Select an instrument driver\n';
+
+    if (isBlank(msg)) {
+      // each instrument formatted as tab-delimited string
+      var inst = ITEMP[i].instKey;
+      inst    += '\t' + ITEMP[i].instID;
+      inst    += '\t' + ITEMP[i].instDriverType;
+      inst    += '\t' + ITEMP[i].instDriverID;
+      inst    += '\t' + ITEMP[i].instSN;
+      inst    += '\t' + ITEMP[i].instLastCal;
+      inst    += '\t' + ITEMP[i].instCalDue;
+      inst    += '\t' + ITEMP[i].instConfig;
+
+      // send instrument in hidden input
+      $('#f').createAppend('input', { Type: 'hidden', id: 'instrument' + i, name: 'instrument' + i, value: inst });
+    } else {
+      break; // quit processing instruments - we have a problem
+    }
+  }
+
+  if (!isBlank(msg)) {
+    alert('The record cannot be saved.  Please check the following:\n\n' + msg)
+    $('.busyNote').hide();
+
+  } else {
+
+    // no horrible errors, check for name duplication
+    if (ORIGINALID != name) { // did they change names?
+      var overwrite = false;
+      $.ajax({ type: "GET",
+               url: '$$THISCGI$$?checkExists=' + encodeURIComponent(name),
+               async: false,
+               cache: false,
+               success: function(response) {
+                 try {
+                   eval('var data=' + response);
+                 } catch(e) {
+                   msg = 'An error occurred checking the record.\n\n' + e;
+                 }
+
+                 if (isBlank(msg)) {
+                   if (data.status) msg='An error occurred checking the record.\n\n' + data.source;
+                   else {
+                     overwrite = (data.payload === true);
+                     if (overwrite) msg='A record with that Station ID already exists.\n\nContinue and overwrite?';
+                   }
+                 }
+               }
+             });
+
+      // alert/confirm if msg not blank
+      if (!isBlank(msg)) {
+        if (overwrite && !confirm(msg)) {
+          $('.busyNote').hide();
+          return false;
+        }
+
+        if (!overwrite) {  
+          alert(msg);
+          $('.busyNote').hide();
+          return false;
+        }
+      }
+    }
+
+    CHANGES = false;  // reset changes
+
+    // set the form submission to append the save command and original Station ID...
+    $('#f').attr('action', '$$THISCGI$$?save=' + encodeURIComponent(ORIGINALID) + '&' + randomizer()).submit();
+  }
+}
+
+
+function pingStation(i) {
+  var ip;
+  (isNull(i))? ip = $('#ipAddress').val() : ip = STATIONS[i].stationID;
+  if (isBlank(ip) || ip == EMPTY) return;
+
+  $('.busyNote').show();  // disable form
+  $.ajax({
+    url: "$$THISCGI$$",
+    type: "GET",
+    dataType: "text",
+    data: 'ping=' + encodeURIComponent(ip) + '&' + randomizer(),
+    success: function(response) {
+      eval('var data=' + response);
+      if (data.status) {
+        alert("An error occurred!\n\n" + "Code: " + data.code + "\nSource:\n\n" + data.source);
+      } else {
+
+        // ping message comes back as:  "success Boolean,Message"
+        var msg = data.payload;
+        var goodPing = (msg.slice(0, msg.indexOf(",")).toLowerCase() == 'true');
+        msg = msg.slice(msg.indexOf(",") + 1);
+
+        alert(msg);
+        var img = (goodPing)? "/images/pingyes.gif" : "/images/pingno.gif";
+
+        if (!isNull(i)) {
+          STATIONS[i].stationPing = goodPing;
+
+          // set table ping icon
+          $('#stations tr:eq(' + (i+1) + ') img:eq(0)').attr('src', img);
+
+        } else {
+          $('#pinger').children('img').attr({src: img, width: 16, height: 16});
+        }
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("An unknown error occurred:\n\n" + textStatus);
+    },
+    complete: function() { $('.busyNote').hide(); }  // enable form
+  });
+
+}
+
+
+function deleteStation() {
+  if (!actionCancelledAlert()) {
+    $('.busyNote').show();  // disable form
+    var msg = "Are you sure you want to delete this test station?\n\nThis action cannot be undone.";
+    if (confirm(msg)) return true;
+    else $('.busyNote').hide();  // enable form
+  }
+  return false;
+}
+
+
+function loadIP() {
+  if ($('#ipAddress').val() != '$$REMOTE_ADDR$$') {
+    $('#ipAddress').val('$$REMOTE_ADDR$$').attr('className', '');
+    makeChanges();
+  }
+}
+
+
+
+function buildFreeInstrumentsTable() {
+
+  // clear previous rows
+  $('#freeInstrumentsTable > tbody tr').remove();
+
+  for (var i=0; i<FREEINSTRUMENTS.length; i++) {
+    $('#freeInstrumentsTable tbody').tplAppend(FREEINSTRUMENTS[i], function () {
+      return ['tr', {}, [ 'td', { className: "icon" }, tplIconTableCell("", "$$THISCGI$$?deleteInstrument=" + encodeURIComponent(this.instID), "/images/deletesmall.gif", "remove this instrument from the system"),
+                           'td', { className: "" }, [this.instID + ' '],
+                           'td', { className: "ni" }, [this.instDriverType],
+                           'td', { className: "ni" }, [this.instDriverID],
+                           'td', { className: "" }, [nbsp(this.instSN) + ' ']
+                         ]
+              ]
+    });
+  }
+  $("#freeInstrumentsTable tbody > tr:nth-child(odd)").addClass("o");      // zebra stripes
+}
+
+
+function buildInstrumentsTable(station) {
+
+  $('#instruments > tbody tr').remove();
+
+  // first check for ITEMP instruments and copy selected station's INSTRUMENTS
+  if (isNull(ITEMP)) {
+    ITEMP = [];
+    if (STATIONS[station].INSTRUMENTS.length == 0) return;
+    for (var i=0; i<STATIONS[station].INSTRUMENTS.length; i++) ITEMP.push(new copyInstrument(STATIONS[station].INSTRUMENTS[i]));
+  }
+
+  for (var i=0; i<ITEMP.length; i++) {
+    var lastCal = new Date(jsTimeFromLV(ITEMP[i].instLastCal)).format('mediumDate');
+    var calDue  = new Date(jsTimeFromLV(ITEMP[i].instCalDue)).format('mediumDate');
+
+    $('#instruments tbody').tplAppend(ITEMP[i], function () {
+      return ['tr', {}, [ 'td', { className: "icon" }, [ 'a', { className: 'editor', id: "configure:" + i, title: "configure this instrument", href: '#nogo' },
+                                                         [ 'img', { src: "/images/configsmall.gif", width: "16", height: "16" } ] ],
+                          'td', { className: "icon" }, [ 'a', { className: 'editor', id: "remove:" + i, title: "remove this instrument", href: '#nogo' },
+                                                         [ 'img', { src: "/images/deletesmall.gif", width: "16", height: "16" } ] ],
+                          'td', { className: "" }, [ 'a', { className: "editor", id: "setID:" + i, title: "set instrument id", href: "#nogo" }, [(isBlank(this.instID))? '[Empty]' : this.instID],
+                                       'input', { className: "hidden", id: "INST[" + i + "].instID", name: "INST[" + i + "].instID", value: this.instID } ],
+                          'td', { className: "ni" }, [ 'a', { className: "editor", id: "setType:" + i, title: "pick instrument type", href: "#nogo" }, [(isBlank(this.instDriverType))? '[Select Type]' : this.instDriverType],
+                                       'select', { className: "hidden", id: "INST[" + i + "].instDriverType", name: "INST[" + i + "].instDriverType", value: this.instDriverType } ],
+                          'td', { className: "ni" }, [ 'a', { className: "editor", id: "setDriver:" + i, title: "pick driver", href: "#nogo" }, [(isBlank(this.instDriverID))? '[Select Driver]' : this.instDriverID],
+                                       'select', { className: "hidden", id: "INST[" + i + "].instDriverID", name: "INST[" + i + "].instDriverID", value: this.instDriverID } ],
+                          'td', { className: "" }, [ 'a', { className: "editor", id: "setSN:" + i, title: "set instrument serial number", href: "#nogo" }, [(isBlank(this.instSN))? '[Empty]' : this.instSN],
+                                       'input', { className: "hidden", id: "INST[" + i + "].instSN", name: "INST[" + i + "].instSN", value: this.instSN } ],
+                          'td', { className: "w15" }, ['input', { className: 'lastCalDP', id: 'lastCal:' + i, value: lastCal } ],
+                          'td', { className: "w15" }, ['input', { className: 'calDueDP', id: 'calDue:' + i, value: calDue } ]
+                        ]
+             ]
+    });
+  }
+
+  $("#instruments tbody > tr:nth-child(odd)").addClass("o");      // zebra stripes
+
+  // table is built - add handlers...
+  $("#instruments a.editor").click(function () {
+    $(this).blur();
+    if (isBlank(this.id)) return false;
+
+    // id = cmd:index
+    var cmd = this.id.split(':');
+    var index = (cmd[1])? parseInt(cmd[1]): -1;
+    cmd = cmd[0];
+
+    switch(cmd) {
+      case 'configure': configureInstrument(index);
+      break;
+
+      case 'remove':
+        if (ITEMP.length > 0) {
+          ITEMP.splice(index, 1);
+          makeChanges();
+          buildInstrumentsTable();
+        }
+      break;
+
+      case 'setID':
+        $(this).hide().next().show().focus().select().blur(function () {
+          var newID = Trim($(this).val());
+          if (newID != ITEMP[index].instID) {
+            // check that name doesn't already exist somewhere else
+            var newInst = existingInstrument(index, newID);
+            switch (newInst) {
+              case -1:  // can't make change
+              break;
+
+              case 0:   // name change okay
+                ITEMP[index].instID = newID;
+                makeChanges();
+              break;
+
+              default:  // another instrument - use it
+                ITEMP[index] = new copyInstrument(newInst);
+                makeChanges();
+            }
+          }
+          buildInstrumentsTable(CURRENTSTATION);
+        });
+      break;
+
+      case 'setType':
+        var $s = $(this).hide().next().show().empty();
+
+        var dontAdd = true;
+        var driverTypes = [];
+        for (var j=0; j<DRIVERS.length; j++) {
+          dontAdd = false;
+          for (var k=0; k<driverTypes.length; k++) {
+            if (driverTypes[k].value == DRIVERS[j].driverType || DRIVERS[j].driverType == "IMP") { // Don't show IMP drivers in drop down list.
+              dontAdd = true;
+              break;
+            }
+          }
+          if (!dontAdd) {
+            driverTypes.push( { text: DRIVERS[j].driverType, value: DRIVERS[j].driverType.toUpperCase() });
+            if (ITEMP[index].instDriverType && DRIVERS[j].driverType == ITEMP[index].instDriverType) driverTypes[driverTypes.length - 1].selected = 'selected';
+          }
+        }
+
+        for (j=0; j<driverTypes.length; j++) $s.createAppend('option', driverTypes[j]);
+
+        $s.focus().blur(function () {
+          var newDT = $(this).val();
+          if (newDT != ITEMP[index].instDriverType) {
+            ITEMP[index].instDriverType = newDT;
+
+            // update driver ID for new type selection
+            for (var j=0; j<DRIVERS.length; j++) {
+              if (DRIVERS[j].driverType == ITEMP[index].instDriverType) {
+                ITEMP[index].instDriverID = DRIVERS[j].driverID
+                break;
+              }
+            }
+            makeChanges();
+          }
+          buildInstrumentsTable(CURRENTSTATION);
+        });
+      break;
+
+      case 'setDriver':
+        var $s = $(this).hide().next().show().empty();
+
+        var drivers=[];
+        for (var j=0; j<DRIVERS.length; j++) {
+          if(DRIVERS[j].driverType == ITEMP[index].instDriverType) {
+            drivers.push( { text: DRIVERS[j].driverID, value: DRIVERS[j].driverID } );
+            if (ITEMP[index].instDriverID && ITEMP[index].instDriverID == DRIVERS[j].driverID) drivers[drivers.length - 1].selected = 'selected';
+          }
+        }
+
+        for (var j=0; j<drivers.length; j++) $s.createAppend('option', drivers[j]);
+
+        $s.focus().blur(function () {
+          var newID = $(this).val();
+          if (newID != ITEMP[index].instDriverID) {
+            ITEMP[index].instDriverID = newID;
+            makeChanges();
+          }
+          buildInstrumentsTable(CURRENTSTATION);
+        });
+      break;
+
+      case 'setSN':
+        $(this).hide().next().show().focus().select().blur(function () {
+          var newSN = Trim($(this).val());
+          if (newSN != ITEMP[index].instSN) {
+            ITEMP[index].instSN = newSN;
+            makeChanges();
+          }
+          buildInstrumentsTable(CURRENTSTATION);
+        });
+      break;
+
+      default:
+    }
+    return false;
+  });
+
+  // calibration dates...
+  $('.lastCalDP, .calDueDP').datepicker({
+    dateFormat: SPARTANDATEPICKER,
+    showOn: "both",
+    changeMonth: true, changeYear: true,
+    buttonImage: "/images/calendarsmall.gif",
+    buttonImageOnly: true,
+    beforeShow: function(input) {
+     var index = input.id.split(':');
+     CURRENTINSTRUMENT = index[1];
+     return {};
+    },
+    onClose: function(date) {
+      var newDate = new Date(date);
+      newDate = lvTimeFromJS(newDate.getTime());
+
+      if ($(this).is('.lastCalDP')) {
+        if (ITEMP[CURRENTINSTRUMENT].instLastCal != newDate) {
+          ITEMP[CURRENTINSTRUMENT].instLastCal = newDate;
+          makeChanges();
+        }
+      } else {
+        if (ITEMP[CURRENTINSTRUMENT].instCalDue != newDate) {
+          ITEMP[CURRENTINSTRUMENT].instCalDue = newDate;
+          makeChanges();
+        }
+      }
+    }
+  });
+
+}
+
+
+function configureInstrument(inst) {
+  var driverID, driverType, driverConfig, serialNumber;
+
+  // can't config if no type selected
+  if (isBlank(ITEMP[inst].instDriverType) || isBlank(ITEMP[inst].instDriverID)) return;
+
+  $('.busyNote').show();  // disable form
+
+  var POST;
+
+  // get from ITEMP if inst is valid
+  if (!isNull(inst)) {
+    POST  = 'DriverID='      + ITEMP[inst].instDriverID;
+    POST += '&DriverType='   + ITEMP[inst].instDriverType;
+    POST += '&DriverConfig=' + ITEMP[inst].instConfig;
+    POST += '&SerialNumber=' + ITEMP[inst].instSN;
+
+  } else { // get from inst edit form
+
+    POST  = 'DriverID='      + $('#instDriverID').val();
+    POST += '&DriverType='   + $('#instDriverType').val();
+    POST += '&DriverConfig=' + $('#instConfig').val();
+    POST += '&SerialNumber=' + $('#instSN').val();
+  }
+  POST += '&ClientIP=$$REMOTE_ADDR$$';
+  POST += '&' + randomizer();
+
+  $.ajax({
+    url: "$$THISCGI$$?configure=XXX",
+    type: "POST",
+    dataType: "text",
+    data: encodeURI(POST),
+    success: function(response) {
+      eval('var data=' + response);
+      if (data.status) {
+        alert("An error occurred!\n\n" + "Code: " + data.code + "\nSource:\n\n" + data.source);
+      } else {
+        // configure message comes back as:  "success (Boolean),config (string),new SN (string), error string"
+        var msg = data.payload;
+
+        var success = (msg.split(",")[0].toLowerCase() == 'true');
+        var config  = msg.split(",")[1];
+        var sn      = msg.split(",")[2];
+        var errStr  = msg.split(",")[3];
+        var lastCal = msg.split(",")[4];
+        var calDue  = msg.split(",")[5];
+
+        if (success) {
+          if (!isNull(inst)) {
+            ITEMP[inst].instConfig = config;
+            ITEMP[inst].instSN = sn;
+
+            if (lastCal != 0) ITEMP[inst].instLastCal = lastCal;
+            if (calDue  != 0) ITEMP[inst].instCalDue  = calDue;
+
+            buildInstrumentsTable();
+    
+          } else {
+            $('#instConfig').val(config);
+            $('#instSN').val(sn);
+          }
+          makeChanges();
+        } else {
+          alert("Instrument configuration failed.\n\n" + errStr);
+        }
+      }
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) {
+      alert("An unknown error occurred:\n\n" + textStatus);
+    },
+    complete: function(){ $('.busyNote').hide(); }
+  });
+}
+
+
+
+function copyInstrument(inst) { for (var i in inst) this[i] = inst[i]; }
+
+// checks that name isn't already in ITEMP list
+// returns:
+//   -1: already on this stations list - can't use it
+//       -OR- exists and user cancelled
+//    0: doesn't exist - go ahead and use this name
+//   INSTRUMENT index: exists, and user wants it
+function existingInstrument(i, theName) {
+
+  // 1. Is this name already on this station's list (ITEMP)?
+  for (var j=0; j<ITEMP.length; j++) {
+    if ((j != i) && ITEMP[j].instID.toLowerCase() == theName.toLowerCase() ) {
+      alert ('That name already exists.')
+      return (-1)
+    }
+  }
+
+  // 2. Is it on FREE list?
+  for (j=0; j<FREEINSTRUMENTS.length; j++) {
+    if (FREEINSTRUMENTS[j].instID.toLowerCase() == theName.toLowerCase()) {
+      var msg  = 'There is an available instrument with that name.\n'
+          msg += 'You can select and modify that instrument here.\n\n'
+          msg += 'Press Ok to use that instrument, or Cancel to\n'
+          msg += 'keep the previous settings.\n'
+
+      if (confirm(msg)) return FREEINSTRUMENTS[j]
+      else return (-1)
+    }
+  }
+
+  // 3. Is it on another Station's list?
+  for (j=0; j<STATIONS.length; j++) {
+
+    if (INSTRUMENTS[j] && INSTRUMENTS[j].length >0) {
+
+      for (var k=0; k<INSTRUMENTS[j].length; k++) {
+        if (INSTRUMENTS[j][k].instID.toLowerCase() == theName.toLowerCase()) {
+          var msg  = 'Another station has an instrument with that name.\n'
+              msg += 'You can select and modify that instrument here.\n\n'
+              msg += 'Press Ok to use that instrument, or Cancel to\n'
+              msg += 'keep the previous settings.\n'
+
+          if (confirm(msg)) return INSTRUMENTS[j][k]
+          else return (-1)
+        }
+      }
+    }
+  }
+  return 0
+}
+
+function buildInstrumentsList($s, v) {
+  var i, j, k, label, notFound;
+
+  $s.empty().removeAttr("disabled");  // clear previous and enable
+
+  // first add 'new instrument' option
+  $s.createAppend('option', { value: 0, text: 'New instrument' });
+
+  // now add free instruments
+  label = '-- Available Instruments --';
+  $s.createAppend('optgroup', { label: label, title: label });
+
+  for (i=0; i<FREEINSTRUMENTS.length; i++) {
+    // make sure it's not in ITEMP already
+    notFound = true;
+    for (j=0; j<ITEMP.length; j++) {
+      if (ITEMP[j].instID == FREEINSTRUMENTS[i].instID) {
+        notFound = false
+        break;
+      }
+    }
+    if (notFound) $s.createAppend('option', { text: FREEINSTRUMENTS[i].instID, value: (-1 - i) });
+  }
+
+  // now instruments on other stations
+  for (i=0; i<STATIONS.length; i++) {
+    if ((STATIONS[i].INSTRUMENTS && STATIONS[i].INSTRUMENTS.length > 0) && (i != CURRENTSTATION)) {
+      label = '-- ' + STATIONS[i].stationID + ' --';
+      $s.createAppend('optgroup', { label: label, title: label });
+
+      for (j=0; j<STATIONS[i].INSTRUMENTS.length; j++) {
+        notFound = true
+        for (k=0; k<ITEMP.length; k++) {
+          if (ITEMP[k].instID == STATIONS[i].INSTRUMENTS[j].instID) {
+            notFound = false
+            break;
+          }
+        }
+
+        // make sure not already in ITEMP
+        if (notFound) $s.createAppend('option', { text: STATIONS[i].INSTRUMENTS[j].instID, value: (i + ',' + j)});
+      }
+    }
+  }
+  $s[0].focus();
+}
+
+function saveAddedInstrument(val) {
+  var i = ITEMP.length // index of new
+  var rightNow = lvTimeFromJS((new Date()).getTime());
+  ITEMP[i] = new INSTRUMENT(-1, '', '', '', '', rightNow, rightNow + 365*24*3600, '');
+
+  if (val == 0) {
+    // new already definded
+  } else if (val < 0) { // free instrument
+    // free instruments use a negative index...
+    // got to reverse sign and add 1 for processing in the FREE array
+    var j = -(parseInt(val) + 1)
+
+    ITEMP[i] = new copyInstrument(FREEINSTRUMENTS[j]);
+
+  } else { // another station's instrument
+    var v = val + '' // force string
+    var x = parseInt(v.substring(0, v.indexOf(','))) // which station
+    var y = parseInt(v.substring(v.indexOf(',') + 1, v.length)) // which instrument
+
+    ITEMP[i] = new copyInstrument(STATIONS[x].INSTRUMENTS[y]);
+  }
+}
+
+//---------------------------------------------
+//  GLOBALS and page initialization
+//---------------------------------------------
+
+$$STATIONDEFINITION$$
+$$STATIONS$$
+
+$$FREEINSTRUMENTS$$
+
+// DRIVER object
+function DRIVER(driverID, driverType) {
+  this.driverID = driverID;
+  this.driverType = driverType;
+}
+$$DRIVERS$$
+
+var ITEMP = null;      // holds instrument table for current station
+var CURRENTSTATION;    // global to cache current station index
+var CURRENTINSTRUMENT  // global to cache current instrument (used in calibration UI)
+
+var editMode  = $$EDITMODE$$;
+var editIndex = $$EDITINDEX$$;
+var editNew   = $$EDITNEW$$;
+
+var EMPTY = '[Empty - click to edit]';
+var ORIGINALID;
+var ORIGINALIP;
+
+// prohibit browse-off while changes pending
+window.onbeforeunload=confirmLeave;
+--></script>
+</head>
+
+<body>
+<div id="header">$$HEADER$$</div>
+
+<div id="content">
+  <h2><img id="headImg" src="/images/stationbig.gif" width="48" height="48" />
+  <label id="headlabel">Spartan Test Stations</label></h2>
+
+  <div id="clientPageLink"><a href="/cgi-bin/client.vit?$$RANDOMIZER$$"><img src="/images/clienticonsmall.gif" width="16" height="16" />&nbsp;Spartan client page</a></div>
+
+  <form id="f" method="POST" action="$$THISCGI$$">
+    <div class="busyNote hidden">
+      <span>Please wait...&nbsp;&nbsp;&nbsp;<img src="/images/bigrotation.gif" width="32" height="32" alt="busy" /></span>
+    </div>
+  
+    <!-- STATIONS TABLE -->
+    <div id="stationsTable" class="hidden">
+    	<table class="standard" id="stations" cellspacing="0">
+    	  <thead><tr>
+          <th class="icon" title="Check the test station connection"><img src="/images/ping.gif" width="16" height="16" /></th>
+          <th class="icon" title="Delete this test station (instruments are not deleted)"><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="Edit this test station"><img src="/images/editsmall.gif" width="16" height="16" /></th>
+          <th class="icon" title="Copy this test station"><img src="/images/copysmall.gif" width="16" height="16" /></th>
+          <th class="" title="Name: this is the name of the test station">Name</th>
+          <th class="" title="IP Address: this is the IP address of the test station">IP Address</th>
+          <th class="" title="Instruments on Station: this is a list of the instruments assigned to the test station">Instruments on Station</th>
+        </tr></thead>
+        <tbody></tbody>
+        <tfoot><tr></tr></tfoot>
+      </table>
+      <div class="add_wrapper">
+        <a href="$$THISCGI$$?edit=" class="adder" id="_add_station" title="Add a new station">Add New Station...</a>
+      </div>
+
+
+      <div id="freeInstruments">
+        <legend><span class="definition" title="These instruments are not associated with any of the stations above">Available Instruments</span></legend>
+
+        <!-- FREE INSTRUMENTS TABLE -->
+        <table class="standard" id="freeInstrumentsTable" cellspacing="0">
+          <thead><tr>
+            <th class="icon" title="Delete the instrument"><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+            <th class="" title="Name: this is the name of the instrument">Name</th>
+            <th class="ni" title="Type: this is the type of the instrument">Type</th>
+            <th class="ni" title="Driver: this is the driver to be used by this instrument">Driver</th>
+            <th class="" title="Serail Number: this is the serail number of the instrument">Serial Number</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+  
+    </div><!-- Stations and free instruments table -->
+  
+    <!-- STATION EDITOR -->
+    <div class="hidden" id="editor">
+      <div class="topbar">
+        <a id="listStations" class="left" href="#nogo" title="List all stations"><img src="/images/listsmall.gif" width="16" height="16" /></a>
+        <span class="pendingChanges hidden">* There are unsaved changes</span>
+        <a id="saveStation"   href="#nogo" title="Save this station"><img src="/images/floppysmall.gif" width="16" height="16" alt="small save icon"/></a>
+        <a id="newStation"    href="#nogo" title="Create a new station"><img src="/images/newsmall.gif" width="16" height="16" /></a>
+        <a id="copyStation"   href="#nogo" title="Copy this station"><img src="/images/copysmall.gif" width="16" height="16" /></a>
+        <a id="deleteStation" href="#nogo" title="Delete this station"><img src="/images/deletesmall.gif" width="16" height="16" /></a>
+      </div>
+  
+      <div id="ident"><!-- Station Id/IP -->
+        <div class="lineinput">
+          <label for="stationname">Station ID</label>
+          <input id="stationName" name="stationName" value="" onFocus="handleFocus(this);" onBlur="handleBlur(this);">
+          <div class="hidden" id="stationIDWarning">This station ID already exists.</div>
+        </div>
+
+        <div class="lineinput">
+          <label for="ipaddress">Machine Name/IP Address</label>
+          <input id="ipAddress"  name="ipAddress" value="" onFocus="handleFocus(this);" onBlur="handleBlur(this);">
+          <a id="loadipAddress" href="#nogo" onclick="loadIP();"><img title="use this computer's IP address" src="/images/networksmall.gif" width="16" height="16" /></a>
+          <a id="pinger" href="#nogo" title="check connection to this address" onclick="pingStation();"><img src="/images/ping.gif" width="16" height="16" /></a>
+          <div class="hidden" id="stationIPWarning">This station IP already exists.</div>
+        </div>
+      </div>
+
+      <div id="instrumentsTable">
+        <legend>Instruments on this Test Station</legend>
+
+        <!-- INSTRUMENTS TABLE -->
+        <table class="standard" id="instruments" cellspacing="0">
+          <thead><tr>
+            <th class="icon" title="Configure the instrument"><img src="/images/configsmall.gif" width="16" height="16" /></th>
+            <th class="icon" title="Remove this instrument from the station"><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+            <th class="" title="Name: this is the name of the instrument">Name</th>
+            <th class="ni" title="Type: this is the type of the instrument">Type</th>
+            <th class="ni" title="Driver: this is the driver to be used by this instrument">Driver</th>
+            <th class="" title="Serail Number: this is the serail number of the instrument">Serial Number</th>
+            <th class="w15" title="Last Calibration: this is the date at which the instrument was last calibrated">Last Calibration</th>
+            <th class="w15" title="Calibration Due: this is the date at which the instrument will be due for calibration">Calibration Due</th>
+          </tr></thead>
+          <tbody></tbody>
+          <tfoot><tr></tr></tfoot>
+        </table>
+
+        <div class="add_wrapper">
+          <a href="#nogo" class="adder" id="_add_instrument" title="Add an instrument">Add Instrument...</a>
+          <div class="hidden" id="add_instrument">
+            <select id="add_instrument_list"><option></option></select>
+            <a href="#nogo" class="btn_ok" title="Add this instrument"></a>
+            <a href="#nogo" class="btn_cancel" title="Make no changes"></a>
+          </div>
+        </div>
+
+      </div><!-- this stations instrument table -->
+
+      <div class="buttonbar"></div>
+
+    </div><!-- STATION EDITOR -->
+
+  </form>
+</div>
+</body>
+</html>

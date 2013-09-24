@@ -1,0 +1,40 @@
+[5.2.0240]
+Date="May 2010"
+model0="HP 34401A"
+note0="Spartan 5.2.0240 Release."
+
+[5.1.0114]
+Date="January 2010"
+note0="Spartan 5.1.0118 Release."
+
+[5.0.0124]
+Date="December 2009"
+note0="Spartan 5.0.0124 Release."
+
+[4.3.0026]
+Date="November 2008"
+note0="Added the ability to calibrate all three switch positions for DCA test."
+
+[3.1.0094]
+Date="August 2007"
+note0="Prepared installer for commercial release."
+
+[2.3.0045]
+Date="October 2006"
+note0="Moved dialog box in normalization step to DCA Test."
+
+[2.2.0043]
+Date="July 2006"
+note0="Corrected reported bugs."
+
+[2.1.0038]
+Date="June 2006"
+note0="Added normalization."
+
+[2.0.0036]
+Date="March 2006"
+note0="Rebuilt to maintain compatibility."
+
+[2.0.0019]
+Date="January 2006"
+note0="Initial Release."

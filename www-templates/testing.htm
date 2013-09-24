@@ -1,0 +1,334 @@
+$$DOCTYPE$$
+<head>
+<title>Spartan Testing</title>
+$$META$$
+$$STYLES$$
+<style type="text/css">
+form { border: none; }
+
+#inputBox { display: inline; position: absolute; padding-top: 2px; }
+#inputBox a { margin-left: 3px; }
+
+#buttons { margin-top: 0; text-align: center;  }
+
+.legend { font-weight: bold; margin: 1em 0; }
+
+#fileDialogWrapper { background: #ffeab1; border: 1px solid #ccc; float: right; margin: 5px 15%; padding: 5px; text-align: left; }
+
+table.standard .w24 { text-align: left; }
+</style>
+<!--[if IE]><style type="text/css">
+#fileDialogWrapper { margin: 0; text-align: right; position: relative; left: -15%; }
+</style><![endif]-->
+$$SCRIPTS$$
+<script type="text/javascript"><!-- //
+function buildSequenceTable() {
+
+  // clear previous rows
+  $('#sequences > tbody tr').remove();
+
+  // append table rows for each condition
+  for (var i=0; i<SEQLIST.length; i++) {
+
+    if (SEQLIST[i].editable) {
+      var deleteLink  = "/cgi-bin/edittest.vit?delete=" + encodeURIComponent(SEQLIST[i].id) + QUERYSTRING + "&" + randomizer();
+      var deleteIcon  = "/images/deletesmall.gif";
+      var deleteTitle = "delete this sequence";
+      var editLink    = "/cgi-bin/edittest.vit?edit=" + encodeURIComponent(SEQLIST[i].id) + QUERYSTRING + "&" + randomizer();
+      var editIcon    = "/images/editsmall.gif";
+      var editTitle   = "edit this sequence";
+
+    } else {
+      var deleteLink = "#nogo";
+      var deleteIcon = "/images/deletesmalldisabled.gif";
+      var deleteTitle = "cannot delete this sequence";
+      var editLink    = "#nogo";
+      var editIcon    = "/images/editsmalldisabled.gif";
+      var editTitle   = "cannot edit this sequence";
+
+    }
+
+    if (SEQLIST[i].runnable) {
+      var runLink  = "/cgi-bin/runtest.vit?load=" + encodeURIComponent(SEQLIST[i].id) + QUERYSTRING + "&" + randomizer();
+      var runIcon  = "/images/runsmall.gif";
+      var runTitle = "run this sequence";
+    } else {
+      var runLink  = "#nogo";
+      var runIcon  = "/images/runsmalldisabled.gif";
+      var runTitle = "cannot run this sequence";
+    }
+
+    if (THECURRENTUSER.fEditTest) {
+      var copyTitle   = "copy this sequence";
+      var copyLink    = "/cgi-bin/edittest.vit?copy=" + encodeURIComponent(SEQLIST[i].id) + QUERYSTRING + "&" + randomizer();
+      var copyIcon    = "/images/copysmall.gif";
+      var exportTitle = "export this sequence";
+      var exportIcon  = "/images/exportsmall.gif";
+      var exportLink  = "/cgi-bin/edittest.vit?export=" + encodeURIComponent(SEQLIST[i].id) + QUERYSTRING + "&" + randomizer();
+
+    } else {
+      var copyTitle = "cannot copy this sequence";
+      var copyLink  = "#nogo";
+      var copyIcon  = "/images/copysmalldisabled.gif";
+      var exportTitle = "cannot export this sequence";
+      var exportIcon  = "/images/exportsmalldisabled.gif";
+      var exportLink  = "#nogo";
+    }
+
+    if ((LINKACTION.indexOf("runtest") != -1) && (SEQLIST[i].runnable)) {
+      var nameLink  = LINKACTION + encodeURIComponent(SEQLIST[i].id) + QUERYSTRING + "&" + randomizer();
+      var nameTitle = runTitle;
+
+    } else if (THECURRENTUSER.fEditTest) {
+      var nameLink  = '/cgi-bin/edittest.vit?edit=' + encodeURIComponent(SEQLIST[i].id) + QUERYSTRING + "&" + randomizer();
+      var nameTitle = editTitle;
+
+    } else {
+      var nameLink  = "#nogo";
+      var nameTitle = editTitle;
+    }
+
+    var cDate = new Date(jsTimeFromLV(SEQLIST[i].createddate));
+    var mDate = new Date(jsTimeFromLV(SEQLIST[i].modifieddate));
+
+    $('#sequences tbody').tplAppend(SEQLIST[i], function () {
+      return ['tr', {},
+                ['td', { className: "icon" }, tplCheckboxTableCell("", this.approvedforuse, true, "approved for use"),
+                 'td', { className: "icon delete" }, tplIconTableCell("", deleteLink, deleteIcon, deleteTitle),
+                 'td', { className: "icon" }, tplIconTableCell("", runLink, runIcon , runTitle),
+                 'td', { className: "icon" }, tplIconTableCell("", editLink, editIcon , editTitle),
+                 'td', { className: "icon" }, tplIconTableCell("", copyLink, copyIcon, copyTitle),
+                 'td', { className: "icon" }, tplIconTableCell("", exportLink, exportIcon, exportTitle),
+                 'td', { className: "w24" }, tplLinkTableCell("", nameLink, this.id, nameTitle, this.seqdesc),
+                 'td', {}, [nbsp(this.createdby)],
+                 'td', {}, [cDate.format(SPARTANDATE)],
+                 'td', {}, [nbsp(this.modifiedby)],
+                 'td', {}, [mDate.format(SPARTANDATE)]
+                ]
+             ]
+    });
+
+  } // for each SEQUENCE;
+
+  // table is now built, style it
+  $("#sequences tbody > tr:nth-child(odd)").addClass("o"); // zebra stripes
+
+}
+
+function validate(action){
+
+  // default form submit action:
+  action = (action) ? action : (TESTSTATION) ? 'run' : (THECURRENTUSER.fEditTest) ? 'edit' : 'search';
+
+  if (isBlank($('#TestSeqId').val())){
+  	sf('TestSeqId');
+    return false;
+
+  } else {
+    $('#Action').val(action);
+    return true;
+  }
+}
+
+
+// shorthand 'macros'
+function rt()     { if (validate('run'))    $('#f').submit(); }
+function et()     { if (validate('edit'))   $('#f').submit(); }
+function st()     { if (validate('search')) $('#f').submit(); }
+function listall(){ $('#TestSeqId').val('*'); st(); }
+
+
+function importSequence(file){
+  $(file).parent().hide();
+
+  var f = file.value;
+  if (!isBlank(f)) {
+    if (f.substring(f.length - 3, f.length).toUpperCase() != 'SEQ') {
+      alert('Invalid file type (must be \".SEQ\").');
+      f.value = '';
+      return false;
+    }
+    $('#f').attr({action:"/cgi-bin/edittest.vit?import=" + encodeURI(f) + '&' + randomizer()});
+    $('#f').attr({method:"POST"});
+    $('#f').attr({encoding:"multipart/form-data"}); // IE
+    $('#f').attr({enctype:"multipart/form-data"}); // not IE
+    $('#f').submit();
+  }
+}
+
+
+//---------------------------------------------------------
+// GLOBALS
+//---------------------------------------------------------
+var TESTSTATION = $$TESTSTATION$$;      // user request from a Test Station?
+var QUERYSTRING = '$$QUERYSTRING$$';    // copy of the incoming query string
+var LINKACTION  = '';                   // holds default link for results list
+var MODE        = '$$MODE$$';
+
+function SEQUENCE(id, seqdesc, approvedforuse, runnable, editable, createdby, createddate, modifiedby, modifieddate) {
+  this.id=id;
+  this.seqdesc=seqdesc;
+  this.approvedforuse=approvedforuse;
+  this.runnable=runnable;
+  this.editable=editable;
+  this.createdby=createdby;
+  this.createddate=createddate;
+  this.modifiedby=modifiedby;
+  this.modifieddate=modifieddate;
+}
+var SEQLIST = [];  // Array of test sequences
+$$SEQLIST$$
+
+$(document).ready(function() {
+
+  // set query string to append
+  if (QUERYSTRING!='') QUERYSTRING = '&' + QUERYSTRING;
+
+  // set new icon and edit buttons if user can edit
+
+  if (THECURRENTUSER.fEditTest) {
+    $('#imgNew').attr( {src: "/images/newsmall.gif", width: "16", height: "16" })
+                .parent().click(function () {
+                  $(this).blur().attr("href", "/cgi-bin/edittest.vit?new=" + encodeURIComponent($('#TestSeqId').val()) + '&' + randomizer());
+                }).attr("title", "create new test sequence");
+
+    $('#imgImport').attr({ src: "/images/importsmall.gif", width: "16", height: "16" })
+                .parent().click(function () {
+                  $(this).blur();
+                  $('#' + $(this).attr("id").slice(1)).slideToggle("normal");
+                  return false;
+                }).attr("title", "import a test sequence");
+
+
+    $('#editButton').removeAttr("disabled");
+  }
+
+  if (TESTSTATION && THECURRENTUSER.fRunTest) $('#runButton').removeAttr("disabled");
+
+  switch (MODE.toLowerCase()) {
+    case "run":
+      LINKACTION  = '/cgi-bin/runtest.vit?load=';
+      break;
+    case "edit":
+      LINKACTION  = '/cgi-bin/edittest.vit?edit=';
+      break;
+    default:
+      if (TESTSTATION) {
+        LINKACTION = '/cgi-bin/runtest.vit?load=';
+      } else {
+        LINKACTION = '/cgi-bin/edittest.vit?edit=';
+      }
+  }
+
+  // check if there are results to display
+  if (SEQLIST.length > 0) {
+
+    var s = (SEQLIST.length == 1)? '' : 's';
+
+    $('#resultsheading').html(SEQLIST.length + ' matching sequence' + s + ' found:');
+    $('#smallSearch').show();
+    $('#buttons').hide();
+    $('#resultsheading').show();
+    $('#sequences').show();
+
+    buildSequenceTable();
+
+  } else {
+    if (MODE == '') {
+      $('#TestSeqId').focus();
+
+    } else {
+      $('#resultsheading').html('No matching sequences found.  Note that wildcard characters * and ? can be used to refine a search.');
+      $('#resultsheading').show();
+      $('#smallSearch').show();
+      $('#buttons').hide();
+      $('#TestSeqId').focus().select();
+      $('#sequences').show();
+
+    }
+  }
+
+
+  $("td.delete a").click(function (){
+    $(this).blur();
+    if ($(this).attr('href') != '#nogo') {
+      var msg  = "Click OK to confirm deleting the test sequence.\n\n";
+          msg += "This action cannot be undone.";
+
+      return confirm(msg);
+    }
+  });
+
+
+  // document key bindings
+  var ISCTRL = false; // global Ctrl-key watcher
+
+  $(document).keyup(function (e) {
+    if (e.which == 17) ISCTRL=false;
+
+  }).keydown(function (e) {
+    if (e.which == 17) ISCTRL=true;
+
+    switch(e.which) {
+      case 13:   // "return"/"enter" key
+        if (validate()) $('#f').submit();
+        break;
+    }
+  }); // key bindings
+
+}); // document ready()
+// --></script>
+</head>
+<body>
+<div id="header">$$HEADER$$</div>
+<div id="content">
+  <h2><img id="headImg" src="/images/testingbig.gif" width="48" height="48" alt="testing icon" />
+  <label id="headlabel">Test Sequences</label></h2>
+
+  <!-- SEARCH FORM (submission blocked for dodgy enter key behavior) -->
+  <form id="f" method="GET" action="/cgi-bin/testing.vit" onSubmit="return validate();">
+    <input type="hidden" id="Action" name="Action" value="" />
+
+    <fieldset class="searchbox">
+      <legend><a href="#nogo" onClick="listall();">List All Sequences</a></legend>
+      <input type="text" class="textbox" id="TestSeqId" name="TestSeqId" value="$$SEQID$$" title="Search for test sequences by name, creator, modifier, or description keywords" />
+      <div id="inputBox">
+        <a href="#nogo" title="cannot create new"><img id="imgNew" src="/images/newsmalldisabled.gif" width="16" height="16" /></a>
+        <a href="#nogo" id="_fileDialogWrapper" title="cannot import a test sequence"><img id="imgImport" src="/images/importsmalldisabled.gif" width="16" height="16" /></a>
+        <a id="smallSearch" class="hidden" title="search sequences" href="#nogo" onClick="st();"><img src="/images/searchsmall.gif" width="16" height="16" /></a>
+      </div>
+      <div id="fileDialogWrapper" class="hidden">
+        <input type="file" name="fileDialog" onChange="importSequence(this);" accept="text/seq" />
+      </div>
+    </fieldset>
+
+    <div id="buttons">
+      <input type="button" class="bigbutton" id="runButton"    value="Run Sequence"  onClick="rt();" disabled="disabled" />
+      <input type="button" class="bigbutton" id="editButton"   value="Edit Sequence" onClick="et();" disabled="disabled" />
+      <input type="button" class="bigbutton" id="searchButton" value="Search"        onClick="st();" />
+    </div>
+
+    <!-- RESULTS -->
+    <div class="legend hidden" id="resultsheading">INNERHTML</div>
+
+    <table class="standard hidden" id="sequences" cellpadding="0" cellspacing="0">
+      <thead><tr>
+        <th class="icon" title="Sequence Status: approved for use?"><img src="/images/approved.gif" width="16" height="16" /></th>
+        <th class="icon" title="Delete: remove sequence from the system"><img src="/images/trashsmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Run: run a sequence"><img src="/images/runsmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Edit: edit a sequence"><img src="/images/editsmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Copy:  Edit a copy of this sequence"><img src="/images/copysmall.gif" width="16" height="16" /></th>
+        <th class="icon" title="Export: export this sequence"><img src="/images/exportsmall.gif" width="16" height="16" /></th>
+        <th class="w24" title="How sequences are identified on the system">Sequence Id (Description)</th>
+        <th class="" title="Original sequence creator">Created By</th>
+        <th class="" title="Creation date">Created On</th>
+        <th class="" title="Sequence last modifier">Modified By</th>
+        <th class="" title="Modification date">Modified On</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </form>
+
+</div>
+</body>
+</html>
