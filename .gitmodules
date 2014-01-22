@@ -10,6 +10,3 @@
 [submodule "DIAdem Toolkit EXT"]
 	path = DIAdem Toolkit EXT
 	url = /Users/ssumjbrunner/workspace/SPARTAN/DIAdem Toolkit EXT
-[submodule "www/BPIMCore EXT"]
-	path = www/BPIMCore EXT
-	url = git@10.68.23.184:/BPIM/Core.git
